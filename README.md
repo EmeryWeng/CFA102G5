@@ -51,10 +51,10 @@
     │       │   ├── controller
     │       │   │   └── EmpServlet.java
     │       │   └── model
-    │       │       ├── ✏️memberDAO_interface.java
-    │       │       ├── ✏️memberJDBCDAO.java
+    │       │       ├── ✏️MemberDAO_interface.java
+    │       │       ├── ✏️MemberJDBCDAO.java
     │       │       ├── memberJNDIDAO.java ✨未來
-    │       │       └── ✏️memberVO.java
+    │       │       └── ✏️MemberVO.java
     │       └── [...]
     ├── .classpath
     ├── .gitignore
