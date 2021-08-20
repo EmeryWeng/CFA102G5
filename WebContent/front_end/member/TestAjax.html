@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="BIG5">
+<title>Insert title here</title>
+</head>
+<body>
+	<button id="btn">SendRequest</button>
+	<script>
+		function sendRequest(){
+			let xhr = new XMLHttpRequest();
+			
+			xhr.open("POST","/CFA102G5/member/test",true);
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.send("name=刺激冒險&state=true");
+		}
+		window.addEventListener('load',function(){
+			document.getElementById('btn').onclick = sendRequest;
+		});
+	</script>
+</body>
+</html>
