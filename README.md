@@ -53,7 +53,7 @@
     │       │   └── model
     │       │       ├── ✏️MemberDAO_interface.java
     │       │       ├── ✏️MemberJDBCDAO.java
-    │       │       ├── memberJNDIDAO.java ✨未來
+    │       │       ├── MemberJNDIDAO.java ✨未來
     │       │       └── ✏️MemberVO.java
     │       └── [...]
     ├── .classpath
