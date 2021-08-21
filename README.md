@@ -47,14 +47,15 @@
     │           └── [...]
     ├── src
     │   └── com
-    │       ├── ✏️member #表格名稱
+    │       ├── ✏️roomImg #原本的table名稱ROOM_IMG拿掉底線改成camelCase
     │       │   ├── controller
-    │       │   │   └── EmpServlet.java
+    │       │   │   └── RoomImgServlet.java
     │       │   └── model
-    │       │       ├── ✏️MemberDAO_interface.java
-    │       │       ├── ✏️MemberJDBCDAO.java
-    │       │       ├── MemberJNDIDAO.java ✨未來
-    │       │       └── ✏️MemberVO.java
+    │       │       ├── ✏️I_RoomImgDAO.java
+    │       │       ├── ✏️RoomImgJDBCDAO.java
+    │       │       ├── ✏️RoomImgVO.java
+    │       │       ├── RoomImgJNDIDAO.java ✨未來    
+    │       │       └── RoomImgService.java ✨未來    
     │       └── [...]
     ├── .classpath
     ├── .gitignore
