@@ -17,13 +17,13 @@ public class RoomImgTest {
 		
 		// 新增
 //		RoomImgVO roomimg = new RoomImgVO();
-//		roomimg.setType_no(3);
+//		roomimg.setType_no(1);
 //		byte[] pic = getPictureByteArray("src/com/roomImg/model/1.jpg");
 //		roomimg.setType_img(pic);
 //		dao.insert(roomimg);
 		
 		// 刪除
-//		dao.delete(23);
+//		dao.delete(24);
 		
 		// 查詢一筆 用PK
 //		RoomImgVO roomimg = dao.getOne(4);
