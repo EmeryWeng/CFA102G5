@@ -139,20 +139,20 @@ public class ActivityPromotionJDBCDAO implements I_ActivityPromotionDAO{
 	
 	public static void main(String[] args) {
 		ActivityPromotionJDBCDAO dao = new ActivityPromotionJDBCDAO();
-		ActivityPromotionVO vo = new ActivityPromotionVO();
+//		ActivityPromotionVO vo = new ActivityPromotionVO();
 		
 		
-		vo.setActPromotionName("夏天消暑活動促銷100");
-		vo.setActPromotionStartDate(LocalDate.of(2021,8,23));
-		vo.setActPromotionEndDate(LocalDate.of(2021,10,1));
+//		vo.setActPromotionName("夏天消暑活動促銷100");
+//		vo.setActPromotionStartDate(LocalDate.of(2021,8,23));
+//		vo.setActPromotionEndDate(LocalDate.of(2021,10,1));
 //		dao.insert(vo);
-		vo.setActPromotionId(4);
-		
-		dao.update(vo);
+//		vo.setActPromotionId(4);
+//		
+//		dao.update(vo);
 		
 //		ActivityPromotionVO vo = dao.findById(2);
-//		List<ActivityPromotionVO> list = dao.getAll();
-//		for(ActivityPromotionVO vo : list)
+		List<ActivityPromotionVO> list = dao.getAll();
+		for(ActivityPromotionVO vo : list)
 		System.out.println(vo);
 		
 	}
