@@ -1,4 +1,4 @@
-package com.member.controller;
+package com.activityClass.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-public class TestServlet extends HttpServlet {
+public class ActivityClassServlet extends HttpServlet {
 	private Connection con = null;
 	@Override
 	public void destroy() {
@@ -42,7 +42,7 @@ public class TestServlet extends HttpServlet {
 		}
 	}
 	private static final long serialVersionUID = 1L;
-	private final String select = "SELECT * FROM ACTIVITY_CLASS";
+	
     private final String sql = "INSERT INTO ACTIVITY_CLASS VALUES(?,?,?)";
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
