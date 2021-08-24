@@ -2,7 +2,6 @@ package com.roomOrder.model;
 
 import java.util.List;
 import java.util.Set;
-
 import com.roomOrderDetail.model.RoomOrderDetailVO;
 
 public interface I_RoomOrderDAO {

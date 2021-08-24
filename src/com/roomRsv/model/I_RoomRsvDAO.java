@@ -1,6 +1,6 @@
 package com.roomRsv.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface I_RoomRsvDAO {
@@ -11,7 +11,7 @@ public interface I_RoomRsvDAO {
 	public void cancel(RoomRsvVO roomrsvvo);		
 //	修改房間的房型時更新預定表裡的rm_total
 //	public void renewRmTotal(Integer type_no, Integer rm_total);
-	public List<RoomRsvVO> getOneDayByDate(Timestamp rsv_date); //同一天的各房型預訂
+	public List<RoomRsvVO> getOneDayByDate(LocalDate rsv_date); //同一天的各房型預訂
 	public List<RoomRsvVO> getAll(); // 全部
 	public List<RoomRsvVO> getAllByType(Integer type_no); //同房型的每天預訂
 //	public List<RoomRsvVO> getAllByTypeLeft(Integer type_no); 

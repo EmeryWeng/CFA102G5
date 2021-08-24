@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface I_RoomOrderDetailDAO {
-	
 	public void insert(RoomOrderDetailVO roomorderdetailvo);
 	public void update(RoomOrderDetailVO roomorderdetailvo);
 	public void earlyCheckout(Integer detail_no); // 提早退房

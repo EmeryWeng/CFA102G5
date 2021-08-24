@@ -1,16 +1,16 @@
 package com.roomRsv.model;
 
 import java.util.List;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class RoomRsvTest {
 	
 	public static void main(String[] args) {
 		I_RoomRsvDAO dao = new RoomRsvJDBCDAO();
 		
-		// 新增 timestamp問題
+		// 新增
 //		RoomRsvVO roomrsv = new RoomRsvVO();
-//		roomrsv.setRsv_date("2021-09-23");
+//		roomrsv.setRsv_date(LocalDate.of(2021,12,31));
 //		roomrsv.setType_no(5);
 //		roomrsv.setRm_total(2);
 //		roomrsv.setRsv_total(1);
@@ -27,7 +27,7 @@ public class RoomRsvTest {
 //		dao.cancel(roomrsv);
 		
 		// 查詢 同一天的各房型預訂 timestamp問題
-//		List<RoomRsvVO> list = dao.getOneDayByDate(2021-09-01);
+//		List<RoomRsvVO> list = dao.getOneDayByDate(LocalDate.of(2021,12,31));
 //		for (RoomRsvVO roomrsv : list) {
 //			System.out.print(roomrsv.getRsv_date() + ",");
 //			System.out.print(roomrsv.getType_no() + ",");

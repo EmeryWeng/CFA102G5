@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
 			pstmt = con.prepareStatement(INSERT);
 			
-			pstmt.setTimestamp(1, roomrsvvo.getRsv_date());
+			pstmt.setObject(1, roomrsvvo.getRsv_date());
 			pstmt.setInt(2, roomrsvvo.getType_no());
 			pstmt.setInt(3, roomrsvvo.getRm_total());
 			pstmt.setInt(4, roomrsvvo.getRsv_total());
@@ -135,7 +135,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 	}
 
 	@Override
-	public List<RoomRsvVO> getOneDayByDate(Timestamp rsv_date) {
+	public List<RoomRsvVO> getOneDayByDate(LocalDate rsv_date) {
 		List<RoomRsvVO> list = new ArrayList<>();
 		RoomRsvVO roomrsv = null;
 		Connection con = null;
@@ -145,12 +145,12 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		try {
 			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
 			pstmt = con.prepareStatement(GET_ONEDAY_BY_DATE);
-			pstmt.setTimestamp(1, rsv_date);
+			pstmt.setObject(1, rsv_date);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				roomrsv = new RoomRsvVO();
-				roomrsv.setRsv_date(rs.getTimestamp("rsv_date"));
+				roomrsv.setRsv_date(rs.getDate("rsv_date").toLocalDate());
 				roomrsv.setType_no(rs.getInt("type_no"));
 				roomrsv.setRm_total(rs.getInt("rm_total"));
 				roomrsv.setRsv_total(rs.getInt("rsv_total"));
@@ -200,7 +200,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 
 			while (rs.next()) {
 				roomrsv = new RoomRsvVO();
-				roomrsv.setRsv_date(rs.getTimestamp("rsv_date"));
+				roomrsv.setRsv_date(rs.getDate("rsv_date").toLocalDate());
 				roomrsv.setType_no(rs.getInt("type_no"));
 				roomrsv.setRm_total(rs.getInt("rm_total"));
 				roomrsv.setRsv_total(rs.getInt("rsv_total"));
@@ -251,7 +251,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 
 			while (rs.next()) {
 				roomrsv = new RoomRsvVO();
-				roomrsv.setRsv_date(rs.getTimestamp("rsv_date"));
+				roomrsv.setRsv_date(rs.getDate("rsv_date").toLocalDate());
 				roomrsv.setType_no(rs.getInt("type_no"));
 				roomrsv.setRm_total(rs.getInt("rm_total"));
 				roomrsv.setRsv_total(rs.getInt("rsv_total"));
