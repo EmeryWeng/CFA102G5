@@ -18,7 +18,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 	
 	static {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(JDBCUtil.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
 		}
@@ -30,7 +30,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, roomimgvo.getType_no());
@@ -64,7 +64,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, img_no);
 			pstmt.executeUpdate();
@@ -98,7 +98,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setInt(1, img_no);
 			rs = pstmt.executeQuery();
@@ -147,7 +147,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();

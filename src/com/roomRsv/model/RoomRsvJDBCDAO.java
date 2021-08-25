@@ -24,7 +24,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 	
 	static {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(JDBCUtil.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setObject(1, roomrsvvo.getRsv_date());
@@ -73,7 +73,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(RESERVE);
 			
 			pstmt.setInt(1, roomrsvvo.getType_no());
@@ -106,7 +106,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(CANCEL);
 			
 			pstmt.setInt(1, roomrsvvo.getType_no());
@@ -143,7 +143,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONEDAY_BY_DATE);
 			pstmt.setObject(1, rsv_date);
 			rs = pstmt.executeQuery();
@@ -194,7 +194,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -244,7 +244,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();

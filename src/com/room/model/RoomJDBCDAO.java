@@ -21,7 +21,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 	
 	static {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(JDBCUtil.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
 		}
@@ -33,7 +33,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(INSERT);
 			pstmt.setString(1, roomvo.getRm_no());
 			pstmt.setInt(2, roomvo.getType_no());
@@ -67,7 +67,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE);
 			
 			pstmt.setInt(1, roomvo.getType_no());
@@ -104,7 +104,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_CHECKIN);
 			
 			pstmt.setString(1, roomvo.getName_title());
@@ -137,7 +137,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_CHECKOUT);
 			pstmt.setString(1, roomvo.getRm_no());
 			pstmt.executeUpdate();
@@ -170,7 +170,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setString(1, rm_no);
 			rs = pstmt.executeQuery();
@@ -220,7 +220,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -270,7 +270,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();

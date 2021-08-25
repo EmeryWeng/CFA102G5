@@ -26,7 +26,7 @@ public class RoomRsvTest {
 //		roomrsv.setType_no(5);
 //		dao.cancel(roomrsv);
 		
-		// 查詢 同一天的各房型預訂 timestamp問題
+		// 查詢 同一天的各房型預訂
 //		List<RoomRsvVO> list = dao.getOneDayByDate(LocalDate.of(2021,12,31));
 //		for (RoomRsvVO roomrsv : list) {
 //			System.out.print(roomrsv.getRsv_date() + ",");

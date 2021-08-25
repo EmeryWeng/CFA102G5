@@ -13,7 +13,7 @@ public class RoomOrderVO implements Serializable {
 	private Integer mem_no;
 	private Integer type_no;
 	private LocalDate start_date;
-	private Integer day_num;
+	private LocalDate end_date;
 	private Integer rm_num;
 	private Integer price;
 	private Integer total_price;

@@ -9,7 +9,7 @@ public class RoomTypeTest {
 
 		// 新增一個房型物件,設定值，再用dao裡面的方法insert新增這個物件
 //		RoomTypeVO roomtype = new RoomTypeVO();
-//		roomtype.setType_name("XX測試的房型名稱");
+//		roomtype.setType_name("VV房型名稱");
 //		roomtype.setType_qty(3);
 //		roomtype.setType_price(33);
 //		roomtype.setType_size(3);
@@ -43,22 +43,8 @@ public class RoomTypeTest {
 //		System.out.print(roomtype.getType_facility() + ",");
 //		System.out.println(roomtype.getType_state());
 		
-		// 查詢全部 前台不顯示狀態0房型
-//		List<RoomTypeVO> list = dao.getAllByFront();
-//		for (RoomTypeVO roomtype : list) {
-//			System.out.print(roomtype.getType_no() + ",");
-//			System.out.print(roomtype.getType_name() + ",");
-//			System.out.print(roomtype.getType_qty() + ",");
-//			System.out.print(roomtype.getType_price() + ",");
-//			System.out.print(roomtype.getType_size() + ",");
-//			System.out.print(roomtype.getBed_size() + ",");
-//			System.out.print(roomtype.getType_info() + ",");
-//			System.out.print(roomtype.getType_facility() + ",");
-//			System.out.println(roomtype.getType_state());
-//		}
-		
-		// 查詢全部 後台
-//		List<RoomTypeVO> list = dao.getAllByBack();
+		// 查詢全部
+//		List<RoomTypeVO> list = dao.getAll();
 //		for (RoomTypeVO roomtype : list) {
 //			System.out.print(roomtype.getType_no() + ",");
 //			System.out.print(roomtype.getType_name() + ",");

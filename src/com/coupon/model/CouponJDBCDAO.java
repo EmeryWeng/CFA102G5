@@ -17,7 +17,7 @@ public class CouponJDBCDAO implements I_CouponDAO {
 	
 	static {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(JDBCUtil.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
 		}
@@ -29,7 +29,7 @@ public class CouponJDBCDAO implements I_CouponDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, couponvo.getMem_no());
@@ -63,7 +63,7 @@ public class CouponJDBCDAO implements I_CouponDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, coupon_no);
 			pstmt.executeUpdate();
@@ -97,7 +97,7 @@ public class CouponJDBCDAO implements I_CouponDAO {
 		ResultSet rs = null;
 		
 		try {
-			con = DriverManager.getConnection(JDBCUtil.url, JDBCUtil.username, JDBCUtil.password);
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL_BY_MEM);
 			pstmt.setInt(1, mem_no);
 			rs = pstmt.executeQuery();
@@ -107,7 +107,7 @@ public class CouponJDBCDAO implements I_CouponDAO {
 				coupon.setCoupon_no(rs.getInt("coupon_no"));
 				coupon.setMem_no(rs.getInt("mem_no"));
 				coupon.setCoupon_value(rs.getInt("coupon_value"));
-				coupon.setCoupon_expiry(rs.getTimestamp("coupon_expiry"));
+				coupon.setCoupon_expiry(rs.getDate("coupon_expiry").toLocalDate());
 				list.add(coupon);
 			}
 
