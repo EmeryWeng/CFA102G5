@@ -9,6 +9,5 @@ public interface I_RoomDAO {
 	public void updateCheckout(RoomVO roomvo);  // 退房修改：房間狀態(1空房) 入住人姓名稱謂(null)
 	public RoomVO getOne(String rm_no);	
 	public List<RoomVO> getAll();
-	public List<RoomVO> getAllByTypeState(Integer type_no); //後台：入住時選房間用
-	// 或是跟房間列表篩選一樣用vue做
+	public List<RoomVO> getAllByTypeState(Integer type_no); //後台：入住時選房間用 房型+1空房
 }

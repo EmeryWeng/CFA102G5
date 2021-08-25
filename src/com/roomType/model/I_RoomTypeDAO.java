@@ -6,6 +6,5 @@ public interface I_RoomTypeDAO {
 	public void insert(RoomTypeVO roomtypevo);
 	public void update(RoomTypeVO roomtypevo);
 	public RoomTypeVO getOne(Integer type_no);
-	public List<RoomTypeVO> getAllByFront();
-	public List<RoomTypeVO> getAllByBack();
+	public List<RoomTypeVO> getAll();
 }
