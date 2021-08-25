@@ -10,21 +10,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.util.JDBCUtil;
+
 public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 
-	private final String URL = "jdbc:mysql://localhost:3306/cfa102_g5?serverTimezone=Asia/Taipei";
-	private final String USERNAME = "David";
-	private final String PASSWORD = "123456";
 	private final String[] GET_KEY = {"act_img_no"};
 	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_IMAGE";
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_IMAGE VALUES(?,?,?)";
 	private final String UPDATE_SQL = "UPDATE ACTIVITY_IMAGE SET act_no = ?,act_img = ? WHERE act_img_no = ?";
-	private final String SELECT_BY_ID_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_img_no = ?";
-	private final String SELECT_BY_ACTIVITY_ID_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_no = ?";
+	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_img_no = ?";
+	private final String SELECT_BY_ACTIVITY_NO_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_no = ?";
 	
 	static {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(JDBCUtil.DRIVER);
 		} catch (ClassNotFoundException ex) {
 			ex.printStackTrace();
 		}
@@ -34,39 +33,34 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	@Override
 	public ActivityImageVO insert(ActivityImageVO actImageVO) {
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-				PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY)) {
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null);  //AI
-			ps.setInt(2, actImageVO.getActId());
-			ps.setBytes(3, actImageVO.getActImg());
+			ps.setInt(2, actImageVO.getAct_no());
+			ps.setBytes(3, actImageVO.getAct_img());
 			ps.executeUpdate();
 
 			rs = ps.getGeneratedKeys(); //綁定主鍵值，這樣撈回來才有正確的Id
 			if (rs.next()) {
-				actImageVO.setActImgId(rs.getInt(1));
+				actImageVO.setAct_img_no(rs.getInt(1));
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+		} 
+		
 		return actImageVO;
 	}
 
 	@Override
-	public void update(ActivityImageVO actImageVO) {
-		try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-				PreparedStatement ps = con.prepareStatement(UPDATE_SQL)) {
-			ps.setInt(1,actImageVO.getActId());
-			ps.setBytes(2,actImageVO.getActImg());
-			ps.setInt(3,actImageVO.getActImgId());
+	public void update(ActivityImageVO actImageVO) {		
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
+			ps.setInt(1,actImageVO.getAct_no());
+			ps.setBytes(2,actImageVO.getAct_img());
+			ps.setInt(3,actImageVO.getAct_img_no());
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -75,64 +69,52 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	}
 
 	@Override
-	public ActivityImageVO findById(Integer actImageId) {
+	public ActivityImageVO findByPk(Integer act_image_no) {
 		ActivityImageVO actImageVO = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-				PreparedStatement ps = con.prepareStatement(SELECT_BY_ID_SQL)) {
-			ps.setInt(1, actImageId);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
+			ps.setInt(1, act_image_no);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
 				actImageVO = new ActivityImageVO();
-				actImageVO.setActImgId(rs.getInt(1));
-				actImageVO.setActId(rs.getInt(2));
-				actImageVO.setActImg(rs.getBytes(3));
+				actImageVO.setAct_img_no(rs.getInt(1));
+				actImageVO.setAct_no(rs.getInt(2));
+				actImageVO.setAct_img(rs.getBytes(3));
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+		} 
+		
 		return actImageVO;
 	}
 
 	@Override
-	public List<ActivityImageVO> findByActId(Integer actId) {
+	public List<ActivityImageVO> findByActNo(Integer act_no) {
 		List<ActivityImageVO> list = new ArrayList<>();
 		ActivityImageVO actImageVO = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-				PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_ID_SQL)) {
-			ps.setInt(1, actId);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_NO_SQL);
+			ps.setInt(1, act_no);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
 				actImageVO = new ActivityImageVO();
-				actImageVO.setActImgId(rs.getInt(1));
-				actImageVO.setActId(rs.getInt(2));
-				actImageVO.setActImg(rs.getBytes(3));
+				actImageVO.setAct_img_no(rs.getInt(1));
+				actImageVO.setAct_no(rs.getInt(2));
+				actImageVO.setAct_img(rs.getBytes(3));
 				list.add(actImageVO);
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+		} 
+		
 		return list;
 	}
 
@@ -141,46 +123,39 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 		List<ActivityImageVO> list = new ArrayList<>();
 		ActivityImageVO actImageVO = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-				PreparedStatement ps = con.prepareStatement(SELECT_All_SQL)) {
+		try (Connection con =DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			
+			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				actImageVO = new ActivityImageVO();
-				actImageVO.setActImgId(rs.getInt(1));
-				actImageVO.setActId(rs.getInt(2));
-				actImageVO.setActImg(rs.getBytes(3));
+				actImageVO.setAct_img_no(rs.getInt(1));
+				actImageVO.setAct_no(rs.getInt(2));
+				actImageVO.setAct_img(rs.getBytes(3));
 				list.add(actImageVO);
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+		} 
+		
 		return list;
 	}
 	public static void main(String[] args) throws IOException {
 		ActivityImageJDBCDAO dao = new ActivityImageJDBCDAO();
 //		ActivityImageVO vo = new ActivityImageVO();
-		
+//		
 //		FileInputStream fis = new FileInputStream("WebContent/images/activity/whale3.jpg");
 //		byte[] array = new byte[fis.available()];
 //		fis.read(array);		
-//		vo.setActImgId(4);
-//		vo.setActId(2);
-//		vo.setActImg(array);
+//		vo.setAct_img_no(4);
+//		vo.setAct_no(2);
+//		vo.setAct_img(array);
 //		dao.insert(vo);
 //		fis.close();
 //		dao.update(vo);//注意FK的問題
-//		List<ActivityImageVO> list = dao.findByActId(1);
-//		ActivityImageVO vo =dao.findById(2);
+//		List<ActivityImageVO> list = dao.findByActNo(1);
+//		ActivityImageVO vo =dao.findByPk(2);
 		List<ActivityImageVO> list = dao.getAll();
 		for(ActivityImageVO vo : list)
 		System.out.println(vo);

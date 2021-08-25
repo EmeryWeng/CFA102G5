@@ -7,8 +7,8 @@ import lombok.Data;
 
 @Data
 public class ActivityImageVO implements Serializable{
-	private Integer actImgId;
-	private Integer actId;
-	private byte[] actImg;
+	private Integer act_img_no;
+	private Integer act_no;
+	private byte[] act_img;
 	
 }

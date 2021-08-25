@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 public class ActivityPromotionVO implements Serializable{
 	
-	private Integer actPromotionId;
-	private String  actPromotionName;
-	private LocalDate actPromotionStartDate;
-	private LocalDate actPromotionEndDate;
+	private Integer act_promotion_no;
+	private String  act_promotion_name;
+	private LocalDate act_promotion_start_date;
+	private LocalDate act_promotion_end_date;
 	
 	
 }

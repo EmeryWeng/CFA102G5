@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 public class ActivityEvaluationReportVO implements Serializable {
 	
-	private Integer	actEvaluationId;
-	private Integer memId;
-	private LocalDateTime actReportDate;
-	private Integer actEvaluationReportReason;
-	private Integer actEvaluationReportState;
+	private Integer	act_evaluation_no;
+	private Integer mem_no;
+	private LocalDateTime act_report_date;
+	private Integer act_evaluation_report_reason;
+	private Integer act_evaluation_report_state;
 	
 }

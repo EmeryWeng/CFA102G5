@@ -8,15 +8,15 @@ import lombok.Data;
 
 @Data
 public class ActivitySessionVO implements Serializable{
-	private Integer actSessionId;
-	private Integer actId;
-	private LocalDate actStartDate;
-	private LocalDate actEndDate;
-	private Integer actSessionRealNumber;
-	private LocalDate actSessionStartDate;
-	private LocalTime actSessionStartTime;
-	private Integer actSessionUpperLimit;
-	private Integer actSessionLowerLimit;
-	private Boolean actSessionHoldState;
+	private Integer act_session_no;
+	private Integer act_no;
+	private LocalDate act_start_date;
+	private LocalDate act_end_date;
+	private Integer act_session_real_number;
+	private LocalDate act_session_start_date;
+	private LocalTime act_session_start_time;
+	private Integer act_session_upper_limit;
+	private Integer act_session_lower_limit;
+	private Boolean act_session_hold_state;
 	
 }

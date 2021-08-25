@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class ActivityPromotionDetailVO implements Serializable{
-	private Integer actPromotionId;
-	private Integer actClassNo;
-	private Double actDiscountPrice;
+	private Integer act_promotion_no;
+	private Integer act_class_no;
+	private Double act_discount_price;
 	
 }

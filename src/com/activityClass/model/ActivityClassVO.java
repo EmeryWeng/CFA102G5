@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class ActivityClassVO implements Serializable{
 
-	private Integer actClassId;
-	private String  actClassName;
-	private Boolean actClassState;
+	private Integer act_class_no;
+	private String  act_class_name;
+	private Boolean act_class_state;
 	
 }

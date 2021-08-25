@@ -7,7 +7,7 @@ public interface I_ActivityOrderDAO {
 	public ActivityOrderVO insert(ActivityOrderVO actOrderVO);
 	public void update(ActivityOrderVO actOrderVO);
 	
-	public ActivityOrderVO findById(Integer actOrderId);
-	public List<ActivityOrderVO> findByMemberId(Integer memberId);
+	public ActivityOrderVO findByPk(Integer act_order_no);
+	public List<ActivityOrderVO> findByMemberNo(Integer mem_no);
 	public List<ActivityOrderVO> getAll();
 }

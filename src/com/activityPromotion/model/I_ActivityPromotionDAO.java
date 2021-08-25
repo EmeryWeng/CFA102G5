@@ -6,6 +6,6 @@ public interface I_ActivityPromotionDAO {
 	public ActivityPromotionVO insert(ActivityPromotionVO actPromotionVO);
 	public void update(ActivityPromotionVO actPromotionVO);
 	
-	public ActivityPromotionVO findById(Integer actPromotionId);
+	public ActivityPromotionVO findByPk(Integer act_promotion_no);
 	public List<ActivityPromotionVO> getAll();
 }
