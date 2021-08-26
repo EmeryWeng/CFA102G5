@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.util.JDBCUtil;
 
@@ -26,6 +29,15 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	private final String SELECT_BY_ACTIVITY_CLASS_SQL = "SELECT * FROM ACTIVITY WHERE act_class_no = ?";
 	private final String SELECT_BY_POPULAR_ACTIVITY_SQL = "SELECT * FROM ACTIVITY WHERE act_state = 1 ORDER BY act_sell_number DESC LIMIT 3";
 	private final String SELECT_BY_ACTIVITY_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY WHERE act_state = true ORDER BY act_price";
+	private final String ACTIVITY_JOIN_ACTIVITY_CLASS_SQL = 
+			"SELECT	actClass.act_class_name,act.act_name"
+			+ ",act.act_price,act.act_location,act_schedule_time"
+			+ ",act.act_instruction,act.act_gather_location"
+			+ ",act.act_sell_number,act.act_join_number"
+			+ ",act.act_evaluation_number,act.act_average_star_number"
+			+ " FROM ACTIVITY act JOIN ACTIVITY_CLASS actClass"
+			+ " ON act.act_class_no = actClass.act_class_no";
+	
 	
 	static {
 		try {
@@ -334,6 +346,34 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 		
 		return list;
 	}
+	
+	@Override
+	public Map<String,String[]> getActJoinActClass() {
+		Map<String,String[]> joinMap = new HashMap<>();
+		String[] columnArray = null;
+		int position = 0;
+		ResultSet rs = null;
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(ACTIVITY_JOIN_ACTIVITY_CLASS_SQL);
+			rs = ps.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+			while (rs.next()) {
+				columnArray = new String[rsmd.getColumnCount()];
+				for(int index=0;index<columnArray.length;index++) 
+					columnArray[index] = rs.getString(index+1);
+				
+				joinMap.put(String.valueOf(position++),columnArray);				
+			}
+				
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} 
+		
+		return joinMap;
+	}
+	
 	public static void main(String[] args) {
 		ActivityJDBCDAO dao = new ActivityJDBCDAO();
 //		ActivityVO vo = new ActivityVO();
@@ -342,15 +382,24 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 //		for(ActivityVO vo : list) 
 //			System.out.println(vo);
 		
+		Map<String,String[]> map = dao.getActJoinActClass();
+		for(int i=0;i<map.size();i++) {
+			String[] str = map.get(String.valueOf(i));
+			for(int j=0;j<str.length;j++) {
+				System.out.print(str[j] + " ");
+			}
+			System.out.println();
+		}
+		
 //		Integer number = dao.getJoinNumber(2);
 //		System.out.println(number);
 //		List<ActivityVO> list = dao.findByActClassNo(2);
 //		List<ActivityVO> list = dao.getAll();
-		List<ActivityVO> list = dao.getActToFront();	
+//		List<ActivityVO> list = dao.getActToFront();	
 //		List<ActivityVO> list = dao.getPopularAct();
 		
-		for(ActivityVO vo : list) 
-			System.out.println(vo);
+//		for(ActivityVO vo : list) 
+//			System.out.println(vo);
 //		System.out.println(number);
 //		vo.setAct_no(10);
 //		vo.setAct_class_no(2);

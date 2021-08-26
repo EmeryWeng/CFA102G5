@@ -1,5 +1,8 @@
-package com.activity.model;
+ package com.activity.model;
 import java.util.List;
+import java.util.Map;
+
+
 
 
 public interface I_ActivityDAO {
@@ -13,4 +16,5 @@ public interface I_ActivityDAO {
 	public List<ActivityVO> getPopularAct();//取得熱門活動(前三)
 	public List<ActivityVO> getActToFront();//取得上架活動
 	public List<ActivityVO> getAll();
+	public Map<String,String[]> getActJoinActClass(); //取得該活動的活動類別
 }
