@@ -29,7 +29,6 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 		}	
 	}
 	
-	
 	@Override
 	public ActivityClassVO insert(ActivityClassVO actClassVO) {
 		ResultSet rs = null;
@@ -69,13 +68,13 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 	}
 
 	@Override
-	public ActivityClassVO findByPk(Integer actClassId) {
+	public ActivityClassVO findByPk(Integer act_class_no) {
 		ActivityClassVO actClassVO = null;
 		ResultSet rs = null;
 		try (Connection con = ds.getConnection()) {
 			
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
-			ps.setInt(1, actClassId);
+			ps.setInt(1, act_class_no);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
@@ -92,7 +91,6 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 		return actClassVO;
 	}
 
-
 	@Override
 	public List<ActivityClassVO> getActClassToFront() {
 		List<ActivityClassVO> list = new ArrayList<>();
@@ -100,7 +98,7 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 		ResultSet rs = null;
 		try (Connection con = ds.getConnection()) {
 			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_CLASS_STATE_TRUE_SQL);
+			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_CLASS_STATE_TRUE_SQL);			
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				actClassVO = new ActivityClassVO();
@@ -112,7 +110,7 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		} 
+		}
 		
 		return list;
 	}
