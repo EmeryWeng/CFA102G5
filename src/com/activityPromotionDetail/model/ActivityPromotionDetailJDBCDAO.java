@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.util.JDBCUtil;
 
@@ -18,6 +21,11 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 	private final String UPDATE_SQL = "UPDATE ACTIVITY_PROMOTION_DETAIL SET act_promotion_no = ?,act_class_no = ?,act_discount_price = ? WHERE act_promotion_no = ? and act_class_no = ?";
 	private final String SELECT_BY_ACTIVITY_PROMOTION_NO_SQL = "SELECT * FROM ACTIVITY_PROMOTION_DETAIL WHERE act_promotion_no = ?";
 	private final String SELECT_BY_ACTIVITY_CLASS_NO_SQL = "SELECT * FROM ACTIVITY_PROMOTION_DETAIL WHERE act_class_no = ?";
+	private final String ACTIVITY_PROMOTION_DETAIL_JOIN_ACTIVITY_CLASS_SQL = 
+			"SELECT actClass.act_class_name,apd.act_discount_price"
+			+ " FROM ACTIVITY_PROMOTION_DETAIL apd "
+			+ " JOIN ACTIVITY_CLASS actClass "
+			+ " ON apd.act_class_no = actClass.act_class_no";
 	
 	static {
 		try {
@@ -144,8 +152,45 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 		
 		return list;
 	}
+	
+	@Override
+	public Map<String, String[]> getActPromotionDetailJoinActClass() {
+		Map<String, String[]> joinMap = new HashMap<>();
+		int position = 0;
+		String[] columnArray = null;
+		
+		ResultSet rs = null;
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(ACTIVITY_PROMOTION_DETAIL_JOIN_ACTIVITY_CLASS_SQL);
+			rs = ps.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+			while (rs.next()) {
+				columnArray = new String[rsmd.getColumnCount()];
+				for(int index=0;index<columnArray.length;index++) 
+					columnArray[index] = rs.getString(index+1);
+				joinMap.put(String.valueOf(position++),columnArray);
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return joinMap;
+	}
+	
 	public static void main(String[] args) {
 		ActivityPromotionDetailJDBCDAO dao = new ActivityPromotionDetailJDBCDAO();
+
+		Map<String,String[]> map = dao.getActPromotionDetailJoinActClass();
+		for(int i=0;i<map.size();i++) {
+			String[] str = map.get(String.valueOf(i));
+			for(int j=0;j<str.length;j++) {
+				System.out.print(str[j] + " ");
+			}
+			System.out.println();
+		}
 //		ActivityPromotionDetailVO vo = new ActivityPromotionDetailVO();
 //		vo.setAct_promotion_no(4);
 //		vo.setAct_class_no(4);
@@ -155,8 +200,8 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 //
 //		List<ActivityPromotionDetailVO> list = dao.findByActPromotionNo(4);
 //		List<ActivityPromotionDetailVO> list = dao.findByActClassNo(2);
-		List<ActivityPromotionDetailVO> list = dao.getAll();
-		for(ActivityPromotionDetailVO vo : list)
-		System.out.println(vo);
+//		List<ActivityPromotionDetailVO> list = dao.getAll();
+//		for(ActivityPromotionDetailVO vo : list)
+//		System.out.println(vo);
 	}
 }
