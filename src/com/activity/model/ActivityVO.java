@@ -20,6 +20,6 @@ public class ActivityVO implements Serializable{
 	private Integer	act_join_number;
 	private Integer	act_evaluation_number;
 	private Double  act_average_star_number;
-	private Boolean act_state;
+	private Boolean act_state = true;
 	
 }
