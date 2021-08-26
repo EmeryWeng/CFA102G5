@@ -19,7 +19,7 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			+ ",act_price_total = ?,act_order_detail_state = ? WHERE act_order_no = ? and act_session_no = ?";
 	private final String SELECT_BY_ACTIVITY_ORDER_NO_SQL = "SELECT * FROM ACTIVITY_ORDER_DETAIL WHERE act_order_no = ?";
 	private final String SELECT_BY_ACTIVITY_SESSION_NO_SQL = "SELECT * FROM ACTIVITY_ORDER_DETAIL WHERE act_session_no = ?";
-	private final String SELECT_BY_ACTIVITY_ORDER_DETAIL_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY_ORDER_DETAIL WHERE act_order_detail_state = 1";
+	private final String SELECT_BY_ACTIVITY_ORDER_DETAIL_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY_ORDER_DETAIL WHERE act_order_detail_state = ?";
 	
 	static {
 		try {
@@ -141,13 +141,15 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 	}
 
 	@Override
-	public List<ActivityOrderDetailVO> getActOrderDetailToFront() {
+	public List<ActivityOrderDetailVO> getActOrderDetailState(Integer act_order_detail_state) {
 		List<ActivityOrderDetailVO> list = new ArrayList<>();
 		ActivityOrderDetailVO actOrderDetailVO = null;
 		ResultSet rs = null;
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_ORDER_DETAIL_STATE_TRUE_SQL);
+			
+			ps.setInt(1,act_order_detail_state);
 			rs = ps.executeQuery();	
 			while (rs.next()) {
 				actOrderDetailVO = new ActivityOrderDetailVO();
@@ -211,8 +213,8 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 //		dao.update(vo,1,1);
 //		List<ActivityOrderDetailVO> list =dao.findByActOrderNo(1);
 //		List<ActivityOrderDetailVO> list =dao.findByActSessionNo(1);
-		List<ActivityOrderDetailVO> list = dao.getAll();
-//		List<ActivityOrderDetailVO> list = dao.getActOrderDetailToFront();
+//		List<ActivityOrderDetailVO> list = dao.getAll();
+		List<ActivityOrderDetailVO> list = dao.getActOrderDetailState(5);
 		for(ActivityOrderDetailVO vo : list)
 		System.out.println(vo);
 	}

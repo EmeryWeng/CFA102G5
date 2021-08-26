@@ -9,6 +9,6 @@ public interface I_ActivityOrderDetailDAO {
 	
 	public List<ActivityOrderDetailVO> findByActOrderNo(Integer act_order_no);
 	public List<ActivityOrderDetailVO> findByActSessionNo(Integer act_session_no);
-	public List<ActivityOrderDetailVO> getActOrderDetailToFront();
+	public List<ActivityOrderDetailVO> getActOrderDetailState(Integer act_order_detail_state);
 	public List<ActivityOrderDetailVO> getAll();
 }
