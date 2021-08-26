@@ -10,22 +10,13 @@ public class ActivityClassService {
 	}
 	
 	
-	public ActivityClassVO addActClass(String act_class_name,Boolean act_class_state) {
-		ActivityClassVO actClassVO = new ActivityClassVO();
-		actClassVO.setAct_class_name(act_class_name);
-		actClassVO.setAct_class_state(act_class_state);
+	public ActivityClassVO addActClass(ActivityClassVO actClassVO) {
 		return dao.insert(actClassVO);
 	}
 	
 	
-	public ActivityClassVO updateActClass(Integer act_class_no,String act_class_name,Boolean act_class_state) {
-		ActivityClassVO actClassVO = new ActivityClassVO();
-		actClassVO.setAct_class_no(act_class_no);
-		actClassVO.setAct_class_name(act_class_name);
-		actClassVO.setAct_class_state(act_class_state);
+	public void updateActClass(ActivityClassVO actClassVO) {
 		dao.update(actClassVO);
-		
-		return actClassVO;
 	}
 	
 	public ActivityClassVO getActClassByPk(Integer act_class_no) {
@@ -41,17 +32,21 @@ public class ActivityClassService {
 	
 	public static void main(String[] args) {
 		ActivityClassService service = new ActivityClassService();
-//		ActivityClassVO vo = service.addActClass("水上活動2", true);
-//		ActivityClassVO vo = service.updateActClass(6, "水上活動6", false);
-//		ActivityClassVO vo = service.getActClassById(1);
+//		ActivityClassVO v = new ActivityClassVO();
+//		v.setAct_class_name("測試活動3");
+//		v.setAct_class_no(7);
+//		v.setAct_class_state(false);
+//		ActivityClassVO vo = service.addActClass(v);
+//		service.updateActClass(v);
+		ActivityClassVO vo = service.getActClassByPk(1);
 		
 		
-//		System.out.println(vo);
+		System.out.println(vo);
 		
-		List<ActivityClassVO> list = service.getActClassAll();
-		for(ActivityClassVO vo : list) {
-			System.out.println(vo);
-		}
+//		List<ActivityClassVO> list = service.getActClassAll();
+//		for(ActivityClassVO vo : list) 
+//			System.out.println(vo);
+		
 		
 	}
 }
