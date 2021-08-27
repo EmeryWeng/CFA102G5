@@ -38,7 +38,7 @@ public class ActivityService {
 		return dao.getPopularAct();
 	}
 	
-	public List<ActivityVO> ShowActToFront(){
+	public List<ActivityVO> getShowActToFront(){
 		return dao.getActToFront();
 	}
 	
