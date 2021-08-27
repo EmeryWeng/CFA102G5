@@ -12,8 +12,7 @@ public class ServiceCasesVO implements java.io.Serializable{
 			private String case_reply;
 			private Integer case_state;
 			
-			//要給一個空建構子
-			public ServiceCasesVO() {}
+
 			
 
 

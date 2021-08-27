@@ -8,5 +8,7 @@ public interface I_ServiceCasesDAO {
 	public void insert(ServiceCasesVO serviceCasesVO);
 	//案件回覆
     public void update(ServiceCasesVO serviceCasesVO);
+    //搜尋全部案件
+    public List<ServiceCasesVO> getAll();
  
 }
