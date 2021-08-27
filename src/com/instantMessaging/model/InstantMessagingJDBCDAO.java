@@ -1,16 +1,14 @@
 package com.instantMessaging.model;
 
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,19 +172,18 @@ public class InstantMessagingJDBCDAO implements I_InstantMessagingDAO{
 		//修改訊息
 //		InstantMessagingJDBCDAO dao = new InstantMessagingJDBCDAO();
 //		InstantMessagingVO vo = new InstantMessagingVO();
-//		vo.setMsg_no(17);
-//		vo.setMsg("e04");
-//		vo.setNow_clk(LocalDate.now());
+//		vo.setMsg_no(20);
+//		vo.setMsg("fuck");
 //		dao.update(vo);
 //		System.out.println("更新成功");
 		
 		
 		//顯示某個會員所有所有訊息
-		InstantMessagingJDBCDAO dao = new InstantMessagingJDBCDAO();
-		List<InstantMessagingVO> list = dao.findByMemNo(2);
-		for(InstantMessagingVO co : list)
-			System.out.println(co);
-		System.out.println("查詢成功");
+//		InstantMessagingJDBCDAO dao = new InstantMessagingJDBCDAO();
+//		List<InstantMessagingVO> list = dao.findByMemNo(2);
+//		for(InstantMessagingVO co : list)
+//			System.out.println(co);
+//		System.out.println("查詢成功");
 	
 		
 	}
