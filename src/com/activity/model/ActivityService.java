@@ -19,15 +19,15 @@ public class ActivityService {
 	}
 	
 	public ActivityVO getActByPk(Integer act_no){
-		return dao.getFindByPk(act_no);
+		return dao.findByPk(act_no);
 	}
 	
 	public List<ActivityVO> getActByName(String act_name){
-		return dao.getFindByName(act_name);
+		return dao.findByName(act_name);
 	}
 	
 	public List<ActivityVO> getActByClassNo(Integer act_class_no){
-		return dao.getFindByActClassNo(act_class_no);
+		return dao.findByActClassNo(act_class_no);
 	}
 	
 	public Integer getActJoinNumberByPk(Integer act_no){

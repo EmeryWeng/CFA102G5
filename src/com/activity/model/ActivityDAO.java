@@ -110,7 +110,7 @@ public class ActivityDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public ActivityVO getFindByPk(Integer act_no) {
+	public ActivityVO findByPk(Integer act_no) {
 		ActivityVO actVO = null;
 		ResultSet rs = null;
 		try (Connection con = ds.getConnection()) {
@@ -146,7 +146,7 @@ public class ActivityDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public List<ActivityVO> getFindByName(String act_name) {
+	public List<ActivityVO> findByName(String act_name) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
 		ResultSet rs = null;
@@ -183,7 +183,7 @@ public class ActivityDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public List<ActivityVO> getFindByActClassNo(Integer act_class_no) {
+	public List<ActivityVO> findByActClassNo(Integer act_class_no) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
 		ResultSet rs = null;

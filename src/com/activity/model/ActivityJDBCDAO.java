@@ -111,7 +111,7 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public ActivityVO getFindByPk(Integer act_no) {
+	public ActivityVO findByPk(Integer act_no) {
 		ActivityVO actVO = null;
 		ResultSet rs = null;
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
@@ -147,7 +147,7 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public List<ActivityVO> getFindByName(String act_name) {
+	public List<ActivityVO> findByName(String act_name) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
 		ResultSet rs = null;
@@ -184,7 +184,7 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public List<ActivityVO> getFindByActClassNo(Integer act_class_no) {
+	public List<ActivityVO> findByActClassNo(Integer act_class_no) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
 		ResultSet rs = null;
@@ -376,9 +376,9 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	
 	public static void main(String[] args) {
 		ActivityJDBCDAO dao = new ActivityJDBCDAO();
-//		ActivityVO vo = new ActivityVO();
-//		ActivityVO vo = dao.getFindByPk(2);
-//		List<ActivityVO> list = dao.getFindByName("人");
+		ActivityVO vo = new ActivityVO();
+//		ActivityVO vo = dao.findByPk(2);
+//		List<ActivityVO> list = dao.findByName("人");
 //		for(ActivityVO vo : list) 
 //			System.out.println(vo);
 //		
@@ -393,13 +393,13 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 //		
 //		Integer number = dao.getJoinNumber(2);
 //		System.out.println(number);
-		List<ActivityVO> list = dao.getFindByActClassNo(2);
+//		List<ActivityVO> list = dao.findByActClassNo(2);
 //		List<ActivityVO> list = dao.getAll();
 //		List<ActivityVO> list = dao.getActToFront();	
 //		List<ActivityVO> list = dao.getPopularAct();
-		
-		for(ActivityVO vo : list) 
-			System.out.println(vo);
+//		
+//		for(ActivityVO vo : list) 
+//			System.out.println(vo);
 //		System.out.println(number);
 //		vo.setAct_no(10);
 //		vo.setAct_class_no(2);
@@ -418,6 +418,6 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 //		vo.setAct_state(true);
 //		dao.insert(vo);
 //		dao.update(vo);
-//		System.out.println(vo);
+		System.out.println(vo);
 	}
 }
