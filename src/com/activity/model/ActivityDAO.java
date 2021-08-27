@@ -110,7 +110,43 @@ public class ActivityDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public List<ActivityVO> findByName(String act_name) {
+	public ActivityVO getFindByPk(Integer act_no) {
+		ActivityVO actVO = null;
+		ResultSet rs = null;
+		try (Connection con = ds.getConnection()) {
+			
+			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
+			ps.setInt(1, act_no);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				actVO = new ActivityVO();
+				actVO.setAct_no(rs.getInt(1));
+				actVO.setAct_class_no(rs.getInt(2)); 
+				actVO.setAct_name(rs.getString(3));
+				actVO.setAct_price(rs.getInt(4));
+				actVO.setAct_location(rs.getString(5));
+				actVO.setAct_schedule_time(rs.getInt(6));
+				actVO.setAct_instruction(rs.getString(7));
+				actVO.setAct_gather_location(rs.getString(8));
+				actVO.setAct_location_longitude(rs.getDouble(9));
+				actVO.setAct_location_latitude(rs.getDouble(10));
+				actVO.setAct_sell_number(rs.getInt(11));
+				actVO.setAct_join_number(rs.getInt(12));
+				actVO.setAct_evaluation_number(rs.getInt(13));
+				actVO.setAct_average_star_number(rs.getDouble(14));
+				actVO.setAct_state(rs.getBoolean(15));
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} 
+		
+		return actVO;
+	}
+
+	@Override
+	public List<ActivityVO> getFindByName(String act_name) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
 		ResultSet rs = null;
@@ -147,43 +183,7 @@ public class ActivityDAO implements I_ActivityDAO{
 	}
 
 	@Override
-	public ActivityVO findByPk(Integer act_no) {
-		ActivityVO actVO = null;
-		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
-			ps.setInt(1, act_no);
-			rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				actVO = new ActivityVO();
-				actVO.setAct_no(rs.getInt(1));
-				actVO.setAct_class_no(rs.getInt(2)); 
-				actVO.setAct_name(rs.getString(3));
-				actVO.setAct_price(rs.getInt(4));
-				actVO.setAct_location(rs.getString(5));
-				actVO.setAct_schedule_time(rs.getInt(6));
-				actVO.setAct_instruction(rs.getString(7));
-				actVO.setAct_gather_location(rs.getString(8));
-				actVO.setAct_location_longitude(rs.getDouble(9));
-				actVO.setAct_location_latitude(rs.getDouble(10));
-				actVO.setAct_sell_number(rs.getInt(11));
-				actVO.setAct_join_number(rs.getInt(12));
-				actVO.setAct_evaluation_number(rs.getInt(13));
-				actVO.setAct_average_star_number(rs.getDouble(14));
-				actVO.setAct_state(rs.getBoolean(15));
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return actVO;
-	}
-
-	@Override
-	public List<ActivityVO> findByActClassNo(Integer act_class_no) {
+	public List<ActivityVO> getFindByActClassNo(Integer act_class_no) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
 		ResultSet rs = null;

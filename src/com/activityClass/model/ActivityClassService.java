@@ -32,16 +32,16 @@ public class ActivityClassService {
 	
 	public static void main(String[] args) {
 		ActivityClassService service = new ActivityClassService();
-//		ActivityClassVO v = new ActivityClassVO();
-//		v.setAct_class_name("測試活動3");
-//		v.setAct_class_no(7);
-//		v.setAct_class_state(false);
+		ActivityClassVO v = new ActivityClassVO();
+		v.setAct_class_name("測試活動3");
+		v.setAct_class_no(7);
+		v.setAct_class_state(false);
 //		ActivityClassVO vo = service.addActClass(v);
-//		service.updateActClass(v);
-		ActivityClassVO vo = service.getActClassByPk(1);
+		service.updateActClass(v);
+//		ActivityClassVO vo = service.getActClassByPk(1);
 		
 		
-		System.out.println(vo);
+//		System.out.println(vo);
 		
 //		List<ActivityClassVO> list = service.getActClassAll();
 //		for(ActivityClassVO vo : list) 
