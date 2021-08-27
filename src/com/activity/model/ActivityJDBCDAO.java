@@ -377,8 +377,8 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	public static void main(String[] args) {
 		ActivityJDBCDAO dao = new ActivityJDBCDAO();
 //		ActivityVO vo = new ActivityVO();
-		ActivityVO vo = dao.getFindByPk(2);
-		List<ActivityVO> list = dao.getFindByName("人");
+//		ActivityVO vo = dao.getFindByPk(2);
+//		List<ActivityVO> list = dao.getFindByName("人");
 //		for(ActivityVO vo : list) 
 //			System.out.println(vo);
 //		
