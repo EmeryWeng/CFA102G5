@@ -21,11 +21,11 @@ public class CreditcardClassJDBCDAO implements I_CreditcardClassDAO{
 		}
 	}
 	
-	private static final String[] KEY = {"cdr_no"};
+	private static final String[] KEY = {"crd_no"};
 	private static final String ADD_CARD = "INSERT INTO CREDITCARD VALUES (?,?,?,?,?,?,?)"; 
-	private static final String DELETE_CARD = "DELETE FROM CREDITCARD WHERE CRD_NO = ?";
+	private static final String DELETE_CARD = "DELETE FROM CREDITCARD WHERE crd_no = ?";
 	private static final String GET_ALL = "SELECT * FROM CREDITCARD";
-	private static final String GET_ALL_BY_MEM_NO = "SELECT * FROM CREDITCARD WHERE MEM_NO = ?";
+	private static final String GET_ALL_BY_MEM_NO = "SELECT * FROM CREDITCARD WHERE mem_no = ?";
 
 	@Override
 	public void addCard(CreditcardClassVO creditcardClassVO) {
@@ -55,18 +55,23 @@ public class CreditcardClassJDBCDAO implements I_CreditcardClassDAO{
 	@Override
 	public List<CreditcardClassVO> getallByMem_no(Integer mem_no) {
 		ResultSet rs = null;
-		List<CreditcardClassVO> crdAll = new ArrayList();
+		List<CreditcardClassVO> crdAll = new ArrayList<>();
 		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
 				PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_MEM_NO)){
-			
 			pstmt.setInt(1,mem_no);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				CreditcardClassVO CreditcardClassVO = new CreditcardClassVO();
 				CreditcardClassVO.setCrd_no(rs.getInt("crd_no"));
+				CreditcardClassVO.setMem_no(rs.getInt("mem_no"));
+				CreditcardClassVO.setCrd_name(rs.getString("crd_name"));
+				CreditcardClassVO.setCrd_num(rs.getString("crd_num"));
+				CreditcardClassVO.setCrd_expiry(rs.getString("crd_expiry"));
+				CreditcardClassVO.setCrd_security_code(rs.getString("crd_security_code"));
+				CreditcardClassVO.setCrd_barcode(rs.getString("crd_barcode"));
 				
+				crdAll.add(CreditcardClassVO);
 				
-		
 			}
 			
 			
@@ -101,7 +106,7 @@ public class CreditcardClassJDBCDAO implements I_CreditcardClassDAO{
 	@Override
 	public  List<CreditcardClassVO> getAll() {
 		ResultSet rs = null;
-		List<CreditcardClassVO> crdALL = new ArrayList();
+		List<CreditcardClassVO> crdALL = new ArrayList<>();
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
 				PreparedStatement pstmt = con.prepareStatement(GET_ALL)){
 			rs = pstmt.executeQuery();
