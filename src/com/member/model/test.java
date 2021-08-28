@@ -15,25 +15,30 @@ import com.util.JDBCUtil;
 public class test {
 	
 	public static void main(String[] args) {
-		
-//		I_MemberClassDAO dao = new MemberClassJDBCDAO();
-//		MemberClassVO memberClassVO = dao.getOneBymail("xxx@gmail.com");
-//		MemberClassVO memberClassVO = dao.getOneByMobile("4");
+
+		I_MemberClassDAO memberClassJDBCDAO = new MemberClassJDBCDAO();
+		MemberClassVO memberClassVO = new MemberClassVO();		
+//email搜尋會員		
+//		MemberClassVO memberClassVO = dao.GET_ONE_BY_EMAIL("xxx@gmail.com");
+//電話搜尋會員		
+//  	MemberClassVO memberClassVO = memberClassJDBCDAO.getOneByMobile("4");
 //		System.out.println(memberClassVO);
-//		MemberClassVO memberClassVO = new MemberClassVO();
-//		 memberClassVO.setMem_no(3);
-//		 memberClassVO.setMem_password("1");
-//		 dao.updatePassword(memberClassVO);
+//會員單純修改密碼		
+//		memberClassVO.setMem_no(3);
+//		memberClassVO.setMem_password("66666");
+//		memberClassJDBCDAO .updatePassword(memberClassVO);
 //		System.out.println(memberClassVO);
-		
-		
-		
-//		I_MemberClassDAO memberClassJDBCDAO = new MemberClassJDBCDAO();
+//會員狀態查詢會員
 //		List<MemberClassVO> All = memberClassJDBCDAO.getAllByState(true);
-//		List<MemberClassVO> All = memberClassJDBCDAO.getAllBySex(1);
+//會員性別查詢會員		
+//		List<MemberClassVO> All = memberClassJDBCDAO.getAllBySex(2);
 //		for(MemberClassVO M : All)
 //			System.out.println(M);
-		
+//搜尋全部會員
+//		List<MemberClassVO> All = memberClassJDBCDAO.getAll();
+//		for(MemberClassVO M : All)
+//		System.out.println(M);
+//更新會員		
 //		memberClassVO.setMem_name("1");
 //		memberClassVO.setMem_sex(2);
 //		memberClassVO.setMem_mail("1");
@@ -41,21 +46,24 @@ public class test {
 //		memberClassVO.setMem_mobile("1");
 //		memberClassVO.setMem_img(null);
 //		memberClassVO.setMem_add("3333");
-//		memberClassVO.setMem_no(3);
+//		memberClassVO.setMem_no(11);
 //		
-//		dao.updateMember(memberClassVO);
-//		System.out.println();
-		I_MemberClassDAO dao = new MemberClassJDBCDAO();
-		MemberClassVO memberClassVO = new MemberClassVO();
-		memberClassVO.setMem_name("1");
-		memberClassVO.setMem_sex(1);
-		memberClassVO.setMem_mail("22222@gmail.com");
-		memberClassVO.setMem_password("1222223");
-		memberClassVO.setMem_mobile("092222233");
-		memberClassVO.setMem_state(true);
-		dao.addMember(memberClassVO);
+//		memberClassJDBCDAO.updateMember(memberClassVO);
 		
+//新增會員
+		memberClassVO.setMem_name("45234534");
+		memberClassVO.setMem_sex(1);
+		memberClassVO.setMem_mail("QQQQ22@gmail.com");
+		memberClassVO.setMem_password("1222223");
+		memberClassVO.setMem_img(null);
+		memberClassVO.setMem_mobile("092222233");
+		memberClassVO.setMem_state(false);
+		memberClassJDBCDAO.addMember(memberClassVO);
 		System.out.println(memberClassVO);
+//修改會員狀態		
+//		memberClassVO.setMem_state(false);
+//		memberClassVO.setMem_no(11);
+//		memberClassJDBCDAO.updateMemberstate(memberClassVO);
 		
 		
 		
