@@ -29,7 +29,7 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
-		try {
+		try  {
 			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			pstmt = con.prepareStatement(INSERT);
 			
@@ -46,22 +46,13 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
+			try {
+				if (con != null)
 					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+	    	}
+	    	catch (SQLException ignored) { 
+	    	}
 		}
-		
 	}
 
 	@Override
@@ -88,20 +79,12 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
+			try {
+				if (con != null)
 					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+	    	}
+	    	catch (SQLException ignored) { 
+	    	}
 		}
 		
 	}
@@ -135,27 +118,12 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
+			try {
+				if (con != null)
 					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+	    	}
+	    	catch (SQLException ignored) { 
+	    	}
 		}
 		return roomtype;
 	}
@@ -190,27 +158,12 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
+			try {
+				if (con != null)
 					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+	    	}
+	    	catch (SQLException ignored) { 
+	    	}
 		}
 		return list;
 	}

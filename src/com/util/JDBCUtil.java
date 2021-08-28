@@ -6,4 +6,3 @@ public class JDBCUtil {
 	public static final String PASSWORD = "123456";
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 }
-

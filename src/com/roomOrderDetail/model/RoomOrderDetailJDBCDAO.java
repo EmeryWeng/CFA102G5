@@ -18,7 +18,7 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 	private static final String CHECKOUT = "UPDATE room_order_detail SET checkout_date = CURDATE(), rm_no = null, detail_state = 3 WHERE detail_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_order_detail WHERE detail_no = ?"; 
 	private static final String GET_ALL = "SELECT * FROM room_order_detail"; 
-	private static final String GET_ALL_BY_ORDERNO = "SELECT * FROM room_order_detail WHERE ord_no = ?";
+	private static final String GET_ALL_BY_ORDNO = "SELECT * FROM room_order_detail WHERE ord_no = ?";
 	
 	static {
 		try {
@@ -230,7 +230,54 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 
 	@Override
 	public List<RoomOrderDetailVO> getAllByOrdno(Integer ord_no) {
-		// TODO Auto-generated method stub
-		return null;
+		List<RoomOrderDetailVO> list = new ArrayList<>();
+		RoomOrderDetailVO detailvo = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(GET_ALL_BY_ORDNO);
+			pstmt.setInt(1, ord_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				detailvo = new RoomOrderDetailVO();
+				detailvo.setDetail_no(rs.getInt("detail_no"));				
+				detailvo.setOrd_no(rs.getInt("ord_no"));
+				detailvo.setCheckin_date(rs.getDate("checkin_date").toLocalDate());
+				detailvo.setCheckout_date(rs.getDate("checkout_date").toLocalDate());
+				detailvo.setRm_no(rs.getString("rm_no"));	
+				detailvo.setDetail_state(rs.getInt("detail_state"));
+				list.add(detailvo);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
 	}
 }
