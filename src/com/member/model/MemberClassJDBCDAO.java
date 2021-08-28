@@ -21,26 +21,27 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 		}
 	}
 	
-	public static String addMember = "INSERT INTO MEMBER VALUES (?,?,?,?,?,?,?,?,?)";
-	public static String getAll = "SELECT * FROM MEMBER";
-	public static String updateMember = "UPDATE MEMBER SET MEM_NAME=?, MEM_SEX=?,"
-		                              + "MEM_PASSWORD=?, MEM_MOBILE=?, MEM_IMG=?,"
-		                              + "MEM_ADD=? WHERE MEM_NO=?";
-	public static String getOneBymail = "SELECT * FROM MEMBER WHERE MEM_MAIL=?";
-	public static String getOneByMobile = "SELECT * FROM MEMBER WHERE MEM_MOBILE=?";
-	public static String getAllBySex = "SELECT * FROM MEMBER WHERE MEM_SEX=?";
-	public static String updatePassword = "UPDATE MEMBER SET MEM_PASSWORD =? WHERE MEM_NO =?";
-	public static String getAllByState = "SELECT * FROM MEMBER WHERE MEM_STATE=?";
+	private static final String ADD_MEMBER = "INSERT INTO MEMBER VALUES (?,?,?,?,?,?,?,?,?)";
+	private static final String GET_ALL = "SELECT * FROM MEMBER";
+	private static final String UPDATE_MEMBER = "UPDATE MEMBER SET mem_name=?, mem_sex=?,"
+		                              + "mem_password=?, mem_mobile=?, mem_img=?,"
+		                              + "mem_add=? WHERE mem_no=?";
+	private static final String GET_ONE_BY_MAIL = "SELECT * FROM MEMBER WHERE mem_mail=?";
+	private static final String GET_ONE_BY_MOBILE = "SELECT * FROM MEMBER WHERE mem_mobile=?";
+	private static final String GET_ALL_SEX = "SELECT * FROM MEMBER WHERE mem_sex=?";
+	private static final String UPDATE_PASSWORD = "UPDATE MEMBER SET mem_password =? WHERE mem_no=?";
+	private static final String GET_ALL_BY_STATE = "SELECT * FROM MEMBER WHERE mem_state=?";
+	private static final String UPDATE_MEMBER_STATE = "UPDATE MEMBER SET mem_state=? WHERE mem_no=?";
 	@Override
 	public void addMember(MemberClassVO memberClassVO) {
 		ResultSet rs = null;
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-		PreparedStatement pstmt = con.prepareStatement(addMember,PreparedStatement.RETURN_GENERATED_KEYS)){
+		PreparedStatement pstmt = con.prepareStatement(ADD_MEMBER,PreparedStatement.RETURN_GENERATED_KEYS)){
 			pstmt.setString(1,null);
 			pstmt.setString(2,memberClassVO.getMem_name());
 			pstmt.setInt(3,memberClassVO.getMem_sex());
 			pstmt.setString(4,memberClassVO.getMem_mail());
-			pstmt.setString(5,memberClassVO.getMem_password());
+			pstmt.setString(5,memberClassVO.getMem_password());			
 			pstmt.setString(6,memberClassVO.getMem_mobile());
 			pstmt.setBytes(7,memberClassVO.getMem_img());
 			pstmt.setString(8,memberClassVO.getMem_add());
@@ -62,7 +63,7 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 	@Override
 	public void updateMember(MemberClassVO memberClassVO) {
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-		PreparedStatement pstmt = con.prepareStatement(updateMember)){
+		PreparedStatement pstmt = con.prepareStatement(UPDATE_MEMBER)){
 			pstmt.setString(1, memberClassVO.getMem_name());
 			pstmt.setInt(2, memberClassVO.getMem_sex());
 			pstmt.setString(3, memberClassVO.getMem_password());
@@ -83,7 +84,7 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 		ResultSet rs = null;
 		MemberClassVO memberClassVO = null;
 		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(getOneBymail)){
+				PreparedStatement pstmt = con.prepareStatement(GET_ONE_BY_MAIL)){
 			
 			pstmt.setString(1,mem_mail);
 			rs = pstmt.executeQuery();
@@ -122,7 +123,7 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 		ResultSet rs = null;
 		MemberClassVO memberClassVO = null;
 		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(getOneByMobile)){
+				PreparedStatement pstmt = con.prepareStatement(GET_ONE_BY_MOBILE)){
 			
 			pstmt.setString(1,mem_mobile);
 			rs = pstmt.executeQuery();
@@ -160,7 +161,7 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 		ResultSet rs = null;
 		List<MemberClassVO> memAll = new ArrayList();
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(getAllBySex)){
+				PreparedStatement pstmt = con.prepareStatement(GET_ALL_SEX)){
 			pstmt.setInt(1,mem_sex);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -194,7 +195,7 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 		ResultSet rs = null;
 		List<MemberClassVO> memAll = new ArrayList<>();
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(getAllByState)){
+				PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_STATE)){
 			pstmt.setBoolean(1,mem_state);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -226,9 +227,9 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 	@Override
 	public List<MemberClassVO> getAll() {
 		ResultSet rs = null;
-		List<MemberClassVO> memAll = new ArrayList();
+		List<MemberClassVO> memAll = new ArrayList<>();
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(getAll)){
+				PreparedStatement pstmt = con.prepareStatement(GET_ALL)){
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MemberClassVO MemberClassVO = new MemberClassVO();
@@ -255,12 +256,13 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 			}
 		}
 		return memAll;
+		
 	}
 
 	@Override
 	public void updatePassword(MemberClassVO memberClassVO) { 
 		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(updatePassword)){
+				PreparedStatement pstmt = con.prepareStatement(UPDATE_PASSWORD)){
 			pstmt.setString(1,memberClassVO.getMem_password());
 			pstmt.setInt(2, memberClassVO.getMem_no());
 			
@@ -274,6 +276,16 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 
 	@Override
 	public void updateMemberstate(MemberClassVO memberClassVO) {
+		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+				PreparedStatement pstmt = con.prepareStatement(UPDATE_MEMBER_STATE)){
+			pstmt.setBoolean(1,memberClassVO.getMem_state());
+			pstmt.setInt(2, memberClassVO.getMem_no());
+			
+			pstmt.executeUpdate();
+			
+		}catch(SQLException se){
+			se.printStackTrace();
+		}
 		
 	}
 }
