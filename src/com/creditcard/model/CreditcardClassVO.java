@@ -18,5 +18,4 @@ public class CreditcardClassVO implements Serializable{
 	private String crd_security_code;
 	private String crd_barcode;
 
-
 }
