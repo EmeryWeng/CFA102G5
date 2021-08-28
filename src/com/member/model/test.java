@@ -40,16 +40,16 @@ public class test {
 //		for(MemberClassVO M : All)
 //		System.out.println(M);
 //更新會員		
-		memberClassVO.setMem_name("1");
-		memberClassVO.setMem_sex(2);
-		memberClassVO.setMem_mail("1");
-		memberClassVO.setMem_password("1");
-		memberClassVO.setMem_mobile("1");
-		memberClassVO.setMem_img(null);
-		memberClassVO.setMem_add("3333");
-		memberClassVO.setMem_no(11);
-		
-		memberClassJDBCDAO.updateMember(memberClassVO);
+//		memberClassVO.setMem_name("1");
+//		memberClassVO.setMem_sex(2);
+//		memberClassVO.setMem_mail("1");
+//		memberClassVO.setMem_password("1");
+//		memberClassVO.setMem_mobile("1");
+//		memberClassVO.setMem_img(null);
+//		memberClassVO.setMem_add("3333");
+//		memberClassVO.setMem_no(11);
+//		
+//		memberClassJDBCDAO.updateMember(memberClassVO);
 		
 //新增會員
 		memberClassVO.setMem_name("45234534");
@@ -62,9 +62,9 @@ public class test {
 		memberClassJDBCDAO.addMember(memberClassVO);
 		System.out.println(memberClassVO);
 //修改會員狀態		
-		memberClassVO.setMem_state(false);
-		memberClassVO.setMem_no(11);
-		memberClassJDBCDAO.updateMemberstate(memberClassVO);
+//		memberClassVO.setMem_state(false);
+//		memberClassVO.setMem_no(11);
+//		memberClassJDBCDAO.updateMemberstate(memberClassVO);
 		
 		
 		
