@@ -10,18 +10,18 @@ public class RoomOrderDetailTest {
 
 		// 新增
 //		RoomOrderDetailVO detailvo = new RoomOrderDetailVO();
-//		detailvo.setOrd_no(3);
+//		detailvo.setOrd_no(5);
 //		dao.insert(detailvo);
 	
 		// 入住
 //		RoomOrderDetailVO detailvo = new RoomOrderDetailVO();
 //		detailvo.setRm_no("305");
-//		detailvo.setDetail_no(4);
+//		detailvo.setDetail_no(2);
 //		dao.checkin(detailvo);
 		
 		// 退房
 //		RoomOrderDetailVO detailvo = new RoomOrderDetailVO();
-//		detailvo.setDetail_no(1);
+//		detailvo.setDetail_no(2);
 //		dao.checkout(detailvo);
 		
 		// 查詢一筆 用PK
@@ -34,14 +34,25 @@ public class RoomOrderDetailTest {
 //		System.out.println(detailvo.getDetail_state());
 		
 		// 查詢全部
-		List<RoomOrderDetailVO> list = dao.getAll();
-		for (RoomOrderDetailVO detailvo : list) {
-			System.out.print(detailvo.getDetail_no() + ",");
-			System.out.print(detailvo.getOrd_no() + ",");
-			System.out.print(detailvo.getCheckin_date() + ",");
-			System.out.print(detailvo.getCheckout_date() + ",");
-			System.out.print(detailvo.getRm_no() + ",");
-			System.out.println(detailvo.getDetail_state());
-		}
+//		List<RoomOrderDetailVO> list = dao.getAll();
+//		for (RoomOrderDetailVO detailvo : list) {
+//			System.out.print(detailvo.getDetail_no() + ",");
+//			System.out.print(detailvo.getOrd_no() + ",");
+//			System.out.print(detailvo.getCheckin_date() + ",");
+//			System.out.print(detailvo.getCheckout_date() + ",");
+//			System.out.print(detailvo.getRm_no() + ",");
+//			System.out.println(detailvo.getDetail_state());
+//		}
+		
+		// 查詢全部 用訂單編號
+//		List<RoomOrderDetailVO> list = dao.getAllByOrdno(3);
+//		for (RoomOrderDetailVO detailvo : list) {
+//			System.out.print(detailvo.getDetail_no() + ",");
+//			System.out.print(detailvo.getOrd_no() + ",");
+//			System.out.print(detailvo.getCheckin_date() + ",");
+//			System.out.print(detailvo.getCheckout_date() + ",");
+//			System.out.print(detailvo.getRm_no() + ",");
+//			System.out.println(detailvo.getDetail_state());
+//		}
 	}
 }
