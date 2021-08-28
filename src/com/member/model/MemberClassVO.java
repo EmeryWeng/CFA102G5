@@ -18,6 +18,6 @@ public class MemberClassVO implements Serializable{
 		private String mem_mobile;
 		private byte[] mem_img;
 		private String mem_add;
-		private Boolean mem_state =true; //9
+		private Boolean mem_state=true; //9
 		
 }
