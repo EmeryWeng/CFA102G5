@@ -17,7 +17,6 @@ public class ActivityClassJDBCDAO implements I_ActivityClassDAO {
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_CLASS VALUES(?,?,?)";
 	private final String UPDATE_SQL = "UPDATE ACTIVITY_CLASS SET act_class_name = ?,act_class_state = ? WHERE act_class_no = ?";
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_CLASS WHERE act_class_no = ?";
-	private final String SELECT_BY_ACTIVITY_CLASS_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY_CLASS WHERE act_class_state = true";
 	
 	static {
 		try {
@@ -90,30 +89,6 @@ public class ActivityClassJDBCDAO implements I_ActivityClassDAO {
 	}
 
 	@Override
-	public List<ActivityClassVO> getActClassToFront() {
-		List<ActivityClassVO> list = new ArrayList<>();
-		ActivityClassVO actClassVO = null;
-		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_CLASS_STATE_TRUE_SQL);			
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				actClassVO = new ActivityClassVO();
-				actClassVO.setAct_class_no(rs.getInt(1));
-				actClassVO.setAct_class_name(rs.getString(2));
-				actClassVO.setAct_class_state(rs.getBoolean(3));
-				list.add(actClassVO);
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		
-		return list;
-	}
-
-	@Override
 	public List<ActivityClassVO> getAll() {
 		List<ActivityClassVO> list = new ArrayList<>();
 		ActivityClassVO actClassVO = null;
@@ -136,5 +111,24 @@ public class ActivityClassJDBCDAO implements I_ActivityClassDAO {
 		
 		return list;
 	}
-
+	
+	public static void main(String[] args) {
+		ActivityClassJDBCDAO dao = new ActivityClassJDBCDAO();
+		ActivityClassVO vo = new ActivityClassVO();
+		vo.setAct_class_name("測試活動1");
+		vo.setAct_class_no(7);
+		vo.setAct_class_state(false);
+//		ActivityClassVO vo = service.addActClass(vo);
+		dao.update(vo);
+//		ActivityClassVO vo = service.getActClassByPk(1);
+		
+		
+//		System.out.println(vo);
+		
+//		List<ActivityClassVO> list = service.getActClassAll();
+//		for(ActivityClassVO vo : list) 
+//			System.out.println(vo);
+		
+		
+	}
 }
