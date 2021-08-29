@@ -27,7 +27,7 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY WHERE act_no = ?";
 	private final String SELECT_BY_NAME_SQL = "SELECT * FROM ACTIVITY WHERE act_name LIKE ?";
 	private final String SELECT_BY_ACTIVITY_CLASS_SQL = "SELECT * FROM ACTIVITY WHERE act_class_no = ?";
-	private final String SELECT_BY_POPULAR_ACTIVITY_SQL = "SELECT * FROM ACTIVITY WHERE act_state = 1 ORDER BY act_sell_number DESC LIMIT 3";
+	private final String SELECT_BY_POPULAR_ACTIVITY_SQL = "SELECT * FROM ACTIVITY WHERE act_state = true ORDER BY act_sell_number DESC LIMIT 3";
 	private final String SELECT_BY_ACTIVITY_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY WHERE act_state = true ORDER BY act_price";
 	private final String ACTIVITY_JOIN_ACTIVITY_CLASS_SQL = 
 			"SELECT	actClass.act_class_name,act.act_name"
@@ -220,25 +220,6 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 		return list;
 	}
 
-	@Override			//第x個活動可參與的人數
-	public Integer getJoinNumber(Integer act_no) {
-		Integer number = null;
-		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
-			PreparedStatement ps = con.prepareStatement(GET_JOIN_NUMBER_SQL);
-			ps.setInt(1, act_no);
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				number = rs.getInt(1);
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return number;
-	}
-
 	@Override
 	public List<ActivityVO> getPopularAct() {
 		List<ActivityVO> list = new ArrayList<>();
@@ -347,6 +328,25 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 		return list;
 	}
 	
+	@Override			//第x個活動可參與的人數
+	public Integer getJoinNumber(Integer act_no) {
+		Integer number = null;
+		ResultSet rs = null;
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(GET_JOIN_NUMBER_SQL);
+			ps.setInt(1, act_no);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				number = rs.getInt(1);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} 
+		
+		return number;
+	}
+
 	@Override
 	public Map<String,String[]> getActJoinActClass() {
 		Map<String,String[]> joinMap = new HashMap<>();
