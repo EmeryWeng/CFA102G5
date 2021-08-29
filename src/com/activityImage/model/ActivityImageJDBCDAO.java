@@ -17,6 +17,7 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	private final String[] GET_KEY = {"act_img_no"};
 	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_IMAGE";
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_IMAGE VALUES(?,?,?)";
+	private final String DELETE_SQL = "DELETE FROM ACTIVITY_IMAGE WHERE act_img_no = ?";
 	private final String UPDATE_SQL = "UPDATE ACTIVITY_IMAGE SET act_no = ?,act_img = ? WHERE act_img_no = ?";
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_img_no = ?";
 	private final String SELECT_BY_ACTIVITY_NO_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_no = ?";
@@ -51,6 +52,19 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 		} 
 		
 		return actImageVO;
+	}
+
+	@Override
+	public void delete(Integer act_image_no) {
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			
+			PreparedStatement ps = con.prepareStatement(DELETE_SQL);
+			ps.setInt(1, act_image_no);
+			ps.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} 
+
 	}
 
 	@Override
@@ -156,8 +170,9 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 //		dao.update(vo);//注意FK的問題
 //		List<ActivityImageVO> list = dao.findByActNo(1);
 //		ActivityImageVO vo =dao.findByPk(2);
-		List<ActivityImageVO> list = dao.getAll();
-		for(ActivityImageVO vo : list)
-		System.out.println(vo);
+//		List<ActivityImageVO> list = dao.getAll();
+//		for(ActivityImageVO vo : list)
+//		System.out.println(vo);
+		dao.delete(3);
 	}
 }
