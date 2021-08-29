@@ -18,8 +18,6 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_EVALUATION_REPORT";
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_EVALUATION_REPORT VALUES(?,?,?,?,?)";
 	private final String DELETE_SQL = "DELETE FROM ACTIVITY_EVALUATION_REPORT WHERE act_evaluation_no = ? AND mem_no = ?";
-	private final String UPDATE_SQL = "UPDATE ACTIVITY_EVALUATION_REPORT SET act_evaluation_no = ?,mem_no = ?,act_report_date = ?,act_evaluation_report_reason = ?"
-			+ ",act_evaluation_report_state = ? WHERE act_evaluation_no = ? and mem_no = ?"; //字串串接 where前要空一行
 	private final String SELECT_BY_ACTIVITY_EVALUATION_NO_SQL = "SELECT * FROM ACTIVITY_EVALUATION_REPORT WHERE act_evaluation_no = ?";
 	private final String SELECT_BY_MEMBER_NO_SQL = "SELECT * FROM ACTIVITY_EVALUATION_REPORT WHERE mem_no = ?";
 	
@@ -63,7 +61,7 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 	public void delete(Integer act_evaluation_no,Integer mem_no) {
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			
-			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
+			PreparedStatement ps = con.prepareStatement(DELETE_SQL);
 			ps.setInt(1,act_evaluation_no);
 			ps.setInt(2,mem_no);		
 			ps.executeUpdate();
