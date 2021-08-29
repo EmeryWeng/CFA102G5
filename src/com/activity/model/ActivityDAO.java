@@ -28,7 +28,6 @@ public class ActivityDAO implements I_ActivityDAO{
 	private final String SELECT_BY_NAME_SQL = "SELECT * FROM ACTIVITY WHERE act_name LIKE ?";
 	private final String SELECT_BY_ACTIVITY_CLASS_SQL = "SELECT * FROM ACTIVITY WHERE act_class_no = ?";
 	private final String SELECT_BY_POPULAR_ACTIVITY_SQL = "SELECT * FROM ACTIVITY WHERE act_state = 1 ORDER BY act_sell_number DESC LIMIT 3";
-	private final String SELECT_BY_ACTIVITY_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY WHERE act_state = true ORDER BY act_price";
 	private final String ACTIVITY_JOIN_ACTIVITY_CLASS_SQL = 
 			"SELECT	actClass.act_class_name,act.act_name"
 			+ ",act.act_price,act.act_location,act_schedule_time"
@@ -227,42 +226,6 @@ public class ActivityDAO implements I_ActivityDAO{
 		try (Connection con = ds.getConnection()) {
 			
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_POPULAR_ACTIVITY_SQL);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				actVO = new ActivityVO();
-				actVO.setAct_no(rs.getInt(1));
-				actVO.setAct_class_no(rs.getInt(2)); 
-				actVO.setAct_name(rs.getString(3));
-				actVO.setAct_price(rs.getInt(4));
-				actVO.setAct_location(rs.getString(5));
-				actVO.setAct_schedule_time(rs.getInt(6));
-				actVO.setAct_instruction(rs.getString(7));
-				actVO.setAct_gather_location(rs.getString(8));
-				actVO.setAct_location_longitude(rs.getDouble(9));
-				actVO.setAct_location_latitude(rs.getDouble(10));
-				actVO.setAct_sell_number(rs.getInt(11));
-				actVO.setAct_join_number(rs.getInt(12));
-				actVO.setAct_evaluation_number(rs.getInt(13));
-				actVO.setAct_average_star_number(rs.getDouble(14));
-				actVO.setAct_state(rs.getBoolean(15));
-				list.add(actVO);
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return list;
-	}
-
-	@Override
-	public List<ActivityVO> getActToFront() {
-		List<ActivityVO> list = new ArrayList<>();
-		ActivityVO actVO = null;
-		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_STATE_TRUE_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				actVO = new ActivityVO();
