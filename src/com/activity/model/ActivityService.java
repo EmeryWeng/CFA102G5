@@ -30,14 +30,10 @@ public class ActivityService {
 		return dao.findByActClassNo(act_class_no);
 	}
 	
-	public Integer getActJoinNumberByPk(Integer act_no){
-		return dao.getJoinNumber(act_no);
-	}
-	
 	public List<ActivityVO> getPopularAct(){
 		return dao.getPopularAct();
 	}
-	
+	//¤W¬[ª¬ºA = true(1)
 	public List<ActivityVO> getShowActToFront(){
 		return dao.getActToFront();
 	}
@@ -46,7 +42,4 @@ public class ActivityService {
 		return dao.getAll();
 	}
 	
-	public Map<String,String[]> getActJoinActClass(){
-		return dao.getActJoinActClass();
-	}
 }
