@@ -9,6 +9,5 @@ public interface I_ActivityEvaluationDAO {
 	public ActivityEvaluationVO findByPk(Integer act_evaluation_no);
 	public List<ActivityEvaluationVO> findByActNo(Integer act_no);
 	public List<ActivityEvaluationVO> findByMemberNo(Integer mem_no);
-	public List<ActivityEvaluationVO> getActEvaluationToFront();
 	public List<ActivityEvaluationVO> getAll();
 }
