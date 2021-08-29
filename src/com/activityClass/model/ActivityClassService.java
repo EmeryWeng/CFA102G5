@@ -11,29 +11,29 @@ public class ActivityClassService {
 	}
 	
 	public ActivityClassVO addActClass(String act_class_name,
-			String act_class_state) {
+			Boolean act_class_state) {
 		
 		ActivityClassVO vo = new ActivityClassVO();
 		vo.setAct_class_name(act_class_name);
-		vo.setAct_class_state(new Boolean(act_class_state));
+		vo.setAct_class_state(act_class_state);
 		
 		return dao.insert(vo);
 	}
 	
-	public void updateActClass(String act_class_no,
-			String act_class_name,String act_class_state) {
+	public void updateActClass(Integer act_class_no,
+			String act_class_name,Boolean act_class_state) {
 		
 		ActivityClassVO vo = new ActivityClassVO();
 		
-		vo.setAct_class_no(new Integer(act_class_no));
+		vo.setAct_class_no(act_class_no);
 		vo.setAct_class_name(act_class_name);
-		vo.setAct_class_state(new Boolean(act_class_state));
+		vo.setAct_class_state(act_class_state);
 		
 		dao.update(vo);
 	}
 	
-	public ActivityClassVO getActClassByPk(String act_class_no) {
-		return dao.findByPk(new Integer(act_class_no));
+	public ActivityClassVO getActClassByPk(Integer act_class_no) {
+		return dao.findByPk(act_class_no);
 	}
 	
 	public List<ActivityClassVO> getAll() {
