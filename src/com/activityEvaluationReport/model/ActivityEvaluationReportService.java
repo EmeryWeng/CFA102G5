@@ -23,7 +23,7 @@ public class ActivityEvaluationReportService {
 		vo.setAct_evaluation_report_reason(act_evaluation_report_reason);
 		vo.setAct_evaluation_report_state(act_evaluation_report_state);
 		
-		return vo;
+		return dao.insert(vo);
 	}
 	
 	public void deleteActEvaluationReport(Integer act_evaluation_no,

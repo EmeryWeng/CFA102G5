@@ -65,7 +65,7 @@ public class ActivityService {
 		vo.setAct_average_star_number(act_average_star_number);
 		vo.setAct_state(act_state);
 		
-		dao.insert(vo);
+		dao.update(vo);
 	}
 	
 	public ActivityVO getActByPk(Integer act_no){

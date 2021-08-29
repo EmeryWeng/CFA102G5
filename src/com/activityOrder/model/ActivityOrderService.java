@@ -27,7 +27,7 @@ public class ActivityOrderService {
 		vo.setAct_order_email(act_order_email);
 		vo.setAct_order_credit_card(act_order_credit_card);
 		
-		return vo;
+		return dao.insert(vo);
 	}
 	
 	public void updateActOrder(Integer act_order_no,Integer mem_no,
@@ -48,6 +48,7 @@ public class ActivityOrderService {
 		vo.setAct_order_email(act_order_email);
 		vo.setAct_order_credit_card(act_order_credit_card);
 		
+		dao.update(vo);
 	}
 	
 	public ActivityOrderVO getActOrderByPk(Integer act_order_no) {
