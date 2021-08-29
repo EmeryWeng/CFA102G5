@@ -11,7 +11,7 @@ public class ActivityEvaluationService {
 		dao = new ActivityEvaluationDAO();
 	}
 	
-	public ActivityEvaluationVO addActivityEvaluation(String act_no,
+	public ActivityEvaluationVO addActEvaluation(String act_no,
 			String mem_no,String act_evaluation_star_number,String act_evaluation_message,
 			LocalDateTime act_evaluation_date,Boolean act_evaluation_state) {
 		
@@ -26,7 +26,7 @@ public class ActivityEvaluationService {
 		return dao.insert(vo);
 	}
 	
-	public void updateActivityEvaluation(String act_evaluation_no,String act_no,
+	public void updateActEvaluation(String act_evaluation_no,String act_no,
 			String mem_no,String act_evaluation_star_number,String act_evaluation_message,
 			LocalDateTime act_evaluation_date,Boolean act_evaluation_state) {
 		
@@ -42,15 +42,15 @@ public class ActivityEvaluationService {
 		dao.update(vo);
 	}
 	
-	public ActivityEvaluationVO getActivityEvaluationByPk(String act_evaluation_no) {
+	public ActivityEvaluationVO getActEvaluationByPk(String act_evaluation_no) {
 		return dao.findByPk(new Integer(act_evaluation_no));
 	}
 	
-	public List<ActivityEvaluationVO> getActivityEvaluationByActNo(String act_no) {
+	public List<ActivityEvaluationVO> getActEvaluationByActNo(String act_no) {
 		return dao.findByActNo(new Integer(act_no));
 	}
 	
-	public List<ActivityEvaluationVO> getActivityEvaluationByMemberNo(String mem_no) {
+	public List<ActivityEvaluationVO> getActEvaluationByMemberNo(String mem_no) {
 		return dao.findByMemberNo(new Integer(mem_no));
 	}
 	
