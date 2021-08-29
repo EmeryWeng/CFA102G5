@@ -6,7 +6,7 @@ public class ActivityClassService {
 	private I_ActivityClassDAO dao;
 	
 	public ActivityClassService() {
-		dao = new ActivityClassJDBCDAO();
+		dao = new ActivityClassDAO();
 	}
 	
 	
