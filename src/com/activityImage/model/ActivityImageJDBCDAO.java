@@ -55,11 +55,11 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	}
 
 	@Override
-	public void delete(Integer act_image_no) {
+	public void delete(Integer act_img_no) {
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			
 			PreparedStatement ps = con.prepareStatement(DELETE_SQL);
-			ps.setInt(1, act_image_no);
+			ps.setInt(1, act_img_no);
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -83,13 +83,13 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	}
 
 	@Override
-	public ActivityImageVO findByPk(Integer act_image_no) {
+	public ActivityImageVO findByPk(Integer act_img_no) {
 		ActivityImageVO actImageVO = null;
 		ResultSet rs = null;
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
-			ps.setInt(1, act_image_no);
+			ps.setInt(1, act_img_no);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {

@@ -165,7 +165,7 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 //		
 //		dao.insert(vo);
 //		dao.update(vo,3,1);
-		List<ActivityEvaluationReportVO> list = dao.findByActEvaluationNo(4);
+		List<ActivityEvaluationReportVO> list = dao.findByActEvaluationNo(3);
 //		List<ActivityEvaluationReportVO> list = dao.findByMemberNo(1);
 //		List<ActivityEvaluationReportVO> list = dao.getAll();
 		for(ActivityEvaluationReportVO vo : list)
