@@ -12,6 +12,6 @@ public class ActivityOrderDetailVO implements Serializable{
 	private Integer	act_order_price;
 	private Integer	act_coupon_price;
 	private Integer act_price_total;
-	private Integer act_order_state;
-	
+	private Integer act_order_state = 1;
+	//狀態有1 2 3 4 5
 }
