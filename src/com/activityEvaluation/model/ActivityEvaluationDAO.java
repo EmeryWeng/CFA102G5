@@ -1,7 +1,6 @@
 package com.activityEvaluation.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.util.JDBCUtil;
 
 public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 	private static DataSource ds;
