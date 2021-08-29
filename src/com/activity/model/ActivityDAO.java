@@ -219,25 +219,6 @@ public class ActivityDAO implements I_ActivityDAO{
 		return list;
 	}
 
-	@Override			//第x個活動可參與的人數
-	public Integer getJoinNumber(Integer act_no) {
-		Integer number = null;
-		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
-			PreparedStatement ps = con.prepareStatement(GET_JOIN_NUMBER_SQL);
-			ps.setInt(1, act_no);
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				number = rs.getInt(1);
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return number;
-	}
-
 	@Override
 	public List<ActivityVO> getPopularAct() {
 		List<ActivityVO> list = new ArrayList<>();
@@ -346,6 +327,25 @@ public class ActivityDAO implements I_ActivityDAO{
 		return list;
 	}
 	
+	@Override			//第x個活動可參與的人數
+	public Integer getJoinNumber(Integer act_no) {
+		Integer number = null;
+		ResultSet rs = null;
+		try (Connection con = ds.getConnection()) {
+			
+			PreparedStatement ps = con.prepareStatement(GET_JOIN_NUMBER_SQL);
+			ps.setInt(1, act_no);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				number = rs.getInt(1);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} 
+		
+		return number;
+	}
+
 	@Override
 	public Map<String,String[]> getActJoinActClass() {
 		Map<String,String[]> joinMap = new HashMap<>();
