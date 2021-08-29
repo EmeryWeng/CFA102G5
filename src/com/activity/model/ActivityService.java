@@ -34,6 +34,7 @@ public class ActivityService {
 		vo.setAct_evaluation_number(new Integer(act_evaluation_number));
 		vo.setAct_average_star_number(new Double(act_average_star_number));
 		vo.setAct_state(new Boolean(act_state));
+		
 		return dao.insert(vo);
 	}
 	
