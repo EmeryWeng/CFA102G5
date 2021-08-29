@@ -21,8 +21,6 @@ public class ActivityEvaluationJDBCDAO implements I_ActivityEvaluationDAO {
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_EVALUATION WHERE act_evaluation_no = ?";
 	private final String SELECT_BY_ACTIVITY_NO_SQL = "SELECT * FROM ACTIVITY_EVALUATION WHERE act_no = ?";
 	private final String SELECT_BY_MEMBER_NO_SQL = "SELECT * FROM ACTIVITY_EVALUATION WHERE mem_no = ?";
-	private final String SELECT_BY_ACTIVITY_EVALUATION_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY_EVALUATION WHERE act_evaluation_state = true ORDER BY act_evaluation_date";
-	
 	
 	static {
 		try {
@@ -168,34 +166,6 @@ public class ActivityEvaluationJDBCDAO implements I_ActivityEvaluationDAO {
 	}
 
 	@Override
-	public List<ActivityEvaluationVO> getActEvaluationToFront() {
-		List<ActivityEvaluationVO> list = new ArrayList<>();
-		ActivityEvaluationVO actEvaluationVO = null;
-		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_EVALUATION_STATE_TRUE_SQL);
-			rs = ps.executeQuery();			
-			while (rs.next()) {
-				actEvaluationVO = new ActivityEvaluationVO();
-				actEvaluationVO.setAct_evaluation_no(rs.getInt(1));
-				actEvaluationVO.setAct_no(rs.getInt(2));
-				actEvaluationVO.setMem_no(rs.getInt(3));
-				actEvaluationVO.setAct_evaluation_star_number(rs.getInt(4));
-				actEvaluationVO.setAct_evaluation_message(rs.getString(5));
-				actEvaluationVO.setAct_evaluation_date(rs.getTimestamp(6).toLocalDateTime());
-				actEvaluationVO.setAct_evaluation_state(rs.getBoolean(7));
-				list.add(actEvaluationVO);
-			}
-	
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return list;
-	}
-
-	@Override
 	public List<ActivityEvaluationVO> getAll() {
 		List<ActivityEvaluationVO> list = new ArrayList<>();
 		ActivityEvaluationVO actEvaluationVO = null;
@@ -242,8 +212,7 @@ public class ActivityEvaluationJDBCDAO implements I_ActivityEvaluationDAO {
 //		ActivityEvaluationVO vo = dao.findByPk(2);
 //		List<ActivityEvaluationVO> list = dao.findByMemberNo(1);
 //		List<ActivityEvaluationVO> list = dao.findByActNo(2);
-		List<ActivityEvaluationVO> list = dao.getActEvaluationToFront();
-//		List<ActivityEvaluationVO> list = dao.getAll();
+		List<ActivityEvaluationVO> list = dao.getAll();
 		for(ActivityEvaluationVO vo : list)
 		System.out.println(vo);
 		
