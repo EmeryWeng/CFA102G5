@@ -15,12 +15,12 @@ import com.util.JDBCUtil;
 public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 
 	private final String[] GET_KEY = {"act_session_no"};
-	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_SESSION";
+	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_SESSION ORDER BY act_session_start_date,act_session_start_time";
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_SESSION VALUES(?,?,?,?,?,?,?,?,?,?)";
 	private final String UPDATE_SQL = "UPDATE ACTIVITY_SESSION SET act_no = ?,act_start_date = ?,act_end_date = ?,act_session_real_number = ?,act_session_start_date = ?,act_session_start_time = ?,act_session_upper_limit = ?,act_session_lower_limit = ?,act_session_hold_state = ? WHERE act_session_no = ?";
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_SESSION WHERE act_session_no = ?";
-	private final String SELECT_BY_ACTIVITY_NO_SQL = "SELECT * FROM ACTIVITY_SESSION WHERE act_no = ?";
-	private final String SELECT_BY_ACTIVITY_SESSION_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY_SESSION WHERE act_session_hold_state = 1 ORDER BY act_session_start_date,act_session_start_time";
+	private final String SELECT_BY_ACTIVITY_NO_SQL = "SELECT * FROM ACTIVITY_SESSION WHERE act_no = ? ORDER BY act_session_start_date,act_session_start_time";
+	private final String SWITCH_ACTIVITY_SESSION_STATE_SQL = "UPDATE ACTIVITY_SESSION SET act_session_hold_state = ? WHERE act_session_no = ? ORDER BY act_session_start_date,act_session_start_time";
 	
 	static {
 		try {
@@ -149,36 +149,20 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 		return list;
 	}
 
+	
+
 	@Override
-	public List<ActivitySessionVO> getActSessionToFront() {
-		List<ActivitySessionVO> list = new ArrayList<>();
-		ActivitySessionVO actSessionVO = null;
-		ResultSet rs = null;
+	public void switchActSessionState(Integer act_session_no,Boolean act_session_hold_state) {
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_SESSION_STATE_TRUE_SQL);
-			
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				actSessionVO = new ActivitySessionVO();
-				actSessionVO.setAct_session_no(rs.getInt(1));
-				actSessionVO.setAct_no(rs.getInt(2));
-				actSessionVO.setAct_start_date(rs.getDate(3).toLocalDate());
-				actSessionVO.setAct_end_date(rs.getDate(4).toLocalDate());
-				actSessionVO.setAct_session_real_number(rs.getInt(5));
-				actSessionVO.setAct_session_start_date(rs.getDate(6).toLocalDate());
-				actSessionVO.setAct_session_start_time(rs.getTime(7).toLocalTime());
-				actSessionVO.setAct_session_upper_limit(rs.getInt(8));
-				actSessionVO.setAct_session_lower_limit(rs.getInt(9));
-				actSessionVO.setAct_session_hold_state(rs.getBoolean(10));
-				list.add(actSessionVO);
-			}
-
+			PreparedStatement ps = con.prepareStatement(SWITCH_ACTIVITY_SESSION_STATE_SQL);
+			ps.setBoolean(1,act_session_hold_state);
+			ps.setInt(2,act_session_no);
+			ps.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} 
 		
-		return list;
 	}
 
 	@Override
