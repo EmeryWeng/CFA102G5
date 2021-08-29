@@ -20,6 +20,7 @@ public class ActivityService {
 			String act_state) {
 		
 		ActivityVO vo = new ActivityVO();
+		
 		vo.setAct_class_no(new Integer(act_class_no));
 		vo.setAct_name(act_name);
 		vo.setAct_price(new Integer(act_price));
@@ -47,6 +48,7 @@ public class ActivityService {
 			String act_state) {
 		
 		ActivityVO vo = new ActivityVO();
+		
 		vo.setAct_no(new Integer(act_no));
 		vo.setAct_class_no(new Integer(act_class_no));
 		vo.setAct_name(act_name);

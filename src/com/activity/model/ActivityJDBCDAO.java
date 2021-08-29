@@ -357,7 +357,7 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 //		Integer number = dao.getJoinNumber(2);
 //		System.out.println(number);
 //		List<ActivityVO> list = dao.findByActClassNo(2);
-//		List<ActivityVO> list = dao.getAll();	
+//		List<ActivityVO> list = dao.getAll();
 //		List<ActivityVO> list = dao.getPopularAct();
 //		
 //		for(ActivityVO vo : list) 

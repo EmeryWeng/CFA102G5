@@ -16,6 +16,7 @@ public class ActivityEvaluationService {
 			LocalDateTime act_evaluation_date,Boolean act_evaluation_state) {
 		
 		ActivityEvaluationVO vo = new ActivityEvaluationVO();
+		
 		vo.setAct_no(new Integer(act_no));
 		vo.setMem_no(new Integer(mem_no));
 		vo.setAct_evaluation_star_number(new Integer(act_evaluation_star_number));
@@ -31,6 +32,7 @@ public class ActivityEvaluationService {
 			LocalDateTime act_evaluation_date,Boolean act_evaluation_state) {
 		
 		ActivityEvaluationVO vo = new ActivityEvaluationVO();
+		
 		vo.setAct_evaluation_no(new Integer(act_evaluation_no));
 		vo.setAct_no(new Integer(act_no));
 		vo.setMem_no(new Integer(mem_no));
