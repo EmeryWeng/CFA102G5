@@ -1,6 +1,7 @@
 package com.activityClass.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ActivityClassService {
 	private I_ActivityClassDAO dao;
@@ -9,44 +10,34 @@ public class ActivityClassService {
 		dao = new ActivityClassDAO();
 	}
 	
-	
-	public ActivityClassVO addActClass(ActivityClassVO actClassVO) {
-		return dao.insert(actClassVO);
-	}
-	
-	
-	public void updateActClass(ActivityClassVO actClassVO) {
-		dao.update(actClassVO);
-	}
-	
-	public ActivityClassVO getActClassByPk(Integer act_class_no) {
-		return dao.findByPk(act_class_no);
-	}
-	
-	public List<ActivityClassVO> getShowInFrontActClass(){
-		return dao.getActClassToFront();
-	}
-	public List<ActivityClassVO> getActClassAll() {
-		return dao.getAll();
-	}
-	
-	public static void main(String[] args) {
-		ActivityClassService service = new ActivityClassService();
-		ActivityClassVO v = new ActivityClassVO();
-		v.setAct_class_name("測試活動3");
-		v.setAct_class_no(7);
-		v.setAct_class_state(false);
-//		ActivityClassVO vo = service.addActClass(v);
-		service.updateActClass(v);
-//		ActivityClassVO vo = service.getActClassByPk(1);
+	public ActivityClassVO addActClass(String act_class_name,
+			String act_class_state) {
 		
-		
-//		System.out.println(vo);
-		
-//		List<ActivityClassVO> list = service.getActClassAll();
-//		for(ActivityClassVO vo : list) 
-//			System.out.println(vo);
-		
-		
+		ActivityClassVO vo = new ActivityClassVO();
+		vo.setAct_class_name(act_class_name);
+		vo.setAct_class_state(new Boolean(act_class_state));
+		return dao.insert(vo);
 	}
+	
+	public ActivityClassVO addActClass(String act_class_no,
+			String act_class_name,String act_class_state) {
+		
+		ActivityClassVO vo = new ActivityClassVO();
+		vo.setAct_class_no(new Integer(act_class_no));
+		vo.setAct_class_name(act_class_name);
+		vo.setAct_class_state(new Boolean(act_class_state));
+		
+		return dao.insert(vo);
+	}
+	
+	public ActivityClassVO getActClassByPk(String act_class_no) {
+		return dao.findByPk(new Integer(act_class_no));
+	}
+	
+	public List<ActivityClassVO> getAll() {
+		return dao.getAll().stream()
+				.filter(act -> act.getAct_class_state() == true)
+				.collect(Collectors.toList());
+	}
+	
 }
