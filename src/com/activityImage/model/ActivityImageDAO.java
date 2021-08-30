@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
-
-import com.util.JDBCUtil;
 
 public class ActivityImageDAO implements I_ActivityImageDAO {
 	private static DataSource ds;
@@ -22,12 +22,12 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_img_no = ?";
 	private final String SELECT_BY_ACTIVITY_NO_SQL = "SELECT * FROM ACTIVITY_IMAGE WHERE act_no = ?";
 	
-	static {
+	static {	
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ex) {
+			ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/TestDB");
+		}catch(NamingException ex) {
 			ex.printStackTrace();
-		}
+		}	
 	}
 
 	
