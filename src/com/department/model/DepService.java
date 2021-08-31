@@ -6,7 +6,7 @@ public class DepService {
 	private I_DepartmentDAO dao;
 
 	public DepService() {
-		dao = new DepartmentJDBCDAO();
+		dao = new DepartmentDAO();
 	}
 
 	public DepartmentVO addDep(Integer dep_no, String dep_name, Boolean dep_state) {
