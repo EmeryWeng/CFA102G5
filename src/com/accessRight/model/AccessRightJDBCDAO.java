@@ -58,15 +58,15 @@ public class AccessRightJDBCDAO implements I_AccessRightDAO{
 	}
 
 	@Override
-	public void update(AccessRightVO accessrightVO,Integer dep_no,Integer fun_no) {
+	public void update(Integer dep_no,Integer fun_no,Integer dep_no2,Integer fun_no2) {
 		try(Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);	
 				PreparedStatement pstmt = con.prepareStatement(UPDATE_ACC)) {
 			
-			pstmt.setInt(1, accessrightVO.getDep_no());
-			pstmt.setInt(2, accessrightVO.getFun_no());
+			pstmt.setInt(1, dep_no);
+			pstmt.setInt(2, fun_no);
 			
-			pstmt.setInt(3, dep_no);
-			pstmt.setInt(4, fun_no);
+			pstmt.setInt(3, dep_no2);
+			pstmt.setInt(4, fun_no2);
 			
 			pstmt.executeUpdate();
 			System.out.println("修改一筆權限資料");
@@ -76,8 +76,11 @@ public class AccessRightJDBCDAO implements I_AccessRightDAO{
 		}       
 	}
 
+	
+	
+
 	@Override
-	public void delete(AccessRightVO accessrightVO,Integer dep_no, Integer fun_no) {
+	public void delete(Integer dep_no, Integer fun_no) {
 		try(Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);	
 				PreparedStatement pstmt = con.prepareStatement(DELETE_ACC)) {
 			
@@ -89,7 +92,7 @@ public class AccessRightJDBCDAO implements I_AccessRightDAO{
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}       
+		} 
 	}
 
 	@Override
@@ -104,6 +107,7 @@ public class AccessRightJDBCDAO implements I_AccessRightDAO{
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				acc = new AccessRightVO();
+				acc.setDep_no(rs.getInt("dep_no"));
 				acc.setFun_no(rs.getInt("fun_no"));
 				
 				depAll.add(acc);
@@ -138,6 +142,7 @@ public class AccessRightJDBCDAO implements I_AccessRightDAO{
 			while(rs.next()) {
 				acc = new AccessRightVO();
 				acc.setDep_no(rs.getInt("dep_no"));
+				acc.setFun_no(rs.getInt("fun_no"));
 				
 				funAll.add(acc);
 			}
