@@ -90,10 +90,12 @@ public class EmployeeJDBCDAO implements I_EmployeeDAO{
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				emp = new EmployeeVO();
-				emp.setDep_no(rs.getInt("dep_no"));
+				emp.setEmp_no(rs.getInt("emp_no"));
+				emp.setEmp_password(rs.getString("emp_password"));
 				emp.setEmp_name(rs.getString("emp_name"));
 				emp.setEmp_mail(rs.getString("emp_mail"));
 				emp.setEmp_state(rs.getBoolean("emp_state"));
+				emp.setDep_no(rs.getInt("dep_no"));
 				System.out.println("查詢一筆員工");
 			}
 			
@@ -128,6 +130,7 @@ public class EmployeeJDBCDAO implements I_EmployeeDAO{
 				dep.setEmp_name(rs.getString("emp_name"));
 				dep.setEmp_mail(rs.getString("emp_mail"));
 				dep.setEmp_state(rs.getBoolean("emp_state"));
+				dep.setDep_no(rs.getInt("dep_no"));
 				
 				depAll.add(dep);
 			}

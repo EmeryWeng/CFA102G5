@@ -102,6 +102,7 @@ public class FoodStoreJDBCDAO implements I_FoodStoreDAO{
 				fdvo.setFd_latitude(rs.getDouble("fd_latitude"));
 				fdvo.setFd_service(rs.getString("fd_service"));
 				fdvo.setFd_state(rs.getBoolean("fd_state"));
+				fdvo.setFd_class_no(rs.getInt("fd_class_no"));
 				
 				fdFKAll.add(fdvo);
 			}
