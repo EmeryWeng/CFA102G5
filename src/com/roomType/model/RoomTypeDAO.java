@@ -1,33 +1,37 @@
 package com.roomType.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.util.JDBCUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
+public class RoomTypeDAO implements I_RoomTypeDAO {
 	private static final String INSERT = "INSERT INTO room_type (type_name, type_qty, type_price, type_size, bed_size, type_info, type_facility) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE room_type SET type_name = ?, type_qty = ?, type_price = ?, type_size = ?, bed_size = ?, type_info = ? ,type_facility = ? ,type_state = ? WHERE type_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_type WHERE type_no = ?";
 	private static final String GET_ALL = "SELECT * FROM room_type ORDER BY type_no";
 	
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public RoomTypeVO insert(RoomTypeVO roomTypeVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
 
 			pstmt.setString(1, roomTypeVO.getType_name());
@@ -49,7 +53,7 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 	@Override
 	public RoomTypeVO update(RoomTypeVO roomTypeVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(UPDATE);
 			
 			pstmt.setString(1, roomTypeVO.getType_name());
@@ -75,7 +79,7 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		RoomTypeVO roomTypeVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
@@ -105,7 +109,7 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		RoomTypeVO roomTypeVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
