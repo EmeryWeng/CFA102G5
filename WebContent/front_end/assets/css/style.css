@@ -5786,7 +5786,7 @@ Back To Top Button
 #footer-message-btn>i.bxs-message-rounded-dots {
   color: #996A4D;
   font-size: 70px;
-  text-shadow: 3px 3px 5px rgba(179,140,97,0.3);
+  text-shadow: 0px 0px 20px rgba(0,0,0,0.2);
   transition: all 0.5s;
 }
 #footer-message-btn>i.bxs-message-rounded-dots:hover {

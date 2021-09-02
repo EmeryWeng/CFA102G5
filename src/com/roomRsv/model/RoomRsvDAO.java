@@ -1,7 +1,6 @@
 package com.roomRsv.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +8,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.util.JDBCUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
+public class RoomRsvDAO implements I_RoomRsvDAO {
 	
 	private static final String INSERT = "INSERT INTO room_rsv (rsv_date, type_no, rm_total ,rsv_total) VALUES (?, ?, ?, ?)";
-//	兩間*間數 ?房型 8/26*入住日 *入住日 4*天數
+//	兩間*間數 ?房型 8/26*入住日 *入住日 4*天數   要有訂單內容
 	private static final String RESERVE = "UPDATE room_rsv SET rsv_total = rsv_total+2 WHERE type_no = ? AND (rsv_date BETWEEN '2021-08-26' AND ADDDATE( '2021-08-26', INTERVAL (4-1) DAY))";
 	private static final String CANCEL = "UPDATE room_rsv SET rsv_total = rsv_total-2 WHERE type_no = ? AND (rsv_date BETWEEN '2021-08-26' AND ADDDATE( '2021-08-26', INTERVAL (4-1) DAY))";
 
@@ -22,18 +24,20 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 	private static final String GET_ALL = "SELECT * FROM room_rsv ORDER BY rsv_date";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_rsv WHERE type_no = ?";
 	
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void insert(RoomRsvVO roomRsvVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setObject(1, roomRsvVO.getRsv_date());
@@ -52,7 +56,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 	@Override
 	public void reserve(RoomRsvVO roomRsvVO) {
 
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(RESERVE);
 			
 			pstmt.setInt(1, roomRsvVO.getType_no());
@@ -67,7 +71,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 	@Override
 	public void cancel(RoomRsvVO roomRsvVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(CANCEL);
 			
 			pstmt.setInt(1, roomRsvVO.getType_no());
@@ -85,7 +89,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ONEDAY_BY_DATE);
 			pstmt.setObject(1, rsv_date);
 			rs = pstmt.executeQuery();
@@ -111,7 +115,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -136,7 +140,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
