@@ -9,14 +9,17 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-    
+  
+<!--   活動   -->
   <servlet>
-  	<servlet-name>TestServlet</servlet-name>
-  	<servlet-class>com.member.controller.TestServlet</servlet-class>
+  	<servlet-name>ActivityImageServlet</servlet-name>
+  	<servlet-class>com.activityImage.controller.ActivityImageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>TestServlet</servlet-name>
-  	<url-pattern>/member/TestServlet</url-pattern>
+  	<servlet-name>ActivityImageServlet</servlet-name>
+  	<url-pattern>/activity/ActivityImage</url-pattern>
   </servlet-mapping>
+  
+ <!--   活動   -->
   
 </web-app>
