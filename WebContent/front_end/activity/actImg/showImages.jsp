@@ -23,7 +23,7 @@
 				<tr>
 					<td>${actImgVO.act_img_no}</td>
 					<td>${actImgVO.act_no}</td>
-					<td><img src="data:image/jpg;base64,${actImgVO.imgToBase64(actImgVO.act_img)}" width="240"
+					<td><img src="<%=request.getContextPath()%>/activity/ActivityImage?act_img_no=${actImgVO.act_img_no}" width="240"
 						height="300" /></td>
 					<td>
 						<form method="post" action="<%=request.getContextPath()%>/activity/ActivityImage">
@@ -48,7 +48,7 @@
 				<tr>
 					<td>${actImgVO.act_img_no}</td>
 					<td>${actImgVO.act_no}</td>
-					<td><img src="data:image/jpg;base64,${actImgVO.imgToBase64(actImgVO.act_img)}" width="240"
+					<td><img src="<%=request.getContextPath()%>/activity/ActivityImage?act_img_no=${actImgVO.act_img_no}" width="240"
 						height="300" /></td>
 					<td>
 						<form method="post" action="<%=request.getContextPath()%>/activity/ActivityImage">
