@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
 <title>活動:Home(MVC)</title>
 </head>
 <body>

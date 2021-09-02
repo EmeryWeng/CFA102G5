@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
 <title>修改</title>
 </head>
 <body>
