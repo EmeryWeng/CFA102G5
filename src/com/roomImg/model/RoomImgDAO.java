@@ -1,33 +1,37 @@
 package com.roomImg.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.util.JDBCUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class RoomImgJDBCDAO implements I_RoomImgDAO {
+public class RoomImgDAO implements I_RoomImgDAO {
 	private static final String INSERT = "INSERT INTO room_img (type_no, type_img) VALUES (?, ?)";
 	private static final String DELETE = "DELETE FROM room_img WHERE img_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_img WHERE img_no = ?";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_img WHERE type_no = ?";
 	
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public RoomImgVO insert(RoomImgVO roomImgVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, roomImgVO.getType_no());
@@ -44,7 +48,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 	@Override
 	public void delete(Integer img_no) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, img_no);
 			pstmt.executeUpdate();
@@ -60,7 +64,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 		RoomImgVO roomImgVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setInt(1, img_no);
 			rs = pstmt.executeQuery();
@@ -84,7 +88,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 		RoomImgVO roomImgVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
