@@ -1,16 +1,18 @@
 package com.roomOrderDetail.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.util.JDBCUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
+public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO{
 	private static final String INSERT = "INSERT INTO room_order_detail (ord_no) VALUES (?)";
 	private static final String CHECKIN = "UPDATE room_order_detail SET checkin_date = CURDATE(), rm_no = ?, detail_state = 2 WHERE detail_no = ?";
 	private static final String CHECKOUT = "UPDATE room_order_detail SET checkout_date = CURDATE(), rm_no = null, detail_state = 3 WHERE detail_no = ?";
@@ -18,18 +20,20 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 	private static final String GET_ALL = "SELECT * FROM room_order_detail"; 
 	private static final String GET_ALL_BY_ORDNO = "SELECT * FROM room_order_detail WHERE ord_no = ?";
 	
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public RoomOrderDetailVO insert(RoomOrderDetailVO detailVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
 			pstmt.setInt(1, detailVO.getOrd_no());
 			pstmt.executeUpdate();
@@ -43,7 +47,7 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 	@Override
 	public void checkin(RoomOrderDetailVO detailVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(CHECKIN);
 			
 			pstmt.setString(1, detailVO.getRm_no());
@@ -59,7 +63,7 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 	@Override
 	public void checkout(RoomOrderDetailVO detailVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(CHECKOUT);
 			pstmt.setInt(1, detailVO.getDetail_no());
 			pstmt.executeUpdate();
@@ -74,7 +78,7 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 		RoomOrderDetailVO detailVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setInt(1, detail_no);
 			rs = pstmt.executeQuery();
@@ -101,7 +105,7 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 		RoomOrderDetailVO detailVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -128,7 +132,7 @@ public class RoomOrderDetailJDBCDAO implements I_RoomOrderDetailDAO{
 		RoomOrderDetailVO detailVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_ORDNO);
 			pstmt.setInt(1, ord_no);
 			rs = pstmt.executeQuery();
