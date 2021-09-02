@@ -11,6 +11,7 @@
   </welcome-file-list>
   
 <!--   活動   -->
+
   <servlet>
   	<servlet-name>ActivityImageServlet</servlet-name>
   	<servlet-class>com.activityImage.controller.ActivityImageServlet</servlet-class>
