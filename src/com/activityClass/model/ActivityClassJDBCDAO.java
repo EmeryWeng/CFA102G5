@@ -115,9 +115,9 @@ public class ActivityClassJDBCDAO implements I_ActivityClassDAO {
 	public static void main(String[] args) {
 		ActivityClassJDBCDAO dao = new ActivityClassJDBCDAO();
 		ActivityClassVO vo = new ActivityClassVO();
-		vo.setAct_class_name("測試活動1");
-		vo.setAct_class_no(7);
-		vo.setAct_class_state(false);
+		vo.setAct_class_name("水上活動");
+		vo.setAct_class_no(1);
+		vo.setAct_class_state(true);
 //		ActivityClassVO vo = service.addActClass(vo);
 		dao.update(vo);
 //		ActivityClassVO vo = service.getActClassByPk(1);

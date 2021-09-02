@@ -6,6 +6,7 @@ import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,13 @@ public class ActivityImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request,response);
+		response.setContentType("img/jpeg");
+		String act_img_no = request.getParameter("act_img_no");
+		ActivityImageService actImageService = new ActivityImageService();
+		byte[] imgArray = actImageService.getActImageByPk(new Integer(act_img_no)).getAct_img();
+		ServletOutputStream out = response.getOutputStream();
+		out.write(imgArray);
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
