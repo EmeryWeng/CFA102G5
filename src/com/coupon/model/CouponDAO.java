@@ -1,32 +1,36 @@
 package com.coupon.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.util.JDBCUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class CouponJDBCDAO implements I_CouponDAO {
+public class CouponDAO implements I_CouponDAO {
 	private static final String INSERT = "INSERT INTO coupon (mem_no, coupon_value, coupon_expiry) VALUES (?, ?, ADDDATE(CURDATE(),INTERVAL 1 MONTH))";
 	private static final String DELETE = "DELETE FROM coupon WHERE coupon_no = ?";
 	private static final String GET_ALL_BY_MEM = "SELECT * FROM coupon WHERE mem_no = ? AND coupon_expiry >= CURDATE() ORDER BY coupon_value DESC";
 	
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public CouponVO insert(CouponVO couponVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, couponVO.getMem_no());
@@ -43,7 +47,7 @@ public class CouponJDBCDAO implements I_CouponDAO {
 	@Override
 	public void delete(Integer coupon_no) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, coupon_no);
 			pstmt.executeUpdate();
@@ -59,7 +63,7 @@ public class CouponJDBCDAO implements I_CouponDAO {
 		CouponVO couponVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_MEM);
 			pstmt.setInt(1, mem_no);
 			rs = pstmt.executeQuery();
