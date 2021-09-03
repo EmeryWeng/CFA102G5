@@ -29,9 +29,12 @@ public class CouponDAO implements I_CouponDAO {
 	
 	@Override
 	public CouponVO insert(CouponVO couponVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(INSERT);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, couponVO.getMem_no());
 			pstmt.setInt(2, couponVO.getCoupon_value());
@@ -39,32 +42,56 @@ public class CouponDAO implements I_CouponDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return couponVO;
 	}
 	
 	@Override
 	public void delete(Integer coupon_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(DELETE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, coupon_no);
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 	}
 	
 	@Override
 	public List<CouponVO> getAllByMem(Integer mem_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<CouponVO> list = new ArrayList<>();
 		CouponVO couponVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_MEM);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_BY_MEM);
 			pstmt.setInt(1, mem_no);
 			rs = pstmt.executeQuery();
 
@@ -78,7 +105,16 @@ public class CouponDAO implements I_CouponDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}

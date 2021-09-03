@@ -30,9 +30,12 @@ public class RoomImgDAO implements I_RoomImgDAO {
 
 	@Override
 	public RoomImgVO insert(RoomImgVO roomImgVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(INSERT);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, roomImgVO.getType_no());
 			pstmt.setBytes(2, roomImgVO.getType_img());
@@ -40,32 +43,56 @@ public class RoomImgDAO implements I_RoomImgDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return roomImgVO;
 	}
 
 	@Override
 	public void delete(Integer img_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(DELETE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, img_no);
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		
 	}
 
 	@Override
 	public RoomImgVO getOne(Integer img_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		RoomImgVO roomImgVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setInt(1, img_no);
 			rs = pstmt.executeQuery();
 			
@@ -77,19 +104,31 @@ public class RoomImgDAO implements I_RoomImgDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return roomImgVO;
 	}
 
 	@Override
 	public List<RoomImgVO> getAllByType(Integer type_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomImgVO> list = new ArrayList<>();
 		RoomImgVO roomImgVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
 
@@ -102,7 +141,16 @@ public class RoomImgDAO implements I_RoomImgDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}

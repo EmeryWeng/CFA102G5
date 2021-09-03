@@ -22,5 +22,27 @@
   </servlet-mapping>
   
  <!--   活動結束   -->
+ 
+ <!--   訂房開始   -->
+
+  <servlet>
+  	<servlet-name>RoomImgServlet</servlet-name>
+  	<servlet-class>com.roomImg.controller.RoomImgServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RoomImgServlet</servlet-name>
+  	<url-pattern>/room/RoomImg</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>RoomTypeServlet</servlet-name>
+  	<servlet-class>com.roomImg.controller.RoomTypeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RoomTypeServlet</servlet-name>
+  	<url-pattern>/room/RoomType</url-pattern>
+  </servlet-mapping>
+  
+ <!--   訂房結束   -->
   
 </web-app>

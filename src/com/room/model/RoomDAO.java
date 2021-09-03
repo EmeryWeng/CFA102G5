@@ -33,9 +33,12 @@ public class RoomDAO implements I_RoomDAO {
 	
 	@Override
 	public RoomVO insert(RoomVO roomVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(INSERT);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setString(1, roomVO.getRm_no());
 			pstmt.setInt(2, roomVO.getType_no());
@@ -44,15 +47,27 @@ public class RoomDAO implements I_RoomDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return roomVO;
 	}
 	@Override
 	public void update(RoomVO roomVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(UPDATE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE);
 			
 			pstmt.setInt(1, roomVO.getType_no());
 			pstmt.setString(2, roomVO.getRm_info());
@@ -63,14 +78,26 @@ public class RoomDAO implements I_RoomDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 	}
 	@Override
 	public void updateCheckin(RoomVO roomVO) {
-
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKIN);
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_CHECKIN);
 			
 			pstmt.setString(1, roomVO.getName_title());
 			pstmt.setString(2, roomVO.getRm_no());
@@ -78,29 +105,53 @@ public class RoomDAO implements I_RoomDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 	}
 	@Override
 	public void updateCheckout(RoomVO roomVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKOUT);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_CHECKOUT);
 			pstmt.setString(1, roomVO.getRm_no());
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		
 	}
 	@Override
 	public RoomVO getOne(String rm_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		RoomVO roomVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setString(1, rm_no);
 			rs = pstmt.executeQuery();
 			
@@ -114,18 +165,30 @@ public class RoomDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return roomVO;
 	}
 	@Override
 	public List<RoomVO> getAll() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -139,18 +202,30 @@ public class RoomDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}
 	@Override
 	public List<RoomVO> getAllByTypeState(Integer type_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
 
@@ -165,7 +240,16 @@ public class RoomDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}
