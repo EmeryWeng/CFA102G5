@@ -6,11 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
 
 public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 	private static DataSource ds;
@@ -35,9 +33,11 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 	
 	@Override
 	public ActivityEvaluationVO insert(ActivityEvaluationVO actEvaluationVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null); // AI
 			ps.setInt(2,actEvaluationVO.getAct_no());
@@ -54,16 +54,26 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actEvaluationVO;
 	}
 
 	@Override
 	public void update(ActivityEvaluationVO actEvaluationVO) {
-		try (Connection con = ds.getConnection()) {
-					
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setInt(1,actEvaluationVO.getAct_no());
 			ps.setInt(2,actEvaluationVO.getMem_no());
@@ -75,16 +85,26 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
 	@Override
 	public ActivityEvaluationVO findByPk(Integer act_evaluation_no) {
 		ActivityEvaluationVO actEvaluationVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1, act_evaluation_no);
 			rs = ps.executeQuery();
@@ -101,8 +121,16 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actEvaluationVO;
 	}
@@ -111,9 +139,11 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 	public List<ActivityEvaluationVO> findByActNo(Integer act_no) {
 		List<ActivityEvaluationVO> list = new ArrayList<>();
 		ActivityEvaluationVO actEvaluationVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_NO_SQL);
 			ps.setInt(1, act_no);
 			rs = ps.executeQuery();
@@ -131,7 +161,15 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -141,9 +179,11 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 	public List<ActivityEvaluationVO> findByMemberNo(Integer member_no) {
 		List<ActivityEvaluationVO> list = new ArrayList<>();
 		ActivityEvaluationVO actEvaluationVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_MEMBER_NO_SQL);
 			ps.setInt(1, member_no);
 			rs = ps.executeQuery();
@@ -161,7 +201,15 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -171,11 +219,14 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 	public List<ActivityEvaluationVO> getAll() {
 		List<ActivityEvaluationVO> list = new ArrayList<>();
 		ActivityEvaluationVO actEvaluationVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
-			rs = ps.executeQuery();			
+			rs = ps.executeQuery();
+			
 			while (rs.next()) {
 				actEvaluationVO = new ActivityEvaluationVO();
 				actEvaluationVO.setAct_evaluation_no(rs.getInt(1));
@@ -189,8 +240,16 @@ public class ActivityEvaluationDAO implements I_ActivityEvaluationDAO{
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}

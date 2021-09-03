@@ -26,17 +26,18 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 		try {
 			ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/TestDB");
 		}catch(NamingException ex) {
-			throw new RuntimeException(ex.getMessage());
+			ex.printStackTrace();
 		}	
 	}
 
 	
 	@Override
 	public ActivityImageVO insert(ActivityImageVO actImageVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		// JDK7 
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null);  //AI
 			ps.setInt(2, actImageVO.getAct_no());
@@ -50,28 +51,49 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex.getMessage());
-		} 
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actImageVO;
 	}
 
 	@Override
 	public void delete(Integer act_img_no) {
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(DELETE_SQL);
 			ps.setInt(1, act_img_no);
 			ps.executeUpdate();
+			
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex.getMessage());
-		} 
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 
 	}
 
 	@Override
 	public void update(ActivityImageVO actImageVO) {		
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setInt(1,actImageVO.getAct_no());
 			ps.setBytes(2,actImageVO.getAct_img());
@@ -79,16 +101,26 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
 	@Override
 	public ActivityImageVO findByPk(Integer act_img_no) {
 		ActivityImageVO actImageVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1, act_img_no);
 			rs = ps.executeQuery();
@@ -102,7 +134,15 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex.getMessage());
-		} 
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actImageVO;
 	}
@@ -111,9 +151,11 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 	public List<ActivityImageVO> findByActNo(Integer act_no) {
 		List<ActivityImageVO> list = new ArrayList<>();
 		ActivityImageVO actImageVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_NO_SQL);
 			ps.setInt(1, act_no);
 			rs = ps.executeQuery();
@@ -127,8 +169,16 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -137,9 +187,11 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 	public List<ActivityImageVO> getAll() {
 		List<ActivityImageVO> list = new ArrayList<>();
 		ActivityImageVO actImageVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con =ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -152,7 +204,15 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex.getMessage());
-		} 
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}

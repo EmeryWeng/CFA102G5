@@ -35,9 +35,11 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 	
 	@Override
 	public ActivitySessionVO insert(ActivitySessionVO actSessionVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1,null);
 			ps.setInt(2, actSessionVO.getAct_no());
@@ -57,16 +59,26 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actSessionVO;
 	}
 
 	@Override
 	public void update(ActivitySessionVO actSessionVO) {
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setInt(1, actSessionVO.getAct_no());
 			ps.setObject(2,actSessionVO.getAct_start_date());
@@ -81,16 +93,26 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
 	public ActivitySessionVO findByPk(Integer act_session_no) {
 		ActivitySessionVO actSessionVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1, act_session_no);
 			rs = ps.executeQuery();
@@ -110,7 +132,15 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return actSessionVO;
@@ -120,9 +150,11 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 	public List<ActivitySessionVO> findByActNo(Integer act_no) {
 		List<ActivitySessionVO> list = new ArrayList<>();
 		ActivitySessionVO actSessionVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_NO_SQL);
 			ps.setInt(1, act_no);
 			rs = ps.executeQuery();
@@ -143,8 +175,16 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -153,15 +193,25 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 
 	@Override
 	public void switchActSessionState(Integer act_session_no,Boolean act_session_hold_state) {
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SWITCH_ACTIVITY_SESSION_STATE_SQL);
 			ps.setBoolean(1,act_session_hold_state);
 			ps.setInt(2,act_session_no);
 			ps.executeUpdate();
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 	}
 
@@ -169,9 +219,11 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 	public List<ActivitySessionVO> getAll() {
 		List<ActivitySessionVO> list = new ArrayList<>();
 		ActivitySessionVO actSessionVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -190,8 +242,16 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}

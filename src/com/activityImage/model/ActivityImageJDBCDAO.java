@@ -33,9 +33,11 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	
 	@Override
 	public ActivityImageVO insert(ActivityImageVO actImageVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null);  //AI
 			ps.setInt(2, actImageVO.getAct_no());
@@ -48,29 +50,50 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actImageVO;
 	}
 
 	@Override
 	public void delete(Integer act_img_no) {
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(DELETE_SQL);
 			ps.setInt(1, act_img_no);
 			ps.executeUpdate();
+			
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 
 	}
 
 	@Override
 	public void update(ActivityImageVO actImageVO) {		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setInt(1,actImageVO.getAct_no());
 			ps.setBytes(2,actImageVO.getAct_img());
@@ -78,16 +101,26 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
 	@Override
 	public ActivityImageVO findByPk(Integer act_img_no) {
 		ActivityImageVO actImageVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1, act_img_no);
 			rs = ps.executeQuery();
@@ -100,8 +133,16 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actImageVO;
 	}
@@ -110,9 +151,11 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	public List<ActivityImageVO> findByActNo(Integer act_no) {
 		List<ActivityImageVO> list = new ArrayList<>();
 		ActivityImageVO actImageVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_NO_SQL);
 			ps.setInt(1, act_no);
 			rs = ps.executeQuery();
@@ -126,8 +169,16 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -136,9 +187,11 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 	public List<ActivityImageVO> getAll() {
 		List<ActivityImageVO> list = new ArrayList<>();
 		ActivityImageVO actImageVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con =DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con =DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -150,8 +203,16 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -170,9 +231,9 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 //		dao.update(vo);//注意FK的問題
 //		List<ActivityImageVO> list = dao.findByActNo(1);
 //		ActivityImageVO vo =dao.findByPk(2);
-//		List<ActivityImageVO> list = dao.getAll();
-//		for(ActivityImageVO vo : list)
-//		System.out.println(vo);
-		dao.delete(3);
+		List<ActivityImageVO> list = dao.getAll();
+		for(ActivityImageVO vo : list)
+		System.out.println(vo);
+//		dao.delete(3);
 	}
 }

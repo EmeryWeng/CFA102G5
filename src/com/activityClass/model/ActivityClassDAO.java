@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+
 
 public class ActivityClassDAO implements I_ActivityClassDAO{
 	private static DataSource ds;
@@ -30,9 +31,11 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 	
 	@Override
 	public ActivityClassVO insert(ActivityClassVO actClassVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null); // AI
 			ps.setString(2, actClassVO.getAct_class_name());
@@ -45,16 +48,26 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actClassVO;
 	}
 
 	@Override
 	public void update(ActivityClassVO actClassVO) {
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setString(1, actClassVO.getAct_class_name());
 			ps.setBoolean(2, actClassVO.getAct_class_state());
@@ -62,16 +75,26 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
 	@Override
 	public ActivityClassVO findByPk(Integer act_class_no) {
 		ActivityClassVO actClassVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1, act_class_no);
 			rs = ps.executeQuery();
@@ -84,8 +107,16 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actClassVO;
 	}
@@ -94,9 +125,11 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 	public List<ActivityClassVO> getAll() {
 		List<ActivityClassVO> list = new ArrayList<>();
 		ActivityClassVO actClassVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -108,8 +141,16 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}

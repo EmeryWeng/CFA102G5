@@ -82,7 +82,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -121,7 +121,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -165,7 +165,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -211,7 +211,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -257,7 +257,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -302,7 +302,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -347,7 +347,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -375,7 +375,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -412,7 +412,7 @@ public class ActivityDAO implements I_ActivityDAO{
 				try {
 					con.close();
 				}catch(SQLException ex) {
-					throw new RuntimeException(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		}

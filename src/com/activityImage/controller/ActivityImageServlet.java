@@ -38,7 +38,7 @@ public class ActivityImageServlet extends HttpServlet {
 		ActivityImageService actImageService = new ActivityImageService();
 		
 		//上傳圖片
-		if ("addImg".equals(action)) {
+		if("addImg".equals(action)) {
 			Part part = request.getPart("actImg");
 			try {
 				if (part.getSize() == 0) {
@@ -48,9 +48,9 @@ public class ActivityImageServlet extends HttpServlet {
 
 					return;
 				}
-
-				byte[] imgArray = new byte[part.getInputStream().available()];
-				BufferedInputStream buf = new BufferedInputStream(part.getInputStream());
+				InputStream in = part.getInputStream();
+				byte[] imgArray = new byte[in.available()];
+				BufferedInputStream buf = new BufferedInputStream(in);
 				buf.read(imgArray);
 				buf.close();
 
