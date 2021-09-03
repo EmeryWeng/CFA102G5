@@ -26,7 +26,7 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 		try {
 			ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/TestDB");
 		}catch(NamingException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
 		}	
 	}
 
@@ -34,6 +34,7 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 	@Override
 	public ActivityImageVO insert(ActivityImageVO actImageVO) {
 		ResultSet rs = null;
+		// JDK7 
 		try (Connection con = ds.getConnection()) {
 			
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
@@ -48,7 +49,7 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
 		} 
 		
 		return actImageVO;
@@ -62,7 +63,7 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 			ps.setInt(1, act_img_no);
 			ps.executeUpdate();
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
 		} 
 
 	}
@@ -100,7 +101,7 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
 		} 
 		
 		return actImageVO;
@@ -150,7 +151,7 @@ public class ActivityImageDAO implements I_ActivityImageDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
 		} 
 		
 		return list;

@@ -38,30 +38,33 @@ public class ActivityImageServlet extends HttpServlet {
 		ActivityImageService actImageService = new ActivityImageService();
 		
 		//上傳圖片
-		if("addImg".equals(action)) {
+		if ("addImg".equals(action)) {
 			Part part = request.getPart("actImg");
-			
-			if(part.getSize() == 0) {
-				error.add("請選擇圖片");
-				request.setAttribute("error", error);
-				request.getRequestDispatcher("/front_end/activity/actImg/addActImg.jsp")
-				.forward(request, response);
-				
-				return;
-			}
-			byte[] imgArray = new byte[part.getInputStream().available()];
-			try(BufferedInputStream buf = new BufferedInputStream(part.getInputStream())) {
+			try {
+				if (part.getSize() == 0) {
+					error.add("請選擇圖片");
+					request.setAttribute("error", error);
+					request.getRequestDispatcher("/front_end/activity/actImg/addActImg.jsp").forward(request, response);
+
+					return;
+				}
+
+				byte[] imgArray = new byte[part.getInputStream().available()];
+				BufferedInputStream buf = new BufferedInputStream(part.getInputStream());
 				buf.read(imgArray);
-			}catch(IOException ex) {
-				ex.printStackTrace();
+				buf.close();
+
+				ActivityImageVO actImgVO = actImageService.addActImage(new Integer(actNo), imgArray);
+				request.setAttribute("actImgVO", actImgVO);
+				request.getRequestDispatcher("/front_end/activity/actImg/showImages.jsp").forward(request, response);
+
+				return;
+				
+			} catch (Exception ex) {
+				error.add("新增失敗" + ex.getMessage());
+				request.setAttribute("error", error);
+				request.getRequestDispatcher("/front_end/activity/actImg/addActImg.jsp").forward(request, response);
 			}
-			
-			ActivityImageVO actImgVO = actImageService.addActImage(new Integer(actNo), imgArray);		
-			request.setAttribute("actImgVO", actImgVO);			
-			request.getRequestDispatcher("/front_end/activity/actImg/showImages.jsp")
-			.forward(request, response);
-			
-			return;
 		}
 		
 		//刪除圖片
@@ -90,13 +93,20 @@ public class ActivityImageServlet extends HttpServlet {
 		//將該ID做修改
 		if("updateImg".equals(action)) {
 			Part part = request.getPart("actImg");
+			
 			String actImgNo = request.getParameter("actImgNo");
-			byte[] imgArray = new byte[part.getInputStream().available()];
-			try(BufferedInputStream buf = new BufferedInputStream(part.getInputStream())) {
-				buf.read(imgArray);
-			}catch(IOException ex) {
-				ex.printStackTrace();
+
+			byte[] imgArray = null;
+			// 修改時 檢查有無選擇圖片，若沒有保持原圖
+			if(part.getInputStream().available() > 0) {			
+				InputStream in = part.getInputStream();
+				imgArray = new byte[in.available()];
+				in.read(imgArray);
+			}else {
+				imgArray = actImageService.getActImageByPk(new Integer(actImgNo)).getAct_img();
 			}
+			
+			
 			actImageService.updateActImage(new Integer(actImgNo), new Integer(actNo), imgArray);
 			List<ActivityImageVO> actImgList = actImageService.getAll();
 			request.setAttribute("actImgList",actImgList);
