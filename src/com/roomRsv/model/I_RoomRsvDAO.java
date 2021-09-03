@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface I_RoomRsvDAO {
 //	如果用CTE排程，sql裡面放放長長的CTE
-	public void insert(RoomRsvVO roomrsvvo);
+	public void insert(RoomRsvVO roomRsvVO);
 //	改期=先用舊日期cancel，再用新日期reserve
 //	需要用到RoomOrderVO(入住日 天數 間數)
-	public void reserve(RoomRsvVO roomrsvvo);
-	public void cancel(RoomRsvVO roomrsvvo);		
+	public void reserve(RoomRsvVO roomRsvVO);
+	public void cancel(RoomRsvVO roomRsvVO);		
 	public List<RoomRsvVO> getOneDayByDate(LocalDate rsv_date); //同一天的各房型預訂
 	public List<RoomRsvVO> getAll(); // 全部
 	public List<RoomRsvVO> getAllByType(Integer type_no); //同房型的每天預訂

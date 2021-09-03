@@ -3,7 +3,7 @@ package com.roomImg.model;
 import java.util.List;
 
 public interface I_RoomImgDAO {
-	public void insert(RoomImgVO roomimgvo);
+	public RoomImgVO insert(RoomImgVO roomImgVO);
 	public void delete(Integer img_no);
 	public RoomImgVO getOne(Integer img_no);
 //	單個房型的所有圖片

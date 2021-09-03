@@ -1,16 +1,18 @@
 package com.room.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.util.JDBCUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class RoomJDBCDAO implements I_RoomDAO {
+public class RoomDAO implements I_RoomDAO {
 	private static final String INSERT = "INSERT INTO room (rm_no, type_no, rm_info) VALUES (?, ?, ?)";
 	private static final String UPDATE = "UPDATE room SET type_no = ?, rm_info = ?, rm_state = ?, name_title = ? WHERE rm_no = ?";
 	private static final String UPDATE_CHECKIN = "UPDATE room SET rm_state = 2, name_title = ? WHERE rm_no = ?";
@@ -19,19 +21,24 @@ public class RoomJDBCDAO implements I_RoomDAO {
 	private static final String GET_ALL = "SELECT * FROM room ORDER BY rm_no";
 	private static final String GET_ALL_BY_TYPE_STATE = "SELECT * FROM room WHERE type_no = ? AND rm_state = 1";
 	
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public RoomVO insert(RoomVO roomVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			PreparedStatement pstmt = con.prepareStatement(INSERT);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setString(1, roomVO.getRm_no());
 			pstmt.setInt(2, roomVO.getType_no());
@@ -40,15 +47,27 @@ public class RoomJDBCDAO implements I_RoomDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return roomVO;
 	}
 	@Override
 	public void update(RoomVO roomVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			PreparedStatement pstmt = con.prepareStatement(UPDATE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE);
 			
 			pstmt.setInt(1, roomVO.getType_no());
 			pstmt.setString(2, roomVO.getRm_info());
@@ -59,14 +78,26 @@ public class RoomJDBCDAO implements I_RoomDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 	}
 	@Override
 	public void updateCheckin(RoomVO roomVO) {
-
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKIN);
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_CHECKIN);
 			
 			pstmt.setString(1, roomVO.getName_title());
 			pstmt.setString(2, roomVO.getRm_no());
@@ -74,29 +105,53 @@ public class RoomJDBCDAO implements I_RoomDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 	}
 	@Override
 	public void updateCheckout(RoomVO roomVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKOUT);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_CHECKOUT);
 			pstmt.setString(1, roomVO.getRm_no());
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		
 	}
 	@Override
 	public RoomVO getOne(String rm_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		RoomVO roomVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setString(1, rm_no);
 			rs = pstmt.executeQuery();
 			
@@ -110,18 +165,30 @@ public class RoomJDBCDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return roomVO;
 	}
 	@Override
 	public List<RoomVO> getAll() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -135,18 +202,30 @@ public class RoomJDBCDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}
 	@Override
 	public List<RoomVO> getAllByTypeState(Integer type_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
 
@@ -161,7 +240,16 @@ public class RoomJDBCDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}

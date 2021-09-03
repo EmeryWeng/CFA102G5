@@ -49,7 +49,7 @@ Default CSS
 body {
   font-size: 16px;
   line-height: 1.8;
-  font-family: "Open Sans", sans-serif;
+  font-family: Arial, "Times New Roman", sans-serif;
   color: #555555;
   font-weight: 400;
 }
@@ -82,7 +82,7 @@ button:focus {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   color: #292323;
-  font-family: "Noto Serif", serif;
+  font-family: Arial, "Times New Roman", sans-serif;
   line-height: 1.4;
 }
 
@@ -1073,7 +1073,7 @@ Banner Form Area
 
 .banner-form .form-group label {
   font-weight: 600;
-  color: #30504F;
+  color: rgba(11,99,84,0.8);
   margin-bottom: 0;
 }
 
@@ -1208,7 +1208,7 @@ Inner Banner
   margin-right: 5px;
   position: relative;
   font-weight: 500;
-  font-family: "Open Sans", sans-serif;
+  font-family: Arial, "Times New Roman", sans-serif;
 }
 
 .inner-banner .inner-title ul li:last-child {
@@ -1236,7 +1236,7 @@ Inner Banner
   color: #ffffff;
   font-weight: 700;
   position: relative;
-  font-family: "Open Sans", sans-serif;
+  font-family: Arial, "Times New Roman", sans-serif;
 }
 
 .inner-bg1 {
@@ -5786,7 +5786,7 @@ Back To Top Button
 #footer-message-btn>i.bxs-message-rounded-dots {
   color: #996A4D;
   font-size: 70px;
-  text-shadow: 3px 3px 5px rgba(179,140,97,0.3);
+  text-shadow: 0px 0px 20px rgba(0,0,0,0.2);
   transition: all 0.5s;
 }
 #footer-message-btn>i.bxs-message-rounded-dots:hover {
@@ -6040,7 +6040,7 @@ PreLoader CSS End
     border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
   }
 }
-/*# sourceMappingURL=style.css.map */
+
 
 div.nav-btn li {
   list-style-type: none;
@@ -6092,8 +6092,8 @@ h3.area-subtitle {
   color: #996A4D;
 }
 .testimonials-area-one .container .section-title>hr {
-  width: 15%;
-  border: 2px solid #30504F;
+  width: 20%;
+  border: 1px solid #30504F;
 }
 .testimonials-area-one .container .testimonials-slider-two .testimonials-style .row .testimonials-content .default-btn{
   float: right;
@@ -6112,7 +6112,7 @@ h3.area-subtitle {
   width: 20%;
   text-align: left;
   margin-left:0;
-  border: 2px solid #30504F;
+  border: 1px solid #30504F;
 }
 .index-activity-bg .container .room-card .content{
   padding: 20px 20px 10px 20px;
@@ -6137,20 +6137,52 @@ h3.area-subtitle {
   font-size: 50px;
   text-shadow: 3px 3px 5px rgba(0, 0, 0 ,.3);
 }
-.index-activity-bg .container .room-card .content i.no1{
+.index-activity:nth-child(1) i.bxs-medal{
   color: #FFD700;
 }
-.index-activity-bg .container .room-card .content i.no2{
+.index-activity:nth-child(2) i.bxs-medal{
   color: #B7B7B7;
 }
-.index-activity-bg .container .room-card .content i.no3{
+.index-activity:nth-child(3) i.bxs-medal{
   color: #C5A172;
+}
+.index-activity:nth-child(1) {
+  -webkit-animation: float 4s cubic-bezier(0.1, 0.1, 0.88, 0.88) infinite;
+          animation: float 4s cubic-bezier(0.1, 0.1, 0.88, 0.88) infinite;
+}
+
+.index-activity:nth-child(2) {
+  -webkit-animation: float 5s cubic-bezier(0.1, 0.1, 0.88, 0.88) infinite;
+          animation: float 5s cubic-bezier(0.1, 0.1, 0.88, 0.88) infinite;
+}
+
+.index-activity:nth-child(3) {
+  -webkit-animation: float 6s cubic-bezier(0.1, 0.1, 0.88, 0.88) infinite;
+          animation: float 6s cubic-bezier(0.1, 0.1, 0.88, 0.88) infinite;
+}
+@keyframes float {
+  0% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  30% {
+    -webkit-transform: translate(0, -3px);
+            transform: translate(0, -3px);
+  }
+  70% {
+    -webkit-transform: translate(0, 5px);
+            transform: translate(0, 5px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
 }
 .reservation-content hr {
   width: 70%;
   text-align: left;
   margin-left:0;
-  border: 2px solid #30504F;
+  border: 1px solid #30504F;
 }
 .footer-map {
   height: 200px;

@@ -1,16 +1,18 @@
 package com.roomOrder.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.util.JDBCUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class RoomOrderJDBCDAO implements I_RoomOrderDAO{
+public class RoomOrderDAO implements I_RoomOrderDAO{
 	private static final String INSERT = "INSERT INTO room_order (mem_no, type_no, start_date, end_date, rm_num, price, total_price, note, title, name, phone, email, payment, ord_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? , NOW())";
 	private static final String UPDATE = "UPDATE room_order SET ord_state = 4 WHERE start_date < CURDATE()";
 	private static final String CANCEL = "UPDATE room_order SET total_price = ?, ord_state = 3 WHERE ord_no = ?";
@@ -19,18 +21,20 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO{
 	private static final String GET_ALL = "SELECT * FROM room_order"; 
 	private static final String GET_ALL_BY_MEM = "SELECT * FROM room_order WHERE mem_no = ?";
 	
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(JDBCUtil.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public RoomOrderVO insert(RoomOrderVO roomOrderVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, roomOrderVO.getMem_no());
@@ -58,20 +62,19 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO{
 	@Override
 	public void update(RoomOrderVO roomOrderVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(UPDATE);
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
-		
 	}
 	
 	@Override
 	public void cancel(RoomOrderVO roomOrderVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(CANCEL);
 			
 			pstmt.setInt(1, roomOrderVO.getTotal_price());
@@ -87,7 +90,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO{
 	@Override
 	public void change(RoomOrderVO roomOrderVO) {
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(CHANGE);
 			
 			pstmt.setObject(1, roomOrderVO.getStart_date());
@@ -106,7 +109,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO{
 		RoomOrderVO roomOrderVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setInt(1, ord_no);
 			rs = pstmt.executeQuery();
@@ -143,7 +146,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO{
 		RoomOrderVO roomOrderVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -179,7 +182,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO{
 		RoomOrderVO roomOrderVO = null;
 		ResultSet rs = null;
 		
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+		try (Connection con = ds.getConnection()) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_MEM);
 			pstmt.setInt(1, mem_no);
 			rs = pstmt.executeQuery();
