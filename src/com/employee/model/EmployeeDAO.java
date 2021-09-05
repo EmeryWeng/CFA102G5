@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
 public class EmployeeDAO implements I_EmployeeDAO{
 	
 	//連線池
@@ -29,6 +30,7 @@ public class EmployeeDAO implements I_EmployeeDAO{
 		private static final String UPDATE_EMP ="UPDATE EMPLOYEE SET dep_no=?,emp_password=?, emp_name=?,emp_mail=?,emp_state=? WHERE emp_no=?";
 		private static final String GET_ONE_EMP ="SELECT * FROM EMPLOYEE WHERE emp_no=?";
 		private static final String GET_ONE_DEP ="SELECT * FROM EMPLOYEE WHERE dep_no=?";
+		private static final String LOGIN = "SELECT * FROM EMPLOYEE WHERE emp_mail=? and emp_password =?";
 		private static final String GET_ALL_EMP ="SELECT * FROM EMPLOYEE";
 		
 	@Override
@@ -274,5 +276,55 @@ public class EmployeeDAO implements I_EmployeeDAO{
 		}
 		return empAll;	
 		}
+
+	@Override
+	public EmployeeVO login(String emp_mail, String emp_password) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		EmployeeVO emp = null;
+		ResultSet rs = null;
+		try{
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(LOGIN);
+			pstmt.setString(1, emp_mail);
+			pstmt.setString(2, emp_password);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				emp = new EmployeeVO();
+				emp.setEmp_no(rs.getInt("emp_no"));
+				emp.setEmp_password(rs.getString("emp_password"));
+				emp.setEmp_name(rs.getString("emp_name"));
+				emp.setEmp_mail(rs.getString("emp_mail"));
+				emp.setEmp_state(rs.getBoolean("emp_state"));
+				emp.setDep_no(rs.getInt("dep_no"));
+			}
+			
+		}catch (SQLException se) {
+			throw new RuntimeException("A database error occured."+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				} 
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return emp;	
+	}
 
 }

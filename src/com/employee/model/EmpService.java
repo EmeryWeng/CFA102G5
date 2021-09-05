@@ -51,5 +51,8 @@ public class EmpService {
 	public List<EmployeeVO> getAllEmp(){
 		return dao.getAllEmp();
 	}
+	public EmployeeVO Login(String emp_mail,String emp_password) {
+		return dao.login(emp_mail, emp_password);
+	}
 	
 }

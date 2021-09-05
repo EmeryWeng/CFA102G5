@@ -15,6 +15,7 @@ public class EmployeeJDBCDAO implements I_EmployeeDAO{
 	private static final String UPDATE_EMP ="UPDATE EMPLOYEE SET dep_no=?,emp_password=?, emp_name=?,emp_mail=?,emp_state=? WHERE emp_no=?";
 	private static final String GET_ONE_EMP ="SELECT * FROM EMPLOYEE WHERE emp_no=?";
 	private static final String GET_ONE_DEP ="SELECT * FROM EMPLOYEE WHERE dep_no=?";
+	private static final String LOGIN = "SELECT * FROM EMPLOYEE WHERE emp_mail=? and emp_password =?";
 	private static final String GET_ALL_EMP ="SELECT * FROM EMPLOYEE";
 	
 	static {										//資料庫連線
@@ -185,6 +186,38 @@ public class EmployeeJDBCDAO implements I_EmployeeDAO{
 		
 		return empAll;
 	}
-	
+	@Override
+	public EmployeeVO login(String emp_mail, String emp_password) {
+		EmployeeVO emp = null;
+		ResultSet rs = null;
+		try(Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);	//輸入在try內會自動關閉
+				PreparedStatement pstmt = con.prepareStatement(LOGIN)
+				){
+			pstmt.setString(1, emp_mail);
+			pstmt.setString(2, emp_password);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				emp = new EmployeeVO();
+				emp.setEmp_no(rs.getInt("emp_no"));
+				emp.setEmp_password(rs.getString("emp_password"));
+				emp.setEmp_name(rs.getString("emp_name"));
+				emp.setEmp_mail(rs.getString("emp_mail"));
+				emp.setEmp_state(rs.getBoolean("emp_state"));
+				emp.setDep_no(rs.getInt("dep_no"));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return emp;	
+	}
 
 }
