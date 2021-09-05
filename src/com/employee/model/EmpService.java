@@ -10,11 +10,10 @@ public class EmpService {
 	}
 	
 	
-	public EmployeeVO addEmp(Integer emp_no,String emp_password,String emp_name,String emp_mail,Boolean emp_state,Integer dep_no) {
+	public EmployeeVO addEmp(String emp_password,String emp_name,String emp_mail,Boolean emp_state,Integer dep_no) {
 		
 		EmployeeVO employeeVO = new EmployeeVO();
 		
-		employeeVO.setEmp_no(emp_no);
 		employeeVO.setEmp_password(emp_password);
 		employeeVO.setEmp_name(emp_name);
 		employeeVO.setEmp_mail(emp_mail);

@@ -26,7 +26,7 @@ public class EmployeeDAO implements I_EmployeeDAO{
 			}
 		}
 		
-		private static final String INSERT_EMP ="INSERT INTO EMPLOYEE(emp_no,emp_password,emp_name,emp_mail,emp_state,dep_no)VALUES(?,?,?,?,?,?)";
+		private static final String INSERT_EMP ="INSERT INTO EMPLOYEE(emp_password,emp_name,emp_mail,emp_state,dep_no)VALUES(?,?,?,?,?)";
 		private static final String UPDATE_EMP ="UPDATE EMPLOYEE SET dep_no=?,emp_password=?, emp_name=?,emp_mail=?,emp_state=? WHERE emp_no=?";
 		private static final String GET_ONE_EMP ="SELECT * FROM EMPLOYEE WHERE emp_no=?";
 		private static final String GET_ONE_DEP ="SELECT * FROM EMPLOYEE WHERE dep_no=?";
@@ -42,12 +42,11 @@ public class EmployeeDAO implements I_EmployeeDAO{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_EMP,PreparedStatement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setString(1, null);
-			pstmt.setString(2, employeeVO.getEmp_password());
-			pstmt.setString(3, employeeVO.getEmp_name());
-			pstmt.setString(4, employeeVO.getEmp_mail());
-			pstmt.setBoolean(5, employeeVO.getEmp_state());
-			pstmt.setInt(6, employeeVO.getDep_no());
+			pstmt.setString(1, employeeVO.getEmp_password());
+			pstmt.setString(2, employeeVO.getEmp_name());
+			pstmt.setString(3, employeeVO.getEmp_mail());
+			pstmt.setBoolean(4, employeeVO.getEmp_state());
+			pstmt.setInt(5, employeeVO.getDep_no());
 			
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
