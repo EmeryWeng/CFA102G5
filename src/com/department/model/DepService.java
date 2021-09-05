@@ -31,6 +31,10 @@ public class DepService {
 		dao.updateDep(departmentVO);
 		return departmentVO;
 	}
+	
+	public DepartmentVO getOnePK(Integer dep_no) {
+		return dao.getDepPK(dep_no);
+	}
 
 	public List<DepartmentVO> getAll() {
 		return dao.getAllDep();

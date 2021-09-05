@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
 public class DepartmentDAO implements I_DepartmentDAO{
 	
 	//連線池
@@ -27,6 +28,7 @@ public class DepartmentDAO implements I_DepartmentDAO{
 	
 	private static final String INSERT_DEP ="INSERT INTO DEPARTMENT VALUES(?,?,?)";
 	private static final String UPDATE_DEP ="UPDATE DEPARTMENT SET dep_name=?,dep_state=? where dep_no=?";
+	private static final String GET_ONE_PK = "SELECT * FROM DEPARTMENT where dep_no = ?";
 	private static final String GET_ALL_DEP ="SELECT * FROM DEPARTMENT";
 	
 	@Override
@@ -161,5 +163,56 @@ public class DepartmentDAO implements I_DepartmentDAO{
 			}
 		}
 		return list;
+	}
+	@Override
+	public DepartmentVO getDepPK(Integer dep_no) {
+		DepartmentVO deptVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_PK);
+
+			pstmt.setInt(1, dep_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				deptVO = new DepartmentVO();
+				deptVO.setDep_no(rs.getInt("dep_no"));
+				deptVO.setDep_name(rs.getString("dep_name"));
+				deptVO.setDep_state(rs.getBoolean("dep_state"));
+			}
+
+		}catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return deptVO;
 	}
 }
