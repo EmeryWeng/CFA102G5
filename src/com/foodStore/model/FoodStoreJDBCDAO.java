@@ -7,13 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.util.JDBCUtil;
 
 public class FoodStoreJDBCDAO implements I_FoodStoreDAO{
 	
 	private static final String INSERT_FOOD_STORE ="INSERT INTO FOOD_STORE(fd_no,fd_name,fd_address,fd_longitude,fd_latitude,fd_service,fd_state,fd_class_no) VALUES(?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_FOOD_STORE ="UPDATE FOOD_STORE SET fd_class_no=?,fd_name=?, fd_address=?,fd_longitude=?,fd_latitude=?,fd_service=?,fd_state=? WHERE fd_no=?";
+	private static final String GET_ONE_FOOD ="SELECT * FROM FOOD_STORE WHERE fd_no=?";
 	private static final String GET_FK_CLASS ="SELECT * FROM FOOD_STORE WHERE fd_class_no=?";
 	private static final String GET_ALL_FOOD_STORE ="SELECT * FROM FOOD_STORE";
 	
@@ -158,4 +158,41 @@ public class FoodStoreJDBCDAO implements I_FoodStoreDAO{
 		return fdAll;
 	}
 
+	@Override
+	public FoodStoreVO getOneStore(Integer fd_no){
+		FoodStoreVO vo = null;
+		ResultSet rs = null;
+		try(Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);	//輸入在try內會自動關閉
+				PreparedStatement pstmt = con.prepareStatement(GET_ONE_FOOD)){
+			pstmt.setInt(1, fd_no);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				vo = new FoodStoreVO();
+				vo.setFd_no(rs.getInt("fd_no"));
+				vo.setFd_class_no(rs.getInt("fd_class_no"));
+				vo.setFd_name(rs.getString("fd_name"));
+				vo.setFd_address(rs.getString("fd_address"));
+				vo.setFd_longitude(rs.getDouble("fd_longitude"));
+				vo.setFd_latitude(rs.getDouble("fd_latitude"));
+				vo.setFd_service(rs.getString("fd_service"));
+				vo.setFd_state(rs.getBoolean("fd_state"));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return vo;	
+		
+	
+
+}
 }

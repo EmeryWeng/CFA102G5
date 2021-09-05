@@ -44,6 +44,9 @@ public class FoodStoreService {
 		dao.updateFoodStore(foodStoreVO);
 		return foodStoreVO;
 	}
+	public FoodStoreVO getOneStore(Integer fd_no) {
+		return dao.getOneStore(fd_no);
+	}
 	
 	public List<FoodStoreVO> getFoodInClass(Integer fd_class_no){
 		return dao.findfdByFK(fd_class_no);
