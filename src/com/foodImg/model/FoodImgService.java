@@ -38,5 +38,12 @@ public class FoodImgService {
 	public List<FoodImgVO> allImg(){
 		return dao.getAllImg();
 	}
+	public void deleteAcc(Integer fd_img_no) {
+		dao.delete(fd_img_no);
+	}
+	
+	public FoodImgVO findByPk(Integer fd_img_no) {
+		return dao.findimgByPK(fd_img_no);
+	}
 	
 }

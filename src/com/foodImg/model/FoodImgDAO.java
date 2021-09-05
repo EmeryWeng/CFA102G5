@@ -1,7 +1,5 @@
 package com.foodImg.model;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +28,9 @@ public class FoodImgDAO implements I_FoodImgDAO{
 	private static final String INSERT_IMG ="INSERT INTO FOOD_IMG(fd_no,fd_img) VALUES(?,?)";
 	private static final String UPDATE_IMG ="UPDATE FOOD_IMG SET fd_no=?,fd_img=? WHERE fd_img_no=?";
 	private static final String GET_FOODSTORE_IMG ="SELECT * FROM FOOD_IMG WHERE fd_no=?";
+	private static final String GET_PK ="SELECT * FROM FOOD_IMG WHERE fd_img_no=?";
 	private static final String GET_ALL_IMG ="SELECT * FROM FOOD_IMG";
+	private static final String DELETE_IMG = "DELETE FROM FOOD_IMG WHERE fd_img_no = ?";
 	@Override
 	public void insert(FoodImgVO foodImgVO) {
 		Connection con = null;
@@ -92,7 +92,6 @@ public class FoodImgDAO implements I_FoodImgDAO{
 			pstmt.setInt(3,foodImgVO.getFd_img_no());
 			
 			pstmt.executeUpdate();
-			System.out.println("修改一筆店家照片");
 			
 		}catch (SQLException se){
 			se.printStackTrace();
@@ -218,4 +217,88 @@ public class FoodImgDAO implements I_FoodImgDAO{
 		return imgAll;
 	}
 
+	@Override
+	public void delete(Integer fd_img_no) {
+		Connection con =null;
+		PreparedStatement pstmt =null;
+		try{
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(DELETE_IMG);
+			
+			pstmt.setInt(1, fd_img_no);
+
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+//			e.printStackTrace();
+			e.printStackTrace();
+			throw new RuntimeException("A database error occured."+e.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}catch(SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				}catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}  
+	}
+
+
+	public FoodImgVO findimgByPK(Integer fd_img_no) {
+		FoodImgVO fimg = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try{
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_PK);
+			
+			pstmt.setInt(1, fd_img_no);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				fimg = new FoodImgVO();
+				fimg.setFd_img_no(rs.getInt("fd_img_no"));
+				fimg.setFd_no(rs.getInt("fd_no"));
+				fimg.setFd_img(rs.getBytes("fd_img"));
+				
+			}
+			
+		}catch (SQLException se){
+			se.printStackTrace();
+			throw new RuntimeException("A database error occured."+se.getMessage());
+		}finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}catch(SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				}catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}  
+		return fimg;
+	}
 }
