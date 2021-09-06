@@ -1,70 +1,67 @@
 package com.activityClass.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.List;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import com.activityClass.model.ActivityClassService;
+import com.activityClass.model.ActivityClassVO;
 
 public class ActivityClassServlet extends HttpServlet {
-	private Connection con = null;
-	@Override
-	public void destroy() {
-		if(con != null) {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	@Override
-	public void init() {
-		try {
-			DataSource ds = (DataSource) new InitialContext()
-					.lookup("java:comp/env/jdbc/TestDB");
-			con = ds.getConnection();
-		}catch(NamingException ex) {
-			ex.printStackTrace();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
-	}
-	private static final long serialVersionUID = 1L;
-	
-    private final String sql = "INSERT INTO ACTIVITY_CLASS VALUES(?,?,?)";
-	
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-		res.setContentType("text/plain;charset=UTF-8");
-		String act_name = req.getParameter("name");
-		String act_state = req.getParameter("state");
-		try(PreparedStatement ps = con.prepareStatement(sql)){
-			ps.setString(1, null);
-			ps.setString(2,act_name);
-			ps.setBoolean(3,Boolean.parseBoolean(act_state));
-			ps.executeUpdate();
-			System.out.println("成功了");
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
-			
-	}
 
+	private static final long serialVersionUID = 1L;
+
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request,response);
+	}
 	
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		doGet(req, res);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		String action = request.getParameter("action");
+		ActivityClassService actClassService = new ActivityClassService();
+		
+		if("forwardAct".equals(action)) {
+			response.sendRedirect(request.getContextPath()+"/back_end/activity/actIndex.jsp");
+			return;
+		}
+		
+		if("addActClass".equals(action)) {
+			
+			String act_class_name = request.getParameter("actClassName");
+			ActivityClassVO actClassVO = actClassService.addActClass(act_class_name);
+			request.setAttribute("actClassVO",actClassVO);
+			
+			request.getRequestDispatcher("/back_end/activity/actIndex.jsp")
+			.forward(request, response);
+			
+			return;
+		}
+		
+		if("updateActClass".equals(action)) {
+			
+		}
+		
+		if("switchActClassState".equals(action)) {
+			
+		}
+		
+		if("getAllActClass".equals(action)) {
+			
+			List<ActivityClassVO> list = actClassService.getAll();
+			request.setAttribute("list",list);
+			
+			request.getRequestDispatcher("/back_end/activity/actIndex.jsp")
+			.forward(request, response);
+			
+			return;
+		}
+		
+
 	}
 	
 }
