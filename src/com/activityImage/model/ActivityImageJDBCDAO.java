@@ -198,7 +198,7 @@ public class ActivityImageJDBCDAO implements I_ActivityImageDAO {
 				actImageVO = new ActivityImageVO();
 				actImageVO.setAct_img_no(rs.getInt(1));
 				actImageVO.setAct_no(rs.getInt(2));
-				actImageVO.setAct_img(rs.getBytes(3));
+//				actImageVO.setAct_img(rs.getBytes(3)); //圖片由img src發請求
 				list.add(actImageVO);
 			}
 
