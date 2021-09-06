@@ -1,48 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
-  <display-name>CFA102G5</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
-  
-<!--   活動開始   -->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+	<display-name>CFA102G5</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
 
-  <servlet>
-  	<servlet-name>ActivityImageServlet</servlet-name>
-  	<servlet-class>com.activityImage.controller.ActivityImageServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ActivityImageServlet</servlet-name>
-  	<url-pattern>/activity/ActivityImage</url-pattern>
-  </servlet-mapping>
-  
- <!--   活動結束   -->
- 
- <!--   訂房開始   -->
+	<!-- 活動開始 -->
+	<servlet>
+		<servlet-name>ActivityClassServlet</servlet-name>
+		<servlet-class>com.activityClass.controller.ActivityClassServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityClassServlet</servlet-name>
+		<url-pattern>/activity/ActivityClass</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityImageServlet</servlet-name>
+		<servlet-class>com.activityImage.controller.ActivityImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityImageServlet</servlet-name>
+		<url-pattern>/activity/ActivityImage</url-pattern>
+	</servlet-mapping>
 
-  <servlet>
-  	<servlet-name>RoomImgServlet</servlet-name>
-  	<servlet-class>com.roomImg.controller.RoomImgServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>RoomImgServlet</servlet-name>
-  	<url-pattern>/room/RoomImg</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-  	<servlet-name>RoomTypeServlet</servlet-name>
-  	<servlet-class>com.roomImg.controller.RoomTypeServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>RoomTypeServlet</servlet-name>
-  	<url-pattern>/room/RoomType</url-pattern>
-  </servlet-mapping>
-  
- <!--   訂房結束   -->
-  
+	<!-- 活動結束 -->
+
 </web-app>
