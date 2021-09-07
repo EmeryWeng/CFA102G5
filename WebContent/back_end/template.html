@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Feliz Hotel Admin</title>
+	<link rel="icon" href="../assets/img/logo.ico" type="image/x-icon">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<link href="../assets/icons/flaticon/flaticon.css" rel="stylesheet">
+	<link href="../assets/icons/flaticon_1/flaticon_1.css" rel="stylesheet">
+	<link href="../assets/icons/icomoon/icomoon.css" rel="stylesheet">
+	<link href="../assets/icons/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	<link href="../assets/vendor/animate/animate.min.css" rel="stylesheet">
+	<link href="../assets/vendor/aos/css/aos.min.css" rel="stylesheet">
+	<link href="../assets/vendor/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+	<link href="../assets/vendor/metismenu/css/metisMenu.min.css" rel="stylesheet">
+	<link href="../assets/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+	<link href="../assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!-- loading -->
+	<div id="preloader">
+		<div class="waviy">
+			<span style="--i:1">F</span>
+			<span style="--i:2"></span>
+			<span style="--i:3">e</span>
+			<span style="--i:4">l</span>
+			<span style="--i:5"></span>
+			<span style="--i:6">i</span>
+			<span style="--i:7"></span>
+			<span style="--i:8">z</span>
+		</div>
+	</div>
+	<!-- loading end -->
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+
+	<!-- header -->
+	<div class="nav-header">
+		<a href="../index/index.jsp" class="brand-logo">
+			<img src="../assets/img/logo.png" alt="Logo">
+		</a>
+	</div>
+	<!-- 員工-->
+	<div class="header">
+		<div class="header-content">
+			<nav class="navbar navbar-expand">
+				<div class="collapse navbar-collapse justify-content-between">
+					<div class="header-left">
+						<div class="dashboard_bar" id="pagename">
+						</div>
+					</div>
+					<ul class="navbar-nav header-right">
+						<li class="nav-item dropdown header-profile">
+							<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
+								<div class="admin-icon">
+									<i class='bx bxs-user-circle' style='color:#996a4d'></i>
+								</div>
+								<div class="header-info ms-3">
+									<small>客服部</small>
+									<span>陳小胖</span>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end">
+								<a href="#" class="dropdown-item ai-icon">
+									<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
+										width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+										<circle cx="12" cy="7" r="4"></circle>
+									</svg>
+									<span class="ms-2">個人資料 </span>
+								</a>
+								<a href="#" class="dropdown-item ai-icon">
+									<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
+										width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+										<polyline points="16 17 21 12 16 7"></polyline>
+										<line x1="21" y1="12" x2="9" y2="12"></line>
+									</svg>
+									<span class="ms-2">Logout</span>
+								</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+
+	<!--**********************************
+            Sidebar start
+        ***********************************-->
+	<div class="deznav">
+		<div class="deznav-scroll">
+			<ul class="metismenu" id="menu">
+				<li>
+					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+						<i class="flaticon-050-info"></i>
+						<span class="nav-text">示範</span>
+					</a>
+					<ul aria-expanded="false">
+						<li><a href="#">這是不會展開的</a></li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">這是有下一層的</a>
+							<ul aria-expanded="false">
+								<li><a href="template.html">1...</a></li>
+								<li><a href="/test/template2.html">2...</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+						<i class='bx bxs-user-circle'></i>
+						<span class="nav-text">員工管理</span>
+					</a>
+					<ul aria-expanded="false">
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">員工資料管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">員工列表</a></li>
+								<li><a href="#">新增員工</a></li>
+							</ul>
+						</li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">部門管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">部門列表</a></li>
+								<li><a href="#">新增部門</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+						<i class='bx bxs-group'></i>
+						<span class="nav-text">會員管理</span>
+					</a>
+					<ul aria-expanded="false">
+						<li><a href="#">會員列表</a></li>
+					</ul>
+				</li>
+				<li>
+					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+						<i class='bx bxs-hotel'></i>
+						<span class="nav-text">房務管理</span>
+					</a>
+					<ul aria-expanded="false">
+						<li><a href="#">房型排程</a></li>
+						<li><a href="#">當日房務</a></li>
+						<li><a href="#">訂單管理</a></li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">房型管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">房型列表</a></li>
+								<li><a href="#">新增房型</a></li>
+							</ul>
+						</li>
+						<li><a href="#">房號管理</a></li>
+					</ul>
+				</li>
+				<li>
+					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+						<i class='bx bxs-tree'></i>
+						<span class="nav-text">活動管理</span>
+					</a>
+					<ul aria-expanded="false">
+						<li><a href="#">活動排程</a></li>
+						<li><a href="#">訂單管理</a></li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動類別管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+							</ul>
+						</li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+							</ul>
+						</li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動場次管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+							</ul>
+						</li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動促銷管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+						<i class='bx bxs-map'></i>
+						<span class="nav-text">美食地圖管理</span>
+					</a>
+					<ul aria-expanded="false">
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">店家類別</a>
+							<ul aria-expanded="false">
+								<li><a href="#">店家類別列表</a></li>
+								<li><a href="#">新增店家類別</a></li>
+							</ul>
+						</li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">店家管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">店家列表</a></li>
+								<li><a href="#">新增店家</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+						<i class='bx bxs-message'></i>
+						<span class="nav-text">客服管理</span>
+					</a>
+					<ul aria-expanded="false">
+						<li><a href="#">客服即時通</a></li>
+						<li><a href="#">客服案件管理</a></li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">機器人問答管理</a>
+							<ul aria-expanded="false">
+								<li><a href="#">問答列表</a></li>
+								<li><a href="#">新增問題</a></li>
+							</ul>
+						</li>
+						<li><a href="#">活動評論審核</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--**********************************
+            Sidebar end
+        ***********************************-->
+	<div class="ccc">
+
+	</div>
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<!-- Required vendors -->
+	<script src="../assets/vendor/global/global.min.js"></script>
+	<script src="../assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="../assets/js/custom.min.js"></script>
+	<script src="../assets/js/deznav-init.js"></script>
+	<script src="../assets/js/demo.js"></script>
+	<script src="../assets/js/styleSwitcher.js"></script>
+	<script>
+		$("#pagename").text("房間訂單管理");
+	</script>
+</body>
+
+</html>

@@ -77,7 +77,7 @@
 
                             <div class="col-lg-3 col-md-3">
                                 <input type="hidden" name="action" value="">
-                                <input class="default-btn btn-bg-one" type="submit" value="查看空房">
+                                <input class="btn btn-primary" type="submit" value="查看空房">
                             </div>
                         </div>
                     </form>
@@ -112,7 +112,7 @@
                                     <form>
                                         <input type="hidden" name="type_no"  value="${roomTypeVO.type_no}">
                                         <input type="hidden" name="action" value="delete">
-                                        <input class="default-btn btn-bg-one" type="submit" value="了解更多">
+                                        <input class="btn btn-primary" type="submit" value="了解更多">
                                     </form>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                                     <form>
                                         <input type="hidden" name="type_no"  value="${roomTypeVO.type_no}">
                                         <input type="hidden" name="action" value="delete">
-                                        <input class="default-btn btn-bg-one" type="submit" value="了解更多">
+                                        <input class="btn btn-primary" type="submit" value="了解更多">
                                     </form>
                                 </div>
                             </div>

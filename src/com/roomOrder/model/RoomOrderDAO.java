@@ -33,9 +33,12 @@ public class RoomOrderDAO implements I_RoomOrderDAO{
 	
 	@Override
 	public RoomOrderVO insert(RoomOrderVO roomOrderVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(INSERT);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, roomOrderVO.getMem_no());
 			pstmt.setInt(2, roomOrderVO.getType_no());

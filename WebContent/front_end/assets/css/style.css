@@ -158,16 +158,14 @@ img {
 /*================================
 Default Btn Style 
 ===================================*/
-.default-btn {
+.default-btn, btn {
   display: inline-block;
   padding: 12px 42px;
-  color: #ffffff;
   text-align: center;
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: all 0.7s;
-  box-shadow: 0px 4px 4px 1px rgba(179,140,97,0.2);
   border-radius: 50px;
   font-size: 16px;
   font-weight: 600;
@@ -175,15 +173,17 @@ Default Btn Style
   border: none;
 }
 
-.default-btn:hover {
+.default-btn:hover, btn:hover {
   color: white;
   background-color: rgba(179,140,97,0.8);
   box-shadow: 0px 0px 0px 0px rgba(179,140,97,0.2);
   transition: all 0.8s;
 }
 
-.btn-bg-one {
+.btn-bg-one, .btn-primary {
   background-color: #996A4D;
+  color: #ffffff;
+  box-shadow: 0px 4px 4px 1px rgba(179,140,97,0.2);
 }
 
 /*================================
