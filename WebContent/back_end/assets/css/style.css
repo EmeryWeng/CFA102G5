@@ -2191,13 +2191,13 @@
      --bs-table-active-bg: rgba(0, 0, 0, 0.1);
      --bs-table-hover-color: #969ba0;
      --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-     width: 100%;
+     width: 95%;
      margin-bottom: 1rem;
      color: #30504F;
      vertical-align: top;
      border-color: #F2F2F2
  }
- tr:nth-child(odd) {
+ .table tr:nth-child(even) {
     background-color: rgba(245,245,245,0.7);
  }
 
@@ -6175,9 +6175,11 @@
      margin: -.5rem -.5rem -.5rem auto
  }
 
- .modal-title {
+ .modal-header .modal-title {
      margin-bottom: 0;
-     line-height: 1.5
+     line-height: 1.5;
+     font-weight: 700;
+     color: #996A4D;
  }
 
  .modal-body {
@@ -31931,8 +31933,8 @@
      background: #fff;
      border-radius: 10rem;
      display: inline-block;
-     margin: -0.5rem 0.75rem -0.5rem -1.188rem;
-     padding: 0.5rem 0.80rem 0.5rem;
+     margin: -0.3rem 0.75rem -0.5rem -1rem;
+     padding: 0.2rem 0.30rem 0.1rem;
      float: left
  }
 
@@ -38391,3 +38393,8 @@
      margin-left: 330px;
      margin-bottom: 100px;
  }
+ 
+ .form-control:focus {
+    border-color: #30504F;
+    outline: 0;
+}
