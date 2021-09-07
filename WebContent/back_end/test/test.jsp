@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
+		<%@ include file="/back_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 	</head>
 
 	<body>
-		<%@ include file="../loading.file" %> <!-- loading -->
-		<%@ include file="../header.file" %> <!-- Header -->
-		<%@ include file="../sidebar.file" %> <!-- sidebar -->
+		<%@ include file="/back_end/loading.file" %> <!-- loading -->
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 
 		<div class="main-content">
 
@@ -191,7 +191,7 @@
 		</div>
 
 
-		<%@ include file="../commonJS.file" %> <!-- 基本JS檔案 -->
+		<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 		<script>
 // 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
 			$("#pagename").text("說明");

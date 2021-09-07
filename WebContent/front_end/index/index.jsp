@@ -2,11 +2,11 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
+        <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
     </head>
     <body>
-		<%@ include file="../loading.file" %> <!-- loading -->
-        <%@ include file="../header.file" %> <!-- Header -->
+		<%@ include file="/front_end/loading.file" %> <!-- loading -->
+        <%@ include file="/front_end/header.file" %> <!-- Header -->
 
         <!-- Banner Area -->
         <div class="banner-area">
@@ -242,9 +242,9 @@
         </div>
         <!-- Food Area End -->
 
-        <%@ include file="../message.file" %> <!-- Message --> 
-        <%@ include file="../footer.file" %> <!-- Footer -->      
-        <%@ include file="../commonJS.file" %> <!-- 基本JS檔案 -->
+        <%@ include file="/front_end/message.file" %> <!-- Message --> 
+        <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
+        <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
         <script>
 //         	$(`.nav-item:nth-child(3)>a`).attr('class', 'active');
         </script>      
