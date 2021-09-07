@@ -75,7 +75,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3 col-md-3">
+                            <div class="col-lg-3 col-md-3 row justify-content-center">
                                 <input type="hidden" name="action" value="">
                                 <input class="btn btn-primary" type="submit" value="查看空房">
                             </div>
@@ -99,7 +99,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-7">
                                 <div class="testimonials-img">
-                                    <img src="../assets/img/2_1.jpg" alt="Images">
+                                    <img src="<%=request.getContextPath()%>/front_end/assets/img/2_1.jpg" alt="Images">
                                 </div>
                             </div>
         
@@ -123,7 +123,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-7">
                                 <div class="testimonials-img">
-                                    <img src="../assets/img/1_2.jpg" alt="Images">
+                                    <img src="<%=request.getContextPath()%>/front_end/assets/img/1_2.jpg" alt="Images">
                                 </div>
                             </div>
         
@@ -159,7 +159,7 @@
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
                             <a href="活動內頁.html">
-                                <img src="../assets/img/room-img.jpg" alt="Images">
+                                <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images">
                                 <div class="content">
                                     <i class='bx bxs-medal no1'></i>
                                     <h5>海洋賞鯨導覽體驗</h5>
@@ -178,7 +178,7 @@
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
                             <a href="活動內頁.html">
-                                <img src="../assets/img/room-img.jpg" alt="Images">
+                                <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images">
                                 <div class="content">
                                     <i class='bx bxs-medal no2'></i>
                                     <h5>海洋賞鯨導覽體驗</h5>
@@ -197,7 +197,7 @@
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
                             <a href="活動內頁.html">
-                                <img src="../assets/img/room-img.jpg" alt="Images">
+                                <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images">
                                 <div class="content">
                                     <i class='bx bxs-medal no3'></i>
                                     <h5>海洋賞鯨導覽體驗</h5>
@@ -234,7 +234,7 @@
                     
                     <div class="col-lg-6">
                         <div class="reservation-img">
-                            <img src="../assets/img/index_food1.jpg" alt="Images">
+                        	<img src="<%=request.getContextPath()%>/front_end/assets/img/index_food1.jpg">
                         </div>
                     </div>
                 </div>
