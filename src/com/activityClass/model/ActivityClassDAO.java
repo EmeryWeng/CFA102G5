@@ -19,6 +19,7 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_CLASS";
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_CLASS VALUES(?,?,?)";
 	private final String UPDATE_SQL = "UPDATE ACTIVITY_CLASS SET act_class_name = ?,act_class_state = ? WHERE act_class_no = ?";
+	private final String SWITCH_ACTIVITY_CLASS_STATE = "UPDATE ACTIVITY_CLASS SET act_class_state = ? WHERE act_class_no = ?";
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_CLASS WHERE act_class_no = ?";
 	
 	static {	
@@ -119,6 +120,31 @@ public class ActivityClassDAO implements I_ActivityClassDAO{
 		}
 		
 		return actClassVO;
+	}
+
+	@Override
+	public void switchActivityClassState(Integer act_class_no, Boolean act_class_state) {
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(SWITCH_ACTIVITY_CLASS_STATE);
+			
+			ps.setBoolean(1,act_class_state);
+			ps.setInt(2,act_class_no);
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override

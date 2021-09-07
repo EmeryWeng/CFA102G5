@@ -33,7 +33,9 @@ public class ActivityClassService {
 	public ActivityClassVO getActClassByPk(Integer act_class_no) {
 		return dao.findByPk(act_class_no);
 	}
-	
+	public void switchActClassState(Integer act_class_no,Boolean act_class_state) {
+		dao.switchActivityClassState(act_class_no, act_class_state);
+	}
 	public List<ActivityClassVO> getAll() {
 		return dao.getAll();
 	}

@@ -16,6 +16,7 @@ public class ActivityClassJDBCDAO implements I_ActivityClassDAO {
 	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_CLASS";
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_CLASS VALUES(?,?,?)";
 	private final String UPDATE_SQL = "UPDATE ACTIVITY_CLASS SET act_class_name = ?,act_class_state = ? WHERE act_class_no = ?";
+	private final String SWITCH_ACTIVITY_CLASS_STATE = "UPDATE ACTIVITY_CLASS SET act_class_state = ? WHERE act_class_no = ?";
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_CLASS WHERE act_class_no = ?";
 	
 	static {
@@ -119,6 +120,32 @@ public class ActivityClassJDBCDAO implements I_ActivityClassDAO {
 	}
 
 	@Override
+	public void switchActivityClassState(Integer act_class_no,Boolean act_class_state) {
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
+			PreparedStatement ps = con.prepareStatement(SWITCH_ACTIVITY_CLASS_STATE);
+			
+			ps.setBoolean(1,act_class_state);
+			ps.setInt(2,act_class_no);
+			ps.executeUpdate();
+			
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
+	
+
+	@Override
 	public List<ActivityClassVO> getAll() {
 		List<ActivityClassVO> list = new ArrayList<>();
 		ActivityClassVO actClassVO = null;
@@ -160,14 +187,13 @@ public class ActivityClassJDBCDAO implements I_ActivityClassDAO {
 //		vo.setAct_class_state(true);
 //		ActivityClassVO vo = dao.insert(vo);
 //		dao.update(vo);
-		ActivityClassVO vo = dao.findByPk(3);
-		
-		
+//		ActivityClassVO vo = dao.findByPk(3);
+		dao.switchActivityClassState(5, false);
 //		System.out.println(vo);
 		
 //		List<ActivityClassVO> list = dao.getAll();
 //		for(ActivityClassVO vo : list) 
-			System.out.println(vo);
+//			System.out.println(vo);
 		
 		
 	}
