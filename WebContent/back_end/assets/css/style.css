@@ -38,8 +38,8 @@
     --font-family-title: Roboto, sans-serif;
     --title: #000
 }
-i {
-    font-size: 36px;
+.btn i {
+    font-size: 22px;
 }
 .admin-icon>i {
     margin-top: 10px;
@@ -31920,12 +31920,11 @@ i {
  }
 
  .btn-icon-end {
-     border-left: 0.0625rem solid white;
      display: inline-block;
-     margin: -.8rem 0 -.8rem 1rem;
-     padding: 0.4375rem 0 0.4375rem 1rem;
-     margin: -1rem -0.25rem -1rem 1rem;
-     padding: 1rem 0 1rem 1.25rem
+     margin: -.8rem 0 -.8rem .3rem;
+     padding: 0.4375rem 0 0.4375rem .3rem;
+     margin: -1rem -0.25rem -1rem .3rem;
+     padding: 1rem 0 1rem .3rem
  }
 
  .btn-icon-start {
@@ -38388,7 +38387,7 @@ i {
  }/*# sourceMappingURL=style.css.map */
 
  div.main-content {
-     margin-top: 120px;
+     margin-top: 110px;
      margin-left: 330px;
-     height: 2000px;
+     margin-bottom: 100px;
  }
