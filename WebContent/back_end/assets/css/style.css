@@ -4,16 +4,16 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
-/* @import url("./../icons/simple-line-icons/css/simple-line-icons.css");
+@import url("./../icons/simple-line-icons/css/simple-line-icons.css");
 @import url("./../icons/fontawesome/css/all.min.css");
 @import url("./../icons/material-design-iconic-font/css/materialdesignicons.min.css");
 @import url("./../icons/themify-icons/css/themify-icons.css");
 @import url("./../icons/line-awesome/css/line-awesome.min.css");
-@import url("./../icons/avasta/css/style.css"); */
+@import url("./../icons/avasta/css/style.css");
 @import url("./../icons/flaticon/flaticon.css");
 @import url("./../icons/flaticon_1/flaticon_1.css");
-/* @import url("./../icons/icomoon/icomoon.css");
-@import url("./../icons/bootstrap-icons/font/bootstrap-icons.css"); */
+@import url("./../icons/icomoon/icomoon.css");
+@import url("./../icons/bootstrap-icons/font/bootstrap-icons.css");
 @import url(./../vendor/animate/animate.min.css);
 @import url(./../vendor/aos/css/aos.min.css);
 @import url(./../vendor/perfect-scrollbar/css/perfect-scrollbar.css);
@@ -38,8 +38,8 @@
     --font-family-title: Roboto, sans-serif;
     --title: #000
 }
-i {
-    font-size: 36px;
+.btn i {
+    font-size: 22px;
 }
 .admin-icon>i {
     margin-top: 10px;
@@ -2191,13 +2191,13 @@ i {
      --bs-table-active-bg: rgba(0, 0, 0, 0.1);
      --bs-table-hover-color: #969ba0;
      --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-     width: 100%;
+     width: 95%;
      margin-bottom: 1rem;
      color: #30504F;
      vertical-align: top;
      border-color: #F2F2F2
  }
- tr:nth-child(odd) {
+ .table tr:nth-child(even) {
     background-color: rgba(245,245,245,0.7);
  }
 
@@ -6175,9 +6175,11 @@ i {
      margin: -.5rem -.5rem -.5rem auto
  }
 
- .modal-title {
+ .modal-header .modal-title {
      margin-bottom: 0;
-     line-height: 1.5
+     line-height: 1.5;
+     font-weight: 700;
+     color: #996A4D;
  }
 
  .modal-body {
@@ -31920,20 +31922,19 @@ i {
  }
 
  .btn-icon-end {
-     border-left: 0.0625rem solid white;
      display: inline-block;
-     margin: -.8rem 0 -.8rem 1rem;
-     padding: 0.4375rem 0 0.4375rem 1rem;
-     margin: -1rem -0.25rem -1rem 1rem;
-     padding: 1rem 0 1rem 1.25rem
+     margin: -.8rem 0 -.8rem .3rem;
+     padding: 0.4375rem 0 0.4375rem .3rem;
+     margin: -1rem -0.25rem -1rem .3rem;
+     padding: 1rem 0 1rem .3rem
  }
 
  .btn-icon-start {
      background: #fff;
      border-radius: 10rem;
      display: inline-block;
-     margin: -0.5rem 0.75rem -0.5rem -1.188rem;
-     padding: 0.5rem 0.80rem 0.5rem;
+     margin: -0.3rem 0.75rem -0.5rem -1rem;
+     padding: 0.2rem 0.30rem 0.1rem;
      float: left
  }
 
@@ -38385,10 +38386,15 @@ i {
 
  [data-theme-version="dark"] .footer .copyright a {
      color: #fff
- }/*# sourceMappingURL=style.css.map */
+ }
 
  div.main-content {
-     margin-top: 120px;
+     margin-top: 110px;
      margin-left: 330px;
-     height: 2000px;
+     margin-bottom: 100px;
  }
+ 
+ .form-control:focus {
+    border-color: #30504F;
+    outline: 0;
+}

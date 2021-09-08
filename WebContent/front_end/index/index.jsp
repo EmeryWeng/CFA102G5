@@ -2,11 +2,11 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
+        <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
     </head>
     <body>
-		<%@ include file="../loading.file" %> <!-- loading -->
-        <%@ include file="../header.file" %> <!-- Header -->
+		<%@ include file="/front_end/loading.file" %> <!-- loading -->
+        <%@ include file="/front_end/header.file" %> <!-- Header -->
 
         <!-- Banner Area -->
         <div class="banner-area">
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3 col-md-3">
+                            <div class="col-lg-3 col-md-3 row justify-content-center">
                                 <input type="hidden" name="action" value="">
                                 <input class="btn btn-primary" type="submit" value="查看空房">
                             </div>
@@ -99,7 +99,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-7">
                                 <div class="testimonials-img">
-                                    <img src="../assets/img/2_1.jpg" alt="Images">
+                                    <img src="<%=request.getContextPath()%>/front_end/assets/img/2_1.jpg" alt="Images">
                                 </div>
                             </div>
         
@@ -123,7 +123,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-7">
                                 <div class="testimonials-img">
-                                    <img src="../assets/img/1_2.jpg" alt="Images">
+                                    <img src="<%=request.getContextPath()%>/front_end/assets/img/1_2.jpg" alt="Images">
                                 </div>
                             </div>
         
@@ -159,7 +159,7 @@
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
                             <a href="活動內頁.html">
-                                <img src="../assets/img/room-img.jpg" alt="Images">
+                                <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images">
                                 <div class="content">
                                     <i class='bx bxs-medal no1'></i>
                                     <h5>海洋賞鯨導覽體驗</h5>
@@ -178,7 +178,7 @@
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
                             <a href="活動內頁.html">
-                                <img src="../assets/img/room-img.jpg" alt="Images">
+                                <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images">
                                 <div class="content">
                                     <i class='bx bxs-medal no2'></i>
                                     <h5>海洋賞鯨導覽體驗</h5>
@@ -197,7 +197,7 @@
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
                             <a href="活動內頁.html">
-                                <img src="../assets/img/room-img.jpg" alt="Images">
+                                <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images">
                                 <div class="content">
                                     <i class='bx bxs-medal no3'></i>
                                     <h5>海洋賞鯨導覽體驗</h5>
@@ -234,7 +234,7 @@
                     
                     <div class="col-lg-6">
                         <div class="reservation-img">
-                            <img src="../assets/img/index_food1.jpg" alt="Images">
+                        	<img src="<%=request.getContextPath()%>/front_end/assets/img/index_food1.jpg">
                         </div>
                     </div>
                 </div>
@@ -242,9 +242,9 @@
         </div>
         <!-- Food Area End -->
 
-        <%@ include file="../message.file" %> <!-- Message --> 
-        <%@ include file="../footer.file" %> <!-- Footer -->      
-        <%@ include file="../commonJS.file" %> <!-- 基本JS檔案 -->
+        <%@ include file="/front_end/message.file" %> <!-- Message --> 
+        <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
+        <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
         <script>
 //         	$(`.nav-item:nth-child(3)>a`).attr('class', 'active');
         </script>      
