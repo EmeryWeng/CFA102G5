@@ -24,38 +24,56 @@ public class ActivityClassServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String action = request.getParameter("action");
 		ActivityClassService actClassService = new ActivityClassService();
-		
-		if("forwardAct".equals(action)) {
-			response.sendRedirect(request.getContextPath()+"/back_end/activity/actIndex.jsp");
+
+		//新增活動類別
+		if ("addActClass".equals(action)) {
+
+			String act_class_name = request.getParameter("actClassName");
+
+			ActivityClassVO actClassVO = actClassService.addActClass(act_class_name);
+			List<ActivityClassVO> list = actClassService.getAll();
+			request.setAttribute("selectActClassList", list);
+			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
+			.forward(request, response);
+
+			return;
+			
+		}
+		//修改活動類別
+		if("updateActClass".equals(action)) {
+			String act_class_no = request.getParameter("actClassNo");
+			String act_class_name = request.getParameter("actClassName");
+			String act_class_state = request.getParameter("actClassState");
+			actClassService.updateActClass(new Integer(act_class_no),act_class_name, new Boolean(act_class_state));
+
+			List<ActivityClassVO> list = actClassService.getAll();
+			request.setAttribute("selectActClassList", list);
+			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
+			.forward(request, response);
+
 			return;
 		}
-		
-		if("addActClass".equals(action)) {
+		//切換活動類別狀態
+		if("switchActClassState".equals(action)) {
+			String act_class_no = request.getParameter("actClassNo");
+			String act_class_state = request.getParameter("actClassState");			
+			actClassService.switchActClassState(new Integer(act_class_no), new Boolean(act_class_state.equals("true") ? "false" : "true"));
+
+			List<ActivityClassVO> list = actClassService.getAll();
+			request.setAttribute("selectActClassList",list);
 			
-			String act_class_name = request.getParameter("actClassName");
-			ActivityClassVO actClassVO = actClassService.addActClass(act_class_name);
-			request.setAttribute("actClassVO",actClassVO);
-			
-			request.getRequestDispatcher("/back_end/activity/actIndex.jsp")
+			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
 			.forward(request, response);
 			
 			return;
 		}
-		
-		if("updateActClass".equals(action)) {
-			
-		}
-		
-		if("switchActClassState".equals(action)) {
-			
-		}
-		
+		//查全部
 		if("getAllActClass".equals(action)) {
 			
 			List<ActivityClassVO> list = actClassService.getAll();
-			request.setAttribute("list",list);
+			request.setAttribute("selectActClassList",list);
 			
-			request.getRequestDispatcher("/back_end/activity/actIndex.jsp")
+			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
 			.forward(request, response);
 			
 			return;
