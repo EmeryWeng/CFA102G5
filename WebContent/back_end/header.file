@@ -2,7 +2,7 @@
 	<!-- LOGO -->
 	<div class="nav-header">
 		<a href="../index/index.jsp" class="brand-logo">
-			<img src="../assets/img/logo.png" alt="Logo">
+			<img src="<%=request.getContextPath()%>/back_end/assets/img/logo.png" alt="Logo">
 		</a>
 	</div>
 	<!-- 管理員-->
