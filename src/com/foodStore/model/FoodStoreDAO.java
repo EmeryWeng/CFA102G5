@@ -23,7 +23,7 @@ public class FoodStoreDAO implements I_FoodStoreDAO{
 				e.printStackTrace();
 			}
 		}
-	private static final String INSERT_FOOD_STORE ="INSERT INTO FOOD_STORE(fd_no,fd_name,fd_address,fd_longitude,fd_latitude,fd_service,fd_state,fd_class_no) VALUES(?,?,?,?,?,?,?,?)";
+	private static final String INSERT_FOOD_STORE ="INSERT INTO FOOD_STORE(fd_name,fd_address,fd_longitude,fd_latitude,fd_service,fd_state,fd_class_no) VALUES(?,?,?,?,?,?,?)";
 	private static final String UPDATE_FOOD_STORE ="UPDATE FOOD_STORE SET fd_class_no=?,fd_name=?, fd_address=?,fd_longitude=?,fd_latitude=?,fd_service=?,fd_state=? WHERE fd_no=?";
 	private static final String GET_ONE_FOOD ="SELECT * FROM FOOD_STORE WHERE fd_no=?";
 	private static final String GET_FK_CLASS ="SELECT * FROM FOOD_STORE WHERE fd_class_no=?";
@@ -39,14 +39,14 @@ public class FoodStoreDAO implements I_FoodStoreDAO{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_FOOD_STORE,PreparedStatement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setString(1, null);
-			pstmt.setString(2, foodstoreVO.getFd_name());
-			pstmt.setString(3, foodstoreVO.getFd_address());
-			pstmt.setDouble(4, foodstoreVO.getFd_longitude());
-			pstmt.setDouble(5, foodstoreVO.getFd_latitude());
-			pstmt.setString(6, foodstoreVO.getFd_service());
-			pstmt.setBoolean(7, foodstoreVO.getFd_state());
-			pstmt.setInt(8, foodstoreVO.getFd_class_no());
+
+			pstmt.setString(1, foodstoreVO.getFd_name());
+			pstmt.setString(2, foodstoreVO.getFd_address());
+			pstmt.setDouble(3, foodstoreVO.getFd_longitude());
+			pstmt.setDouble(4, foodstoreVO.getFd_latitude());
+			pstmt.setString(5, foodstoreVO.getFd_service());
+			pstmt.setBoolean(6, foodstoreVO.getFd_state());
+			pstmt.setInt(7, foodstoreVO.getFd_class_no());
 			
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();

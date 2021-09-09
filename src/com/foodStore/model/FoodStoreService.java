@@ -9,12 +9,12 @@ public class FoodStoreService {
 		dao = new FoodStoreDAO();
 	}
 	
-	public FoodStoreVO addFoodStore(Integer fd_no,String fd_name,String fd_address,Double fd_longitude,
+	public FoodStoreVO addFoodStore(String fd_name,String fd_address,Double fd_longitude,
 			Double fd_latitude,String fd_service,Boolean fd_state,Integer fd_class_no) {
 		
 		FoodStoreVO foodStoreVO = new FoodStoreVO();
 		
-		foodStoreVO.setFd_no(fd_no);
+
 		foodStoreVO.setFd_name(fd_name);
 		foodStoreVO.setFd_address(fd_address);
 		foodStoreVO.setFd_longitude(fd_longitude);
@@ -48,11 +48,11 @@ public class FoodStoreService {
 		return dao.getOneStore(fd_no);
 	}
 	
-	public List<FoodStoreVO> getFoodInClass(Integer fd_class_no){
+	public List<FoodStoreVO> findfdByFK(Integer fd_class_no){
 		return dao.findfdByFK(fd_class_no);
 	}
 	
-	public List<FoodStoreVO> getAllFoodClass(){
+	public List<FoodStoreVO> getAllFoodStore(){
 		return dao.getAllFoodStore();
 	}
 	
