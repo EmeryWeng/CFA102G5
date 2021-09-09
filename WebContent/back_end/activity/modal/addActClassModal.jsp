@@ -14,7 +14,7 @@
 				<form id="addActClassForm" method="post"
 					action="<%=request.getContextPath()%>/activity/ActivityClass">
 					<label for="actClassName">活動類別名稱</label> 
-					<input class="form-control form-control-lg" type="text" id="actClassName" name="actClassName" placeholder="請輸入" autofocus> 
+					<input class="form-control form-control-lg" type="text" id="actClassName" name="actClassName" placeholder="請輸入名稱" autofocus> 
 					<input type="hidden" name="action" value="addActClass">
 				</form>
 			</div>
