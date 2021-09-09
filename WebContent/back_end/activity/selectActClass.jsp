@@ -11,9 +11,13 @@
 		font-size:20px;
 		color:deeppink;
 	}
-	table td{
-		color:blue;
-		font-size:20px;
+	table.dataTable tbody td{
+		color:#00AEAE;
+		font-size:2rem;
+	}
+	table.dataTable thead th{
+		color:#FF0080;
+		font-size:2rem;
 	}
 	.upstate{
 		color:#28FF28;
@@ -21,6 +25,16 @@
 	.downstate{
 		color:#FF2D2D;
 	}
+	@media only screen and (max-width: 87.5rem)
+			table.dataTable tbody td {
+    	font-size: 2rem;
+    	padding: 0.5rem 0.9375rem;
+	}
+	@media only screen and (max-width: 87.5rem)
+			table.dataTable thead th {
+    	font-size: 2rem;
+	}
+	
 </style>
 </head>
 <body>
@@ -100,7 +114,7 @@
 			 $(this).find('[autofocus]').focus();
 		});
 	});
-
+	
 	function sendRequest(formObject){
 		let elements = formObject.elements;
 		let inputElement = elements["actClassName"];
