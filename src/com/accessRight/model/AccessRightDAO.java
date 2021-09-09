@@ -131,7 +131,22 @@ public class AccessRightDAO implements I_AccessRightDAO{
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}catch(SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				}catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}  
 	}
 
 	@Override

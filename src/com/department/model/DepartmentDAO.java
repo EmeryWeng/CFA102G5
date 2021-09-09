@@ -26,7 +26,7 @@ public class DepartmentDAO implements I_DepartmentDAO{
 		}
 	}
 	
-	private static final String INSERT_DEP ="INSERT INTO DEPARTMENT VALUES(?,?,?)";
+	private static final String INSERT_DEP ="INSERT INTO DEPARTMENT(dep_name,dep_state) VALUES(?,?)";
 	private static final String UPDATE_DEP ="UPDATE DEPARTMENT SET dep_name=?,dep_state=? where dep_no=?";
 	private static final String GET_ONE_PK = "SELECT * FROM DEPARTMENT where dep_no = ?";
 	private static final String GET_ALL_DEP ="SELECT * FROM DEPARTMENT";
@@ -40,9 +40,8 @@ public class DepartmentDAO implements I_DepartmentDAO{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_DEP,PreparedStatement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setString(1,null);
-			pstmt.setString(2, departmentVO.getDep_name());
-			pstmt.setBoolean(3, departmentVO.getDep_state());
+			pstmt.setString(1, departmentVO.getDep_name());
+			pstmt.setBoolean(2, departmentVO.getDep_state());
 			
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();

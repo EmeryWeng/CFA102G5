@@ -9,10 +9,9 @@ public class DepService {
 		dao = new DepartmentDAO();
 	}
 
-	public DepartmentVO addDep(Integer dep_no, String dep_name, Boolean dep_state) {
+	public DepartmentVO addDep(String dep_name, Boolean dep_state) {
 
 		DepartmentVO departmentVO = new DepartmentVO();
-		departmentVO.setDep_no(dep_no);
 		departmentVO.setDep_name(dep_name);
 		departmentVO.setDep_state(dep_state);
 
