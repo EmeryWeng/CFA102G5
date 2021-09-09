@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 
 public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO {
 
@@ -40,9 +40,11 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 	
 	@Override
 	public ActivityPromotionDetailVO insert(ActivityPromotionDetailVO actPromotionDetailVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setInt(1, actPromotionDetailVO.getAct_promotion_no()); 
 			ps.setInt(2, actPromotionDetailVO.getAct_class_no());
@@ -56,16 +58,26 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actPromotionDetailVO;
 	}
 
 	@Override
 	public void update(ActivityPromotionDetailVO actPromotionDetailVO) {
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setDouble(1, actPromotionDetailVO.getAct_discount_price());
 			ps.setInt(2,actPromotionDetailVO.getAct_promotion_no()); 
@@ -73,17 +85,27 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
 	public List<ActivityPromotionDetailVO> findByActPromotionNo(Integer act_promotion_no) {
 		List<ActivityPromotionDetailVO> list = new ArrayList<>();
 		ActivityPromotionDetailVO actPromotionDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_PROMOTION_NO_SQL);
 			ps.setInt(1, act_promotion_no);
 			rs = ps.executeQuery();
@@ -97,7 +119,15 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -107,9 +137,11 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 	public List<ActivityPromotionDetailVO> findByActClassNo(Integer act_class_no) {
 		List<ActivityPromotionDetailVO> list = new ArrayList<>();
 		ActivityPromotionDetailVO actPromotionDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_CLASS_NO_SQL);
 			ps.setInt(1, act_class_no);
 			rs = ps.executeQuery();
@@ -123,7 +155,15 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -133,9 +173,11 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 	public List<ActivityPromotionDetailVO> getAll() {
 		List<ActivityPromotionDetailVO> list = new ArrayList<>();
 		ActivityPromotionDetailVO actPromotionDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -147,7 +189,15 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -158,10 +208,11 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 		Map<String, String[]> joinMap = new HashMap<>();
 		int position = 0;
 		String[] columnArray = null;
-		
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACTIVITY_PROMOTION_DETAIL_JOIN_ACTIVITY_CLASS_SQL);
 			rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -174,7 +225,15 @@ public class ActivityPromotionDetailDAO implements I_ActivityPromotionDetailDAO 
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return joinMap;

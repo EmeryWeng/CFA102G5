@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 
 
 public class ActivityPromotionDAO implements I_ActivityPromotionDAO {
@@ -32,9 +32,11 @@ public class ActivityPromotionDAO implements I_ActivityPromotionDAO {
 	
 	@Override
 	public ActivityPromotionVO insert(ActivityPromotionVO actPromotionVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null); // AI
 			ps.setString(2, actPromotionVO.getAct_promotion_name());
@@ -48,16 +50,26 @@ public class ActivityPromotionDAO implements I_ActivityPromotionDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actPromotionVO;
 	}
 
 	@Override
 	public void update(ActivityPromotionVO actPromotionVO) {
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setString(1, actPromotionVO.getAct_promotion_name());
 			ps.setObject(2, actPromotionVO.getAct_promotion_start_date());
@@ -66,16 +78,26 @@ public class ActivityPromotionDAO implements I_ActivityPromotionDAO {
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
 	public ActivityPromotionVO findByPk(Integer act_promotion_no) {
 		ActivityPromotionVO actPromotionVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1, act_promotion_no);
 			rs = ps.executeQuery();
@@ -89,8 +111,16 @@ public class ActivityPromotionDAO implements I_ActivityPromotionDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actPromotionVO;
 	}
@@ -99,9 +129,11 @@ public class ActivityPromotionDAO implements I_ActivityPromotionDAO {
 	public List<ActivityPromotionVO> getAll() {
 		List<ActivityPromotionVO> list = new ArrayList<>();
 		ActivityPromotionVO actPromotionVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -114,8 +146,16 @@ public class ActivityPromotionDAO implements I_ActivityPromotionDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}

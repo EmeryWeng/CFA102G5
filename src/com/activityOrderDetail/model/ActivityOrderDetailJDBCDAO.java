@@ -33,9 +33,11 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 	
 	@Override
 	public ActivityOrderDetailVO insert(ActivityOrderDetailVO actOrderDetailVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1,null);
 			ps.setInt(2,actOrderDetailVO.getAct_order_no());
@@ -53,16 +55,26 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actOrderDetailVO;
 	}
 
 	@Override
 	public void update(ActivityOrderDetailVO actOrderDetailVO) {
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setInt(1,actOrderDetailVO.getAct_order_no());
 			ps.setInt(2,actOrderDetailVO.getAct_session_no());
@@ -76,16 +88,26 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
 	public ActivityOrderDetailVO findByPk(Integer act_order_detail_no) {
 		ActivityOrderDetailVO actOrderDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1,act_order_detail_no);
 			rs = ps.executeQuery();	
@@ -102,8 +124,16 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actOrderDetailVO;
 	}
@@ -112,9 +142,11 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 	public List<ActivityOrderDetailVO> findByActOrderNo(Integer act_order_no) {
 		List<ActivityOrderDetailVO> list = new ArrayList<>();
 		ActivityOrderDetailVO actOrderDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_ORDER_NO_SQL);
 			ps.setInt(1, act_order_no);
 			rs = ps.executeQuery();
@@ -133,8 +165,16 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -143,9 +183,11 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 	public List<ActivityOrderDetailVO> findByActSessionNo(Integer act_session_no) {
 		List<ActivityOrderDetailVO> list = new ArrayList<>();
 		ActivityOrderDetailVO actOrderDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_SESSION_NO_SQL);
 			ps.setInt(1, act_session_no);
 			rs = ps.executeQuery();
@@ -164,8 +206,16 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -174,9 +224,11 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 	public List<ActivityOrderDetailVO> getActOrderDetailState(Integer act_order_detail_state) {
 		List<ActivityOrderDetailVO> list = new ArrayList<>();
 		ActivityOrderDetailVO actOrderDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_ORDER_DETAIL_STATE_SQL);
 			
 			ps.setInt(1,act_order_detail_state);
@@ -195,8 +247,16 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -205,9 +265,11 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 	public List<ActivityOrderDetailVO> getAll() {
 		List<ActivityOrderDetailVO> list = new ArrayList<>();
 		ActivityOrderDetailVO actOrderDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();	
 			while (rs.next()) {
@@ -224,8 +286,16 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -247,8 +317,8 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 //		vo = dao.findByPk(1);
 //		List<ActivityOrderDetailVO> list =dao.findByActOrderNo(2);
 //		List<ActivityOrderDetailVO> list =dao.findByActSessionNo(2);
-//		List<ActivityOrderDetailVO> list = dao.getAll();
-		List<ActivityOrderDetailVO> list = dao.getActOrderDetailState(3);
+		List<ActivityOrderDetailVO> list = dao.getAll();
+//		List<ActivityOrderDetailVO> list = dao.getActOrderDetailState(3);
 		for(ActivityOrderDetailVO vo : list)
 		System.out.println(vo);
 	}

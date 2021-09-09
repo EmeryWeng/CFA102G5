@@ -9,48 +9,48 @@ public class RoomRsvTest {
 		I_RoomRsvDAO dao = new RoomRsvJDBCDAO();
 		
 		// 新增
-//		RoomRsvVO roomrsv = new RoomRsvVO();
-//		roomrsv.setRsv_date(LocalDate.of(2021,12,31));
-//		roomrsv.setType_no(5);
-//		roomrsv.setRm_total(2);
-//		roomrsv.setRsv_total(1);
-//		dao.insert(roomrsv);
+//		RoomRsvVO roomRsvVO = new RoomRsvVO();
+//		roomRsvVO.setRsv_date(LocalDate.of(2021,12,31));
+//		roomRsvVO.setType_no(5);
+//		roomRsvVO.setRm_total(2);
+//		roomRsvVO.setRsv_total(1);
+//		dao.insert(roomRsvVO);
 		
 		// 修改 預定
-//		RoomRsvVO roomrsv = new RoomRsvVO();
-//		roomrsv.setType_no(5);
-//		dao.reserve(roomrsv);
+//		RoomRsvVO roomRsvVO = new RoomRsvVO();
+//		roomRsvVO.setType_no(5);
+//		dao.reserve(roomRsvVO);
 		
 		// 修改 取消
-//		RoomRsvVO roomrsv = new RoomRsvVO();
-//		roomrsv.setType_no(5);
-//		dao.cancel(roomrsv);
+//		RoomRsvVO roomRsvVO = new RoomRsvVO();
+//		roomRsvVO.setType_no(5);
+//		dao.cancel(roomRsvVO);
 		
 		// 查詢 同一天的各房型預訂
 //		List<RoomRsvVO> list = dao.getOneDayByDate(LocalDate.of(2021,12,31));
-//		for (RoomRsvVO roomrsv : list) {
-//			System.out.print(roomrsv.getRsv_date() + ",");
-//			System.out.print(roomrsv.getType_no() + ",");
-//			System.out.print(roomrsv.getRm_total() + ",");
-//			System.out.println(roomrsv.getRsv_total());
+//		for (RoomRsvVO roomRsvVO : list) {
+//			System.out.print(roomRsvVO.getRsv_date() + ",");
+//			System.out.print(roomRsvVO.getType_no() + ",");
+//			System.out.print(roomRsvVO.getRm_total() + ",");
+//			System.out.println(roomRsvVO.getRsv_total());
 //		}
 		
 		// 查詢 全部
 //		List<RoomRsvVO> list = dao.getAll();
-//		for (RoomRsvVO roomrsv : list) {
-//			System.out.print(roomrsv.getRsv_date() + ",");
-//			System.out.print(roomrsv.getType_no() + ",");
-//			System.out.print(roomrsv.getRm_total() + ",");
-//			System.out.println(roomrsv.getRsv_total());
+//		for (RoomRsvVO roomRsvVO : list) {
+//			System.out.print(roomRsvVO.getRsv_date() + ",");
+//			System.out.print(roomRsvVO.getType_no() + ",");
+//			System.out.print(roomRsvVO.getRm_total() + ",");
+//			System.out.println(roomRsvVO.getRsv_total());
 //		}
 		
 		// 查詢 同房型的每天預訂
 //		List<RoomRsvVO> list = dao.getAllByType(5);
-//		for (RoomRsvVO roomrsv : list) {
-//			System.out.print(roomrsv.getRsv_date() + ",");
-//			System.out.print(roomrsv.getType_no() + ",");
-//			System.out.print(roomrsv.getRm_total() + ",");
-//			System.out.println(roomrsv.getRsv_total());
+//		for (RoomRsvVO roomRsvVO : list) {
+//			System.out.print(roomRsvVO.getRsv_date() + ",");
+//			System.out.print(roomRsvVO.getType_no() + ",");
+//			System.out.print(roomRsvVO.getRm_total() + ",");
+//			System.out.println(roomRsvVO.getRsv_total());
 //		}
 	
 	}

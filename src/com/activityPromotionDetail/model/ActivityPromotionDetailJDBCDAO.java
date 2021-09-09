@@ -38,9 +38,11 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 	
 	@Override
 	public ActivityPromotionDetailVO insert(ActivityPromotionDetailVO actPromotionDetailVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setInt(1, actPromotionDetailVO.getAct_promotion_no()); 
 			ps.setInt(2, actPromotionDetailVO.getAct_class_no());
@@ -54,16 +56,26 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actPromotionDetailVO;
 	}
 
 	@Override
 	public void update(ActivityPromotionDetailVO actPromotionDetailVO) {
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setDouble(1, actPromotionDetailVO.getAct_discount_price());
 			ps.setInt(2,actPromotionDetailVO.getAct_promotion_no()); 
@@ -71,17 +83,27 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
 	public List<ActivityPromotionDetailVO> findByActPromotionNo(Integer act_promotion_no) {
 		List<ActivityPromotionDetailVO> list = new ArrayList<>();
 		ActivityPromotionDetailVO actPromotionDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_PROMOTION_NO_SQL);
 			ps.setInt(1, act_promotion_no);
 			rs = ps.executeQuery();
@@ -95,7 +117,15 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -105,9 +135,11 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 	public List<ActivityPromotionDetailVO> findByActClassNo(Integer act_class_no) {
 		List<ActivityPromotionDetailVO> list = new ArrayList<>();
 		ActivityPromotionDetailVO actPromotionDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_CLASS_NO_SQL);
 			ps.setInt(1, act_class_no);
 			rs = ps.executeQuery();
@@ -121,7 +153,15 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -131,9 +171,11 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 	public List<ActivityPromotionDetailVO> getAll() {
 		List<ActivityPromotionDetailVO> list = new ArrayList<>();
 		ActivityPromotionDetailVO actPromotionDetailVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -145,7 +187,15 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return list;
@@ -156,10 +206,11 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 		Map<String, String[]> joinMap = new HashMap<>();
 		int position = 0;
 		String[] columnArray = null;
-		
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(ACTIVITY_PROMOTION_DETAIL_JOIN_ACTIVITY_CLASS_SQL);
 			rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -172,7 +223,15 @@ public class ActivityPromotionDetailJDBCDAO implements I_ActivityPromotionDetail
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		return joinMap;

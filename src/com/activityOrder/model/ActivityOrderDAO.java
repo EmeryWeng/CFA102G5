@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 
 public class ActivityOrderDAO implements I_ActivityOrderDAO {
 	private static DataSource ds;
@@ -34,9 +34,11 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 	
 	@Override
 	public ActivityOrderVO insert(ActivityOrderVO actOrderVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null); // AI
 			ps.setInt(2, actOrderVO.getMem_no());
@@ -55,16 +57,26 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actOrderVO;
 	}
 
 	@Override
 	public void update(ActivityOrderVO actOrderVO) {
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setInt(1, actOrderVO.getMem_no());
 			ps.setObject(2, actOrderVO.getAct_booking_date());
@@ -78,16 +90,26 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
 	@Override
 	public ActivityOrderVO findByPk(Integer act_order_no) {
 		ActivityOrderVO actOrderVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
 			ps.setInt(1, act_order_no);
 			rs = ps.executeQuery();
@@ -106,8 +128,16 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actOrderVO;
 	}
@@ -116,9 +146,11 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 	public List<ActivityOrderVO> findByMemberNo(Integer mem_no) {
 		List<ActivityOrderVO> list = new ArrayList<>();
 		ActivityOrderVO actOrderVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_MEMBER_NO_SQL);
 			ps.setInt(1, mem_no);
 			rs = ps.executeQuery();
@@ -138,8 +170,16 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -148,9 +188,11 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 	public List<ActivityOrderVO> getAll() {
 		List<ActivityOrderVO> list = new ArrayList<>();
 		ActivityOrderVO actOrderVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();			
 			while (rs.next()) {
@@ -168,10 +210,17 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
-
 }

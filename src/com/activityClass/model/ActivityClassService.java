@@ -10,12 +10,10 @@ public class ActivityClassService {
 		dao = new ActivityClassDAO();
 	}
 	
-	public ActivityClassVO addActClass(String act_class_name,
-			Boolean act_class_state) {
+	public ActivityClassVO addActClass(String act_class_name) {
 		
 		ActivityClassVO vo = new ActivityClassVO();
 		vo.setAct_class_name(act_class_name);
-		vo.setAct_class_state(act_class_state);
 		
 		return dao.insert(vo);
 	}
@@ -35,11 +33,11 @@ public class ActivityClassService {
 	public ActivityClassVO getActClassByPk(Integer act_class_no) {
 		return dao.findByPk(act_class_no);
 	}
-	
+	public void switchActClassState(Integer act_class_no,Boolean act_class_state) {
+		dao.switchActivityClassState(act_class_no, act_class_state);
+	}
 	public List<ActivityClassVO> getAll() {
-		return dao.getAll().stream()
-				.filter(act -> act.getAct_class_state() == true)
-				.collect(Collectors.toList());
+		return dao.getAll();
 	}
 	
 }

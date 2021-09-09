@@ -1,13 +1,11 @@
 package com.activityEvaluationReport.model;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -32,9 +30,11 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 	
 	@Override
 	public ActivityEvaluationReportVO insert(ActivityEvaluationReportVO actEvaluationReportVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setInt(1,actEvaluationReportVO.getAct_evaluation_no());
 			ps.setInt(2,actEvaluationReportVO.getMem_no());
@@ -50,22 +50,41 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actEvaluationReportVO;
 	}
 
 	@Override
 	public void delete(Integer act_evaluation_no,Integer mem_no) {
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(DELETE_SQL);
 			ps.setInt(1,act_evaluation_no);
 			ps.setInt(2,mem_no);		
 			ps.executeUpdate();
+			
 		}catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		}finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -73,9 +92,11 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 	public List<ActivityEvaluationReportVO> findByActEvaluationNo(Integer act_evaluation_no) {
 		List<ActivityEvaluationReportVO> list = new ArrayList<>();
 		ActivityEvaluationReportVO actEvaluationReportVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_EVALUATION_NO_SQL);
 			ps.setInt(1, act_evaluation_no);
 			rs = ps.executeQuery();
@@ -91,8 +112,16 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -101,9 +130,11 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 	public List<ActivityEvaluationReportVO> findByMemberNo(Integer mem_no) {
 		List<ActivityEvaluationReportVO> list = new ArrayList<>();
 		ActivityEvaluationReportVO actEvaluationReportVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_MEMBER_NO_SQL);
 			ps.setInt(1, mem_no);
 			rs = ps.executeQuery();
@@ -119,8 +150,16 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -129,9 +168,11 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 	public List<ActivityEvaluationReportVO> getAll() {
 		List<ActivityEvaluationReportVO> list = new ArrayList<>();
 		ActivityEvaluationReportVO actEvaluationReportVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();		
 			while (rs.next()) {
@@ -145,8 +186,16 @@ public class ActivityEvaluationReportDAO implements I_ActivityEvaluationReportDA
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
