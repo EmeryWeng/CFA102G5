@@ -37,4 +37,8 @@ private I_FoodClassDAO dao;
 		return dao.getAllFoodClass();
 	}
 	
+	public FoodClassVO getClassPK(Integer fd_class_no) {
+		return dao.getClassPK(fd_class_no);
+	}
+	
 }

@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 
+
 public class FoodClassDAO implements I_FoodClassDAO{
 	
 	//連線池
@@ -28,6 +29,7 @@ public class FoodClassDAO implements I_FoodClassDAO{
 			
 	private static final String INSERT_FOOD_CLASS ="INSERT INTO FOOD_CLASS VALUES(?,?,?)";
 	private static final String UPDATE_FOOD_CLASS ="UPDATE FOOD_CLASS SET fd_class_name=?,fd_class_state=? WHERE fd_class_no=?";
+	private static final String GET_FOOD_CLASS_PK = "SELECT * FROM FOOD_CLASS WHERE fd_class_no = ?";
 	private static final String GET_ALL_FOOD_CLASS ="SELECT * FROM FOOD_CLASS";
 	@Override
 	public void insertFoodClass(FoodClassVO foodclassVO) {
@@ -163,6 +165,57 @@ public class FoodClassDAO implements I_FoodClassDAO{
 			}
 		}      
 		return fdAllClass;
+	}
+
+	@Override
+	public FoodClassVO getClassPK(Integer fd_class_no) {
+		FoodClassVO fdClassVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_FOOD_CLASS_PK);
+			
+			pstmt.setInt(1, fd_class_no);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				fdClassVO = new FoodClassVO();
+				fdClassVO.setFd_class_no(rs.getInt("fd_class_no"));
+				fdClassVO.setFd_class_name(rs.getString("fd_class_name"));
+				fdClassVO.setFd_class_state(rs.getBoolean("fd_class_state"));
+				
+			}
+			
+		}catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return fdClassVO;
 	}
 
 }
