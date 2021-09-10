@@ -5,22 +5,16 @@
 <%
 EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 %>
-<!DOCTYPE html>
 <html>
 <head>
+	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
-<table id="table-1">
-	<tr><td>
-		 <h3>員工資料修改</h3>
-		 <h4><a href="back_end/emp/selectPage.jsp">回首頁</a></h4>
-	</td></tr>
-</table>
-
-<h3>資料修改:</h3>
-
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
+		
+<div class="main-content card card-body table-responsive">
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -30,9 +24,8 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 		</c:forEach>
 	</ul>
 </c:if>
-
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/EmployeeServlet.do" name="form1">
-<table>
+<table id="example4" class="display" style="min-width: 845px">
 	<tr>
 		<td>員工編號:<font color=red><b>*</b></font></td>
 		<td><%=empVO.getEmp_no()%></td>
@@ -70,9 +63,11 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="emp_no" value="<%=empVO.getEmp_no()%>">
 <input type="submit" value="送出修改"></FORM>
-
+</div>
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 <script>
-
-</script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("修改員工資料");
+		</script>
 </body>
 </html>

@@ -7,50 +7,18 @@ DepartmentVO depVO = (DepartmentVO) request.getAttribute("depVO");
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
+<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <title>Insert title here</title>
 <style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
 
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
 </style>
 </head>
 <body>
-<table id="table-1">
-	<tr><td>
-		 <h3>部門新增 - addEmp.jsp</h3></td><td>
-		 <h4><a href="/CFA102G5/back_end/department/XXXXXXXXXXXXXX.jsp">回首頁</a></h4>
-	</td></tr>
-</table>
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 
-<h3>資料新增:</h3>
 
+<div class="main-content card card-body table-responsive">
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -60,11 +28,8 @@ DepartmentVO depVO = (DepartmentVO) request.getAttribute("depVO");
 		</c:forEach>
 	</ul>
 </c:if>
-
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/DepartmentServlet.do" name="form1">
-<table>
-
-
+<table id="example4" class="display" style="min-width: 845px">
 	<tr>
 		<td>部門名稱:</td>
 		<td><input type="text" maxlength="5" name="dep_name" size="20"
@@ -81,5 +46,12 @@ DepartmentVO depVO = (DepartmentVO) request.getAttribute("depVO");
 <br>
 <input type="hidden" name="action" value="insert">
 <input type="submit" value="送出新增"></FORM>
+</div>
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
+<script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("新增部門");
+		</script>
+
 </body>
 </html>

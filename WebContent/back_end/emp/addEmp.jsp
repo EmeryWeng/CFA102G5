@@ -6,49 +6,15 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 %>
 <html>
 <head>
-
+<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <title>Insert title here</title>
 <style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
 
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
 </style>
 </head>
 <body>
-<table id="table-1">
-	<tr><td>
-		 <h3>員工資料新增 - addEmp.jsp</h3></td><td>
-		 <h4><a href="/CFA102G5/back_end/emp/selectPage.jsp">回首頁</a></h4>
-	</td></tr>
-</table>
-
-<h3>資料新增:</h3>
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -60,8 +26,9 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 	</ul>
 </c:if>
 
+<div class="main-content card card-body table-responsive">
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/EmployeeServlet.do" name="form1">
-<table>
+<table id="example4" class="display" style="min-width: 845px">
 	<tr>
 		<td>姓名:</td>
 		<td><input type="TEXT" maxlength="5" name="emp_name" size="20" 
@@ -97,5 +64,11 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 <br>
 <input type="hidden" name="action" value="insert">
 <input type="submit" value="送出新增"></FORM>
+</div>
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
+<script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("新增員工");
+		</script>
 </body>
 </html>

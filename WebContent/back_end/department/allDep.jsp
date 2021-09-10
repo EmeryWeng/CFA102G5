@@ -11,49 +11,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <title>Insert title here</title>
 <style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 800px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
+ 
 </style>
 
 </head>
 <body>
-<table id="table-1">
-	<tr><td>
-		 <h3>所有員工資料</h3>
-		 <h4><a href="/CFA102G5/back_end/department/XXXXXXXXXXXXXXXX.jsp">未完成</a></h4>
-	</td></tr>
-</table>
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
+
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -63,7 +31,10 @@
 		</c:forEach>
 	</ul>
 </c:if>
-<table>
+
+<div class="main-content card card-body table-responsive">
+<table id="example4" class="display" style="min-width: 845px">
+<thead>
 	<tr>
 		<th>部門編號</th>
 		<th>部門名稱</th>
@@ -71,8 +42,8 @@
 		<th>修改</th>
 
 	</tr>
-	<%@ include file="page1.file" %> 
-	<c:forEach var="DepartmentVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+</thead>
+	<c:forEach var="DepartmentVO" items="${list}" >
 		
 		<tr>
 			<td>${DepartmentVO.dep_no}</td>
@@ -87,6 +58,11 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="page2.file" %>
+</div>
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
+<script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("部門列表");
+		</script>
 </body>
 </html>
