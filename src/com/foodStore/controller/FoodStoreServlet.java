@@ -47,8 +47,13 @@ public class FoodStoreServlet extends HttpServlet {
 			Integer fd_no = new Integer(req.getParameter("fd_no"));
 			Integer fd_class_no = new Integer(req.getParameter("fd_class_no"));
 			String fd_name = req.getParameter("fd_name");	
+			if (fd_name == null || fd_name.trim().length() == 0) {
+				errorMsgs.add("店家名稱: 請勿空白");
+			}
 			String fd_address = req.getParameter("fd_address");
-			
+			if (fd_address == null || fd_address.trim().length() == 0) {
+				errorMsgs.add("店家名稱: 請勿空白");
+			}
 			String LONGITUDE = "^[\\-\\+]?(0(\\.\\d{1,6})?|([1-9](\\d)?)(\\.\\d{1,6})?|1[0-7]\\d{1}(\\.\\d{1,6})?|180(\\.0{1,6})?)$";
 			String fd_longitude1 = req.getParameter("fd_longitude");
 			if (fd_longitude1 == null || fd_longitude1.trim().length() == 0) {
@@ -99,9 +104,14 @@ public class FoodStoreServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
 			Integer fd_class_no = new Integer(req.getParameter("fd_class_no"));
-			String fd_name = req.getParameter("fd_name");	
+			String fd_name = req.getParameter("fd_name");
+			if (fd_name == null || fd_name.trim().length() == 0) {
+				errorMsgs.add("店家名稱: 請勿空白");
+			}
 			String fd_address = req.getParameter("fd_address");
-			
+			if (fd_address == null || fd_address.trim().length() == 0) {
+				errorMsgs.add("店址: 請勿空白");
+			}
 			String LONGITUDE = "^[\\-\\+]?(0(\\.\\d{1,6})?|([1-9](\\d)?)(\\.\\d{1,6})?|1[0-7]\\d{1}(\\.\\d{1,6})?|180(\\.0{1,6})?)$";
 			String fd_longitude1 = req.getParameter("fd_longitude");
 			if (fd_longitude1 == null || fd_longitude1.trim().length() == 0) {
