@@ -9,14 +9,60 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-    
-  <servlet>
-  	<servlet-name>TestServlet</servlet-name>
-  	<servlet-class>com.member.controller.TestServlet</servlet-class>
+  
+  <!--   美食照片開始   -->
+     <servlet>
+  	<servlet-name>FoodimgServlet</servlet-name>
+  	<servlet-class>com.foodImg.controller.FoodImgServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>TestServlet</servlet-name>
-  	<url-pattern>/member/TestServlet</url-pattern>
+  	<servlet-name>FoodimgServlet</servlet-name>
+  	<url-pattern>/FoodImg.do</url-pattern>
   </servlet-mapping>
+  <!--   美食照片結束   -->
   
+   <!--   美食店家開始   -->
+     <servlet>
+  	<servlet-name>FoodStoreServlet</servlet-name>
+  	<servlet-class>com.foodStore.controller.FoodStoreServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FoodStoreServlet</servlet-name>
+  	<url-pattern>/FoodStoreServlet.do</url-pattern>
+  </servlet-mapping>
+  <!--   美食店家結束   -->
+  
+   <!--   美食類別開始   -->
+     <servlet>
+  	<servlet-name>FoodClassServlet</servlet-name>
+  	<servlet-class>com.foodClass.controller.FoodClassServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FoodClassServlet</servlet-name>
+  	<url-pattern>/FoodClassServlet.do</url-pattern>
+  </servlet-mapping>
+  <!--   美食類別結束   -->
+  
+   <!--   部門開始   -->
+    <servlet>
+  	<servlet-name>DepartmentServlet</servlet-name>
+  	<servlet-class>com.department.controller.DepartmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DepartmentServlet</servlet-name>
+  	<url-pattern>/DepartmentServlet.do</url-pattern>
+  </servlet-mapping>
+   <!--   部門結束   -->
+   
+  <!--   員工開始   -->
+   <servlet>
+  	<servlet-name>EmployeeServlet</servlet-name>
+  	<servlet-class>com.employee.controller.EmployeeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>EmployeeServlet</servlet-name>
+  	<url-pattern>/EmployeeServlet.do</url-pattern>
+  </servlet-mapping>
+
+  <!--   員工結束   -->
 </web-app>
