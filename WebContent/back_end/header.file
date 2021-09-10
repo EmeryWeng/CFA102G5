@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@ page import="com.employee.model.*"%>
+
+<%-- <% --%>						//目前尚未有後台登入
+//     Object account = session.getAttribute("empVO");                  // 從 session內取出 (key) account的值
+//     if (account == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
+//       session.setAttribute("location", request.getRequestURI());       //*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁(須配合LoginHandler.java)
+//       response.sendRedirect(request.getContextPath()+"/backLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+//       return;
+//     }
+<%-- %> --%>
+	<!-- LOGO -->
+	<div class="nav-header">
+		<a href="<%=request.getContextPath()%>/back_end/index/index.jsp" class="brand-logo">
+			<img src="<%=request.getContextPath()%>/back_end/assets/img/logo.png" alt="Logo">
+		</a>
+	</div>
+	<!-- 管理員-->
+	<div class="header">
+		<div class="header-content">
+			<nav class="navbar navbar-expand">
+				<div class="collapse navbar-collapse justify-content-between">
+					<div class="header-left">
+						<div class="dashboard_bar" id="pagename">
+						</div>
+					</div>
+					<ul class="navbar-nav header-right">
+						<li class="nav-item dropdown header-profile">
+							<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
+								<div class="admin-icon">
+									<i class='bx bxs-user-circle' style='color:#996a4d'></i>
+								</div>
+								<div class="header-info ms-3">
+									<small>客服部</small>
+									<span>未有後台登入無法測試</span>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end">
+								<a href="#" class="dropdown-item ai-icon">
+									<i class='bx bx-user' style='color:#30504F'></i>
+									<span class="ms-2">個人資料 </span>
+								</a>
+								<a href="#" class="dropdown-item ai-icon">
+									<i class='bx bx-log-out' style='color:#996a4d'></i>
+									<span class="ms-2">Logout</span>
+								</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
