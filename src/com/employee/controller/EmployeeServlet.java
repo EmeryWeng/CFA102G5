@@ -86,7 +86,9 @@ public class EmployeeServlet extends HttpServlet {
 				errorMsgs.add("密碼: 請勿空白、小於字數6");
 			}
 			String emp_name = req.getParameter("emp_name").trim();
-			
+			if(emp_name == null || emp_name.length() == 0) {
+				errorMsgs.add("員工姓名: 請勿空白");
+			}
 			String emp_mail = req.getParameter("emp_mail").trim();
 			String e_emailReg = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
 			if (emp_mail == null || emp_mail.trim().length() == 0) {
@@ -97,6 +99,12 @@ public class EmployeeServlet extends HttpServlet {
 			Boolean emp_state = new Boolean(req.getParameter("emp_state"));
 			Integer dep_no = new Integer(req.getParameter("dep_no"));
 			
+			if (!errorMsgs.isEmpty()) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/back_end/emp/listAllEmp.jsp");
+				failureView.forward(req, res);
+				return;
+			}
 			EmpService ser = new EmpService();
 			EmployeeVO empVO = ser.updateEmp(emp_password, emp_name, emp_mail, emp_state, dep_no, emp_no);
 			
