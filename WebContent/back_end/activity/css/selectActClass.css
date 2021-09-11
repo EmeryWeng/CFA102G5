@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+/* 	10px 比較好計算 */
+	html{
+		font-size:62.5%;
+	}
+	label {
+		font-size:2rem;
+		color:deeppink;
+	}
+	table.dataTable tbody td{
+		color:#00AEAE;
+		font-size:3rem;
+	}
+	table.dataTable thead th{
+		color:#FF0080;
+		font-size:3rem;
+	}
+	table.dataTable tbody td.upstate{
+		color:#28FF28;
+	}
+	table.dataTable tbody td.downstate{
+		color:#FF2D2D;
+	}
+	input#actClassName{
+		border-radius:2rem;
+		height:2rem;
+		font-size:2rem;
+	}
+	
+	input#updateActClassName,#updateActClassNo{
+		border-radius:2rem;
+		height:2rem;
+		font-size:2rem;
+	}
+	
+	@media only screen and (max-width: 87.5rem)
+			table.dataTable tbody td {
+    	font-size: 2rem;
+    	padding: 0.5rem 0.9375rem;
+	}
+	@media only screen and (max-width: 87.5rem)
+			table.dataTable thead th {
+    	font-size: 2rem;
+	}
+	
