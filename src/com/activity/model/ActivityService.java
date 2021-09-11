@@ -85,9 +85,7 @@ public class ActivityService {
 	}
 	//取得上架活動
 	public List<ActivityVO> getAll(){
-		return dao.getAll().stream()
-				.filter(act -> act.getAct_state() == true)
-				.collect(Collectors.toList());
+		return dao.getAll();
 	}
 	
 }
