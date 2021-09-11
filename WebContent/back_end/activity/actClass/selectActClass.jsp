@@ -7,17 +7,21 @@
 <title>活動類別-查詢</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <style>
+/* 	10px 比較好計算 */
+	html{
+		font-size:62.5%;
+	}
 	label {
-		font-size:20px;
+		font-size:2rem;
 		color:deeppink;
 	}
 	table.dataTable tbody td{
 		color:#00AEAE;
-		font-size:2rem;
+		font-size:3rem;
 	}
 	table.dataTable thead th{
 		color:#FF0080;
-		font-size:2rem;
+		font-size:3rem;
 	}
 	table.dataTable tbody td.upstate{
 		color:#28FF28;
