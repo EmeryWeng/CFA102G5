@@ -19,10 +19,10 @@
 		color:#FF0080;
 		font-size:2rem;
 	}
-	.upstate{
+	table.dataTable tbody td.upstate{
 		color:#28FF28;
 	}
-	.downstate{
+	table.dataTable tbody td.downstate{
 		color:#FF2D2D;
 	}
 	@media only screen and (max-width: 87.5rem)
