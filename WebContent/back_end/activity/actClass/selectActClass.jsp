@@ -72,7 +72,7 @@
 								<tr>
 									<td>${actClassVO.act_class_no}</td>
 									<td>${actClassVO.act_class_name}</td>
-									<td class="${actClassVO.act_class_state == true ? 'upstate' : 'downstate' }">${actClassVO.act_class_state}</td>
+									<td class="${actClassVO.act_class_state == true ? 'upstate' : 'downstate' }">${actClassVO.act_class_state == true ? '上架' : '下架'}</td>
 									<td>
 										<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${actClassVO.act_class_no}">修改</button>
 											<!--修改的modal -->
@@ -90,7 +90,7 @@
 											<input type="hidden" name="action" value="switchActClassState">
 											<button class="btn btn-danger" type="submit">切換</button>
 										</form>
-									</td>
+					 				</td>
 								</tr>
 							</c:forEach>
 						</c:if>								
