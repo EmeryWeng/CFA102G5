@@ -6,7 +6,7 @@
 <head>
 <title>活動類別-查詢</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
-<link href="<%=request.getContextPath()%>/back_end/activity/css/selectActClass.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/back_end/activity/css/actClass/selectActClass.css" rel="stylesheet">
 </head>
 <body>
 <%-- 	<%@ include file="/back_end/loading.file"%> --%>
