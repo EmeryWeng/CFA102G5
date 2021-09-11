@@ -75,11 +75,7 @@ public class ActivityClassServlet extends HttpServlet {
 			
 			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
 			.forward(request, response);
-			
 			return;
-		}
-		
-
-	}
-	
+		}		
+	}	
 }
