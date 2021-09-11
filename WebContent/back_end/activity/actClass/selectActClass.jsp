@@ -6,40 +6,7 @@
 <head>
 <title>活動類別-查詢</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
-<style>
-/* 	10px 比較好計算 */
-	html{
-		font-size:62.5%;
-	}
-	label {
-		font-size:2rem;
-		color:deeppink;
-	}
-	table.dataTable tbody td{
-		color:#00AEAE;
-		font-size:3rem;
-	}
-	table.dataTable thead th{
-		color:#FF0080;
-		font-size:3rem;
-	}
-	table.dataTable tbody td.upstate{
-		color:#28FF28;
-	}
-	table.dataTable tbody td.downstate{
-		color:#FF2D2D;
-	}
-	@media only screen and (max-width: 87.5rem)
-			table.dataTable tbody td {
-    	font-size: 2rem;
-    	padding: 0.5rem 0.9375rem;
-	}
-	@media only screen and (max-width: 87.5rem)
-			table.dataTable thead th {
-    	font-size: 2rem;
-	}
-	
-</style>
+<link href="<%=request.getContextPath()%>/back_end/activity/css/selectActClass.css" rel="stylesheet">
 </head>
 <body>
 <%-- 	<%@ include file="/back_end/loading.file"%> --%>
@@ -56,7 +23,7 @@
 				<div class="card-header">
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">新增活動類別</button>
 							<!--新增的modal -->
-					<jsp:include page="/back_end/activity/modal/addActClassModal.jsp"/>
+					<jsp:include page="/back_end/activity/modal/actClass/addActClassModal.jsp"/>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -80,7 +47,7 @@
 									<td>
 										<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${actClassVO.act_class_no}">修改</button>
 											<!--修改的modal -->
-										<jsp:include page="/back_end/activity/modal/updateActClassModal.jsp">
+										<jsp:include page="/back_end/activity/modal/actClass/updateActClassModal.jsp">
 											<jsp:param name="actClassNo" value="${actClassVO.act_class_no}"/>
 											<jsp:param name="actClassName" value="${actClassVO.act_class_name}"/>
 											<jsp:param name="actClassState" value="${actClassVO.act_class_state}"/>
