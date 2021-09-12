@@ -79,8 +79,8 @@
 						</li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動管理</a>
 							<ul aria-expanded="false">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/Activity?action=beginActAdd">新增活動</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/Activity?action=getAll">活動列表</a></li>
 							</ul>
 						</li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動場次管理</a>
