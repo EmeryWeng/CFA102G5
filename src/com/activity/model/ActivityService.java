@@ -88,4 +88,7 @@ public class ActivityService {
 		return dao.getAll();
 	}
 	
+	public void switchActState(Integer act_no,Boolean act_state) {
+		dao.switchActState(act_no, act_state);
+	}
 }

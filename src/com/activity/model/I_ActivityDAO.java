@@ -16,4 +16,5 @@ public interface I_ActivityDAO {
 	public List<ActivityVO> getPopularAct();//取得熱門活動(前三)
 	public List<ActivityVO> getAll();
 	public Map<String,String[]> getActJoinActClass(); //取得該活動的活動類別
+	public void switchActState(Integer act_no,Boolean act_state);
 }
