@@ -5,11 +5,13 @@
 	}
 	table.table{
 		width:98%;
+		height:50rem;
 	}
 	table th{
 		font-size:1.4rem;
 		text-align:center;
 		color:red;
+		vertical-align:middle;
 	}	
 	table td{
 		font-size:1.4rem;
