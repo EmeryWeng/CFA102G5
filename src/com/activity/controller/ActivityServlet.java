@@ -195,10 +195,8 @@ public class ActivityServlet extends HttpServlet {
 				
 //				若有錯誤			
 				if(!errorMsgs.isEmpty()) {
-//					Integer selectedNumber = act_class_no;
 					ActivityVO actVO = actService.getActByPk(act_no);					
 					request.setAttribute("updateAct_actVO", actVO);//修改失敗 保留一開始的內容
-//					request.setAttribute("addAct_selected",selectedNumber); //新增失敗時 存當下選取的select value
 					request.getRequestDispatcher("/back_end/activity/act/updateAct.jsp")
 					.forward(request, response);
 					return;
