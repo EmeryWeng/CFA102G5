@@ -75,7 +75,7 @@
 					<th>狀態</th>
 					<th>活動說明</th>
 				</tr>
-			<%@ include file="/back_end/activity/pages/page1.file" %> 
+			<%@ include file="/back_end/activity/pages/act/page1.file" %> 
 				<c:forEach var="actVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 				<tr ${(actVO.act_no == param.updateActNo) ? 'style="background-color:#CCCCFF;"':''}>
 					<th>${actVO.act_no}</th>
@@ -109,7 +109,7 @@
 				</tr>
 				</c:forEach>
 			</table>
-		<%@ include file="/back_end/activity/pages/page2.file" %> 
+		<%@ include file="/back_end/activity/pages/act/page2.file" %> 
 	</div>
 </div>
 	
