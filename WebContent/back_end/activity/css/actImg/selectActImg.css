@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+	html{
+		font-size:62.5%;
+	}
+	table tr td img{
+		max-width:100%;
+		box-sizing:border-box;
+		display:block;
+		margin:auto;
+		width:30rem;
+		height:25rem;
+	}
+	table.table{
+		width:98%;
+		height:50rem;
+	}
+	table th{
+		font-size:2rem;
+		text-align:center;
+		color:red;
+		vertical-align:middle;
+	}	
+	table td{
+		font-size:2rem;
+		text-align:center;
+	}	
+	textarea.actInstruction{
+		font-size:1.8rem;
+		height:10rem;
+	}	
+	div.query{
+		width:30rem;
+		position:absolute;
+		left:165rem;
+		z-index:999;
+		top:-1rem;
+	}	
+	select.querySelect{
+		font-size:1.5rem;
+	}
+	table tr td.upstate{
+		color:#28FF28;
+	}	
+	table tr td.downstate{
+		color:#FF2D2D;
+	}
+	div.updateAndSwitch{
+		position:absolute;
+		top:-3.2rem;
+	}
