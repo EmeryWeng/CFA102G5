@@ -13,16 +13,7 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
-	<!-- 活動開始 -->
-	<servlet>
-		<servlet-name>ActivityServlet</servlet-name>
-		<servlet-class>com.activity.controller.ActivityServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ActivityServlet</servlet-name>
-		<url-pattern>/activity/Activity</url-pattern>
-	</servlet-mapping>
-	
+	<!-- 活動開始 -->	
 	<servlet>
 		<servlet-name>ActivityClassServlet</servlet-name>
 		<servlet-class>com.activityClass.controller.ActivityClassServlet</servlet-class>
@@ -30,6 +21,15 @@
 	<servlet-mapping>
 		<servlet-name>ActivityClassServlet</servlet-name>
 		<url-pattern>/activity/ActivityClass</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityServlet</servlet-name>
+		<servlet-class>com.activity.controller.ActivityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityServlet</servlet-name>
+		<url-pattern>/activity/Activity</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
