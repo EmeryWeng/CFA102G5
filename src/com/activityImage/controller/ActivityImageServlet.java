@@ -1,8 +1,6 @@
 package com.activityImage.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,119 +13,119 @@ import javax.servlet.http.Part;
 import java.io.*;
 import com.activityImage.model.ActivityImageService;
 import com.activityImage.model.ActivityImageVO;
+import com.google.gson.Gson;
+
 
 @MultipartConfig(maxFileSize=5*1024*1024,maxRequestSize=5*5*1024*1024)
 public class ActivityImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("img/jpeg");
-		String act_img_no = request.getParameter("act_img_no");
-		ActivityImageService actImageService = new ActivityImageService();
-		byte[] imgArray = actImageService.getActImageByPk(new Integer(act_img_no)).getAct_img();
-		ServletOutputStream out = response.getOutputStream();
-		out.write(imgArray);
-		out.close();
+		String action = request.getParameter("action");
+		if(action != null) {
+			doPost(request,response);
+		}else{
+			response.setContentType("img/jpeg");
+			String act_img_no = request.getParameter("act_img_no");
+			ActivityImageService actImageService = new ActivityImageService();
+			byte[] imgArray = actImageService.getActImageByPk(new Integer(act_img_no)).getAct_img();
+			ServletOutputStream out = response.getOutputStream();
+			out.write(imgArray);
+			out.close();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String actNo = request.getParameter("actNo");
 		String action = request.getParameter("action");
-		List<String> error = new ArrayList<>();
 		ActivityImageService actImageService = new ActivityImageService();
-		
-		//上傳圖片
-		if("addImg".equals(action)) {
-			Part part = request.getPart("actImg");
-			try {
-				if (part.getSize() == 0) {
-					error.add("請選擇圖片");
-					request.setAttribute("error", error);
-					request.getRequestDispatcher("/front_end/activity/actImg/addActImg.jsp").forward(request, response);
 
-					return;
-				}
-				InputStream in = part.getInputStream();
-				byte[] imgArray = new byte[in.available()];
-				BufferedInputStream buf = new BufferedInputStream(in);
-				buf.read(imgArray);
-				buf.close();
-
-				ActivityImageVO actImgVO = actImageService.addActImage(new Integer(actNo), imgArray);
-				request.setAttribute("actImgVO", actImgVO);
-				request.getRequestDispatcher("/front_end/activity/actImg/showImages.jsp").forward(request, response);
-
-				return;
-				
-			} catch (Exception ex) {
-				error.add("新增失敗" + ex.getMessage());
-				request.setAttribute("error", error);
-				request.getRequestDispatcher("/front_end/activity/actImg/addActImg.jsp").forward(request, response);
+//		依照活動類別查詢
+		if("queryByAct".equals(action)) {
+			Integer act_no = new Integer(request.getParameter("queryAct"));
+			List<ActivityImageVO> list = actImageService.getActImageByActNo(act_no);
+			int whichPage = 0;
+			if((act_no%5) == 0) {
+				whichPage = act_no/5;
+			}else {
+				whichPage = (act_no/5)+1;
 			}
+			
+			request.setAttribute("whichPage",whichPage);
+			request.setAttribute("queryActImg_List", list);
+			request.getRequestDispatcher("/back_end/activity/actImg/queryActImg.jsp").forward(request, response);
+
+			return;
+		}
+		//新增圖片
+		if("addActImg".equals(action)) {
+			Part part = request.getPart("actImg");
+			Integer act_no = new Integer(request.getParameter("actNoSelect"));
+			
+			byte[] imgArray = new byte[part.getInputStream().available()];
+			BufferedInputStream buf = new BufferedInputStream(part.getInputStream());
+			buf.read(imgArray);
+			buf.close();
+
+			actImageService.addActImage(act_no, imgArray);
+			
+			request.getRequestDispatcher("/back_end/activity/actImg/selectActImg.jsp")
+			.forward(request, response);
+			
+			return;
 		}
 		
 		//刪除圖片
-		if("deleteImg".equals(action)) {
-			String actImgNo = request.getParameter("actImgNo");
-			actImageService.deleteActImage(new Integer(actImgNo));
-			List<ActivityImageVO> actImgList = actImageService.getAll();
-			request.setAttribute("actImgList",actImgList);
-			
-			request.getRequestDispatcher("/front_end/activity/actImg/showImages.jsp")
-			.forward(request, response);
-			
+		if ("deleteActImg".equals(action)) {
+			Integer act_img_no = new Integer(request.getParameter("act_img_no"));
+			actImageService.deleteActImage(act_img_no);
+			Gson gson = new Gson();
+			response.getWriter().write(gson.toJson(act_img_no));
+
 			return;
 		}
 		
 		//欲更新圖片的ID
-		if("updateActImgNo".equals(action)) {
-			Integer actImgNo = new Integer(request.getParameter("actImgNo"));
+		if("updateActImg".equals(action)) {
+			Integer act_img_no = new Integer(request.getParameter("updateActImgNo"));
 			
-			request.setAttribute("actImgNo", actImgNo);
-			
-			request.getRequestDispatcher("/front_end/activity/actImg/updateActImg.jsp")
-			.forward(request, response);
-		}
-		
-		//將該ID做修改
-		if("updateImg".equals(action)) {
-			Part part = request.getPart("actImg");
-			
-			String actImgNo = request.getParameter("actImgNo");
-
-			byte[] imgArray = null;
-			// 修改時 檢查有無選擇圖片，若沒有保持原圖
-			if(part.getInputStream().available() > 0) {			
-				InputStream in = part.getInputStream();
-				imgArray = new byte[in.available()];
-				in.read(imgArray);
-			}else {
-				imgArray = actImageService.getActImageByPk(new Integer(actImgNo)).getAct_img();
-			}
-			
-			
-			actImageService.updateActImage(new Integer(actImgNo), new Integer(actNo), imgArray);
-			List<ActivityImageVO> actImgList = actImageService.getAll();
-			request.setAttribute("actImgList",actImgList);
-			
-			request.getRequestDispatcher("/front_end/activity/actImg/showImages.jsp")
+			ActivityImageVO actImageVO = actImageService.getActImageByPk(act_img_no);
+			request.setAttribute("actImageVO", actImageVO);
+			request.getRequestDispatcher("/back_end/activity/actImg/updateActImg.jsp")
 			.forward(request, response);
 			
 			return;
 		}
 		
-		//查看全部
-		if("getAllImg".equals(action)) {
-			List<ActivityImageVO> actImgList = actImageService.getAll();
-			String[] base64Img = new String[actImgList.size()];
-			for(int index=0;index<base64Img.length;index++) {
-				base64Img[index] = Base64.getEncoder().encodeToString(actImgList.get(index).getAct_img());
+		//將該ID做修改
+		if("updateActImgSure".equals(action)) {
+			String requestURL = request.getParameter("requestURL");
+			Part part = request.getPart("actImg");
+			String act_img_no = request.getParameter("updateActImgNo");
+			Integer act_no = new Integer(request.getParameter("actNoSelect"));
+			byte[] imgArray = null;
+				// 修改時 檢查有無選擇圖片，若沒有保持原圖
+			if (part.getInputStream().available() > 0) {
+				InputStream in = part.getInputStream();
+				imgArray = new byte[in.available()];
+				in.read(imgArray);
+			} else {
+				imgArray = actImageService.getActImageByPk(new Integer(act_img_no)).getAct_img();
 			}
+
+			actImageService.updateActImage(new Integer(act_img_no), act_no, imgArray);
+
+			request.getRequestDispatcher("/back_end/activity/actImg/selectActImg.jsp")
+			.forward(request, response);
+
+			return;
 			
-			request.setAttribute("actImgList",actImgList);
+		}
+		
+		//查看全部
+		if("getAll".equals(action)) {
 			
-			request.getRequestDispatcher("/front_end/activity/actImg/showImages.jsp")
+			request.getRequestDispatcher("/back_end/activity/actImg/selectActImg.jsp")
 			.forward(request, response);
 			
 			return;
