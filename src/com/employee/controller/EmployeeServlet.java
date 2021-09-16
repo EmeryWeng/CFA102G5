@@ -24,10 +24,19 @@ public class EmployeeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
-
+	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
+		if("log_out".equals(action)) {
+			HttpSession session = req.getSession();
+			session.invalidate();
+			//導回登入頁面-------------
+			String url = "/backLogin.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		}
 		
 		if("Login".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
@@ -35,11 +44,10 @@ public class EmployeeServlet extends HttpServlet {
 				/*************************** 1.接收請求參數 **********************/
 			String emp_mail = req.getParameter("emp_mail");
 			String emp_password = req.getParameter("emp_password");
-			
 			/*************************** 2.開始查詢資料 *****************************************/
 			EmpService ser = new EmpService();
-			EmployeeVO empVO = ser.Login(emp_mail, emp_password);
-			if(empVO==null) {
+			EmployeeVO empVO1 = ser.Login(emp_mail, emp_password);
+			if(empVO1==null) {
 				errorMsgs.add("查無資料或輸入錯誤");
 			}
 			if (!errorMsgs.isEmpty()) {
@@ -48,7 +56,7 @@ public class EmployeeServlet extends HttpServlet {
 				return;// 程式中斷
 			}else {
 				HttpSession session = req.getSession();
-			    session.setAttribute("empVO", empVO);
+			    session.setAttribute("empVO1", empVO1);
 			    try {
 			    	 String location = (String) session.getAttribute("location");
 			         if (location != null) {
@@ -56,7 +64,7 @@ public class EmployeeServlet extends HttpServlet {
 			           res.sendRedirect(location);            
 			           return;}
 			    }catch (Exception ignored) { }
-			      res.sendRedirect(req.getContextPath()+"//back_end/emp/selectPage.jsp");
+			      res.sendRedirect(req.getContextPath()+"//back_end/test/table.jsp");
 			}
 	}
 		
@@ -170,29 +178,36 @@ public class EmployeeServlet extends HttpServlet {
 		}
 	}
 		
-		if("getDepInEmp".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			try {
-				Integer dep_no = new Integer (req.getParameter("dep_no"));
-				EmpService ser = new EmpService();
-				List<EmployeeVO> empVO = ser.getEmpInDep(dep_no);
-				if(empVO==null) {
-					errorMsgs.add("查無此部門員工");
-				}
-				req.setAttribute("empVO", empVO);
-				String url = "back_end/emp/getAllEmpInDep.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
-				successView.forward(req, res);
-				return;
-			}
-		catch (Exception e) {
-			errorMsgs.add("查詢資料失敗:"+e.getMessage());
-			RequestDispatcher failureView = req
-					.getRequestDispatcher("/back_end/emp/selectPage.jsp");
-			failureView.forward(req, res);
-		}
+//		if("getDepInEmp".equals(action)) {
+//			List<String> errorMsgs = new LinkedList<String>();
+//			req.setAttribute("errorMsgs", errorMsgs);
+//			try {
+//				Integer dep_no = new Integer (req.getParameter("dep_no"));
+//				EmpService ser = new EmpService();
+//				List<EmployeeVO> empVO = ser.getEmpInDep(dep_no);
+//				if(empVO==null) {
+//					errorMsgs.add("查無此部門員工");
+//				}
+//				if (!errorMsgs.isEmpty()) {
+//					RequestDispatcher failureView = req
+//							.getRequestDispatcher("/back_end/emp/listAllEmp.jsp");
+//					failureView.forward(req, res);
+//					return;
+//				}
+//				req.setAttribute("empVO", empVO);
+//				String url = "back_end/emp/getAllEmpInDep.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
+//				successView.forward(req, res);
+//				return;
+//			}
+//		catch (Exception e) {
+//			errorMsgs.add("查詢資料失敗:"+e.getMessage());
+//			RequestDispatcher failureView = req
+//					.getRequestDispatcher("/back_end/emp/selectPage.jsp");
+//			failureView.forward(req, res);
+//		}
+//		
+//		}
 		
-		}
 	}
 }
