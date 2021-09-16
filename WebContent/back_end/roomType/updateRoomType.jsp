@@ -27,6 +27,17 @@
 		ul {
 			display: inline-block;
 		}
+		.pk {
+			font-weight: 600;
+			color: #30504F;
+			font-size: 20px;
+			padding: 13px 0 0 30px;
+		}
+		.form-select {
+			color: #30504F;
+			font-size: 16px;
+ 			height: 50px;  
+		}
 		textarea.form-control {
 			height: auto;
 			font-size: 16px;
@@ -52,54 +63,67 @@
 			</c:if>
 			<div class="card col-xl-11">
 <!-- 				<div class="card-header"></div>                     -->
-				<form method="post" action="<%=request.getContextPath()%>/room/RoomType" name="addRoomType">
+				<form method="post" action="<%=request.getContextPath()%>/room/RoomType" name="updateRoomType">
 					<div class="card-body d-flex justify-content-center">
 						<div class="col-xl-6">
 							<div class="row mb-2">
+							    <label for="type_name" class="col-sm-3 col-form-label">房型編號</label>
+							    <div class="pk col-sm-8"><%=roomTypeVO.getType_no()%></div>
+							</div>
+							<div class="row mb-2">
 							    <label for="type_name" class="col-sm-3 col-form-label">房型名稱</label>
 							    <div class="col-sm-8">
-							    	<input type="text" name="type_name" maxlength="10" class="form-control" id="type_name" value="<%=(roomTypeVO == null) ? "" : roomTypeVO.getType_name()%>">
+							    	<input type="text" name="type_name" maxlength="10" class="form-control" id="type_name" value="<%=roomTypeVO.getType_name()%>">
 							    </div>
 							</div>
 							<div class="row mb-2">
 							    <label for="type_qty" class="col-sm-3 col-form-label">容納人數</label>
 							    <div class="col-sm-8">
-							    	<input type="text" name="type_qty" class="form-control" id="type_qty" value="<%=(roomTypeVO == null) ? "" : roomTypeVO.getType_qty()%>">
+							    	<input type="text" name="type_qty" class="form-control" id="type_qty" value="<%=roomTypeVO.getType_qty()%>">
 							    </div>
 							</div>
 							<div class="row mb-2">
 							    <label for="type_price" class="col-sm-3 col-form-label">金額</label>
 							    <div class="col-sm-8">
-							    	<input type="text" name="type_price" class="form-control" id="type_price" value="<%=(roomTypeVO == null) ? "" : roomTypeVO.getType_price()%>">
+							    	<input type="text" name="type_price" class="form-control" id="type_price" value="<%=roomTypeVO.getType_price()%>">
 							    </div>
 							</div>
 							<div class="row mb-2">
 							    <label for="type_size" class="col-sm-3 col-form-label">房型大小</label>
 							    <div class="col-sm-8">
-							    	<input type="text" name="type_size" class="form-control" id="type_size" value="<%=(roomTypeVO == null) ? "" : roomTypeVO.getType_size()%>">
+							    	<input type="text" name="type_size" class="form-control" id="type_size" value="<%=roomTypeVO.getType_size()%>">
 							    </div>
 							</div>
 							<div class="row mb-2">
 							    <label for="bed_size" class="col-sm-3 col-form-label">床型</label>
 							    <div class="col-sm-8">
-							    	<input type="text" name="bed_size" class="form-control" id="bed_size" value="<%=(roomTypeVO == null) ? "" : roomTypeVO.getBed_size()%>">
+							    	<input type="text" name="bed_size" class="form-control" id="bed_size" value="<%=roomTypeVO.getBed_size()%>">
 							    </div>
 							</div>
 							<div class="row mb-2">
 							    <label for="type_info" class="col-sm-3 col-form-label">房型資訊</label>
 							    <div class="col-sm-8">
-							    	<textarea name="type_info" rows="3" class="form-control" id="type_info"><%=(roomTypeVO == null) ? "" : roomTypeVO.getType_info()%></textarea>
+							    	<textarea name="type_info" rows="3" class="form-control" id="type_info"><%=roomTypeVO.getType_info()%></textarea>
 							    </div>
 							</div>
 							<div class="row mb-2">
 							    <label for="type_facility" class="col-sm-3 col-form-label">房型設施</label>
 							    <div class="col-sm-8">
-							    	<textarea name="type_facility" rows="3" class="form-control" id="type_facility"><%=(roomTypeVO == null) ? "" : roomTypeVO.getType_facility()%></textarea>
+							    	<textarea name="type_facility" rows="2" class="form-control" id="type_facility"><%=roomTypeVO.getType_facility()%></textarea>
 							    </div>
+							</div>
+							<div class="row mb-2">
+							    <label class="col-sm-3 col-form-label">房型狀態</label>
+							    <div class="col-sm-8">
+								    <select class="mt-2 form-select" id="type_facility" name="type_state">
+	                                    <option value = true ${roomTypeVO.type_state == true ? 'selected' : '' }>上架</option>
+	                                    <option value = false ${roomTypeVO.type_state == false ? 'selected' : '' }>下架</option>
+	                                </select>
+                                </div>	
 							</div>
 						</div>
 						<div class="col-xl-5 imgs">
-							<div class="row mb-2">
+							<div class="row mb-3">
 							    <label for="formFile" class="col-sm-3 col-form-label">房型照片</label>
 							    <div class="col-sm-8">
 							    	<input type="file" class="form-control" id="formFile" multiple name="imageFile">
@@ -109,8 +133,9 @@
 						</div>
 					</div>
 					<div class="mb-3 d-flex justify-content-center align-items-center">
-						<input type="hidden" name="action" value="insert">
-						<input class="btn btn-primary col-lg-3" type="submit" value="新增">
+						<input type="hidden" name="action" value="update">
+						<input type="hidden" name="type_no" value="<%=roomTypeVO.getType_no()%>">
+						<input class="btn btn-primary col-lg-3" type="submit" value="修改">
                 	</div>
 				</form>
 			</div>
@@ -119,7 +144,7 @@
 		<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 		<script>
 			$(document).ready(function() {
-				$("#pagename").text("新增房型");
+				$("#pagename").text("修改房型");
 			} );
 		</script>
 	</body>

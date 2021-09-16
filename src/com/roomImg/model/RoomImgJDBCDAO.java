@@ -15,6 +15,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 	private static final String DELETE = "DELETE FROM room_img WHERE img_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_img WHERE img_no = ?";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_img WHERE type_no = ?";
+	private static final String GET_ALL = "SELECT * FROM room_img";
 	
 	static {
 		try {
@@ -87,6 +88,30 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roomImgVO = new RoomImgVO();
+				roomImgVO.setImg_no(rs.getInt("img_no"));
+				roomImgVO.setType_no(rs.getInt("type_no"));
+				roomImgVO.setType_img(rs.getBytes("type_img"));
+				list.add(roomImgVO);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return list;
+	}
+	
+	@Override
+	public List<RoomImgVO> getAll() {
+		List<RoomImgVO> list = new ArrayList<>();
+		RoomImgVO roomImgVO = null;
+		ResultSet rs = null;
+		
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

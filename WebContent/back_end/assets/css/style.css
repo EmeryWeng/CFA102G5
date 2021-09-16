@@ -34,8 +34,8 @@
     --rgba-primary-7: rgba(179,140,97, 0.7);
     --rgba-primary-8: rgba(179,140,97, 0.8);
     --rgba-primary-9: rgba(179,140,97, 0.9);
-    --font-family-base: Roboto, sans-serif;
-    --font-family-title: Roboto, sans-serif;
+    --font-family-base: Arial, "Times New Roman", sans-serif;
+    --font-family-title: Arial, "Times New Roman", sans-serif;
     --title: #000
 }
 .btn i {
@@ -244,7 +244,7 @@
 
  body {
      margin: 0;
-     font-family: "Roboto", sans-serif;
+     font-family: Arial, "Times New Roman", sans-serif;
      font-size: .875rem;
      font-weight: 400;
      line-height: 1.5;
@@ -6410,7 +6410,7 @@
      z-index: 1070;
      display: block;
      margin: 0;
-     font-family: "Roboto", sans-serif;
+     font-family: Arial, "Times New Roman", sans-serif;
      font-style: normal;
      font-weight: 400;
      line-height: 1.5;
@@ -6537,7 +6537,7 @@
      z-index: 1060;
      display: block;
      max-width: 276px;
-     font-family: "Roboto", sans-serif;
+     font-family: Arial, "Times New Roman", sans-serif;
      font-style: normal;
      font-weight: 400;
      line-height: 1.5;
@@ -38397,4 +38397,18 @@
  .form-control:focus {
     border-color: #30504F;
     outline: 0;
+}
+
+input[type=text],input[type=search],input[type=password],input[type=number],input[type=email],select,textarea{
+    font-family: Arial, "Times New Roman", sans-serif;
+    letter-spacing: 0.5px;
+    font-size: 16px;
+}
+
+::placeholder{
+    color: #8FC2C2;
+}
+
+img {
+	max-width: 100%;
 }

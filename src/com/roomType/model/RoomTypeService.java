@@ -49,4 +49,8 @@ public class RoomTypeService {
 	public List<RoomTypeVO> getAllRoomType() {
 		return dao.getAll();
 	}
+	
+	public void changeState(Integer type_no,Boolean type_state) {
+		dao.changeState(type_no, type_state);
+	}
 }
