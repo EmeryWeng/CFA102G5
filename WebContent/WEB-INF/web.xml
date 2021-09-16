@@ -55,7 +55,7 @@
 		<servlet-class>com.activityOrder.controller.ActivityOrderServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ActivitySessionServlet</servlet-name>
+		<servlet-name>ActivityOrderServlet</servlet-name>
 		<url-pattern>/activity/ActivityOrder</url-pattern>
 	</servlet-mapping>
 	
@@ -64,8 +64,46 @@
 		<servlet-class>com.activityOrderDetail.controller.ActivityOrderDetailServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ActivitySessionServlet</servlet-name>
+		<servlet-name>ActivityOrderDetailServlet</servlet-name>
 		<url-pattern>/activity/ActivityOrderDetail</url-pattern>
+	</servlet-mapping>
+	
+	
+<!-- 促銷、評價 -->
+	<servlet>
+		<servlet-name>ActivityPromotionServlet</servlet-name>
+		<servlet-class>com.activityPromotion.controller.ActivityPromotionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityPromotionServlet</servlet-name>
+		<url-pattern>/activity/ActivityPromotion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityPromotionDetailServlet</servlet-name>
+		<servlet-class>com.activityPromotionDetail.controller.ActivityPromotionDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityPromotionDetailServlet</servlet-name>
+		<url-pattern>/activity/ActivityPromotionDetail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityEvaluationServlet</servlet-name>
+		<servlet-class>com.activityEvaluation.controller.ActivityEvaluationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityEvaluationServlet</servlet-name>
+		<url-pattern>/activity/ActivityEvaluationServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityEvaluationDetailServlet</servlet-name>
+		<servlet-class>com.activityEvaluationDetail.controller.ActivityEvaluationDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityEvaluationDetailServlet</servlet-name>
+		<url-pattern>/activity/ActivityEvaluationDetail</url-pattern>
 	</servlet-mapping>
 
 	<!-- 活動結束 -->
