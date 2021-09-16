@@ -58,6 +58,7 @@
 		</c:forEach>
 	</ul>
 </c:if>
+
 	<tr>
 		<th>店家編號</th>
 		<th>店家名稱</th>

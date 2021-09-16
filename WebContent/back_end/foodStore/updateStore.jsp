@@ -16,6 +16,7 @@
 		
 
 <div class="main-content card card-body table-responsive">
+     <h4><a href="<%=request.getContextPath()%>/back_end/foodStore/allStore.jsp">回店家列表</a></h4>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>

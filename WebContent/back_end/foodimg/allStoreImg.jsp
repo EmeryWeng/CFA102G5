@@ -9,57 +9,22 @@
     List<FoodImgVO> list = Svc.allImg();
     pageContext.setAttribute("list",list);
 %>
+<jsp:useBean id="storeSvc" scope="page" class="com.foodStore.model.FoodStoreService" />
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<title>所有店家照片</title>
-
+	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 800px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	text-align:center;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
 
 </style>
 
 </head>
 <body bgcolor='white'>
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 
-<table id="table-1">
-	<tr><td>
-		 <h4><a href="/CFA102G5/back_end/foodimg/select_page.jsp">回首頁</a></h4>
-	</td></tr>
-</table>
-
-<table>
+<div class="main-content card card-body table-responsive">
+     <h4><a href="<%=request.getContextPath()%>/back_end/foodStore/allStore.jsp">回店家列表</a></h4>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -69,21 +34,22 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
+<table id="example4" class="display" style="min-width: 845px">
+	<thead>
 	<tr>
 		<th>照片編號</th>
-		<th>店家編號</th>
-		<th>照片</th>
+		<th>店家名稱</th>
+		<th>店家照片</th>
 		<th>修改</th>
 		<th>刪除</th>
 	</tr>
-	<%@ include file="page1.file" %> 
-	<c:forEach var="FoodImgVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+	</thead>
+	<c:forEach var="FoodImgVO" items="${list}">
 		
 		<tr>
 			<td>${FoodImgVO.fd_img_no}</td>
-			<td>${FoodImgVO.fd_no}</td>
-			<td><img src="${pageContext.request.contextPath}/FoodImgReader?fd_img_no=${FoodImgVO.fd_img_no}" style="width:200px;high:200px"></td>
+			<td>${storeSvc.getOneStore(FoodImgVO.fd_no).fd_name}</td>
+			<td><img src="${pageContext.request.contextPath}/FoodImgReader.do?fd_img_no=${FoodImgVO.fd_img_no}" style="width:200px;height:200px"></td>
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" style="margin-bottom: 0px;">
@@ -101,7 +67,12 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="page2.file" %>
-
+</div>
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
+<script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("店家照片列表");
+		</script>
+		
 </body>
 </html>

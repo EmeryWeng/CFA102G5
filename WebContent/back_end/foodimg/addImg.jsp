@@ -1,21 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.foodImg.model.*"%>
+<%
+Integer fd_no = null;
+if(request.getAttribute("fd_no")!=null){
+fd_no = (Integer)request.getAttribute("fd_no");
+}else{
+fd_no = new Integer(request.getParameter("fd_no"));
+}
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<title>Insert title here</title>
+	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <style type="text/css">
 img{
-width:250px;
-heigh:250px;
+width:300px;
+
 }
 
 </style>
 </head>
+
 <body>
-<%-- 錯誤表列 --%>
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
+  
+     <div class="main-content card card-body table-responsive">
+     <h4><a href="<%=request.getContextPath()%>/back_end/foodStore/allStore.jsp">回店家列表</a></h4>
+     <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
 	<ul>
@@ -25,42 +39,33 @@ heigh:250px;
 	</ul>
 </c:if>
 
-<div class="div1">
-	<div class="card" style="width: 18rem;">
-	<div id="divstorall" class="card-body">
-	<a href='allStoreImg.jsp' class="btn btn-primary" role="button">查詢全部店家照片</a>
-    </div>
-    </div>
-    
-    <div class="card" style="width: 18rem;">
-    <div class="div2" class="card-body">
-	 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" >
-        <b>搜尋店家照片編號</b>
-        <input type="text" name="fd_no" required placeholder="填入數字">
-        <input type="hidden" name="action" value="getOneFoodStoreImg">
-        <input type="submit" class="btn btn-primary" value="送出">
-    </FORM>
-    </div>
-    </div>
-    
-    <div class="card" style="width: 18rem;">
-     <div class="div3" class="card-body">
     <FORM METHOD="post" action="<%=request.getContextPath()%>/FoodImg.do" enctype="multipart/form-data">
-        <b>請輸入要新增圖片店家的編號</b>
-        <input type="text" name="fd_no" required placeholder="填入數字">
-        <input type="file" name="fd_img" id="upload" onchange="loadImageFile(event)" required>
+    	<table id="example4" class="display" style="min-width: 845px">
+    	<tr>
+    		<td>店家編號:<font color=red><b><%=fd_no%></b></font></td>
+        	<td><input type="hidden" name="fd_no" value="<%=fd_no%>"></td>
+        </tr>
+        <tr>
+        <td><input type="file" name="fd_img" id="upload" onchange="loadImageFile(event)" required>
         <img id="image" src="" >
+        </tr> 
+        </table>
         <input type="submit" value="送出" class="btn btn-primary"> 
         <input type="hidden" name="action" value="addImg">
+        
     </FORM>
        </div>
-       </div>
-</div>
-</body>
-
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 <script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("新增店家照片");
+
+
 function loadImageFile(event){ 
 	let image = document.getElementById('image');
 	image.src = URL.createObjectURL(event.target.files[0]); };
-</script>
+</script>		
+</body>
+
+
 </html>

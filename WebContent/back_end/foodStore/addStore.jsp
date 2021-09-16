@@ -9,12 +9,6 @@ FoodStoreVO storeVO = (FoodStoreVO) request.getAttribute("storeVO");
 <html>
 <head>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
-<title>Insert title here</title>
-<style>
-  
-  
-</style>
-<title>Insert title here</title>
 </head>
 <body>
 		<%@ include file="/back_end/header.file" %> <!-- Header -->
