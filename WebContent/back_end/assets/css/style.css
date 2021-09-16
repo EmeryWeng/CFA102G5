@@ -38408,7 +38408,3 @@ input[type=text],input[type=search],input[type=password],input[type=number],inpu
 ::placeholder{
     color: #8FC2C2;
 }
-
-img {
-	max-width: 100%;
-}

@@ -14,6 +14,7 @@
 		<style>
 		.card {
 			background-color: #f7f6f2;
+			margin: 0 auto;
 		}
 		.imgs {
 			background-color: #fff;
@@ -50,11 +51,11 @@
 						</c:forEach>
 					</ul>
 			</c:if>
-			<div class="card col-xl-11">
+			<div class="card col-xl-9">
 <!-- 				<div class="card-header"></div>                     -->
 				<form method="post" action="<%=request.getContextPath()%>/room/RoomType" name="addRoomType">
 					<div class="card-body d-flex justify-content-center">
-						<div class="col-xl-6">
+						<div class="col-xl-8">
 							<div class="row mb-2">
 							    <label for="type_name" class="col-sm-3 col-form-label">房型名稱</label>
 							    <div class="col-sm-8">
@@ -88,24 +89,15 @@
 							<div class="row mb-2">
 							    <label for="type_info" class="col-sm-3 col-form-label">房型資訊</label>
 							    <div class="col-sm-8">
-							    	<textarea name="type_info" rows="3" class="form-control" id="type_info"><%=(roomTypeVO == null) ? "" : roomTypeVO.getType_info()%></textarea>
+							    	<textarea name="type_info" rows="4" class="form-control" id="type_info"><%=(roomTypeVO == null) ? "" : roomTypeVO.getType_info()%></textarea>
 							    </div>
 							</div>
 							<div class="row mb-2">
 							    <label for="type_facility" class="col-sm-3 col-form-label">房型設施</label>
 							    <div class="col-sm-8">
-							    	<textarea name="type_facility" rows="3" class="form-control" id="type_facility"><%=(roomTypeVO == null) ? "" : roomTypeVO.getType_facility()%></textarea>
+							    	<textarea name="type_facility" rows="4" class="form-control" id="type_facility"><%=(roomTypeVO == null) ? "" : roomTypeVO.getType_facility()%></textarea>
 							    </div>
 							</div>
-						</div>
-						<div class="col-xl-5 imgs">
-							<div class="row mb-2">
-							    <label for="formFile" class="col-sm-3 col-form-label">房型照片</label>
-							    <div class="col-sm-8">
-							    	<input type="file" class="form-control" id="formFile" multiple name="imageFile">
-							    </div>
-							</div>
-							
 						</div>
 					</div>
 					<div class="mb-3 d-flex justify-content-center align-items-center">

@@ -110,7 +110,7 @@ public class RoomTypeServlet extends HttpServlet {
 		}	
 		
 		
-		if ("getOne_For_Update".equals(action)) { // 來自listAll的請求
+		if ("getOneForUpdate".equals(action)) { // 來自listAll的請求
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -131,10 +131,7 @@ public class RoomTypeServlet extends HttpServlet {
 
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/roomType/listAllRoomType.jsp");
-				failureView.forward(req, res);
+				errorMsgs.add("圖片新增失敗");
 			}
 		}
 		

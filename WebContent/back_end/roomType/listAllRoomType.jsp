@@ -84,10 +84,15 @@
 			width: 250px;
 			border-radius: 0 30px 0 30px;
 			overflow: hidden;
+			background-color: #F7F6F2;
+		}
+		img.no-img {
+			padding-left: 20px;
 		}
 		img {
 			max-width: 100%;
 		}
+		
 		</style>
 	</head>
 
@@ -163,9 +168,10 @@
 										<img src="<%=request.getContextPath()%>/room/RoomImg?type_no=${roomTypeVO.type_no}&action=showFirstImages">
 									</c:when>
 									<c:otherwise>
-										<img src="<%=request.getContextPath()%>/back_end/assets/img/noimages.png">
+										<img src="<%=request.getContextPath()%>/back_end/assets/img/noimages.png" class="no-img">
 									</c:otherwise>
 								</c:choose>
+								</div>
 							</td>
 							<td>${roomTypeVO.type_name}</td>
 							<td>${roomTypeVO.type_qty}人</td>
@@ -177,16 +183,16 @@
 			                    <label class="switches" data-no="${roomTypeVO.type_no}" data-state="${roomTypeVO.type_state}"></label>
 							</td>
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/room/RoomType">
+								<form method="post" action="<%=request.getContextPath()%>/room/RoomImg">
 									<input type="hidden" name="type_no"  value="${roomTypeVO.type_no}">
-			     					<input type="hidden" name="action"	value="getOne_For_Update">
+			     					<input type="hidden" name="action"	value="getOneForShowImages">
 									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-image'></i>查看</button>
 			     				</form>
 							</td>
 							<td>
 								<form method="post" action="<%=request.getContextPath()%>/room/RoomType">
 									<input type="hidden" name="type_no"  value="${roomTypeVO.type_no}">
-			     					<input type="hidden" name="action"	value="getOne_For_Update">
+			     					<input type="hidden" name="action"	value="getOneForUpdate">
 									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-pencil'></i>修改</button>
 			     				</form>
 							</td>
