@@ -33,12 +33,39 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>ActivitySessionServlet</servlet-name>
+		<servlet-class>com.activitySession.controller.ActivitySessionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivitySessionServlet</servlet-name>
+		<url-pattern>/activity/ActivitySession</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>ActivityImageServlet</servlet-name>
 		<servlet-class>com.activityImage.controller.ActivityImageServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ActivityImageServlet</servlet-name>
 		<url-pattern>/activity/ActivityImage</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityOrderServlet</servlet-name>
+		<servlet-class>com.activityOrder.controller.ActivityOrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivitySessionServlet</servlet-name>
+		<url-pattern>/activity/ActivityOrder</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityOrderDetailServlet</servlet-name>
+		<servlet-class>com.activityOrderDetail.controller.ActivityOrderDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivitySessionServlet</servlet-name>
+		<url-pattern>/activity/ActivityOrderDetail</url-pattern>
 	</servlet-mapping>
 
 	<!-- 活動結束 -->
