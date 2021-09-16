@@ -19,6 +19,15 @@
   	<servlet-name>FoodimgServlet</servlet-name>
   	<url-pattern>/FoodImg.do</url-pattern>
   </servlet-mapping>
+  
+   <servlet>
+  	<servlet-name>FoodImgReader</servlet-name>
+  	<servlet-class>com.foodImg.controller.FoodImgReader</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FoodImgReader</servlet-name>
+  	<url-pattern>/FoodImgReader.do</url-pattern>
+  </servlet-mapping>
   <!--   美食照片結束   -->
   
    <!--   美食店家開始   -->
