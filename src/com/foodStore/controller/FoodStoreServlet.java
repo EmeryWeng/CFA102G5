@@ -164,20 +164,24 @@ public class FoodStoreServlet extends HttpServlet {
 			
 			try {
 			Integer fd_class_no = new Integer(req.getParameter("fd_class_no"));
+			List<FoodStoreVO> storeVO = null;
 			FoodStoreService ser = new FoodStoreService();
-			List<FoodStoreVO> storeVO = ser.findfdByFK(fd_class_no);
-			
-			if(storeVO.size()==0) {
-				errorMsgs.add("查無此類別店家");
-			}	
-			if (!errorMsgs.isEmpty()) {
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/foodStore/allStore.jsp");
-				failureView.forward(req, res);
-				return;
+			if(fd_class_no==1) {
+				 storeVO = ser.getAllFoodStore();
+			}else {
+				 storeVO = ser.findfdByFK(fd_class_no);
+				if(storeVO.size()==0) {
+					errorMsgs.add("查無此類別店家");
+					if (!errorMsgs.isEmpty()) {
+						RequestDispatcher failureView = req
+								.getRequestDispatcher("/back_end/foodStore/storeMap.jsp");
+						failureView.forward(req, res);
+						return;
+					}
+				}	
 			}
 			req.setAttribute("storeVO", storeVO);
-			String url = "back_end/foodStore/getStoreFK.jsp";
+			String url = "back_end/foodStore/storeMap.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
 			successView.forward(req, res);
 			return;
@@ -185,7 +189,7 @@ public class FoodStoreServlet extends HttpServlet {
 			}catch (Exception e) {
 				errorMsgs.add("查詢資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/foodStore/store_page.jsp");
+						.getRequestDispatcher("/back_end/foodStore/storeMap.jsp");
 				failureView.forward(req, res);
 			}
 		}
