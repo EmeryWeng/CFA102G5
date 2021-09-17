@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>活動-查詢</title>
+<title>Feliz-後台</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/selectAct.css" rel="stylesheet">
 
@@ -141,7 +141,7 @@
 			myForm.submit();
 		}
 		// ● 可在這更改header的標題，不寫也可以，但請變成空字串 
-		$("#pagename").text("說明");
+		$("#pagename").text("");
 	</script>
 </body>
 </html>

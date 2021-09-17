@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>活動-新增</title>
+<title>Feliz-後台</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/addAct.css" rel="stylesheet">
 </head>
@@ -115,7 +115,7 @@
 		
 	}
 		// ● 可在這更改header的標題，不寫也可以，但請變成空字串 
-		$("#pagename").text("說明");
+		$("#pagename").text("");
 </script>
 </body>
 </html>
