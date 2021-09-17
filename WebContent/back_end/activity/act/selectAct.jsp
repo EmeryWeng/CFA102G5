@@ -77,7 +77,7 @@
 				</tr>
 			<%@ include file="/back_end/activity/pages/act/page1.file" %> 
 				<c:forEach var="actVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-				<tr ${(actVO.act_no == param.updateActNo) ? 'style="background-color:#CCCCFF;"':''}>
+				<tr ${(actVO.act_no == param.updateActNo) ? 'style="background-color:#FFE6FF;"':''}>
 					<th>${actVO.act_no}</th>
 					<td>
 						<c:forEach var="actClassVO" items="${actClassService.all}">
