@@ -59,6 +59,15 @@ public class ActivitySessionService {
 		return dao.findByPk(act_session_no);
 	}
 	
+	
+	public void switchActSessionState(Integer act_session_no,Boolean act_session_hold_state) {
+		dao.switchActSessionState(act_session_no, act_session_hold_state);
+	}
+	
+	public List<ActivitySessionVO> getAll() {
+		return dao.getAll();
+	}
+	
 	public List<ActivitySessionVO> getActSessionByActNo(Integer act_no) {
 		return dao.findByActNo(act_no);
 	}
@@ -68,9 +77,4 @@ public class ActivitySessionService {
 				.filter(act -> act.getAct_session_hold_state() == true)
 				.collect(Collectors.toList());
 	}
-	
-	public List<ActivitySessionVO> getAll() {
-		return dao.getAll();
-	}
-	
 }
