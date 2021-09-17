@@ -61,6 +61,51 @@
 		<servlet-name>RoomImgServlet</servlet-name>
 		<url-pattern>/room/RoomImg</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RoomServlet</servlet-name>
+		<servlet-class>com.room.controller.RoomServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomServlet</servlet-name>
+		<url-pattern>/room/Room</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RoomOrderServlet</servlet-name>
+		<servlet-class>com.roomOrder.controller.RoomOrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomOrderServlet</servlet-name>
+		<url-pattern>/room/RoomOrder</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RoomOrderDetailServlet</servlet-name>
+		<servlet-class>com.roomOrderDetail.controller.RoomOrderDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomOrderDetailServlet</servlet-name>
+		<url-pattern>/room/RoomOrderDetail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RoomRsvServlet</servlet-name>
+		<servlet-class>com.roomRsv.controller.RoomRsvServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomRsvServlet</servlet-name>
+		<url-pattern>/room/RoomRsv</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CouponServlet</servlet-name>
+		<servlet-class>com.coupon.controller.CouponServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CouponServlet</servlet-name>
+		<url-pattern>/coupon/Coupon</url-pattern>
+	</servlet-mapping>
 	<!-- 訂房結束 -->
 
 </web-app>

@@ -131,7 +131,7 @@ public class RoomTypeServlet extends HttpServlet {
 
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
-				errorMsgs.add("圖片新增失敗");
+				errorMsgs.add("失敗");
 			}
 		}
 		

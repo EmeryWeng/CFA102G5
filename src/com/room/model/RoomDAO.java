@@ -20,6 +20,7 @@ public class RoomDAO implements I_RoomDAO {
 	private static final String GET_ONE = "SELECT * FROM room WHERE rm_no = ?";
 	private static final String GET_ALL = "SELECT * FROM room ORDER BY rm_no";
 	private static final String GET_ALL_BY_TYPE_STATE = "SELECT * FROM room WHERE type_no = ? AND rm_state = 1";
+	private static final String GET_ALL_BY_RM_STATE = "SELECT * FROM room WHERE rm_state = ?";
 	
 	private static DataSource ds = null;
 	static {
@@ -227,6 +228,44 @@ public class RoomDAO implements I_RoomDAO {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
 			pstmt.setInt(1, type_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roomVO = new RoomVO();
+				roomVO.setRm_no(rs.getString("rm_no"));
+				roomVO.setType_no(rs.getInt("type_no"));
+				roomVO.setRm_info(rs.getString("rm_info"));
+				roomVO.setRm_state(rs.getInt("rm_state"));
+				roomVO.setName_title(rs.getString("name_title"));
+				list.add(roomVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	@Override
+	public List<RoomVO> getAllByRmState(Integer rm_state) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		List<RoomVO> list = new ArrayList<>();
+		RoomVO roomVO = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_BY_RM_STATE);
+			pstmt.setInt(1, rm_state);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

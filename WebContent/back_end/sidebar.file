@@ -61,7 +61,7 @@
 								<li><a href="<%=request.getContextPath()%>/back_end/roomType/addRoomType.jsp">新增房型</a></li>
 							</ul>
 						</li>
-						<li><a href="#">房號管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back_end/room/listAllRoom.jsp">房間管理</a></li>
 					</ul>
 				</li>
 				<li>
