@@ -29,7 +29,7 @@ public class ActivityServlet extends HttpServlet {
 		ActivityService actService = new ActivityService(); //活動
 		ActivityEvaluationService actEvaluationService = new ActivityEvaluationService(); //活動評價
 		ActivityOrderDetailService actOrderDetailService = new ActivityOrderDetailService(); //活動訂單明細
-		final Integer act_join_number = 10; //可參與人數
+		final Integer act_join_number = 20; //可參與人數
 		final String act_location = "臺灣-花蓮"; //活動地點
 		Boolean act_state = true;
 		Integer act_evaluation_number = (int)actEvaluationService.getAll()	//活動評價總人數
@@ -37,7 +37,7 @@ public class ActivityServlet extends HttpServlet {
 		
 		Integer act_sell_number = (int)actOrderDetailService.getAll()
 											.stream().filter(orderDetail -> orderDetail.getAct_order_detail_state() != 2)
-											.count(); //寫錯的 之後等活動場次來 才能追加 同場活動 計算累計人數
+											.count(); //寫錯的 之後等訂單做好 才能追加 同場活動 計算累計銷售人數
 		Double act_average_star_number = (double)actEvaluationService.getAll().stream()
 															.mapToInt(actEva -> actEva.getAct_evaluation_star_number())
 															.sum()/act_evaluation_number; 
