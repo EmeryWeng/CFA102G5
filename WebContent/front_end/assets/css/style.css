@@ -6195,3 +6195,11 @@ h3.area-subtitle {
   width: 110%;
   height: 110%;
 }
+input[type=text],input[type=search],input[type=password],input[type=number],input[type=email]{
+    font-family: Arial, "Times New Roman", sans-serif;
+    letter-spacing: 0.5px;
+    font-size: 16px;
+}
+::placeholder{
+    color: #8FC2C2;
+}

@@ -26,6 +26,12 @@ public class Testdep {
 //		
 //		deptest.updateDep(devo);
 //		System.out.println("修改成功");
+		// 查詢PK=====================================
+		devo = deptest.getDepPK(1);
+		
+		System.out.println(devo.getDep_no());
+		System.out.println(devo.getDep_name());
+		System.out.println(devo.getDep_state());
 		
 		// 查詢=====================================
 		

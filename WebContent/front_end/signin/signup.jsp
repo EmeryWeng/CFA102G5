@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.member.model.*"%>
+    
+
 <!doctype html>
 <html lang="en">
     <head>
-        <%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
+        <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
     </head>
     <body>
-		<%@ include file="../loading.file" %> <!-- loading -->
-        <%@ include file="../header.file" %> <!-- Header -->
+		<%@ include file="/front_end/loading.file" %> <!-- loading -->
+        <%@ include file="/front_end/header.file" %> <!-- Header -->
 
 	<!-- Inner Banner -->
 	<div class="inner-banner">
@@ -31,72 +35,98 @@
 					<span class="sp-color">Sign Up</span>
 					<h2>註冊</h2>
 				</div>
-				<form id="contactForm">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="form-group">
-								<input type="text" name="name" class="form-control" required
-									data-error="請輸入您的姓名" placeholder="Name">
-							</div>
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do" name="form1" enctype="multipart/form-data">
+<div>
+	<div class="col-lg-12">
+		<div class="form-group">
+		<input type="TEXT" class="form-control" name="mem_name" placeholder="name"  size="30" value="" required data-error="請輸入您的姓名"/></div>
+	</div>
+	<div class="row">
+    <div class="form-group form-check col-lg-3 col-sm-3 pl-5">
+		<input type="radio" class="form-check-input" 
+					name="mem_sex" value="1"> <label
+						class="form-check-label">男性</label>
 						</div>
-
-						<div class="form-group form-check col-lg-3 col-sm-3 pl-5">
-							<input type="radio" class="form-check-input" id="male"
-								name="radio-stacked" required> <label
-								class="form-check-label" for="male">男性</label>
-						</div>
-						<div class="form-group form-check col-lg-3 col-sm-3">
-							<input type="radio" class="form-check-input" id="female"
-								name="radio-stacked" required> <label
-								class="form-check-label" for="female">女性</label>
-						</div>
-
-						<div class="form-check col-lg-12">
-							<div class="form-group">
-								<input type="email" name="email" id="" class="form-control"
-									required data-error="請輸入正確的email格式" placeholder="Email">
-							</div>
-						</div>
-
-						<div class="col-lg-12">
-							<div class="form-group">
-								<input type="text" name="text" id="" class="form-control"
-									pattern="^09[0-9]{8}$" required data-error="請輸入10碼數字"
-									placeholder="Phone">
-								<div class="help-block with-errors"></div>
-							</div>
-						</div>
-
-						<div class="col-12">
-							<div class="form-group">
-								<input class="form-control" type="password" name="password"
-									pattern="[a-zA-Z0-9]{6,30}" required
-									placeholder="Password (長度6-30字內，要包含數字、英文字)">
-								<div class="help-block with-errors"></div>
-							</div>
-						</div>
-
-						<div class="col-lg-12 col-md-12 text-center">
-							<button type="submit" class="default-btn btn-bg-one">註冊
-							</button>
-						</div>
-
-						<div class="col-12">
-							<p class="account-desc">
-								已經有帳號? <a href="signin.jsp">登入</a>
-							</p>
-						</div>
+	<div class="form-group form-check col-lg-3 col-sm-3">
+		<input type="radio" class="form-check-input"
+			name="mem_sex" required value="2"> <label
+				class="form-check-label">女性</label>
+			</div>
+	</div>
+	<div class="col-lg-12">
+		<div class="form-group">
+		<input type="email" class="form-control" name="mem_mail" placeholder="E-mail"  size="30" value="" required data-error="請輸入正確的email格式"/></div>
+	</div>
+	<div class="col-lg-12">
+		<div class="form-group">
+		<input id="password" type="password" onblur="checkpas1();" class="form-control" name="mem_password" placeholder="password"  size="30" value="" /></div>
+		 <div class="help-block with-errors"></div>
+	</div>
+	<div class="col-12">
+		<div class="form-group">
+			<input id="repassword" onChange="checkpas();" class="form-control" type="password" name="password" required
+					placeholder="Password (確認密碼)" >
+						<span class="tip" style="color: red">密碼不相同</span>
+						<div class="help-block with-errors"></div>
 					</div>
-				</form>
+				</div>
+	<div class="col-lg-12">
+		<div class="form-group">
+		<input type="TEXT" class="form-control" name="mem_mobile" placeholder="mobile"  size="30" value="" pattern="^09[0-9]{8}$" required data-error="請輸入手機號碼" /></div>
+		 <div class="help-block with-errors"></div>
+	</div>
+	<div class="col-lg-12">
+		<div class="form-group">
+		<input type="TEXT" class="form-control" name="mem_add" placeholder="地址"  size="30" value="" /></div>
+	</div>
+</div>
+ <input type="hidden" class="form-control" name="mem_img"value="" >			
+<div class="col-lg-12 col-md-12 text-center"><br>
+	<button type="submit" class="default-btn btn-bg-one" onclick="checkpas2()" name="action" value="addMember">註冊</button>
+		</div>
+			</form>
+				<div class="col-12">
+					<p class="account-desc">
+						已經有帳號? <a href="signin.jsp">登入</a>
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- Sign Up Area End -->
 
-	<%@ include file="../message.file" %> <!-- Message --> 
-        <%@ include file="../footer.file" %> <!-- Footer -->      
-        <%@ include file="../commonJS.file" %> <!-- 基本JS檔案 -->
-    
+		<%@ include file="/front_end/message.file" %> <!-- Message --> 
+        <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
+        <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
+    <script>
+
+    $(".tip").hide();
+    function checkpas1(){
+    var pas1=document.getElementById("password").value;
+    var pas2=document.getElementById("repassword").value;
+    if(pas1!=pas2&&pas2!="")
+    $(".tip").show();
+	    else
+	    	$(".tip").hide();
+	    }
+    function checkpas(){
+    var pas1=document.getElementById("password").value;
+    var pas2=document.getElementById("repassword").value;
+    if(pas1!=pas2){
+    $(".tip").show();
+	    }else{
+	    $(".tip").hide();
+	    }
+    }
+    function checkpas2(){
+    var pas3=document.getElementById("password").value;
+    var pas4=document.getElementById("repassword").value;
+    if(pas3!=pas4){
+	    alert("兩次輸入的密碼不一致！");
+	    return false;
+	    	}
+    }
+    </script>
         
     </body>
 </html>

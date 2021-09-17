@@ -10,24 +10,21 @@ public class TestAcc {
 
 //		新增部門權限=====================================	
 		
-		acvo.setDep_no(1);
-		acvo.setFun_no(2);
-		
-		actest.insert(acvo);
-		System.out.println(acvo);
-		System.out.println("新增成功");
+//		acvo.setDep_no(5);
+//		acvo.setFun_no(2);
+//		
+//		actest.insert(acvo);
+//		System.out.println(acvo);
+//		System.out.println("新增成功");
 
 		// 修改=====================================
-
-//		acvo.setDep_no(4);							//更改為DEP=?
-//		acvo.setFun_no(2);							//更改為FUN=?
-//		
-//		actest.update(acvo, 4, 4);			//哪一個部門DEP=?是多少FUN=?
+		
+//		actest.update(3, 3, 1, 3);	//哪一個部門DEP=?是多少FUN=?
 //		System.out.println("修改成功");
 		
 		// 刪除=====================================
 		
-//		actest.delete(acvo, 1, 2);			//哪一個部門DEP=?是多少FUN=?
+//		actest.delete(1, 1);			//哪一個部門DEP=?是多少FUN=?
 //		System.out.println("刪除成功");
 
 		// 查詢部門權限
@@ -48,13 +45,13 @@ public class TestAcc {
 
 		// 查詢全部=====================================
 
-//		List<AccessRightVO> list = actest.getAllAcc();
-//			for (AccessRightVO acc : list) {
-//			System.out.print(acc.getDep_no() + ",");
-//			System.out.println(acc.getFun_no() + ",");
-//
-//			}
-//			System.out.println("查詢成功");
+		List<AccessRightVO> list = actest.getAllAcc();
+			for (AccessRightVO acc : list) {
+			System.out.print(acc.getDep_no() + ",");
+			System.out.println(acc.getFun_no() + ",");
+
+			}
+			System.out.println("查詢成功");
 	}
 
 }

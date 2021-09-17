@@ -27,14 +27,20 @@ public class TestFoodClass {
 //		System.out.println("修改成功");
 		
 		// 查詢=====================================
+		fdvo = fdclasstest.getClassPK(1);
 		
-		List<FoodClassVO> list = fdclasstest.getAllFoodClass();
-			for (FoodClassVO fdclass : list) {
-			System.out.print(fdclass.getFd_class_no() + ",");
-			System.out.print(fdclass.getFd_class_name() + ",");
-			System.out.println(fdclass.getFd_class_state());
-			}
-			System.out.println("查詢成功");
+		System.out.println(fdvo.getFd_class_no());
+		System.out.println(fdvo.getFd_class_name());
+		System.out.println(fdvo.getFd_class_state());
+		// 查詢=====================================
+		
+//		List<FoodClassVO> list = fdclasstest.getAllFoodClass();
+//			for (FoodClassVO fdclass : list) {
+//			System.out.print(fdclass.getFd_class_no() + ",");
+//			System.out.print(fdclass.getFd_class_name() + ",");
+//			System.out.println(fdclass.getFd_class_state());
+//			}
+//			System.out.println("查詢成功");
 	}
 
 }

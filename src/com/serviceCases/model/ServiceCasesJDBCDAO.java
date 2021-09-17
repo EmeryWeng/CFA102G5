@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.util.JDBCUtil;
 
 public class ServiceCasesJDBCDAO implements I_ServiceCasesDAO {
@@ -16,6 +17,8 @@ public class ServiceCasesJDBCDAO implements I_ServiceCasesDAO {
 	private final String INSERT = "INSERT INTO SERVICE_CASES VALUES (?, ?, ?, ?, ?, ?)";
 	// 案件回覆
 	private final String UPDATE = "UPDATE SERVICE_CASES set case_reply=?, case_state=? where case_no = ?";
+	//搜尋一個問題
+	private final String GET_ONE_STMT = "SELECT * FROM SERVICE_CASES WHERE case_no = ?";
 	//搜尋全部案件
 	private final String GET_ALL_STMT = "SELECT * FROM SERVICE_CASES order by case_no";
 
@@ -117,7 +120,7 @@ public class ServiceCasesJDBCDAO implements I_ServiceCasesDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				// empVo 也稱為 Domain objects
+				
 				servicecasesVO = new ServiceCasesVO();
 				servicecasesVO.setCase_no(rs.getInt("case_no"));
 				servicecasesVO.setMem_no(rs.getInt("mem_no"));
@@ -185,6 +188,52 @@ public class ServiceCasesJDBCDAO implements I_ServiceCasesDAO {
 			System.out.println("---------------------");
 			System.out.println("查詢全部成功");
 		}
+	}
+
+	@Override
+	public ServiceCasesVO findByPrimaryKey(Integer case_no) {
+		ServiceCasesVO serviceCasesVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+			
+			pstmt.setInt(1, case_no);
+
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				
+				serviceCasesVO = new ServiceCasesVO();
+				serviceCasesVO.setCase_no(rs.getInt("case_no"));
+				serviceCasesVO.setMem_no(rs.getInt("mem_no"));
+				serviceCasesVO.setCase_title(rs.getString("case_title"));
+				serviceCasesVO.setCase_des(rs.getString("case_des"));
+				serviceCasesVO.setCase_reply(rs.getString("case_reply"));
+				serviceCasesVO.setCase_state(rs.getInt("case_state"));
+			}
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return serviceCasesVO;
 	}
 
 	

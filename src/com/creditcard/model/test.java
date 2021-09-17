@@ -35,15 +35,15 @@ public class test {
 //		for(CreditcardClassVO c : All)
 //			System.out.println(c);		
 //ADD
-//		CreditcardClassVO.setMem_no(6);
-//		CreditcardClassVO.setCrd_name("Andy5555");
-//		CreditcardClassVO.setCrd_num("1234567890123456");
-//		CreditcardClassVO.setCrd_expiry("1234");
-//		CreditcardClassVO.setCrd_security_code("223");
-//		CreditcardClassVO.setCrd_barcode("/sdfsd");
-//		
-//		dao.addCard(CreditcardClassVO);
-//		System.out.println(CreditcardClassVO);
+		CreditcardClassVO.setMem_no(6);
+		CreditcardClassVO.setCrd_name("Andy5555");
+		CreditcardClassVO.setCrd_num("1234567890123456");
+		CreditcardClassVO.setCrd_expiry("1234");
+		CreditcardClassVO.setCrd_security_code("223");
+		CreditcardClassVO.setCrd_barcode("/sdfsd");
+		
+		dao.addCard(CreditcardClassVO);
+		System.out.println(CreditcardClassVO);
 	}
 }
 	

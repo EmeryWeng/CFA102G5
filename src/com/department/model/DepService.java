@@ -6,13 +6,12 @@ public class DepService {
 	private I_DepartmentDAO dao;
 
 	public DepService() {
-		dao = new DepartmentJDBCDAO();
+		dao = new DepartmentDAO();
 	}
 
-	public DepartmentVO addDep(Integer dep_no, String dep_name, Boolean dep_state) {
+	public DepartmentVO addDep(String dep_name, Boolean dep_state) {
 
 		DepartmentVO departmentVO = new DepartmentVO();
-		departmentVO.setDep_no(dep_no);
 		departmentVO.setDep_name(dep_name);
 		departmentVO.setDep_state(dep_state);
 
@@ -30,6 +29,10 @@ public class DepService {
 
 		dao.updateDep(departmentVO);
 		return departmentVO;
+	}
+	
+	public DepartmentVO getOnePK(Integer dep_no) {
+		return dao.getDepPK(dep_no);
 	}
 
 	public List<DepartmentVO> getAll() {

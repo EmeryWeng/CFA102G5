@@ -17,6 +17,7 @@ public class RoomTypeDAO implements I_RoomTypeDAO {
 	private static final String UPDATE = "UPDATE room_type SET type_name = ?, type_qty = ?, type_price = ?, type_size = ?, bed_size = ?, type_info = ? ,type_facility = ? ,type_state = ? WHERE type_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_type WHERE type_no = ?";
 	private static final String GET_ALL = "SELECT * FROM room_type ORDER BY type_no";
+	private static final String CHANGE_STATE = "UPDATE room_type SET type_state = ? WHERE type_no = ?";
 	
 	private static DataSource ds = null;
 	static {
@@ -179,6 +180,34 @@ public class RoomTypeDAO implements I_RoomTypeDAO {
 			}
 		}
 		return list;
+	}
+	
+	@Override
+	public void changeState(Integer type_no,Boolean type_state) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(CHANGE_STATE);
+			
+			pstmt.setBoolean(1, type_state);
+			pstmt.setInt(2, type_no);
+			
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 	}
 	
 }

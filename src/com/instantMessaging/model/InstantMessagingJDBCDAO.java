@@ -148,7 +148,7 @@ public class InstantMessagingJDBCDAO implements I_InstantMessagingDAO{
 		}
 		return list;
 	}
-	
+	//以下測試用
 	public static void main(String[] args) throws IOException {
 		
 		
@@ -158,16 +158,33 @@ public class InstantMessagingJDBCDAO implements I_InstantMessagingDAO{
 //		vo.setMem_no(2);
 //		vo.setMsg_direct(true);
 //		vo.setNow_clk(LocalDateTime.now());
-//		vo.setMsg("hi你好");
-//		FileInputStream fis = new FileInputStream("img/1.jpg");
-//		byte[] array = new byte[fis.available()];
-//		fis.read(array);
+//		vo.setMsg("我的房間沒有整理過");
+////		FileInputStream fis = new FileInputStream("img/1.jpg");
+////		byte[] array = new byte[fis.available()];
+////		fis.read(array);
 //		vo.setMsg_img(array);
 //		fis.close();
 //		dao.insert(vo);
 //		System.out.println(vo);
 //		System.out.println("新增成功");
 //		System.out.println(LocalDateTime.now());
+		
+//		InstantMessagingJDBCDAO dao = new InstantMessagingJDBCDAO();
+//		InstantMessagingVO vo = new InstantMessagingVO();
+//		vo.setMem_no(2);
+//		vo.setMsg_direct(true);
+//		vo.setNow_clk(LocalDateTime.now());
+//		vo.setMsg("我的床沒有整理過");
+//		dao.insert(vo);
+//		System.out.println(vo);
+//		System.out.println("新增成功");
+//		System.out.println(LocalDateTime.now());
+		
+		
+		
+		
+		
+		
 //		
 		//修改訊息
 //		InstantMessagingJDBCDAO dao = new InstantMessagingJDBCDAO();
