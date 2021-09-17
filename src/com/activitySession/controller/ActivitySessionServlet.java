@@ -1,41 +1,136 @@
 package com.activitySession.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class ActivitySessionServlet
- */
-@WebServlet("/ActivitySessionServlet")
+import com.activityOrderDetail.model.ActivityOrderDetailService;
+import com.activitySession.model.ActivitySessionService;
+import com.activitySession.model.ActivitySessionVO;
+
+
+
 public class ActivitySessionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ActivitySessionServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");	
+		String action = request.getParameter("action");
+		ActivitySessionService actSessionService = new ActivitySessionService();
+		
+		final Integer act_session_upper_limit = 10; //活動場次上限人數
+		final Integer act_session_lower_limit = 3; //活動場次下限人數
+		final Integer act_session_real_number = 0; //活動場次實際參與人數  => 有訂單一產生 去抓該場次實際人數 在更新此欄位
+		//預設舉辦狀態為false 之後要搭配排程器 去抓 場次人數有超過下限人數 才變成true(舉辦)
+		
+//		第一次點擊新增時
+		if("beginActSessionAdd".equals(action)) {
+			
+			request.getRequestDispatcher("/back_end/activity/actSession/addActSession.jsp")
+			.forward(request, response);
+
+			return;
+		}
+		
+		//切換舉辦/不舉辦 狀態
+		if("switchActSessionState".equals(action)) {
+			final Integer act_session_no = new Integer(request.getParameter("updateActSessionNo").trim());
+			Boolean act_session_hold_state = new Boolean(request.getParameter("updateActSessionState").trim());
+		
+			actSessionService.switchActSessionState(act_session_no, act_session_hold_state == true ? false : true);
+
+			
+			request.getRequestDispatcher("/back_end/activity/actSession/selectActSession.jsp")
+			.forward(request, response);
+	
+			return;
+		}
+		
+		
+		//修改頁面	
+		if("updateActSession".equals(action)) {
+			final Integer act_session_no = new Integer(request.getParameter("updateActSessionNo").trim());
+			final ActivitySessionVO actSessionVO = actSessionService.getActSessionByPk(act_session_no);
+			
+			request.setAttribute("updateActSession_actSessionVO",actSessionVO);
+			request.getRequestDispatcher("/back_end/activity/actSession/updateActSession.jsp")
+			.forward(request, response);
+
+			return;
+		}
+		
+	//修改表單提交後	
+		if("updateActSessionSure".equals(action)) {
+			//活動場次編號
+			final Integer act_session_no = new Integer(request.getParameter("updateActSessionNo").trim());
+			//活動編號
+			final Integer act_no = new Integer(request.getParameter("actNoSelect").trim());
+			//活動場次可報名日期
+			final LocalDate act_start_date = LocalDate.parse(request.getParameter("actStartDate"));
+			//活動場次最後報名日期
+			final LocalDate act_end_date =LocalDate.parse(request.getParameter("actEndDate"));
+			//活動場次開始日期
+			final LocalDate act_session_start_date = LocalDate.parse(request.getParameter("actSessionStartDate"));
+			//活動場次開始時間
+			final LocalTime act_session_start_time = LocalTime.parse(request.getParameter("actSessionStartTime"));
+			
+			final Boolean act_session_hold_state = new Boolean(request.getParameter("actSessionState").trim());
+		
+			actSessionService.updateActSession(act_session_no, act_no, act_start_date, act_end_date, 
+				act_session_real_number, act_session_start_date, act_session_start_time, act_session_upper_limit, 
+				act_session_lower_limit, act_session_hold_state);
+			
+
+			request.getRequestDispatcher("/back_end/activity/actSession/selectActSession.jsp")
+			.forward(request, response);
+
+			return;
+		}
+		
+		//新增開始		
+		if("addActSession".equals(action)) {
+			final Integer act_no = new Integer(request.getParameter("actNoSelect").trim());
+			//活動場次可報名日期
+			final LocalDate act_start_date = LocalDate.parse(request.getParameter("actStartDate"));
+			//活動場次最後報名日期
+			final LocalDate act_end_date =LocalDate.parse(request.getParameter("actEndDate"));
+			//活動場次開始日期
+			final LocalDate act_session_start_date = LocalDate.parse(request.getParameter("actSessionStartDate"));
+			//活動場次開始時間
+			final LocalTime act_session_start_time = LocalTime.parse(request.getParameter("actSessionStartTime"));
+			
+			final Boolean act_session_hold_state = false;
+			
+			final ActivitySessionVO vo = actSessionService.addActSession(act_no, act_start_date, act_end_date, 
+					act_session_real_number, act_session_start_date,act_session_start_time, 
+					act_session_upper_limit, act_session_lower_limit, act_session_hold_state);
+
+			
+			request.getRequestDispatcher("/back_end/activity/actSession/selectActSession.jsp")
+					.forward(request, response);
+			
+			return;
+		}
+		
+		//查活動場次列表
+		if("getAll".equals(action)) {
+			
+			request.getRequestDispatcher("/back_end/activity/actSession/selectActSession.jsp")
+			.forward(request, response);
+	
+			return;
+		}
 	}
 
 }
