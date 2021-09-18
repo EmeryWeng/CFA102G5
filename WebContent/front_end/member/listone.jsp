@@ -65,7 +65,7 @@ footer.footer{
 	  <div class="p-2 bg-light border">${memVO.mem_add}</div>
 	  <div class="p-2 bg-light border">${memVO.mem_state == true ? '正常' : '未啟用'}</div>
 	  
-	<div class="d-grid gap-2">
+	<div class="d-grid gap-2 d-flex justify-content-center">
 		 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
             <input class="btn btn-outline-secondary" type="submit" value="修改資料">
             <input type="hidden" name="mem_no"  value="${memVO.mem_no}">
