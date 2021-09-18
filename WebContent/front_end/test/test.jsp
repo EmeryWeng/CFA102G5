@@ -83,10 +83,10 @@
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
         
         <script>
-// 		● header顯示目前在哪個區塊，"活動"的頁面請將nth-child(1)改成2，"美食"的頁面改成3，其他人這行可刪掉
+		// ● header顯示目前在哪個區塊，"活動"的頁面請將nth-child(1)改成2，"美食"的頁面改成3，其他人這行可刪掉
         $(`.nav-item:nth-child(1)>a`).attr('class', 'active');
         
-//      ● 以下是sweetalert2的範例也可以刪除
+		// ● 以下是sweetalert2的範例也可以刪除
         // 簡易版
         function addToCart() {
 					// 簡易版；標題,內文,圖示
