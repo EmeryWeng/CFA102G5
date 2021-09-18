@@ -86,8 +86,8 @@
 						</li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動場次管理</a>
 							<ul aria-expanded="false">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/ActivitySession?action=beginActSessionAdd">新增活動場次</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/ActivitySession?action=getAll">活動場次列表</a></li>
 							</ul>
 						</li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動促銷管理</a>

@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>活動-查詢</title>
+<title>Feliz-後台</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/selectAct.css" rel="stylesheet">
 
@@ -77,7 +77,7 @@
 				</tr>
 			<%@ include file="/back_end/activity/pages/act/page1.file" %> 
 				<c:forEach var="actVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-				<tr ${(actVO.act_no == param.updateActNo) ? 'style="background-color:#CCCCFF;"':''}>
+				<tr ${(actVO.act_no == param.updateActNo) ? 'style="background-color:#FFE6FF;"':''}>
 					<th>${actVO.act_no}</th>
 					<td>
 						<c:forEach var="actClassVO" items="${actClassService.all}">
@@ -141,7 +141,7 @@
 			myForm.submit();
 		}
 		// ● 可在這更改header的標題，不寫也可以，但請變成空字串 
-		$("#pagename").text("說明");
+		$("#pagename").text("");
 	</script>
 </body>
 </html>
