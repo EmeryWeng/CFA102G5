@@ -20,11 +20,11 @@ List<CreditcardClassVO> list = (List<CreditcardClassVO>)session.getAttribute("li
 
 <style>
 
-/* footer.footer2{ */
-/* width: 100%; */
-/* position: absolute; */
-/* bottom: 0 */
-/* } */
+ footer.footer2{ 
+ width: 100%; 
+ position: absolute; 
+ bottom: 0 
+ } 
 
 div.info{
 width:1500px;
