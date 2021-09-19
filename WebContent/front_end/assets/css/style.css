@@ -3270,10 +3270,11 @@ Testimonials Area
 
 .testimonials-img {
   position: relative;
-  /* margin-left: 50px; */
   margin-bottom: 30px;
   right: -100px;
   z-index: 2;
+  padding: 20px;
+  border: 1px solid #e3e3e3;
 }
 
 .testimonials-img img {

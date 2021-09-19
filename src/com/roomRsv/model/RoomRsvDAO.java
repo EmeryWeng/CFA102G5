@@ -14,7 +14,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class RoomRsvDAO implements I_RoomRsvDAO {
-	
+
 	private static final String INSERT = "INSERT INTO room_rsv (rsv_date, type_no, rm_total ,rsv_total) VALUES (?, ?, ?, ?)";
 //	兩間*間數 ?房型 8/26*入住日 *入住日 4*天數   要有訂單內容
 	private static final String RESERVE = "UPDATE room_rsv SET rsv_total = rsv_total+間數  WHERE type_no = ? AND (rsv_date BETWEEN '入住日' AND DATEDIFF( '退房日', INTERVAL 1 DAY))";
@@ -23,7 +23,7 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 	private static final String GET_ONEDAY_BY_DATE = "SELECT * FROM room_rsv WHERE rsv_date = ?";
 	private static final String GET_ALL = "SELECT * FROM room_rsv ORDER BY rsv_date";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_rsv WHERE type_no = ?";
-	
+
 	private static DataSource ds = null;
 	static {
 		try {
@@ -36,61 +36,96 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 
 	@Override
 	public void insert(RoomRsvVO roomRsvVO) {
-		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(INSERT);
-			
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT);
+
 			pstmt.setObject(1, roomRsvVO.getRsv_date());
 			pstmt.setInt(2, roomRsvVO.getType_no());
 			pstmt.setInt(3, roomRsvVO.getRm_total());
 			pstmt.setInt(4, roomRsvVO.getRsv_total());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
-		
 	}
 
 	@Override
 	public void reserve(RoomRsvVO roomRsvVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(RESERVE);
-			
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(RESERVE);
+
 			pstmt.setInt(1, roomRsvVO.getType_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 	}
 
 	@Override
 	public void cancel(RoomRsvVO roomRsvVO) {
-		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(CANCEL);
-			
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(CANCEL);
+
 			pstmt.setInt(1, roomRsvVO.getType_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 	}
 
 	@Override
 	public List<RoomRsvVO> getOneDayByDate(LocalDate rsv_date) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomRsvVO> list = new ArrayList<>();
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
-		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ONEDAY_BY_DATE);
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONEDAY_BY_DATE);
 			pstmt.setObject(1, rsv_date);
 			rs = pstmt.executeQuery();
 
@@ -104,19 +139,30 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}
 
 	@Override
 	public List<RoomRsvVO> getAll() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomRsvVO> list = new ArrayList<>();
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
-		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -129,19 +175,30 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}
 
 	@Override
 	public List<RoomRsvVO> getAllByType(Integer type_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<RoomRsvVO> list = new ArrayList<>();
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
-		
-		try (Connection con = ds.getConnection()) {
-			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
 
@@ -155,7 +212,15 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return list;
 	}

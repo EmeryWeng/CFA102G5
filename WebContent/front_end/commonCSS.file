@@ -20,5 +20,5 @@
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/style.css">
         <!-- RWD CSS -->
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/responsive.css">
-        <!-- sweetalert2 CSS -->
-		<link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.min.css">
+         <!-- creditcard CSS -->
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/creditcard.css">

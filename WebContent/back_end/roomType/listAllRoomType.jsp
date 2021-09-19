@@ -9,16 +9,19 @@
 <jsp:useBean id="roomImgSvc" scope="page" class="com.roomImg.model.RoomImgService" />
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<%@ include file="/back_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 		<style>
 		table.dataTable thead th, td {
 			color: #30504F;
 		}
-		
+		table.dataTable tbody tr td:first-child {
+			padding-left: 40px;
+			font-weight: 700;
+		}
 		.add {
-			padding-bottom: 30px;
+			padding-bottom: 20px;
 		}
 		
 		#roomTypeTable_filter {
@@ -183,18 +186,21 @@
 			                    <label class="switches" data-no="${roomTypeVO.type_no}" data-state="${roomTypeVO.type_state}"></label>
 							</td>
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/room/RoomImg">
-									<input type="hidden" name="type_no"  value="${roomTypeVO.type_no}">
-			     					<input type="hidden" name="action"	value="getOneForShowImages">
-									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-image'></i>查看</button>
-			     				</form>
+<%-- 								<form method="post" action="<%=request.getContextPath()%>/room/RoomImg"> --%>
+<%-- 									<input type="hidden" name="type_no"  value="${roomTypeVO.type_no}"> --%>
+<!-- 			     					<input type="hidden" name="action"	value="getOneForShowImages"> -->
+<!-- 									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-image'></i>查看</button> -->
+<!-- 			     				</form> -->
+			     				<a class="btn btn-secondary btn-sm" href="<%=request.getContextPath()%>/room/RoomImg?type_no=${roomTypeVO.type_no}&action=getOneForShowImages"><i class='bx bxs-image'></i>查看</a>
+							</td>
 							</td>
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/room/RoomType">
-									<input type="hidden" name="type_no"  value="${roomTypeVO.type_no}">
-			     					<input type="hidden" name="action"	value="getOneForUpdate">
-									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-pencil'></i>修改</button>
-			     				</form>
+<%-- 								<form method="post" action="<%=request.getContextPath()%>/room/RoomType"> --%>
+<%-- 									<input type="hidden" name="type_no"  value="${roomTypeVO.type_no}"> --%>
+<!-- 			     					<input type="hidden" name="action"	value="getOneForUpdate"> -->
+<!-- 									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-pencil'></i>修改</button> -->
+<!-- 			     				</form> -->
+								<a class="btn btn-secondary btn-sm" href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForUpdate"><i class='bx bxs-pencil'></i>修改</a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -209,7 +215,7 @@
 			$(document).ready(function() {
 				$("#pagename").text("房型列表");
 			    $("#roomTypeTable").DataTable( {
-			    	"lengthMenu": [20, 10, 5],
+			    	"lengthMenu": [10, 5, 3],
 			        "language": {
 			        	"processing": "處理中...",
 			            "loadingRecords": "載入中...",

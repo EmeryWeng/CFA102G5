@@ -11,7 +11,8 @@
 	List<RoomVO> list = roomSvc.getAllRoom();
 
 	pageContext.setAttribute("list", list);
-	pageContext.setAttribute("roomSvc", roomSvc);
+// 	List<RoomVO> list = (List<RoomVO>) request.getAttribute("list"); // **取得concroller存入request的list
+	pageContext.setAttribute("roomSvc", roomSvc); // 用來計算各個狀態的有幾筆資料
 %>
 
 <!DOCTYPE html>
@@ -22,11 +23,10 @@
 		table.dataTable thead th, td {
 			color: #30504F;
 		}
-		
-		.add {
-			padding-bottom: 30px;
+		table.dataTable tbody tr td:first-child {
+			padding-left: 40px;
+			font-weight: 700;
 		}
-		
 		#roomTypeTable_filter {
 			color: #30504F;
 		}
@@ -98,7 +98,6 @@
 		img {
 			max-width: 100%;
 		}
-		
 		</style>
 	</head>
 
@@ -117,7 +116,12 @@
 					</c:forEach>
 				</ul>
 			</c:if>
-			<div class="d-flex mb-4 justify-content-between align-items-center flex-wrap">
+			<div class="d-flex mb-4 justify-content-start align-items-center flex-wrap add">
+				<a href='<%=request.getContextPath()%>/back_end/room/addRoom.jsp'>
+					<button type="button" class="btn btn-rounded btn-primary"><span
+						class="btn-icon-start text-primary"><i class='bx bx-plus' style='color:#fff' ></i>
+					</span>新增</button>				
+				</a>
 				<div class="card-tabs mt-3 mt-sm-0">
 					<ul class="nav nav-tabs" role="tablist">
 						<li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="<%=request.getContextPath()%>/room/Room?action=getAll" role="tab">所有房間 (${roomSvc.getAllRoom().size()})</a></li>
@@ -137,7 +141,7 @@
 						<tr>
 							<th>房間編號</th>
 							<th>房型</th>
-							<th>房間資訊</th>
+							<th>房間介紹</th>
 							<th>房間狀態</th>
 							<th>入住人姓名</th>
 							<th>修改</th>
@@ -158,11 +162,12 @@
 							</td>
 							<td>${roomVO.name_title}</td>
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/room/Room">
-									<input type="hidden" name="rm_no"  value="${roomVO.rm_no}">
-			     					<input type="hidden" name="action"	value="getOneForUpdate">
-									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-pencil'></i>修改</button>
-			     				</form>
+<%-- 								<form method="post" action="<%=request.getContextPath()%>/room/Room"> --%>
+<%-- 									<input type="hidden" name="rm_no"  value="${roomVO.rm_no}"> --%>
+<!-- 			     					<input type="hidden" name="action"	value="getOneForUpdate"> -->
+<!-- 									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-pencil'></i>修改</button> -->
+<!-- 			     				</form> -->
+			     				<a class="btn btn-secondary btn-sm" href="<%=request.getContextPath()%>/room/Room?rm_no=${roomVO.rm_no}&action=getOneForUpdate">修改</a>
 							</td>
 						</tr>
 					</c:forEach>
