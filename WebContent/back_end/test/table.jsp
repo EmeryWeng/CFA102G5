@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
+		<%@ include file="/back_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 	</head>
 
 	<body>

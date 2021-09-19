@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class ServiceCasesVO implements java.io.Serializable{
-	//Primary case_no
+
+			//Primary case_no
 			private Integer case_no;
 			private Integer mem_no;
 			private String case_title;

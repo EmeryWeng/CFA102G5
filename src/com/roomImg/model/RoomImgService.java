@@ -32,4 +32,8 @@ public class RoomImgService {
 	public List<RoomImgVO> getAllByType(Integer type_no) {
 		return dao.getAllByType(type_no);
 	}
+	
+	public List<RoomImgVO> getAll() {
+		return dao.getAll();
+	}
 }

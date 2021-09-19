@@ -43,6 +43,7 @@ public class CreditcardClassJDBCDAO implements I_CreditcardClassDAO{
 			pstmt.executeUpdate();
 			
 			rs = pstmt.getGeneratedKeys();
+			
 			if(rs.next()) {
 				creditcardClassVO.setCrd_no(rs.getInt(1));
 			}
@@ -91,10 +92,10 @@ public class CreditcardClassJDBCDAO implements I_CreditcardClassDAO{
 	}
 
 	@Override
-	public void deleteCard(CreditcardClassVO creditcardClassVO) {
+	public void deleteCard(Integer crd_no) {
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
 		PreparedStatement pstmt = con.prepareStatement(DELETE_CARD)){
-		pstmt.setInt(1, creditcardClassVO.getCrd_no());
+		pstmt.setInt(1,crd_no);
 		pstmt.executeUpdate();
 		}catch(SQLException se){
 			se.printStackTrace();

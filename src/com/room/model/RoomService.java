@@ -51,8 +51,8 @@ public class RoomService {
 		dao.updateCheckout(roomVO);
 	}
 	
-	public void getOneRoom(String rm_no) {
-		dao.getOne(rm_no);
+	public RoomVO getOneRoom(String rm_no) {
+		return dao.getOne(rm_no);
 	}
 	
 	public List<RoomVO> getAllRoom() {
@@ -61,5 +61,9 @@ public class RoomService {
 	
 	public List<RoomVO> getAllByTypeState(Integer type_no) {
 		return dao.getAllByTypeState(type_no);
+	}
+	
+	public List<RoomVO> getAllByRmState(Integer rm_state) {
+		return dao.getAllByRmState(rm_state);
 	}
 }

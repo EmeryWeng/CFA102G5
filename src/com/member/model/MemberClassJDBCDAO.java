@@ -7,8 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.util.JDBCUtil;
 
+import javax.servlet.annotation.MultipartConfig;
+
+import com.util.JDBCUtil;
+@MultipartConfig
 public class MemberClassJDBCDAO implements I_MemberClassDAO{
 	
 	
@@ -32,11 +35,16 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 	private static final String UPDATE_PASSWORD = "UPDATE MEMBER SET mem_password =? WHERE mem_no=?";
 	private static final String GET_ALL_BY_STATE = "SELECT * FROM MEMBER WHERE mem_state=?";
 	private static final String UPDATE_MEMBER_STATE = "UPDATE MEMBER SET mem_state=? WHERE mem_no=?";
+	private static final String GET_ONE_BY_PK = "SELECT * FROM MEMBER WHERE mem_no=?";
+	private static final String IS_USER = "SELECT * FROM MEMBER WHERE mem_mail= ? AND mem_password= ? ";
 	@Override
 	public void addMember(MemberClassVO memberClassVO) {
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-		PreparedStatement pstmt = con.prepareStatement(ADD_MEMBER,PreparedStatement.RETURN_GENERATED_KEYS)){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+		con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+		pstmt = con.prepareStatement(ADD_MEMBER,PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1,null);
 			pstmt.setString(2,memberClassVO.getMem_name());
 			pstmt.setInt(3,memberClassVO.getMem_sex());
@@ -54,16 +62,40 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 				memberClassVO.setMem_no(rs.getInt(1));
 			}
 		
-		}catch(SQLException se){
+		}catch (SQLException se) {
 			se.printStackTrace();
-		}
-		
+			}finally {
+				if (rs != null) {
+					try {
+					rs.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (pstmt != null) {
+					try {
+					pstmt.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (con != null) {
+					try {
+					con.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+			}
 	}
 
 	@Override
 	public void updateMember(MemberClassVO memberClassVO) {
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-		PreparedStatement pstmt = con.prepareStatement(UPDATE_MEMBER)){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(UPDATE_MEMBER);
 			pstmt.setString(1, memberClassVO.getMem_name());
 			pstmt.setInt(2, memberClassVO.getMem_sex());
 			pstmt.setString(3, memberClassVO.getMem_password());
@@ -74,17 +106,35 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 			
 			pstmt.executeUpdate();
 		
-		}catch(SQLException se){
+		}catch (SQLException se) {
 			se.printStackTrace();
-		}
+			}finally {
+				if (pstmt != null) {
+					try {
+					pstmt.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (con != null) {
+					try {
+					con.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+			}
 	}
 
 	@Override
 	public MemberClassVO getOneBymail(String mem_mail) {
 		ResultSet rs = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		MemberClassVO memberClassVO = null;
-		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(GET_ONE_BY_MAIL)){
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(GET_ONE_BY_MAIL);
 			
 			pstmt.setString(1,mem_mail);
 			rs = pstmt.executeQuery();
@@ -102,17 +152,30 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 				
 			}
 			
-			
-		}catch(SQLException se){
+		}catch (SQLException se) {
 			se.printStackTrace();
-		}finally {
-			if (rs != null) {
-				try {
+			}finally {
+				if (rs != null) {
+					try {
 					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (pstmt != null) {
+					try {
+					pstmt.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (con != null) {
+					try {
+					con.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
 		}
 		
 		return memberClassVO;
@@ -121,9 +184,12 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 	@Override
 	public MemberClassVO getOneByMobile(String mem_mobile) {
 		ResultSet rs = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		MemberClassVO memberClassVO = null;
-		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(GET_ONE_BY_MOBILE)){
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(GET_ONE_BY_MOBILE);
 			
 			pstmt.setString(1,mem_mobile);
 			rs = pstmt.executeQuery();
@@ -133,24 +199,36 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 				memberClassVO.setMem_name(rs.getString("mem_name"));
 				memberClassVO.setMem_sex(rs.getInt("mem_sex"));
 				memberClassVO.setMem_password(rs.getString("mem_password"));
-				memberClassVO.setMem_mobile(rs.getString("mem_mail"));
+				memberClassVO.setMem_mobile(rs.getString("mem_mobile"));
 				memberClassVO.setMem_img(rs.getBytes("mem_img"));
 				memberClassVO.setMem_add(rs.getString("mem_add"));
 				memberClassVO.setMem_state(rs.getBoolean("mem_state"));
 				
 			}
-			
-			
-		}catch(SQLException se){
+		}catch (SQLException se) {
 			se.printStackTrace();
-		}finally {
-			if (rs != null) {
-				try {
+			}finally {
+				if (rs != null) {
+					try {
 					rs.close();
-				} catch (SQLException se) {	
-					se.printStackTrace();
-				}
-			}
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (pstmt != null) {
+					try {
+					pstmt.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (con != null) {
+					try {
+					con.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
 		}
 		
 		return memberClassVO;
@@ -159,9 +237,12 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 	@Override
 	public List<MemberClassVO> getAllBySex(Integer mem_sex) {
 		ResultSet rs = null;
-		List<MemberClassVO> memAll = new ArrayList();
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(GET_ALL_SEX)){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		List<MemberClassVO> memAll = new ArrayList<>();
+		try { 
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(GET_ALL_SEX);
 			pstmt.setInt(1,mem_sex);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -178,14 +259,30 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 				memAll.add(MemberClassVO);
 			}
 			
-		}catch(SQLException se){
+		}catch (SQLException se) {
 			se.printStackTrace();
-		}finally {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			}finally {
+				if (rs != null) {
+					try {
+					rs.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (pstmt != null) {
+					try {
+					pstmt.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (con != null) {
+					try {
+					con.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
 		}
 		return memAll;
 	}
@@ -193,9 +290,12 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 	@Override
 	public List<MemberClassVO> getAllByState(Boolean mem_state) {
 		ResultSet rs = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<MemberClassVO> memAll = new ArrayList<>();
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_STATE)){
+		try {
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(GET_ALL_BY_STATE);
 			pstmt.setBoolean(1,mem_state);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -212,24 +312,43 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 				memAll.add(MemberClassVO);
 			}
 			
-		}catch(SQLException se){
+		}catch (SQLException se) {
 			se.printStackTrace();
-		}finally {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+			}finally {
+				if (rs != null) {
+					try {
+					rs.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (pstmt != null) {
+					try {
+					pstmt.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (con != null) {
+					try {
+					con.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
 			}
-		}
 		return memAll;
 	}
 
 	@Override
 	public List<MemberClassVO> getAll() {
 		ResultSet rs = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		List<MemberClassVO> memAll = new ArrayList<>();
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(GET_ALL)){
+		try {
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+		    pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MemberClassVO MemberClassVO = new MemberClassVO();
@@ -246,23 +365,43 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 				memAll.add(MemberClassVO);
 			}
 			
-		}catch(SQLException se){
+		   }catch (SQLException se) {
 			se.printStackTrace();
-		}finally {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+			}finally {
+				if (rs != null) {
+					try {
+					rs.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (pstmt != null) {
+					try {
+					pstmt.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
+				if (con != null) {
+					try {
+					con.close();
+					}catch (SQLException SQ) {
+						SQ.printStackTrace();
+					}
+				 }
 			}
+			return memAll;
+			
 		}
-		return memAll;
-		
-	}
 
 	@Override
 	public void updatePassword(MemberClassVO memberClassVO) { 
-		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(UPDATE_PASSWORD)){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(UPDATE_PASSWORD);
+				 
 			pstmt.setString(1,memberClassVO.getMem_password());
 			pstmt.setInt(2, memberClassVO.getMem_no());
 			
@@ -271,14 +410,31 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 		}catch(SQLException se){
 			se.printStackTrace();
 		}
+		if (pstmt != null) {
+			try {
+			pstmt.close();
+			}catch (SQLException SQ) {
+				SQ.printStackTrace();
+			}
+		 }
+		if (con != null) {
+			try {
+			con.close();
+			}catch (SQLException SQ) {
+				SQ.printStackTrace();
+			}
+		 }
 		
 	}
 
 	@Override
 	public void updateMemberstate(MemberClassVO memberClassVO) {
-		try(Connection con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
-				PreparedStatement pstmt = con.prepareStatement(UPDATE_MEMBER_STATE)){
-			pstmt.setBoolean(1,memberClassVO.getMem_state());
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+			pstmt = con.prepareStatement(UPDATE_MEMBER_STATE);
+			pstmt.setBoolean(1,!(memberClassVO.getMem_state()));
 			pstmt.setInt(2, memberClassVO.getMem_no());
 			
 			pstmt.executeUpdate();
@@ -286,7 +442,124 @@ public class MemberClassJDBCDAO implements I_MemberClassDAO{
 		}catch(SQLException se){
 			se.printStackTrace();
 		}
+		if (pstmt != null) {
+			try {
+			pstmt.close();
+			}catch (SQLException SQ) {
+				SQ.printStackTrace();
+			}
+		 }
+		if (con != null) {
+			try {
+			con.close();
+			}catch (SQLException SQ) {
+				SQ.printStackTrace();
+			}
+		 }
 		
+	}
+
+	@Override
+	public MemberClassVO getOneByPK(Integer mem_no) {
+	ResultSet rs = null;
+	PreparedStatement pstmt = null;
+	Connection con = null;
+	MemberClassVO memberClassVO  = null;
+	try {
+		con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+		pstmt = con.prepareStatement(GET_ONE_BY_PK);
+		pstmt.setInt(1,mem_no);
+		rs = pstmt.executeQuery();
+		while(rs.next()){
+			memberClassVO = new MemberClassVO();
+			memberClassVO.setMem_no(rs.getInt("mem_no"));
+			memberClassVO.setMem_name(rs.getString("mem_name"));
+			memberClassVO.setMem_sex(rs.getInt("mem_sex"));
+			memberClassVO.setMem_mail(rs.getString("mem_mail"));
+			memberClassVO.setMem_password(rs.getString("mem_password"));
+			memberClassVO.setMem_mobile(rs.getString("mem_mobile"));
+			memberClassVO.setMem_img(rs.getBytes("mem_img"));
+			memberClassVO.setMem_add(rs.getString("mem_add"));
+			memberClassVO.setMem_state(rs.getBoolean("mem_state"));	
+		}
+		
+	}catch (SQLException se) {
+		se.printStackTrace();
+		}finally {
+			if (rs != null) {
+				try {
+				rs.close();
+				}catch (SQLException SQ) {
+					SQ.printStackTrace();
+				}
+			 }
+			if (pstmt != null) {
+				try {
+				pstmt.close();
+				}catch (SQLException SQ) {
+					SQ.printStackTrace();
+				}
+			 }
+			if (con != null) {
+				try {
+				con.close();
+				}catch (SQLException SQ) {
+					SQ.printStackTrace();
+				}
+			 }
+	 }
+	
+		return memberClassVO;
+	}
+
+	@Override
+	public MemberClassVO isUser(String mem_mail, String mem_password) {
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		Connection con = null;
+		MemberClassVO memberClassVO  = null;
+		try {		
+		con = DriverManager.getConnection(JDBCUtil.URL,JDBCUtil.USERNAME,JDBCUtil.PASSWORD);
+		pstmt = con.prepareStatement(IS_USER);
+		pstmt.setString(1,mem_mail);
+		pstmt.setString(2,mem_password);
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			memberClassVO = new MemberClassVO();
+			memberClassVO = new MemberClassVO();
+			memberClassVO.setMem_no(rs.getInt("mem_no"));
+			memberClassVO.setMem_name(rs.getString("mem_name"));
+			memberClassVO.setMem_sex(rs.getInt("mem_sex"));
+			memberClassVO.setMem_mail(rs.getString("mem_mail"));
+			memberClassVO.setMem_password(rs.getString("mem_password"));
+			memberClassVO.setMem_mobile(rs.getString("mem_mobile"));
+			memberClassVO.setMem_img(rs.getBytes("mem_img"));
+			memberClassVO.setMem_add(rs.getString("mem_add"));
+			memberClassVO.setMem_state(rs.getBoolean("mem_state"));	
+		}
+			
+		}catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}	
+		return memberClassVO;
 	}
 }
 

@@ -10,10 +10,10 @@ private I_FoodClassDAO dao;
 		dao = new FoodClassDAO();
 	}
 	
-	public FoodClassVO addFoodClass(Integer fd_class_no, String fd_class_name, Boolean fd_class_state) {
+
+	public FoodClassVO addFoodClass(String fd_class_name, Boolean fd_class_state) {
 
 		FoodClassVO foodClassVO = new FoodClassVO();
-		foodClassVO.setFd_class_no(fd_class_no);
 		foodClassVO.setFd_class_name(fd_class_name);
 		foodClassVO.setFd_class_state(fd_class_state);
 

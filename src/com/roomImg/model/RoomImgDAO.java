@@ -17,6 +17,7 @@ public class RoomImgDAO implements I_RoomImgDAO {
 	private static final String DELETE = "DELETE FROM room_img WHERE img_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_img WHERE img_no = ?";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_img WHERE type_no = ?";
+	private static final String GET_ALL = "SELECT * FROM room_img";
 	
 	private static DataSource ds = null;
 	static {
@@ -130,6 +131,42 @@ public class RoomImgDAO implements I_RoomImgDAO {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roomImgVO = new RoomImgVO();
+				roomImgVO.setImg_no(rs.getInt("img_no"));
+				roomImgVO.setType_no(rs.getInt("type_no"));
+				roomImgVO.setType_img(rs.getBytes("type_img"));
+				list.add(roomImgVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<RoomImgVO> getAll() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		List<RoomImgVO> list = new ArrayList<>();
+		RoomImgVO roomImgVO = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

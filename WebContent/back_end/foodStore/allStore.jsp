@@ -13,50 +13,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <title>Insert title here</title>
 
 <style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 1200px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
+ 
 </style>
 </head>
 <body>
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 
-<table id="table-1">
-	<tr><td>
-		 <h3>所有店家資料</h3>
-		 <h4><a href="/CFA102G5/back_end/foodStore/store_page.jsp">店家首頁</a></h4>
-	</td></tr>
-</table>
+<div class="main-content card card-body table-responsive">
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -66,7 +34,8 @@
 		</c:forEach>
 	</ul>
 </c:if>
-<table>
+<table id="example4" class="display" style="min-width: 845px">
+<thead>
 	<tr>
 		<th>店家編號</th>
 		<th>店家類別</th>
@@ -76,11 +45,13 @@
 		<th>店家緯度</th>
 		<th>店家服務</th>
 		<th>店家狀態</th>
-		<th>修改(未完成)</th>
+		<th>修改</th>
+		<th>查看照片</th>
+		<td>新增照片</td>
 
 	</tr>
-	<%@ include file="page1.file" %> 
-	<c:forEach var="FoodStoreVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+</thead>
+	<c:forEach var="FoodStoreVO" items="${list}">
 		
 		<tr>
 			<td>${FoodStoreVO.fd_no}</td>
@@ -99,11 +70,25 @@
 			     <input type="hidden" name="fd_no" value="${FoodStoreVO.fd_no}">
 			     <input type="hidden" name="action"	value="Update_One"></FORM>
 			</td>
+			
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="查看照片">
+			     <input type="hidden" name="fd_no" value="${FoodStoreVO.fd_no}">
+			     <input type="hidden" name="action"	value="getOneFoodStoreImg"></FORM>
+			</td>
+			<td>
+		<a href="<%=request.getContextPath()%>/back_end/foodimg/addImg.jsp?fd_no=${FoodStoreVO.fd_no}">新增照片</a>
+			</td>
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="page2.file" %>
-
-
+</div>
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
+<script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("店家列表");
+		</script>
+		
 </body>
 </html>

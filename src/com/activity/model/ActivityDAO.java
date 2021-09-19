@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
 public class ActivityDAO implements I_ActivityDAO{
 	private static DataSource ds;
 	
@@ -27,6 +28,7 @@ public class ActivityDAO implements I_ActivityDAO{
 	private final String SELECT_BY_NAME_SQL = "SELECT * FROM ACTIVITY WHERE act_name LIKE ?";
 	private final String SELECT_BY_ACTIVITY_CLASS_SQL = "SELECT * FROM ACTIVITY WHERE act_class_no = ?";
 	private final String SELECT_BY_POPULAR_ACTIVITY_SQL = "SELECT * FROM ACTIVITY WHERE act_state = 1 ORDER BY act_sell_number DESC LIMIT 3";
+	private final String SWITCH_ACTIVITY_STATE = "UPDATE ACTIVITY SET act_state = ? WHERE act_no = ?";
 	private final String ACTIVITY_JOIN_ACTIVITY_CLASS_SQL = 
 			"SELECT	actClass.act_class_name,act.act_name"
 			+ ",act.act_price,act.act_location,act_schedule_time"
@@ -418,6 +420,32 @@ public class ActivityDAO implements I_ActivityDAO{
 		}
 		
 		return joinMap;
+	}
+
+	@Override
+	public void switchActState(Integer act_no, Boolean act_state) {
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(SWITCH_ACTIVITY_STATE);
+			
+			ps.setBoolean(1,act_state);
+			ps.setInt(2,act_no);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

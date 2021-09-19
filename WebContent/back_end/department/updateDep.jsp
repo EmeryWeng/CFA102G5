@@ -9,18 +9,12 @@ DepartmentVO DepVO = (DepartmentVO) request.getAttribute("DepVO");
 <!DOCTYPE html>
 <html>
 <head>
+<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
-<table id="table-1">
-	<tr><td>
-		 <h3>部門資料修改</h3>
-		 <h4><a href="back_end/department/XXXXXXXXXXX.jsp">未完成</a></h4>
-	</td></tr>
-</table>
-
-<h3>資料修改:</h3>
+		<%@ include file="/back_end/header.file" %> <!-- Header -->
+		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -32,8 +26,9 @@ DepartmentVO DepVO = (DepartmentVO) request.getAttribute("DepVO");
 	</ul>
 </c:if>
 
+<div class="main-content card card-body table-responsive">
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/DepartmentServlet.do" name="form1">
-<table>
+<table id="example4" class="display" style="min-width: 845px">
 	<tr>
 		<td>部門編號:<font color=red><b>*</b></font></td>
 		<td><%=DepVO.getDep_no()%></td>
@@ -53,6 +48,12 @@ DepartmentVO DepVO = (DepartmentVO) request.getAttribute("DepVO");
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="dep_no" value="<%=DepVO.getDep_no()%>">
 <input type="submit" value="送出修改"></FORM>
+</div>
 
+<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
+<script>
+// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+			$("#pagename").text("修改部門");
+		</script>
 </body>
 </html>

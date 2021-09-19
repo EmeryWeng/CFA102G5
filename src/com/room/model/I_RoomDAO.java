@@ -10,4 +10,5 @@ public interface I_RoomDAO {
 	public RoomVO getOne(String rm_no);	
 	public List<RoomVO> getAll();
 	public List<RoomVO> getAllByTypeState(Integer type_no); //後台：入住時選房間用 房型+1空房
+	public List<RoomVO> getAllByRmState(Integer rm_state); //後台房間列表使用
 }

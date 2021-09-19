@@ -29,6 +29,7 @@ public class FoodImgDAO implements I_FoodImgDAO{
 	private static final String UPDATE_IMG ="UPDATE FOOD_IMG SET fd_no=?,fd_img=? WHERE fd_img_no=?";
 	private static final String GET_FOODSTORE_IMG ="SELECT * FROM FOOD_IMG WHERE fd_no=?";
 	private static final String GET_PK ="SELECT * FROM FOOD_IMG WHERE fd_img_no=?";
+	private static final String GET_STORE_ONE ="SELECT * FROM FOOD_IMG WHERE fd_no=?";
 	private static final String GET_ALL_IMG ="SELECT * FROM FOOD_IMG";
 	private static final String DELETE_IMG = "DELETE FROM FOOD_IMG WHERE fd_img_no = ?";
 	@Override
@@ -264,6 +265,55 @@ public class FoodImgDAO implements I_FoodImgDAO{
 			pstmt = con.prepareStatement(GET_PK);
 			
 			pstmt.setInt(1, fd_img_no);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				fimg = new FoodImgVO();
+				fimg.setFd_img_no(rs.getInt("fd_img_no"));
+				fimg.setFd_no(rs.getInt("fd_no"));
+				fimg.setFd_img(rs.getBytes("fd_img"));
+				
+			}
+			
+		}catch (SQLException se){
+			se.printStackTrace();
+			throw new RuntimeException("A database error occured."+se.getMessage());
+		}finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}catch(SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				}catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}  
+		return fimg;
+	}
+
+	@Override
+	public FoodImgVO findImgOne(Integer fd_no) {
+		FoodImgVO fimg = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try{
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_STORE_ONE);
+			
+			pstmt.setInt(1, fd_no);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				fimg = new FoodImgVO();

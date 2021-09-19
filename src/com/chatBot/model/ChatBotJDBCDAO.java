@@ -1,5 +1,6 @@
 package com.chatBot.model;
 
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +14,7 @@ import com.util.JDBCUtil;
 
 public class ChatBotJDBCDAO implements I_ChatBotDAO{
 	
-	//新增問題
+		//新增問題
 		private final String INSERT = "INSERT INTO chat_bot VALUES (?, ?, ?, ?, ?)";
 		//修改問題
 		private final String UPDATE = "UPDATE chat_bot set qes_title=?, qes_ans=?, qes_comp=?, qes_class=? where qes_no = ?";
@@ -160,7 +161,7 @@ public class ChatBotJDBCDAO implements I_ChatBotDAO{
 				rs = pstmt.executeQuery();
 				
 				while (rs.next()) {
-					// empVo 也稱為 Domain objects
+					
 					chatbotVO = new ChatBotVO();
 					chatbotVO.setQes_no(rs.getInt("qes_no"));
 					chatbotVO.setQes_title(rs.getString("qes_title"));
@@ -234,8 +235,8 @@ public class ChatBotJDBCDAO implements I_ChatBotDAO{
 			}
 			return list;
 		}
-		
-		public static void main(String[] args) throws IOException {
+		//以下測試用
+//		public static void main(String[] args) throws IOException {
 			
 			
 			//新增問題
@@ -277,19 +278,19 @@ public class ChatBotJDBCDAO implements I_ChatBotDAO{
 //			System.out.println("查詢問題成功");
 			
 			//查詢全部
-			ChatBotJDBCDAO dao = new ChatBotJDBCDAO();
-			List<ChatBotVO> list = dao.getAll();
-			for(ChatBotVO allChatBot : list) {
-				System.out.print(allChatBot.getQes_no() + ",");
-				System.out.print(allChatBot.getQes_title() + ",");
-				System.out.print(allChatBot.getQes_ans() + ",");
-				System.out.print(allChatBot.getQes_comp() + ",");
-				System.out.println(allChatBot.getQes_class());
-				System.out.println("---------------------");
-				System.out.println("查詢全部成功");
-			}
-
-			
-			
-		}
+//			ChatBotJDBCDAO dao = new ChatBotJDBCDAO();
+//			List<ChatBotVO> list = dao.getAll();
+//			for(ChatBotVO allChatBot : list) {
+//				System.out.print(allChatBot.getQes_no() + ",");
+//				System.out.print(allChatBot.getQes_title() + ",");
+//				System.out.print(allChatBot.getQes_ans() + ",");
+//				System.out.print(allChatBot.getQes_comp() + ",");
+//				System.out.println(allChatBot.getQes_class());
+//				System.out.println("---------------------");
+//				System.out.println("查詢全部成功");
+//			}
+//
+//			
+//			
+//		}
 }

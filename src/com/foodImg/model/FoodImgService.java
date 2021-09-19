@@ -45,5 +45,7 @@ public class FoodImgService {
 	public FoodImgVO findByPk(Integer fd_img_no) {
 		return dao.findimgByPK(fd_img_no);
 	}
-	
+	public FoodImgVO findImgOne(Integer fd_no) {
+		return dao.findImgOne(fd_no);
+	}
 }

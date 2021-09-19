@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+	html{
+		font-size:62.5%;
+	}
+	table.table{
+		width:98%;
+		height:50rem;
+	}
+	table th{
+		font-size:1.4rem;
+		text-align:center;
+		color:red;
+		vertical-align:middle;
+	}	
+	table td{
+		font-size:1.4rem;
+		text-align:center;
+	}	
+	textarea.actInstruction{
+		font-size:1.8rem;
+		height:10rem;
+	}	
+	div.query{
+		width:15rem;
+		position:absolute;
+		top:1rem;
+		right:1.5rem;
+		z-index:999;	
+	}	
+	select.querySelect{
+		font-size:1.5rem;
+	}
+	table tr td.upstate{
+		color:#28FF28;
+	}	
+	table tr td.downstate{
+		color:#FF2D2D;
+	}
+	div.updateAndSwitch{
+		position:absolute;
+		top:-3.2rem;
+	}

@@ -28,6 +28,7 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 	private final String SELECT_BY_NAME_SQL = "SELECT * FROM ACTIVITY WHERE act_name LIKE ?";
 	private final String SELECT_BY_ACTIVITY_CLASS_SQL = "SELECT * FROM ACTIVITY WHERE act_class_no = ?";
 	private final String SELECT_BY_POPULAR_ACTIVITY_SQL = "SELECT * FROM ACTIVITY WHERE act_state = true ORDER BY act_sell_number DESC LIMIT 3";
+	private final String SWITCH_ACTIVITY_STATE = "UPDATE ACTIVITY SET act_state = ? WHERE act_no = ?";
 	private final String ACTIVITY_JOIN_ACTIVITY_CLASS_SQL = 
 			"SELECT	actClass.act_class_name,act.act_name"
 			+ ",act.act_price,act.act_location,act_schedule_time"
@@ -422,6 +423,32 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 		return joinMap;
 	}
 	
+	@Override
+	public void switchActState(Integer act_no, Boolean act_state) {
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
+			PreparedStatement ps = con.prepareStatement(SWITCH_ACTIVITY_STATE);
+			
+			ps.setBoolean(1,act_state);
+			ps.setInt(2,act_no);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
 		ActivityJDBCDAO dao = new ActivityJDBCDAO();
 //		ActivityVO vo = new ActivityVO();
@@ -442,11 +469,11 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 //		Integer number = dao.getJoinNumber(2);
 //		System.out.println(number);
 //		List<ActivityVO> list = dao.findByActClassNo(2);
-		List<ActivityVO> list = dao.getAll();
+//		List<ActivityVO> list = dao.getAll();
 //		List<ActivityVO> list = dao.getPopularAct();
 //		
-		for(ActivityVO vo : list) 
-			System.out.println(vo);
+//		for(ActivityVO vo : list) 
+//			System.out.println(vo);
 //		System.out.println(number);
 //		vo.setAct_no(10);
 //		vo.setAct_class_no(2);
@@ -466,5 +493,7 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 //		dao.insert(vo);
 //		dao.update(vo);
 //		System.out.println(vo);
+		dao.switchActState(2, true);
 	}
+	
 }

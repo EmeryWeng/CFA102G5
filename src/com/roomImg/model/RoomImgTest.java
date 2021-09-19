@@ -17,7 +17,7 @@ public class RoomImgTest {
 		
 		// 新增
 //		RoomImgVO roomimg = new RoomImgVO();
-//		roomimg.setType_no(1);
+//		roomimg.setType_no(6);
 //		byte[] pic = getPictureByteArray("src/com/roomImg/model/1.jpg");
 //		roomimg.setType_img(pic);
 //		dao.insert(roomimg);

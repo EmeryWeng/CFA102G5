@@ -33,7 +33,7 @@ public class ActivityClassServlet extends HttpServlet {
 			ActivityClassVO actClassVO = actClassService.addActClass(act_class_name);
 			List<ActivityClassVO> list = actClassService.getAll();
 			request.setAttribute("selectActClassList", list);
-			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
+			request.getRequestDispatcher("/back_end/activity/actClass/selectActClass.jsp")
 			.forward(request, response);
 
 			return;
@@ -48,7 +48,7 @@ public class ActivityClassServlet extends HttpServlet {
 
 			List<ActivityClassVO> list = actClassService.getAll();
 			request.setAttribute("selectActClassList", list);
-			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
+			request.getRequestDispatcher("/back_end/activity/actClass/selectActClass.jsp")
 			.forward(request, response);
 
 			return;
@@ -62,7 +62,7 @@ public class ActivityClassServlet extends HttpServlet {
 			List<ActivityClassVO> list = actClassService.getAll();
 			request.setAttribute("selectActClassList",list);
 			
-			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
+			request.getRequestDispatcher("/back_end/activity/actClass/selectActClass.jsp")
 			.forward(request, response);
 			
 			return;
@@ -73,13 +73,9 @@ public class ActivityClassServlet extends HttpServlet {
 			List<ActivityClassVO> list = actClassService.getAll();
 			request.setAttribute("selectActClassList",list);
 			
-			request.getRequestDispatcher("/back_end/activity/selectActClass.jsp")
+			request.getRequestDispatcher("/back_end/activity/actClass/selectActClass.jsp")
 			.forward(request, response);
-			
 			return;
-		}
-		
-
-	}
-	
+		}		
+	}	
 }

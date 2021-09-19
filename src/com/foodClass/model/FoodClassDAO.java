@@ -27,7 +27,8 @@ public class FoodClassDAO implements I_FoodClassDAO{
 				}
 			}
 			
-	private static final String INSERT_FOOD_CLASS ="INSERT INTO FOOD_CLASS VALUES(?,?,?)";
+
+	private static final String INSERT_FOOD_CLASS ="INSERT INTO FOOD_CLASS(fd_class_name,fd_class_state) VALUES(?,?)";
 	private static final String UPDATE_FOOD_CLASS ="UPDATE FOOD_CLASS SET fd_class_name=?,fd_class_state=? WHERE fd_class_no=?";
 	private static final String GET_FOOD_CLASS_PK = "SELECT * FROM FOOD_CLASS WHERE fd_class_no = ?";
 	private static final String GET_ALL_FOOD_CLASS ="SELECT * FROM FOOD_CLASS";
@@ -42,9 +43,9 @@ public class FoodClassDAO implements I_FoodClassDAO{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_FOOD_CLASS,PreparedStatement.RETURN_GENERATED_KEYS);
 					
-			pstmt.setString(1, null);
-			pstmt.setString(2, foodclassVO.getFd_class_name());
-			pstmt.setBoolean(3, foodclassVO.getFd_class_state());;
+			pstmt.setString(1, foodclassVO.getFd_class_name());
+			pstmt.setBoolean(2, foodclassVO.getFd_class_state());;
+
 
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();

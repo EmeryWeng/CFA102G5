@@ -18,6 +18,7 @@ public class MemberClassVO implements Serializable{
 		private String mem_mobile;
 		private byte[] mem_img;
 		private String mem_add;
-		private Boolean mem_state=false; //預設停權
+		private Boolean mem_state; //預設停權
+		
 		
 }

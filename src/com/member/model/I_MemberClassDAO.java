@@ -12,5 +12,6 @@ public interface I_MemberClassDAO {
 	List<MemberClassVO> getAllBySex(Integer mem_sex);
 	List<MemberClassVO> getAllByState(Boolean memstate);
 	List<MemberClassVO> getAll();
-	
+	MemberClassVO getOneByPK(Integer mem_no);
+	public MemberClassVO isUser(String mem_mail, String mem_password);
 }
