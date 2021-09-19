@@ -5,7 +5,7 @@
      Object account = session.getAttribute("empVO1");                  // 從 session內取出 (key) account的值
      if (account == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
        session.setAttribute("location", request.getRequestURI());       //*工作1 : 同時記下目前位置 , 以便於backLogin.jsp登入成功後 , 能夠直接導至此網頁
-       response.sendRedirect(request.getContextPath()+"/backLogin.jsp");   //*工作2 : 請該user去登入網頁(backLogin.jsp) , 進行登入
+       response.sendRedirect(request.getContextPath()+"/back_end/login/login.jsp");   //*工作2 : 請該user去登入網頁(backLogin.jsp) , 進行登入
        return;
      }
 %>
@@ -37,7 +37,7 @@
 								</div>
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a href="#" class="dropdown-item ai-icon">
+								<a href="<%=request.getContextPath()%>/EmployeeServlet.do?emp_no=${empVO1.emp_no}" class="dropdown-item ai-icon">
 									<i class='bx bx-user' style='color:#30504F'></i>
 									<span class="ms-2">個人資料 </span>
 								</a>
