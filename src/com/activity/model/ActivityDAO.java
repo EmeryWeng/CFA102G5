@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 
 public class ActivityDAO implements I_ActivityDAO{
 	private static DataSource ds;
@@ -28,7 +28,7 @@ public class ActivityDAO implements I_ActivityDAO{
 	private final String SELECT_BY_NAME_SQL = "SELECT * FROM ACTIVITY WHERE act_name LIKE ?";
 	private final String SELECT_BY_ACTIVITY_CLASS_SQL = "SELECT * FROM ACTIVITY WHERE act_class_no = ?";
 	private final String SELECT_BY_POPULAR_ACTIVITY_SQL = "SELECT * FROM ACTIVITY WHERE act_state = 1 ORDER BY act_sell_number DESC LIMIT 3";
-	private final String SELECT_BY_ACTIVITY_STATE_TRUE_SQL = "SELECT * FROM ACTIVITY WHERE act_state = true ORDER BY act_price";
+	private final String SWITCH_ACTIVITY_STATE = "UPDATE ACTIVITY SET act_state = ? WHERE act_no = ?";
 	private final String ACTIVITY_JOIN_ACTIVITY_CLASS_SQL = 
 			"SELECT	actClass.act_class_name,act.act_name"
 			+ ",act.act_price,act.act_location,act_schedule_time"
@@ -48,9 +48,11 @@ public class ActivityDAO implements I_ActivityDAO{
 	
 	@Override
 	public ActivityVO insert(ActivityVO actVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{		
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setString(1, null); // AI
 			ps.setInt(2, actVO.getAct_class_no());
@@ -76,16 +78,26 @@ public class ActivityDAO implements I_ActivityDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actVO;
 	}
 
 	@Override
 	public void update(ActivityVO actVO) {
-		try (Connection con = ds.getConnection()) {
-			
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
 			ps.setInt(1, actVO.getAct_class_no());
 			ps.setString(2,actVO.getAct_name());
@@ -105,17 +117,72 @@ public class ActivityDAO implements I_ActivityDAO{
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
+	}
+
+	@Override
+	public ActivityVO findByPk(Integer act_no) {
+		ActivityVO actVO = null;
+		Connection con = null;
+		ResultSet rs = null;
+		
+		try{			
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
+			ps.setInt(1, act_no);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				actVO = new ActivityVO();
+				actVO.setAct_no(rs.getInt(1));
+				actVO.setAct_class_no(rs.getInt(2)); 
+				actVO.setAct_name(rs.getString(3));
+				actVO.setAct_price(rs.getInt(4));
+				actVO.setAct_location(rs.getString(5));
+				actVO.setAct_schedule_time(rs.getInt(6));
+				actVO.setAct_instruction(rs.getString(7));
+				actVO.setAct_gather_location(rs.getString(8));
+				actVO.setAct_location_longitude(rs.getDouble(9));
+				actVO.setAct_location_latitude(rs.getDouble(10));
+				actVO.setAct_sell_number(rs.getInt(11));
+				actVO.setAct_join_number(rs.getInt(12));
+				actVO.setAct_evaluation_number(rs.getInt(13));
+				actVO.setAct_average_star_number(rs.getDouble(14));
+				actVO.setAct_state(rs.getBoolean(15));
+			}
+	
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		
+		return actVO;
 	}
 
 	@Override
 	public List<ActivityVO> findByName(String act_name) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_NAME_SQL);
 			ps.setString(1, "%" + act_name + "%"); //塞選名稱有包含泛舟之類的活動
 			rs = ps.executeQuery();
@@ -140,55 +207,28 @@ public class ActivityDAO implements I_ActivityDAO{
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
-	}
-
-	@Override
-	public ActivityVO findByPk(Integer act_no) {
-		ActivityVO actVO = null;
-		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_PK_SQL);
-			ps.setInt(1, act_no);
-			rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				actVO = new ActivityVO();
-				actVO.setAct_no(rs.getInt(1));
-				actVO.setAct_class_no(rs.getInt(2)); 
-				actVO.setAct_name(rs.getString(3));
-				actVO.setAct_price(rs.getInt(4));
-				actVO.setAct_location(rs.getString(5));
-				actVO.setAct_schedule_time(rs.getInt(6));
-				actVO.setAct_instruction(rs.getString(7));
-				actVO.setAct_gather_location(rs.getString(8));
-				actVO.setAct_location_longitude(rs.getDouble(9));
-				actVO.setAct_location_latitude(rs.getDouble(10));
-				actVO.setAct_sell_number(rs.getInt(11));
-				actVO.setAct_join_number(rs.getInt(12));
-				actVO.setAct_evaluation_number(rs.getInt(13));
-				actVO.setAct_average_star_number(rs.getDouble(14));
-				actVO.setAct_state(rs.getBoolean(15));
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return actVO;
 	}
 
 	@Override
 	public List<ActivityVO> findByActClassNo(Integer act_class_no) {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_CLASS_SQL);
 			ps.setInt(1,act_class_no);
 			rs = ps.executeQuery();
@@ -213,38 +253,28 @@ public class ActivityDAO implements I_ActivityDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
-	}
-
-	@Override			//第x個活動可參與的人數
-	public Integer getJoinNumber(Integer act_no) {
-		Integer number = null;
-		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
-			PreparedStatement ps = con.prepareStatement(GET_JOIN_NUMBER_SQL);
-			ps.setInt(1, act_no);
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				number = rs.getInt(1);
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return number;
 	}
 
 	@Override
 	public List<ActivityVO> getPopularAct() {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_POPULAR_ACTIVITY_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -268,44 +298,16 @@ public class ActivityDAO implements I_ActivityDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
-		
-		return list;
-	}
-
-	@Override
-	public List<ActivityVO> getActToFront() {
-		List<ActivityVO> list = new ArrayList<>();
-		ActivityVO actVO = null;
-		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
-			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_STATE_TRUE_SQL);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				actVO = new ActivityVO();
-				actVO.setAct_no(rs.getInt(1));
-				actVO.setAct_class_no(rs.getInt(2)); 
-				actVO.setAct_name(rs.getString(3));
-				actVO.setAct_price(rs.getInt(4));
-				actVO.setAct_location(rs.getString(5));
-				actVO.setAct_schedule_time(rs.getInt(6));
-				actVO.setAct_instruction(rs.getString(7));
-				actVO.setAct_gather_location(rs.getString(8));
-				actVO.setAct_location_longitude(rs.getDouble(9));
-				actVO.setAct_location_latitude(rs.getDouble(10));
-				actVO.setAct_sell_number(rs.getInt(11));
-				actVO.setAct_join_number(rs.getInt(12));
-				actVO.setAct_evaluation_number(rs.getInt(13));
-				actVO.setAct_average_star_number(rs.getDouble(14));
-				actVO.setAct_state(rs.getBoolean(15));
-				list.add(actVO);
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
 			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+		}
 		
 		return list;
 	}
@@ -314,9 +316,10 @@ public class ActivityDAO implements I_ActivityDAO{
 	public List<ActivityVO> getAll() {
 		List<ActivityVO> list = new ArrayList<>();
 		ActivityVO actVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -340,20 +343,58 @@ public class ActivityDAO implements I_ActivityDAO{
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
 	
+	@Override			//第x個活動可參與的人數
+	public Integer getJoinNumber(Integer act_no) {
+		Integer number = null;
+		Connection con = null;
+		ResultSet rs = null;
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(GET_JOIN_NUMBER_SQL);
+			ps.setInt(1, act_no);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				number = rs.getInt(1);
+			}
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		
+		return number;
+	}
+
 	@Override
 	public Map<String,String[]> getActJoinActClass() {
 		Map<String,String[]> joinMap = new HashMap<>();
 		String[] columnArray = null;
 		int position = 0;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = ds.getConnection()) {
-			
+		
+		try{
+			con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACTIVITY_JOIN_ACTIVITY_CLASS_SQL);
 			rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -367,10 +408,44 @@ public class ActivityDAO implements I_ActivityDAO{
 			}
 				
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return joinMap;
+	}
+
+	@Override
+	public void switchActState(Integer act_no, Boolean act_state) {
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(SWITCH_ACTIVITY_STATE);
+			
+			ps.setBoolean(1,act_state);
+			ps.setInt(2,act_no);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

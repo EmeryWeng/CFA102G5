@@ -7,6 +7,9 @@
 	<title>Login</title>
 	<link rel="stylesheet" href="Login2.css">
 	<link href='https://unpkg.com/boxicons@2.0.8/css/boxicons.min.css' rel='stylesheet'>
+
+	<%@ include file="/back_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
+
 </head>
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');

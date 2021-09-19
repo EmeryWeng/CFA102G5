@@ -94,11 +94,6 @@ google.maps.event.addDomListener(window, 'load', initMap);
 
 <body>
 <div id="header">
-		<div class="nav-header">
-			<a href="/CFA102G5/back_end/index/index.jsp" class="brand-logo">
-			<img src="/CFA102G5/back_end/assets/img/logo.png" alt="Logo">
-			</a>
-		</div>
 		<div id="svc">
 			<jsp:useBean id="storeSvc" scope="page" class="com.foodClass.model.FoodClassService" />
     		<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodStoreServlet.do" >

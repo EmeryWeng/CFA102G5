@@ -15,6 +15,7 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 	private static final String DELETE = "DELETE FROM room_img WHERE img_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_img WHERE img_no = ?";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_img WHERE type_no = ?";
+	private static final String GET_ALL = "SELECT * FROM room_img";
 	
 	static {
 		try {
@@ -25,165 +26,104 @@ public class RoomImgJDBCDAO implements I_RoomImgDAO {
 	}
 
 	@Override
-	public void insert(RoomImgVO roomimgvo) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
+	public RoomImgVO insert(RoomImgVO roomImgVO) {
 		
-		try {
-			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
-			pstmt = con.prepareStatement(INSERT);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(INSERT);
 			
-			pstmt.setInt(1, roomimgvo.getType_no());
-			pstmt.setBytes(2, roomimgvo.getType_img());
+			pstmt.setInt(1, roomImgVO.getType_no());
+			pstmt.setBytes(2, roomImgVO.getType_img());
 			
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
 		}
+		return roomImgVO;
 	}
 
 	@Override
 	public void delete(Integer img_no) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
 		
-		try {
-			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
-			pstmt = con.prepareStatement(DELETE);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, img_no);
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
 		}
 		
 	}
 
 	@Override
 	public RoomImgVO getOne(Integer img_no) {
-		RoomImgVO roomimg = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
+		RoomImgVO roomImgVO = null;
 		ResultSet rs = null;
 		
-		try {
-			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
-			pstmt = con.prepareStatement(GET_ONE);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setInt(1, img_no);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				roomimg = new RoomImgVO();
-				roomimg.setImg_no(rs.getInt("img_no"));
-				roomimg.setType_no(rs.getInt("type_no"));
-				roomimg.setType_img(rs.getBytes("type_img"));
+				roomImgVO = new RoomImgVO();
+				roomImgVO.setImg_no(rs.getInt("img_no"));
+				roomImgVO.setType_no(rs.getInt("type_no"));
+				roomImgVO.setType_img(rs.getBytes("type_img"));
 			}
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
 		}
-		return roomimg;
+		return roomImgVO;
 	}
 
 	@Override
 	public List<RoomImgVO> getAllByType(Integer type_no) {
 		List<RoomImgVO> list = new ArrayList<>();
-		RoomImgVO roomimg = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
+		RoomImgVO roomImgVO = null;
 		ResultSet rs = null;
 		
-		try {
-			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
-			pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				roomimg = new RoomImgVO();
-				roomimg.setImg_no(rs.getInt("img_no"));
-				roomimg.setType_no(rs.getInt("type_no"));
-				roomimg.setType_img(rs.getBytes("type_img"));
-				list.add(roomimg);
+				roomImgVO = new RoomImgVO();
+				roomImgVO.setImg_no(rs.getInt("img_no"));
+				roomImgVO.setType_no(rs.getInt("type_no"));
+				roomImgVO.setType_img(rs.getBytes("type_img"));
+				list.add(roomImgVO);
 			}
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<RoomImgVO> getAll() {
+		List<RoomImgVO> list = new ArrayList<>();
+		RoomImgVO roomImgVO = null;
+		ResultSet rs = null;
+		
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roomImgVO = new RoomImgVO();
+				roomImgVO.setImg_no(rs.getInt("img_no"));
+				roomImgVO.setType_no(rs.getInt("type_no"));
+				roomImgVO.setType_img(rs.getBytes("type_img"));
+				list.add(roomImgVO);
 			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
 		}
 		return list;
 	}

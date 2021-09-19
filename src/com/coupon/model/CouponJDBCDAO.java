@@ -24,121 +24,58 @@ public class CouponJDBCDAO implements I_CouponDAO {
 	}
 	
 	@Override
-	public void insert(CouponVO couponvo) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
+	public CouponVO insert(CouponVO couponVO) {
 		
-		try {
-			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
-			pstmt = con.prepareStatement(INSERT);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(INSERT);
 			
-			pstmt.setInt(1, couponvo.getMem_no());
-			pstmt.setInt(2, couponvo.getCoupon_value());
+			pstmt.setInt(1, couponVO.getMem_no());
+			pstmt.setInt(2, couponVO.getCoupon_value());
 			
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
 		}
+		return couponVO;
 	}
 	
 	@Override
 	public void delete(Integer coupon_no) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
 		
-		try {
-			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
-			pstmt = con.prepareStatement(DELETE);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(DELETE);
 			pstmt.setInt(1, coupon_no);
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
 		}
-		
 	}
+	
 	@Override
 	public List<CouponVO> getAllByMem(Integer mem_no) {
 		List<CouponVO> list = new ArrayList<>();
-		CouponVO coupon = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
+		CouponVO couponVO = null;
 		ResultSet rs = null;
 		
-		try {
-			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
-			pstmt = con.prepareStatement(GET_ALL_BY_MEM);
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_MEM);
 			pstmt.setInt(1, mem_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				coupon = new CouponVO();
-				coupon.setCoupon_no(rs.getInt("coupon_no"));
-				coupon.setMem_no(rs.getInt("mem_no"));
-				coupon.setCoupon_value(rs.getInt("coupon_value"));
-				coupon.setCoupon_expiry(rs.getDate("coupon_expiry").toLocalDate());
-				list.add(coupon);
+				couponVO = new CouponVO();
+				couponVO.setCoupon_no(rs.getInt("coupon_no"));
+				couponVO.setMem_no(rs.getInt("mem_no"));
+				couponVO.setCoupon_value(rs.getInt("coupon_value"));
+				couponVO.setCoupon_expiry(rs.getDate("coupon_expiry").toLocalDate());
+				list.add(couponVO);
 			}
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
 		}
 		return list;
 	}
-	
-	
-	
 }

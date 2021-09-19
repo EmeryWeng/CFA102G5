@@ -1,7 +1,7 @@
 package com.activityImage.model;
 
 import java.io.Serializable;
-import java.util.Arrays;
+
 
 import lombok.Data;
 

@@ -17,6 +17,6 @@ public class ActivitySessionVO implements Serializable{
 	private LocalTime act_session_start_time;
 	private Integer act_session_upper_limit;
 	private Integer act_session_lower_limit;
-	private Boolean act_session_hold_state;
+	private Boolean act_session_hold_state = false;
 	
 }

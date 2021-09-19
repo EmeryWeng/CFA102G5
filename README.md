@@ -55,7 +55,7 @@
     │       │       ├── ✏️RoomImgJDBCDAO.java
     │       │       ├── ✏️RoomImgVO.java
     │       │       ├── RoomImgJNDIDAO.java ✨未來    
-    │       │       └── RoomImgService.java ✨未來    
+    │       │       └── ✏️RoomImgService.java  
     │       └── [...]
     ├── .classpath
     ├── .gitignore

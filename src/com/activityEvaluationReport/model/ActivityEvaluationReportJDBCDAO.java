@@ -17,8 +17,7 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 	private final String[] GET_KEY = {"act_evaluation_no","mem_no"};
 	private final String SELECT_All_SQL = "SELECT * FROM ACTIVITY_EVALUATION_REPORT";
 	private final String INSERT_SQL = "INSERT INTO ACTIVITY_EVALUATION_REPORT VALUES(?,?,?,?,?)";
-	private final String UPDATE_SQL = "UPDATE ACTIVITY_EVALUATION_REPORT SET act_evaluation_no = ?,mem_no = ?,act_report_date = ?,act_evaluation_report_reason = ?"
-			+ ",act_evaluation_report_state = ? WHERE act_evaluation_no = ? and mem_no = ?"; //字串串接 where前要空一行
+	private final String DELETE_SQL = "DELETE FROM ACTIVITY_EVALUATION_REPORT WHERE act_evaluation_no = ? AND mem_no = ?";
 	private final String SELECT_BY_ACTIVITY_EVALUATION_NO_SQL = "SELECT * FROM ACTIVITY_EVALUATION_REPORT WHERE act_evaluation_no = ?";
 	private final String SELECT_BY_MEMBER_NO_SQL = "SELECT * FROM ACTIVITY_EVALUATION_REPORT WHERE mem_no = ?";
 	
@@ -34,9 +33,11 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 	
 	@Override
 	public ActivityEvaluationReportVO insert(ActivityEvaluationReportVO actEvaluationReportVO) {
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
 			ps.setInt(1,actEvaluationReportVO.getAct_evaluation_no());
 			ps.setInt(2,actEvaluationReportVO.getMem_no());
@@ -52,27 +53,41 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 			}
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return actEvaluationReportVO;
 	}
 
 	@Override
-	public void update(ActivityEvaluationReportVO actEvaluationReportVO,Integer act_evaluation_no,Integer mem_no) {
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
-			PreparedStatement ps = con.prepareStatement(UPDATE_SQL);
-			ps.setInt(1,actEvaluationReportVO.getAct_evaluation_no());
-			ps.setInt(2,actEvaluationReportVO.getMem_no());
-			ps.setObject(3,actEvaluationReportVO.getAct_report_date());
-			ps.setInt(4,actEvaluationReportVO.getAct_evaluation_report_reason());
-			ps.setInt(5,actEvaluationReportVO.getAct_evaluation_report_state());
-			ps.setInt(6,act_evaluation_no);
-			ps.setInt(7,mem_no);
+	public void delete(Integer act_evaluation_no,Integer mem_no) {
+		Connection con = null;
+		
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
+			PreparedStatement ps = con.prepareStatement(DELETE_SQL);
+			ps.setInt(1,act_evaluation_no);
+			ps.setInt(2,mem_no);		
 			ps.executeUpdate();
+			
 		}catch (SQLException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex.getMessage());
+		}finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -80,9 +95,10 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 	public List<ActivityEvaluationReportVO> findByActEvaluationNo(Integer act_evaluation_no) {
 		List<ActivityEvaluationReportVO> list = new ArrayList<>();
 		ActivityEvaluationReportVO actEvaluationReportVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_EVALUATION_NO_SQL);
 			ps.setInt(1, act_evaluation_no);
 			rs = ps.executeQuery();
@@ -98,8 +114,16 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -108,9 +132,10 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 	public List<ActivityEvaluationReportVO> findByMemberNo(Integer mem_no) {
 		List<ActivityEvaluationReportVO> list = new ArrayList<>();
 		ActivityEvaluationReportVO actEvaluationReportVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_BY_MEMBER_NO_SQL);
 			ps.setInt(1, mem_no);
 			rs = ps.executeQuery();
@@ -126,8 +151,16 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -136,9 +169,10 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 	public List<ActivityEvaluationReportVO> getAll() {
 		List<ActivityEvaluationReportVO> list = new ArrayList<>();
 		ActivityEvaluationReportVO actEvaluationReportVO = null;
+		Connection con = null;
 		ResultSet rs = null;
-		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
-			
+		try{
+			con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD);
 			PreparedStatement ps = con.prepareStatement(SELECT_All_SQL);
 			rs = ps.executeQuery();		
 			while (rs.next()) {
@@ -152,8 +186,16 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 			}
 	
 		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} 
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		
 		return list;
 	}
@@ -169,9 +211,9 @@ public class ActivityEvaluationReportJDBCDAO implements I_ActivityEvaluationRepo
 //		
 //		dao.insert(vo);
 //		dao.update(vo,3,1);
-		List<ActivityEvaluationReportVO> list = dao.findByActEvaluationNo(4);
+//		List<ActivityEvaluationReportVO> list = dao.findByActEvaluationNo(3);
 //		List<ActivityEvaluationReportVO> list = dao.findByMemberNo(1);
-//		List<ActivityEvaluationReportVO> list = dao.getAll();
+		List<ActivityEvaluationReportVO> list = dao.getAll();
 		for(ActivityEvaluationReportVO vo : list)
 		System.out.println(vo);
 	}
