@@ -6,7 +6,7 @@ public class CreditcardService {
 	
 	private I_CreditcardClassDAO dao;
 	public CreditcardService() {
-		dao = new CreditcardClassJDBCDAO();
+		dao = new CreditcardClassDAO();
 	}
 	
 	public CreditcardClassVO addCard(Integer mem_no,String crd_name,String crd_num,
