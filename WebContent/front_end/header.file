@@ -28,7 +28,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="<%=request.getContextPath()%>/front_end/storeMap/storeMap.jsp" class="nav-link">
                                         美食地圖
                                     </a>
                                 </li>
