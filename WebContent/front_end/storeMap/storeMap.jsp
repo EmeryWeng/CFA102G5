@@ -2,13 +2,7 @@
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.foodStore.model.*"%>
-<%
 
-    FoodStoreService fdStoreSvc = new FoodStoreService();
-    List<FoodStoreVO> list = fdStoreSvc.getAllFoodStore();
-    pageContext.setAttribute("list",list);
-    
-%>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -29,7 +23,6 @@ max-width:100%;
 height:100px;
 }
 #sidebar{
-border: 1px solid red;
 width:100%;
 height:800px;
 margin: 0 0 10px 0 ;
@@ -40,6 +33,8 @@ width:33%;
 display: inline-block;
 vertical-align: top;
 margin-right: 10px;
+overflow: auto;
+overflow-x: hidden;
 }
 #map-canvas{
 height:800px; 
@@ -97,8 +92,7 @@ max-width:100%;
 				<th>店家名稱</th>
 				<th>店家地址</th>
 			</tr>
-				<%@ include file="page1.file" %>
-			<c:forEach var="storeVO" items="${storeVO}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+			<c:forEach var="storeVO" items="${storeVO}">
 		
 				<tr onclick="initMap(${storeVO.fd_longitude},${storeVO.fd_latitude})" style="border: 1px solid #F6F7F7;">
 					<td><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:125px;height:125px"></td>
@@ -110,7 +104,6 @@ max-width:100%;
 				</tr>
 			</c:forEach>
 				</table>
-				<%@ include file="page2.file" %>
 				</div>
 <div id="map-canvas"></div>					<!--地圖生成 --> 
 		</div>
