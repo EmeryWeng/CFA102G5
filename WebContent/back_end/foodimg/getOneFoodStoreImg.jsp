@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.foodImg.model.*"%>
 
+<jsp:useBean id="storeSvc" scope="page" class="com.foodStore.model.FoodStoreService" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +40,7 @@
 	<c:forEach var="FoodImgVO" items="${imgVO}" >
 		<tr>
 			<td>${FoodImgVO.fd_img_no}</td>
-			<td>${FoodImgVO.fd_no}</td>
+			<td>${storeSvc.getOneStore(FoodImgVO.fd_no).fd_name}</td>
 			<td><img src="<%=request.getContextPath()%>/FoodImgReader.do?fd_img_no=${FoodImgVO.fd_img_no}" style="width:200px;height:200px;"></td>
 		
 			<td>
