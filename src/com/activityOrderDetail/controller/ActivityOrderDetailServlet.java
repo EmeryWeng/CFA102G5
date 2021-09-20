@@ -94,8 +94,8 @@ public class ActivityOrderDetailServlet extends HttpServlet {
 						.getAsInt();
 			}catch(NoSuchElementException ex) {
 				change_session_act_real_join_number = 0;
-				System.out.println("例外發生~~~要更換場次的人數:"+change_act_people_number);		
-				System.out.println("例外拋出現在無該場次:"+change_act_session_no);
+//				System.out.println("例外發生~~~要更換場次的人數:"+change_act_people_number);		
+//				System.out.println("例外拋出現在無該場次:"+change_act_session_no);
 			}
 			
 			
