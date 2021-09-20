@@ -54,7 +54,7 @@
 				</tr>
 			<%@ include file="/back_end/activity/pages/actImg/page1.file" %> 
 				<c:forEach var="actImgVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-				<tr ${(actImgVO.act_img_no == param.updateActImgNo) ? 'style="background-color:#CCCCFF;"':''}>
+				<tr ${(actImgVO.act_img_no == param.updateActImgNo) ? 'style="background-color:#FFE6FF;"':''}>
 					<th>${actImgVO.act_img_no}</th>
 					<td>
 						<c:forEach var="actVO" items="${actService.all}">
