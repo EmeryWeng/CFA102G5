@@ -35,6 +35,15 @@ public class ActivityImageServlet extends HttpServlet {
 			out.write(imgArray);
 			out.close();
 			
+		}else if("actList".equals(action)) {
+			actImgService = new ActivityImageService();
+			Integer act_no = new Integer(request.getParameter("actNo").trim());
+			byte[] imgArray = actImgService.getActImageByActNo(act_no)
+						      .stream().findFirst().get().getAct_img();
+			ServletOutputStream out = response.getOutputStream();
+			out.write(imgArray);
+			out.close();
+						  
 		}else{
 			response.setContentType("img/jpeg");
 			String act_img_no = request.getParameter("act_img_no");
