@@ -2,40 +2,37 @@ package com.activityOrder.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class ActivityOrderServlet
- */
-@WebServlet("/ActivityOrderServlet")
+import com.activityOrder.model.ActivityOrderService;
+import com.activityOrder.model.ActivityOrderVO;
+
+
 public class ActivityOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ActivityOrderServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");	
+		String action = request.getParameter("action");
+		ActivityOrderService actOrderService = new ActivityOrderService();
+		
+		//查看訂單列表
+		if("getAll".equals(action)) {
+			
+			request.getRequestDispatcher("/back_end/activity/actOrder/selectActOrder.jsp")
+			.forward(request, response);
+			return;
+		}
+		
+		//新增待做
 	}
 
 }
