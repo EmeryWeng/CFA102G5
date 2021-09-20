@@ -103,9 +103,9 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3 col-md-3 row justify-content-center">
+                            <div class="col-lg-3 col-md-3 d-flex justify-content-end pt-70">
                                 <input type="hidden" name="action" value="">
-                                <input class="btn btn-primary" type="submit" value="查看空房">
+                                <input class="btn btn-primary col-lg-8" type="submit" value="查看空房">
                             </div>
                         </div>
                     </form>
@@ -214,7 +214,7 @@
                     <div class="col-lg-6">
                         <div class="reservation-content">
                             <div class="section-title text-center">
-                                <h2 class="area-title ">美食地圖</h2>
+                                <h2 class="area-title">美食地圖</h2>
                                 <hr>
                                 <h3 class="area-subtitle text-left">飯店周邊的美食店家，在地人推薦的特色花蓮美食！<br>好山好水又靠海的花蓮，除了豐富的名勝跟景點讓人玩不膩，花蓮美食更是多到數不清。</h3>
                             </div>
@@ -222,7 +222,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="reservation-img">
                         	<img src="<%=request.getContextPath()%>/front_end/assets/img/index_food1.jpg">
                         </div>

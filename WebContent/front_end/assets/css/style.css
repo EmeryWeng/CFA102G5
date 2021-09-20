@@ -5833,7 +5833,7 @@ Back To Top Button
 #footer-message-btn {
   position: fixed;
   bottom: 10%;
-  right: 10%;
+  right: 5%;
   cursor: pointer;
   z-index: 10;
 }
@@ -6249,10 +6249,18 @@ h3.area-subtitle {
   width: 110%;
   height: 110%;
 }
-input[type=text],input[type=search],input[type=password],input[type=number],input[type=email]{
+.form-control:focus {
+	box-shadow: 0 0 0 0 rgb(0 ,0 ,0);	
+}
+input[type=text],input[type=search],input[type=password],input[type=number],input[type=email],textarea{
     font-family: Arial, "Times New Roman", sans-serif;
     letter-spacing: 0.5px;
     font-size: 16px;
+    border: 0.0625rem solid #e3e3e3;
+}
+input[type=text]:focus,input[type=search]:focus,input[type=password]:focus,input[type=number]:focus,input[type=email]:focus,textarea:focus{
+    border: 1px solid #cda274;
+    outline:none;
 }
 ::placeholder{
     color: #8FC2C2;
