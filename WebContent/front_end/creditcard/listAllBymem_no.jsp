@@ -55,7 +55,7 @@ display: table;
 	<!-- Inner Banner End -->
 <div class=info>
 
-<form METHOD="post" action="<%=request.getContextPath()%>/front_end/creditcard/addCard.jsp">
+<form METHOD="post" action="<%=request.getContextPath()%>/front_end/creditcard/creditcard.jsp">
 <input class="btn btn-outline-secondary" type="submit" value="新增信用卡">
 <input type="hidden" name="mem_no" value="${memberSvc.getOneBymail(mem_mail).mem_no}"></form><br>
 <table class="table table-striped">
