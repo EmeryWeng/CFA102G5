@@ -171,7 +171,7 @@
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
                             <a href="活動內頁.html">
-                                <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images">
+                                <img src="<%=request.getContextPath()%>/activity/ActivityImage?action=frontImg&actNo=${actVO.act_no}" alt="Images">
                                 <div class="content">
                                     <i class='bx bxs-medal no2'></i>
                                     <h5>${actVO.act_name}</h5>
