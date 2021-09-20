@@ -45,11 +45,11 @@ public class LoginHandler extends HttpServlet {
 		
 		if(memVO == null) {
 			errorMsgs.add("帳號密碼錯誤");
-			if(!errorMsgs.isEmpty()) {			
+			if(!errorMsgs.isEmpty()){ 			
 				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/signin/signin.jsp");
 				failureView.forward(req, res);
-			}
-				}else {
+			   }
+			}else{
 					Cookie cookie = new Cookie("isuser",memVO.getMem_mail());//設定cookie
 					cookie.setMaxAge(24*60*60);
 					res.addCookie(cookie);

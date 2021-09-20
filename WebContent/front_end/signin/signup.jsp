@@ -5,6 +5,8 @@
 
 <!doctype html>
 <html lang="en">
+			<%-- 錯誤表列 --%>
+
     <head>
         <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
     </head>
@@ -53,9 +55,17 @@
 				class="form-check-label">女性</label>
 			</div>
 	</div>
+		<c:if test="${not empty errorMsgs}">
+			<ul>
+				<c:forEach var="message" items="${errorMsgs}">
+				<div class="help-block with-errors">${message}</div>
+				</c:forEach>
+			</ul>
+		</c:if>
 	<div class="col-lg-12">
 		<div class="form-group">
 		<input type="email" class="form-control" name="mem_mail" placeholder="E-mail"  size="30" value="" required data-error="請輸入正確的email格式"/></div>
+
 	</div>
 	<div class="col-lg-12">
 		<div class="form-group">

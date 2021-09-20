@@ -4,6 +4,7 @@
 
 <!doctype html>
 <html>
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <head>
         <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
@@ -77,16 +78,19 @@ div.parent_container div.sub_aside{
 
   margin-left: 20px;
 }
-/* footer.footer2{ */
-/* width: 100%; */
-/* position: absolute; */
-/* bottom: 0 */
-/* } */
+ footer.footer2{ 
+ width: 100%; 
+ position: absolute; 
+ bottom: 0 
+ } 
 
 </style>
 
 <header class="header">
-  ${mem_mail}
+<div>
+<h2>${memberSvc.getOneBymail(mem_mail).mem_name}</h2>您好
+</div>
+ 
 </header>
 
 <div class="parent_container">

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,11 +67,6 @@ public class MemberServlet extends HttpServlet {
 				String mem_mail = req.getParameter("mem_mail");
 				//後端重複驗證
 				
-				
-				
-				
-				
-				
 //				if (mem_mail == null || mem_mail.trim().length() == 0) {
 //					errorMsgs.add("請填入信箱");
 //				}
@@ -111,10 +107,19 @@ public class MemberServlet extends HttpServlet {
 				memVO.setMem_mobile(mem_mobile);
 				memVO.setMem_img(mem_img);
 				memVO.setMem_add(mem_add);
+				
+				MemberService memSvc = new MemberService();
+				List<MemberClassVO> listall = memSvc.getAll();
+				for (MemberClassVO memVOList : listall) {
+					if (memVOList.getMem_mail().equals(mem_mail)) {
+						errorMsgs.add("信箱已被註冊，請重新輸入");
+					}
+				}
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/front_end/member/addMember.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front_end/signin/signup.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -129,7 +134,7 @@ public class MemberServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);				
 				/***************************其他可能的錯誤處理**********************************/
-			} catch (Exception e) {
+			}catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/member/addMember.jsp");
 				failureView.forward(req, res);
@@ -290,13 +295,21 @@ public class MemberServlet extends HttpServlet {
         		memVO = memSvc.updateMemberstate(mem_state, mem_no);
         		
         		req.setAttribute("memVO", memVO);
-        		String url = "/front_end/member/listAllMember.jsp";
+        		String url = "/back_end/member/selectMemberPage.jsp";
         		RequestDispatcher success = req.getRequestDispatcher(url);
         		success.forward(req, res);
         		
         	}catch(Exception e) {
         		
         	}
+    	if("log_out".equals(action)) {
+    			HttpSession session = req.getSession();
+    			session.invalidate();
+    			//導回登入頁面-------------
+    			String url = "/front_end/index/index.jsp";
+    			RequestDispatcher successView = req.getRequestDispatcher(url);
+    			successView.forward(req, res);
+    		}
         	
         }
         
