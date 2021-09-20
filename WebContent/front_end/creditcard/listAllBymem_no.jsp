@@ -12,6 +12,7 @@ List<CreditcardClassVO> list = (List<CreditcardClassVO>)session.getAttribute("li
 
 
 <!doctype html>
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 <html>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <head>
@@ -20,11 +21,11 @@ List<CreditcardClassVO> list = (List<CreditcardClassVO>)session.getAttribute("li
 
 <style>
 
-/* footer.footer2{ */
-/* width: 100%; */
-/* position: absolute; */
-/* bottom: 0 */
-/* } */
+ footer.footer2{ 
+ width: 100%; 
+ position: absolute; 
+ bottom: 0 
+ } 
 
 div.info{
 width:1500px;
@@ -54,10 +55,9 @@ display: table;
 	<!-- Inner Banner End -->
 <div class=info>
 
-<form METHOD="post" action="<%=request.getContextPath()%>/front_end/creditcard/addCard.jsp">
+<form METHOD="post" action="<%=request.getContextPath()%>/front_end/creditcard/creditcard.jsp">
 <input class="btn btn-outline-secondary" type="submit" value="新增信用卡">
-<input type="hidden" name="mem_no" id="A"></form><br>
-
+<input type="hidden" name="mem_no" value="${memberSvc.getOneBymail(mem_mail).mem_no}"></form><br>
 <table class="table table-striped">
 	<tr>
 		<th>姓名</th>
@@ -95,12 +95,12 @@ display: table;
  
  </footer>
  
- <script>
- var A  = document.getElementById('A')
- var b = document.getElementById('mem_no').value
- A.value = b 
- console.log("b",b)
- </script>
+<!--  <script> -->
+<!--   var A  = document.getElementById('A') -->
+<!--   var b = document.getElementById('mem_no').value -->
+<!--   A.value = b  -->
+<!--   console.log("b",b) -->
+<!--  </script> -->
 
 </body>
 </html>

@@ -1,7 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.creditcard.model.*"%>
+
+
+
+<%
+List<CreditcardClassVO> list = (List<CreditcardClassVO>)session.getAttribute("list");
+%>
 
 <!doctype html>
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
+<style>
+ footer.footer2{ 
+ width: 100%; 
+ position: absolute; 
+ bottom: 0 
+ }
+ 
+ </style>
 <html>
     <head>
         <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
@@ -9,14 +27,28 @@
     <body>
 		<%@ include file="/front_end/loading.file" %> <!-- loading -->
         <%@ include file="/front_end/header.file" %> <!-- Header -->
+        	<!-- Inner Banner -->
+	<div class="inner-banner">
+		<div class="container">	
+			<div class="inner-title">
+				<ul>
+					<li><a href="<%=request.getContextPath()%>/front_end/index/index.jsp">Home</a></li>
+					<li><i class='bx bx-chevron-right'></i></li>
+					<li><a href="<%=request.getContextPath()%>/front_end/member/memberHome.jsp">singin</a></li>
+					<li><i class='bx bx-chevron-right'></i></li>
+					<li>MemberCentre</li>
+				</ul>
+				<h3>信用卡管理</h3>
+			</div>
+		</div>
+	</div>
+	<!-- Inner Banner End -->
 		<!-- 最外層div -->
 		<div class="mt-5 mb-5 ptb-70 container">
-		
 		<!-- Modal的按鈕 -->
 		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creditcardModal">
 			<i class='bx bx-plus' ></i>新增信用卡
 		</button>
-		
 		<!-- ☆☆ Modal 開始 -->
 		<div class="modal fade" id="creditcardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-lg">
@@ -26,6 +58,7 @@
 		      </div>
 		      <div class="modal-body">
 				<!-- ★★ 信用卡 開始 -->
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/creditcard/creditcard.do">
 					<div class="align-items-center card-area">
 						<div class="container-card preload">
 							<div class="creditcard">
@@ -124,35 +157,71 @@
 								</div>
 							</div>
 						</div>
+						
 						<div class="form-container">
 							<div class="field-container">
-								<label for="name">Name</label> <input id="name" maxlength="20" type="text" class="form-control">
+								<label for="name">Name</label> <input name="crd_name" id="name" maxlength="20" type="text" class="form-control">
 							</div>
 							<div class="field-container">
-								<label for="cardnumber">Card Number</label><span id="generatecard">generate random</span> <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric" class="form-control">
+<!-- 																																				pattern="[0-9]*" inputmode="numeric"  -->
+								<label for="cardnumber">Card Number</label><span id="generatecard">generate random</span> <input name="crd_num" id="cardnumber" type="text" class="form-control">
 								<svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 				            </svg>
 							</div>
 							<div class="field-container">
-								<label for="expirationdate">Expiration (mm/yy)</label> <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
+								<label for="expirationdate">Expiration (mm/yy)</label> <input name="crd_expiry" id="expirationdate" type="text" >
 							</div>
 							<div class="field-container">
+
 								<label for="securitycode">Security Code</label> <input id="securitycode" type="text" maxlength="3" pattern="[0-9]*" inputmode="numeric">
+
 							</div>
 						</div>
 					</div>
+ 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+			        	<%String req = request.getParameter("mem_no");%>
+						<input type="hidden" name="action" value="addCard">
+						<input type="hidden" name="mem_no" value="<%=req%>">
+						<input type="submit" class="btn btn-primary" value="送出新增">
+<!-- 			       			<button type="button" class="btn btn-primary">新增</button> -->
+			       			</FORM>
 				<!-- ★★ 信用卡   結束 -->
-
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-			        <button type="button" class="btn btn-primary">新增</button>
+
 			      </div>
 			    </div>
 			  </div>
 			</div>
 		<!-- ☆☆ Modal 結束 -->
 		
+<table class="table table-striped">
+	<tr>
+		<th>姓名</th>
+		<th>卡號</th>
+		<th >安全碼</th>
+		<th>到期月/年</th>	
+		<th>手機條碼</th>
+		<th></th>	
+	</tr>
+<c:forEach var="crdVO" items="${list}">	
+	<tr>
+		<td>${crdVO.crd_name}</td>
+		<td>${crdVO.crd_num}</td>
+		<td>***</td>
+		<td>${crdVO.crd_expiry}</td>
+		<td>${crdVO.crd_barcode}</td>
+		<td>
+			 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/creditcard/creditcard.do" style="margin-bottom: 0px;">
+			 <input class="btn btn-outline-secondary" type="submit" value="刪除">
+			 <input type="hidden" name="crd_no"  value="${crdVO.crd_no}">
+			 <input type="hidden" id="mem_no" name="mem_no"  value="${crdVO.mem_no}">
+			 <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+			 <input type="hidden" name="action" value="deleteCard"></FORM>
+	</td>
+	</tr>
+</c:forEach>
+</table>
 		</div>
 		<%@ include file="/front_end/message.file" %> <!-- Message --> 
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
@@ -161,5 +230,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js"></script>
 		<script src="<%=request.getContextPath()%>/front_end/assets/js/creditcard.js"></script>
 		
+
     </body>
 </html>
