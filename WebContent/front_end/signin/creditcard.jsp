@@ -137,7 +137,7 @@
 								<label for="expirationdate">Expiration (mm/yy)</label> <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
 							</div>
 							<div class="field-container">
-								<label for="securitycode">Security Code</label> <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
+								<label for="securitycode">Security Code</label> <input id="securitycode" type="text" maxlength="3" pattern="[0-9]*" inputmode="numeric">
 							</div>
 						</div>
 					</div>
@@ -154,9 +154,12 @@
 		<!-- ☆☆ Modal 結束 -->
 		
 		</div>
-		
 		<%@ include file="/front_end/message.file" %> <!-- Message --> 
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->    
+		<!-- creditcard JS 2支-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js"></script>
+		<script src="<%=request.getContextPath()%>/front_end/assets/js/creditcard.js"></script>
+		
     </body>
 </html>
