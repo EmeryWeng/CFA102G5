@@ -21,7 +21,7 @@ public class RoomDAO implements I_RoomDAO {
 	private static final String GET_ALL = "SELECT * FROM room ORDER BY rm_no";
 	private static final String GET_ALL_BY_TYPE_STATE = "SELECT * FROM room WHERE type_no = ? AND rm_state = 1";
 	private static final String GET_ALL_BY_RM_STATE = "SELECT * FROM room WHERE rm_state = ?";
-	
+
 	private static DataSource ds = null;
 	static {
 		try {
@@ -31,25 +31,24 @@ public class RoomDAO implements I_RoomDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public RoomVO insert(RoomVO roomVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT);
-			
+
 			pstmt.setString(1, roomVO.getRm_no());
 			pstmt.setInt(2, roomVO.getType_no());
 			pstmt.setString(3, roomVO.getRm_info());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {
@@ -61,26 +60,26 @@ public class RoomDAO implements I_RoomDAO {
 		}
 		return roomVO;
 	}
+
 	@Override
-	public void update(RoomVO roomVO) {
+	public RoomVO update(RoomVO roomVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
-			
+
 			pstmt.setInt(1, roomVO.getType_no());
 			pstmt.setString(2, roomVO.getRm_info());
 			pstmt.setInt(3, roomVO.getRm_state());
 			pstmt.setString(4, roomVO.getName_title());
 			pstmt.setString(5, roomVO.getRm_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {
@@ -90,24 +89,25 @@ public class RoomDAO implements I_RoomDAO {
 				}
 			}
 		}
+		return roomVO;
 	}
+
 	@Override
 	public void updateCheckin(RoomVO roomVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_CHECKIN);
-			
+
 			pstmt.setString(1, roomVO.getName_title());
 			pstmt.setString(2, roomVO.getRm_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {
@@ -118,11 +118,12 @@ public class RoomDAO implements I_RoomDAO {
 			}
 		}
 	}
+
 	@Override
 	public void updateCheckout(RoomVO roomVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_CHECKOUT);
@@ -130,8 +131,7 @@ public class RoomDAO implements I_RoomDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {
@@ -141,21 +141,22 @@ public class RoomDAO implements I_RoomDAO {
 				}
 			}
 		}
-		
+
 	}
+
 	@Override
 	public RoomVO getOne(String rm_no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setString(1, rm_no);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				roomVO = new RoomVO();
 				roomVO.setRm_no(rs.getString("rm_no"));
@@ -166,8 +167,7 @@ public class RoomDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {
@@ -179,6 +179,7 @@ public class RoomDAO implements I_RoomDAO {
 		}
 		return roomVO;
 	}
+
 	@Override
 	public List<RoomVO> getAll() {
 		Connection con = null;
@@ -186,7 +187,7 @@ public class RoomDAO implements I_RoomDAO {
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
@@ -203,8 +204,7 @@ public class RoomDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {
@@ -216,6 +216,7 @@ public class RoomDAO implements I_RoomDAO {
 		}
 		return list;
 	}
+
 	@Override
 	public List<RoomVO> getAllByTypeState(Integer type_no) {
 		Connection con = null;
@@ -223,7 +224,7 @@ public class RoomDAO implements I_RoomDAO {
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
@@ -241,8 +242,7 @@ public class RoomDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {
@@ -254,6 +254,7 @@ public class RoomDAO implements I_RoomDAO {
 		}
 		return list;
 	}
+
 	@Override
 	public List<RoomVO> getAllByRmState(Integer rm_state) {
 		Connection con = null;
@@ -261,7 +262,7 @@ public class RoomDAO implements I_RoomDAO {
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_BY_RM_STATE);
@@ -279,8 +280,7 @@ public class RoomDAO implements I_RoomDAO {
 			}
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (con != null) {
 				try {

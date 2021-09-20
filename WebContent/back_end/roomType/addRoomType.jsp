@@ -84,6 +84,7 @@
 							    <label for="bed_size" class="col-sm-3 col-form-label">床型</label>
 							    <div class="col-sm-8">
 							    	<input type="text" name="bed_size" class="form-control" id="bed_size" value="<%=(roomTypeVO == null) ? "" : roomTypeVO.getBed_size()%>">
+							    	<div class="mt-1">ex. 一張超大雙人床或兩張單人床</div>
 							    </div>
 							</div>
 							<div class="row mb-2">
@@ -96,6 +97,7 @@
 							    <label for="type_facility" class="col-sm-3 col-form-label">房型設施</label>
 							    <div class="col-sm-8">
 							    	<textarea name="type_facility" rows="4" class="form-control" id="type_facility"><%=(roomTypeVO == null) ? "" : roomTypeVO.getType_facility()%></textarea>
+							    	<div class="mt-1">ex. 舒眠級睡床及寢具｜免費飲料｜煮水壺｜保險箱</div>
 							    </div>
 							</div>
 						</div>
