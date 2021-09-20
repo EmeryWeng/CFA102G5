@@ -5,11 +5,6 @@
 <html>
     <head>
         <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
-        <style>
-        .aaa {
-        	background-color: pink;
-        }
-        </style>
     </head>
     <body>
 		<%@ include file="/front_end/loading.file" %> <!-- loading -->
@@ -18,21 +13,20 @@
 		<div class="mt-5 mb-5 ptb-70 container">
 		
 		<!-- Modal的按鈕 -->
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creditcard">
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creditcardModal">
 			<i class='bx bx-plus' ></i>新增信用卡
 		</button>
 		
 		<!-- ☆☆ Modal 開始 -->
-		<div class="modal fade" id="creditcard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal fade" id="creditcardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-lg">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="staticBackdropLabel">新增信用卡</h5>
 		      </div>
 		      <div class="modal-body">
-		      
 				<!-- ★★ 信用卡 開始 -->
-					<div class="d-flex justify-content-center align-items-center">
+					<div class="align-items-center card-area">
 						<div class="container-card preload">
 							<div class="creditcard">
 								<div class="front">

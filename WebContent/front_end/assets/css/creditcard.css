@@ -44,6 +44,7 @@
     max-width: 400px;
     padding: 20px;
     color: #707070;
+    width: 50%;
 }
 
 label {
@@ -76,7 +77,6 @@ input {
 }
 
 .container-card {
-    width: 100%;
     max-width: 400px;
     max-height: 251px;
     height: 54vw;
@@ -305,6 +305,7 @@ input {
 /* FLIP ANIMATION */
 .container-card {
     perspective: 1000px;
+    width: 50%;
 }
 
 .creditcard {
@@ -339,11 +340,18 @@ input {
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
-#creditcard .modal-content {
+#creditcardModal .modal-content {
 	background-color: #f7f6f2;
 }
+.card-area {
+	display: flex;
+}
 @media screen and (max-width: 800px){
-    .creditcard-container{
-        display: block;
-    }
+	.card-area {
+		display: block;
+	}
+	.container-card, .form-container {
+    	width: 100%;
+    	margin: 0 auto;
+	}
 }
