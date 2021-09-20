@@ -153,7 +153,7 @@ public class ActivityOrderDetailServlet extends HttpServlet {
 			actOrderDetailService.orderDetailUpdate(totalPeople, act_price_total, act_order_no, change_act_session_no);
 //System.out.println("要換過去的明細更新成功");
 			}catch(NoSuchElementException ex) {
-				System.out.println("明細中 無該場次 直接更動原明細");
+//				System.out.println("明細中 無該場次 直接更動原明細");
 				act_price_total = old_act_session_people_number * act_session_price;
 				actOrderDetailService.addActOrderDetail(act_order_no, change_act_session_no, old_act_session_people_number, act_session_price, 0, act_price_total, 1);
 			}
