@@ -19,7 +19,7 @@ public class RoomJDBCDAO implements I_RoomDAO {
 	private static final String GET_ALL = "SELECT * FROM room ORDER BY rm_no";
 	private static final String GET_ALL_BY_TYPE_STATE = "SELECT * FROM room WHERE type_no = ? AND rm_state = 1";
 	private static final String GET_ALL_BY_RM_STATE = "SELECT * FROM room WHERE rm_state = ?";
-	
+
 	static {
 		try {
 			Class.forName(JDBCUtil.DRIVER);
@@ -27,17 +27,17 @@ public class RoomJDBCDAO implements I_RoomDAO {
 			ce.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public RoomVO insert(RoomVO roomVO) {
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
-			
+
 			pstmt.setString(1, roomVO.getRm_no());
 			pstmt.setInt(2, roomVO.getType_no());
 			pstmt.setString(3, roomVO.getRm_info());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -45,42 +45,46 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		}
 		return roomVO;
 	}
+
 	@Override
-	public void update(RoomVO roomVO) {
-		
+	public RoomVO update(RoomVO roomVO) {
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(UPDATE);
-			
+
 			pstmt.setInt(1, roomVO.getType_no());
 			pstmt.setString(2, roomVO.getRm_info());
 			pstmt.setInt(3, roomVO.getRm_state());
 			pstmt.setString(4, roomVO.getName_title());
 			pstmt.setString(5, roomVO.getRm_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
+		return roomVO;
 	}
+
 	@Override
 	public void updateCheckin(RoomVO roomVO) {
 
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKIN);
-			
+
 			pstmt.setString(1, roomVO.getName_title());
 			pstmt.setString(2, roomVO.getRm_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
 	}
+
 	@Override
 	public void updateCheckout(RoomVO roomVO) {
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKOUT);
 			pstmt.setString(1, roomVO.getRm_no());
@@ -89,18 +93,19 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
-		
+
 	}
+
 	@Override
 	public RoomVO getOne(String rm_no) {
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ONE);
 			pstmt.setString(1, rm_no);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				roomVO = new RoomVO();
 				roomVO.setRm_no(rs.getString("rm_no"));
@@ -115,12 +120,13 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		}
 		return roomVO;
 	}
+
 	@Override
 	public List<RoomVO> getAll() {
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
@@ -140,12 +146,13 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		}
 		return list;
 	}
+
 	@Override
 	public List<RoomVO> getAllByTypeState(Integer type_no) {
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE_STATE);
 			pstmt.setInt(1, type_no);
@@ -166,12 +173,13 @@ public class RoomJDBCDAO implements I_RoomDAO {
 		}
 		return list;
 	}
+
 	@Override
 	public List<RoomVO> getAllByRmState(Integer rm_state) {
 		List<RoomVO> list = new ArrayList<>();
 		RoomVO roomVO = null;
 		ResultSet rs = null;
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_RM_STATE);
 			pstmt.setInt(1, rm_state);
