@@ -23,8 +23,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        活動介紹
+                                    <a href="<%=request.getContextPath()%>/front_end/activity/actList.jsp" class="nav-link" style="text-decoration:none;">
+                                        活動介紹				
                                     </a>
                                 </li>
                                 <li class="nav-item">
