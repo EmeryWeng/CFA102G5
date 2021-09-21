@@ -14,8 +14,7 @@
 <html>
 <head>
 <%@ include file="/front_end/commonCSS.file"%>
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
 <!-- 基本CSS檔案 -->
 <style>
 body {
@@ -26,7 +25,7 @@ html {
 }
 div.actMain {
 	position: relative;
-	top: -28rem;
+	top: -33rem;
 	right: -40rem;
 }
 img {
@@ -44,8 +43,11 @@ a.btn-default{
 	color:#009100;
 	font-size:2rem;
 }
-i.bx bx-map{
-	
+button.queryBtn{
+	position: absolute;
+    right: 2.5rem;
+    bottom: 4.5rem;
+	background-color: #996A4D;
 }
 </style>
 </head>
@@ -69,16 +71,18 @@ i.bx bx-map{
 									aria-hidden="true">
 									<div class="search-filter-body">
 										<div class="search-category div-pad bd-bot">
-											<h1 class="second-title">活動類別</h1>
+											<h1 class="second-title" style="font-size:2rem;color:#007979;">活動類別</h1>
+												<form method="post" action="<%=request.getContextPath()%>/activity/Activity" id="queryForm">
 											<c:forEach var="actClassVO" items="${actClassService.all}">
-												<div class="custom-control custom-radio">
-													<input type="radio" id="check${actClassVO.act_class_no}"
-														name="actClass" class="custom-control-input"
-														style="width: 2rem;"> <label
-														class="custom-control-label"
-														for="check${actClassVO.act_class_no}">${actClassVO.act_class_name}</label>
+												<div class="custom-control">
+													<input type="radio" name="actClassNo" style="width: 2rem;"
+													 id="check${actClassVO.act_class_no}" value="${actClassVO.act_class_no}"> 
+														<label for="check${actClassVO.act_class_no}">${actClassVO.act_class_name}</label>
+													<input type="hidden" name="action" value="queryByActClass">
 												</div>
 											</c:forEach>
+												</form>
+												<button type="button" class="btn btn-primary btn-sm queryBtn" id="queryBtn">查詢</button>								
 										</div>
 									</div>
 								</div>
@@ -95,7 +99,7 @@ i.bx bx-map{
 <%@ include file="/front_end/activity/pages/act/page1.file" %>
 	<c:forEach var="actVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>"> 
                 <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 filter-result-item">
-<a href="xxx.html" class="tour-list-item">
+<a href="<%=request.getContextPath()%>/activity/Activity?action=frontAct&actNo=${actVO.act_no}" class="tour-list-item">
                     <div class="tour-list-item-img">
                       <img src="<%=request.getContextPath()%>/activity/ActivityImage?action=actList&actNo=${actVO.act_no}">
                     </div>
@@ -134,25 +138,13 @@ i.bx bx-map{
 
 
 	<script>
+		$("#queryBtn").click(function(){
+			$("#queryForm").submit();
+		});
+		
 		// ● header顯示目前在哪個區塊，"活動"的頁面請將nth-child(1)改成2，"美食"的頁面改成3，其他人這行可刪掉
 		$(`.nav-item:nth-child(2)>a`).attr('class', 'active');
 
-		// ● 以下是sweetalert2的範例也可以刪除
-		// 簡易版
-		function addToCart() {
-			// 簡易版；標題,內文,圖示
-			swal.fire('已加入購物車', '快到購物車內結帳吧！', 'success');
-		}
-		// 自動關閉版
-		function autoClose() {
-			swal.fire({
-				icon : 'success', //常用的還有'error'
-				title : '修改完成',
-				showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
-				timer : 1000
-			// 單位毫秒，1秒後自動關閉跳窗
-			})
-		}
 	</script>
 
 </body>
