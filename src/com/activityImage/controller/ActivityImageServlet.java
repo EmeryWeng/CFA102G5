@@ -44,7 +44,14 @@ public class ActivityImageServlet extends HttpServlet {
 			out.write(imgArray);
 			out.close();
 						  
-		}else{
+		}else if("innerAct".equals(action)){
+			actImgService = new ActivityImageService();
+			Integer act_img_no = new Integer(request.getParameter("actImgNo").trim());
+			byte[] imgArray = actImgService.getActImageByPk(act_img_no).getAct_img();
+			ServletOutputStream out = response.getOutputStream();
+			out.write(imgArray);
+			out.close();
+		}else {
 			response.setContentType("img/jpeg");
 			String act_img_no = request.getParameter("act_img_no");
 			ActivityImageService actImageService = new ActivityImageService();
