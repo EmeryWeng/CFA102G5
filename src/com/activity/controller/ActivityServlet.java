@@ -9,11 +9,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.soap.Detail;
 
 import com.activity.model.ActivityService;
 import com.activity.model.ActivityVO;
 import com.activityEvaluation.model.ActivityEvaluationService;
 import com.activityOrderDetail.model.ActivityOrderDetailService;
+import com.activitySession.model.ActivitySessionService;
+import com.activitySession.model.ActivitySessionVO;
 
 public class ActivityServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,8 +30,8 @@ public class ActivityServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");	
 		String action = request.getParameter("action");
 		ActivityService actService = new ActivityService(); //活動
-		ActivityEvaluationService actEvaluationService = new ActivityEvaluationService(); //活動評價
 		ActivityOrderDetailService actOrderDetailService = new ActivityOrderDetailService(); //活動訂單明細
+//		ActivityEvaluationService actEvaluationService = new ActivityEvaluationService(); //活動評價
 		final Integer act_join_number = 20; //可參與人數
 		final String act_location = "臺灣-花蓮"; //活動地點
 		Boolean act_state = true;
@@ -51,6 +54,42 @@ public class ActivityServlet extends HttpServlet {
 		List<Integer> actClassNoList = actService.getAll().stream()
 				.map(act -> act.getAct_class_no()).distinct()
 				.collect(Collectors.toList());
+
+//		前台開始=======================================
+		//活動內部
+		if("frontAct".equals(action)) {
+			Integer act_no = new Integer(request.getParameter("actNo"));
+			ActivityVO actVO = actService.getActByPk(act_no);
+			ActivitySessionService actSessionService = new ActivitySessionService();
+			List<ActivitySessionVO> actSessionByActNo = actSessionService.getActSessionByActNo(act_no);
+			Integer actPeopleNumber = null;
+			
+			
+			actPeopleNumber = actOrderDetailService.getActOrderDetailByActSessionNo(actSessionByActNo.get(0).getAct_session_no())
+									  .stream()
+									  .mapToInt(detail -> detail.getAct_real_join_number())
+									  .sum();
+					
+			request.setAttribute("actPeopleNumber", actPeopleNumber);
+			request.setAttribute("actSessionByActNo",actSessionByActNo);
+			request.setAttribute("actVO",actVO);
+			request.getRequestDispatcher("/front_end/activity/innerAct.jsp")
+			.forward(request, response);
+			return;
+		}
+		//活動頁面 搜尋時
+		if("queryByActClass".equals(action)) {
+			Integer act_class_no = new Integer(request.getParameter("actClassNo"));
+			List<ActivityVO> list = actService.getActByClassNo(act_class_no);
+			
+			request.setAttribute("list",list);
+			request.getRequestDispatcher("/front_end/activity/queryByActClass.jsp")
+			.forward(request, response);
+			return;
+		}
+				
+		
+//		後台開始=======================================
 		
 //		第一次點擊新增時
 		if("beginActAdd".equals(action)) {
