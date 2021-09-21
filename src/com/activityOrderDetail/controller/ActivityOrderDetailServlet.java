@@ -31,6 +31,21 @@ public class ActivityOrderDetailServlet extends HttpServlet {
 		ActivityOrderDetailService actOrderDetailService = new ActivityOrderDetailService();
 		ActivitySessionService actSessionService = new ActivitySessionService();
 		
+		
+//		來自前台人數檢查
+		if("checkSessionPeopleNumber".equals(action)) {
+			Integer act_session_no = new Integer(request.getParameter("sessionNo"));
+System.out.println("場次的值:"+act_session_no);
+			Integer act_people_number = actOrderDetailService
+								 .getActOrderDetailByActSessionNo(act_session_no)
+								 .stream().mapToInt(detail -> detail.getAct_real_join_number())
+								 .sum();
+			Gson gson = new Gson();
+			response.getWriter().write(gson.toJson(act_people_number));
+		}
+		
+		
+//	後台	
 		if("getAll".equals(action)) {
 			
 			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetail.jsp")
