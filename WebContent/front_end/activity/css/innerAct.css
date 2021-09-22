@@ -9,6 +9,7 @@ html {
 img {
 	max-width: 100%;
 	box-sizing: border-box;
+	
 }
 .actCarousel{
 	position: relative;
@@ -29,10 +30,16 @@ div.nav-btn li a span{
 div.actPrice{
 	border:1px solid gray;
 	text-align:center;
-	width:30rem;
-    bottom: 85rem;
-    left: 90rem;
+	width:44rem;
+    bottom:125rem;
+    left: 82rem;
     position: absolute;
+}
+#map-canvas{
+	width: 43rem;
+    height: 40rem;
+    bottom: 65rem;
+    left: 80rem;
 }
 a.chooseSession {
     display: block;
@@ -49,7 +56,6 @@ a.chooseSession:hover {
 }
 #act_date{
 	width:30rem;
-	
 }
 div.actSession div p,label,#act_date{
 	margin:0.2rem 2rem 2rem 2rem;
@@ -60,6 +66,7 @@ div.actSession{
 	width:80rem;
 	position:relative;
 	left:-2rem;
+	margin-top: -35rem;
 }
 div.actSessionStartTime{
 	position: relative;
@@ -76,7 +83,7 @@ label.actPeopleNumberLabel{
 	display: inline-block;
     position: relative;
     width: 10%;
-    left: -1rem;
+    left: 3rem;
     height: 4rem;
     top:-0.3rem;
     background: transparent;
@@ -86,7 +93,8 @@ label.actPeopleNumberLabel{
 .plusIcon{
 	position: relative;
     width: 2.7rem;
-    top:0.2rem;
+    top:0.5rem;
+    right:1rem;
     color:#00AEAE;
     font-size:3.5rem;
 }
@@ -95,7 +103,7 @@ label.actPeopleNumberLabel{
     width: 2.7rem;
    	color:#FF7575;
     font-size:3.5rem;
-    top:0.2rem;
-    right:3rem;
+    top:0.5rem;
+    right:17rem;
 }
 button:focus{background-color:pink;}
