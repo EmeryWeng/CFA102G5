@@ -94,7 +94,7 @@ button.queryBtn{
 
 	<c:forEach var="actVO" items="${list}"> 
                 <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 filter-result-item">
-<a href="xxx.html" class="tour-list-item">
+<a href="<%=request.getContextPath()%>/activity/Activity?action=frontAct&actNo=${actVO.act_no}" class="tour-list-item">
                     <div class="tour-list-item-img">
                       <img src="<%=request.getContextPath()%>/activity/ActivityImage?action=actList&actNo=${actVO.act_no}">
                     </div>
