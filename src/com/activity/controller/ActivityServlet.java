@@ -79,9 +79,17 @@ public class ActivityServlet extends HttpServlet {
 		}
 		//活動頁面 搜尋時
 		if("queryByActClass".equals(action)) {
-			Integer act_class_no = new Integer(request.getParameter("actClassNo"));
-			List<ActivityVO> list = actService.getActByClassNo(act_class_no);
-			
+			Integer act_class_no = null;
+			List<ActivityVO> list = null;
+			try {
+				act_class_no = new Integer(request.getParameter("actClassNo"));
+				list = actService.getActByClassNo(act_class_no);
+			}catch(NumberFormatException ex) {
+				request.setAttribute("list",actService.getAll());
+				request.getRequestDispatcher("/front_end/activity/actList.jsp")
+				.forward(request, response);
+				return;
+			}
 			request.setAttribute("list",list);
 			request.getRequestDispatcher("/front_end/activity/queryByActClass.jsp")
 			.forward(request, response);
