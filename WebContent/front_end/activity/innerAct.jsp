@@ -6,13 +6,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 基本CSS檔案 -->
 <%@ include file="/front_end/commonCSS.file"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/fotorama.css">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/activity/datetimepicker/jquery.datetimepicker.css" />
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/front_end/activity/css/innerAct.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/activity/datetimepicker/jquery.datetimepicker.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/innerAct.css" />
 
-<!-- 基本CSS檔案 -->
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyAJNpDkwnyNLU6eh829XsUUYdFdTx2YjJs"></script>
 
 </head>
 <body>
@@ -20,87 +21,96 @@
 	<%@ include file="/front_end/header.file"%>
 	<!-- Header -->
 
-	<jsp:useBean id="actImgService" class="com.activityImage.model.ActivityImageService" />
-	
-	
-<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 2rem; padding-bottom: 15rem;">
-	<div id="wrapper">
-      <div class="tour-details-main">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
-              <!-- Tour Slider Start  輪播  -->
-              <div class="tour-gallery actCarousel">
-                <div class="fotorama" data-width="100%" data-fit="scaledown" data-nav="thumbs" data-thumbwidth="128" data-thumbheight="128" data-allowfullscreen="true" data-loop="true" data-autoplay="7000" data-keyboard="true">
-            <c:forEach var="actImgVO" items="${actImgService.getActImageByActNo(actVO.getAct_no())}">    
-                  <img src="<%=request.getContextPath()%>/activity/ActivityImage?action=innerAct&actImgNo=${actImgVO.act_img_no}">
-            </c:forEach>    
-                </div>
-              </div>
-              <!-- Tour Slider End -->
-              
-<!--輪播下的內容 -->
-              <div class="read-more collapsed" style="margin-top:-3rem;">
-                <h1 class="read-more-title">臺灣花蓮 |	<span style="color:blue;">${actVO.act_name}</span></h1>
-                	<div><i class='bx bx-map' style="color:#F00078;font-size:1.8rem;" >${actVO.act_location}</i></div>
-                	<br><br>
-                	<div><i class='bx bx-globe'>中文	導覽</i><i class='bx bx-bell'>2天前可免費取消</i></div>
-                	<br>
-                <div class="read-more__content">
-                  <p><h5>${actVO.act_instruction}</h5></p>               
-                </div>
-              </div>
-<!--輪播下內容結束  -->
-<!--右側開始 -->
-	<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-		<div class="tour-booking" id="tourbooking">
-                <!-- Tour Booking Start -->
- 			<div class="actPrice">
-				<div>
-                    <h3>TWD	${actVO.act_price }</h3>
-				</div>
-				<div>
-					<a href="#act_session" class="chooseSession">選擇場次</a>
-				</div>
-            </div>
-		</div>
-	</div>
-                
-<!--右側結束 -->
-<br><br><br>
-<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-	<div class="actSession">
-		<form>
-		<div>
-			<label><h3>選擇日期</h3></label>
-			<p><b>請選擇出發日期</b></p>
-			<input type="text" id="act_date" class="actSession">
-		
-		</div>
-	
-	<div class="actSessionStartTime">
-	<b style="position: relative;left:-17rem;top:-0.5rem;">場次時間:</b>
-		<select name="actSessionStartTimeSelect" id="actSessionStartTimeSelect">
-			<c:forEach var="actSessionVO" items="${actSessionByActNo}">
-				<option value="${actSessionVO.act_session_no}">${actSessionVO.act_session_start_time}</option>
-			</c:forEach>
-		</select>
-		<label for="actPeopleNumber" class="actPeopleNumberLabel"><b>人數:</b></label>
-		<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" class="actPeopleNumberInput" value="1">
-		<input type="hidden" id="totalPeople" value="${actPeopleNumber}">
-		<i class='bx bx-plus-circle plusIcon' id="actPricePlusBtn" onclick="plus();"></i>
-		<i class='bx bx-minus-circle minusIcon' id="actPriceMinusBtn" onclick="minus();"></i>
-	</div>
-	</form>
-	</div>
-</div>
+	<jsp:useBean id="actImgService"
+		class="com.activityImage.model.ActivityImageService" />
 
-            </div>
-		  </div>
-	    </div>
-	  </div>
-	</div>           
-</div>
+
+	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 2rem; padding-bottom: 15rem;">
+		<div id="wrapper">
+			<div class="tour-details-main">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+							<!-- Tour Slider Start  輪播  -->
+							<div class="tour-gallery actCarousel">
+								<div class="fotorama" data-width="100%" data-fit="scaledown" data-nav="thumbs" data-thumbwidth="128" data-thumbheight="128"
+									data-allowfullscreen="true" data-loop="true" data-autoplay="7000" data-keyboard="true">
+									<c:forEach var="actImgVO" items="${actImgService.getActImageByActNo(actVO.getAct_no())}">
+										<img src="<%=request.getContextPath()%>/activity/ActivityImage?action=innerAct&actImgNo=${actImgVO.act_img_no}" id="googleMapActImg">
+									</c:forEach>
+								</div>
+							</div>
+							<!-- Tour Slider End -->
+
+							<!--輪播下的內容 -->
+							<div class="read-more collapsed" style="margin-top: -3rem;" id="actSessionDiv">
+								<h1 class="read-more-title">
+									臺灣花蓮 | <span style="color: blue;">${actVO.act_name}</span>
+								</h1>
+								<div>
+									<i class='bx bx-map' style="color: #F00078; font-size: 1.8rem;">${actVO.act_location}</i>
+								</div>
+
+								<div style="margin: 2rem 0;">
+									<i class='bx bx-globe'>中文 導覽</i><i class='bx bx-bell'>2天前可免費取消</i>
+								</div>
+
+								<div class="read-more__content">
+									<p><h5>${actVO.act_instruction}</h5></p>
+								</div>
+							</div>
+							<!--輪播下內容結束  -->
+							<!--右側開始 -->
+							<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+								<div class="tour-booking" id="tourbooking">
+									<!-- Tour Booking Start -->
+									<div class="actPrice">
+										<div>
+											<h3>TWD ${actVO.act_price}</h3>
+										</div>
+										<div>
+											<a href="#actSessionDiv" class="chooseSession">選擇場次</a>
+										</div>
+									</div>
+						<!--GoogleMap -->
+									<div id="map-canvas"></div>
+								</div>
+							</div>
+
+							<!--右側結束 -->
+							<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+								<div class="actSession">
+									<form>
+										<div>
+											<label id="actSessionLabel"><h3>選擇日期</h3></label>
+											<p>
+												<b style="margin-left: 0.5rem;">請選擇出發日期</b>
+											</p>
+											<input type="text" id="act_date">
+										</div>
+
+										<div class="actSessionStartTime">
+											<b style="position: relative; left: -17rem; top: -0.5rem;">場次時間:</b>
+											<select name="actSessionStartTimeSelect" id="actSessionStartTimeSelect">
+												<c:forEach var="actSessionVO" items="${actSessionByActNo}">
+													<option value="${actSessionVO.act_session_no}">${actSessionVO.act_session_start_time}</option>
+												</c:forEach>
+											</select> 
+											<label for="actPeopleNumber" class="actPeopleNumberLabel"><b>人數:</b></label>
+											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" class="actPeopleNumberInput" value="1"> <input type="hidden" id="totalPeople"
+												value="${actPeopleNumber}"> 
+												<i class='bx bx-plus-circle plusIcon' id="actPricePlusBtn" onclick="plus();"></i> 
+												<i class='bx bx-minus-circle minusIcon' id="actPriceMinusBtn" onclick="minus();"></i>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<%@ include file="/front_end/message.file"%>
 	<!-- Message -->
@@ -109,10 +119,13 @@
 	<%@ include file="/front_end/commonJS.file"%>
 	<!-- 基本JS檔案 -->
 
-<script src="<%=request.getContextPath()%>/front_end/activity/js/fotorama.js"></script>
-<script src="<%=request.getContextPath()%>/front_end/activity/datetimepicker/jquery.datetimepicker.full.js"></script>
-	
-<script>
+	<script
+		src="<%=request.getContextPath()%>/front_end/activity/js/fotorama.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/front_end/activity/datetimepicker/jquery.datetimepicker.full.js"></script>
+
+
+	<script>
 	$.datetimepicker.setLocale('zh');
 	$('#act_date').datetimepicker({
 		theme : '',
@@ -138,6 +151,7 @@
 				currentRequest.abort();
 			}
 		});
+		$("#actPeopleNumber").val(1);
 	});
 	document.getElementById('actPriceMinusBtn').disabled = true;
 	document.getElementById('actPriceMinusBtn').setAttribute("style", "color:gray;");
@@ -172,21 +186,65 @@
 		
 		plusBtn.disabled = false;
 		plusBtn.removeAttribute("style", "color:gray;");
-		
+		--val;
 		if(val > 1){
-			myInput.value = --val;
+			myInput.value = val;
 		}else{
+			if (val == 0)
+				return false;
+			
 			minusBtn.disabled = true;
 			minusBtn.setAttribute("style", "color:gray;");
 			myInput.value = val;
 			return false;
 		}		
 	}
-	
+
+	var map;
+	function initMap() { // Main
+		
+		this.lat1 = parseFloat(${actVO.act_location_latitude});
+		this.lng1 = parseFloat(${actVO.act_location_longitude});
+		console.log(lat1);
+		console.log(lng1);
+
+	  // 初始化地圖
+	  map = new google.maps.Map(document.getElementById('map-canvas'), {
+	    zoom: 14,
+	    center: { lat: 23.99483, lng: 121.630453 }			//初始化地點
+	  });
+	  
+	  // 載入路線服務與路線顯示圖層
+	  var directionsService = new google.maps.DirectionsService();
+	  var directionsDisplay = new google.maps.DirectionsRenderer();
+	  var destination = {lat: lat1, lng: lng1};				//宣告物件加入經緯度	
+	  // 放置路線圖層
+	  directionsDisplay.setMap(map);
+	  // 路線相關設定
+	  var request = {
+	    origin: { lat: 23.99483, lng: 121.630453 },				// 起始地點
+	    destination,					// 加入destination 物件
+	    travelMode: 'DRIVING',									//預設就是DRIVING
+	  };
+	  // 繪製路線
+	  directionsService.route(request, function (result, status) {
+	      if (status == 'OK') {
+	          // 回傳路線上每個步驟的細節
+	          console.log(result.routes[0].legs[0].steps);
+	          directionsDisplay.setDirections(result);
+	      } else {
+	          console.log(status);
+	      }
+	  });
+	}
+// 	google.maps.event.addDomListener(window, 'load', initMap);
+	window.onload = initMap;
 	
 	$("#queryBtn").click(function(){
 		$("#queryForm").submit();
 	});
+	
+	
 	// ● header顯示目前在哪個區塊，"活動"的頁面請將nth-child(1)改成2，"美食"的頁面改成3，其他人這行可刪掉
 	$(`.nav-item:nth-child(2)>a`).attr('class', 'active');
 	
