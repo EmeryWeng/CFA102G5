@@ -119,28 +119,28 @@ var map;
 function initMap(lng1, lat1) {
 	this.lat1 = lat1;
 	this.lng1 = lng1;
-  // 載入路線服務與路線顯示圖層
+	<!--載入路線服務與路線顯示圖層 -->
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
-  // 初始化地圖
+  <!--初始化地圖 -->
   map = new google.maps.Map(document.getElementById('map-canvas'), {
     zoom: 16,
-    center: { lat: 23.99483, lng: 121.630453 }			//初始化地點
+    center: { lat: 23.99483, lng: 121.630453 }			<!--初始化地點 -->
   });
   
-  var destination = {lat: lat1, lng: lng1}				//宣告物件加入經緯度	
-  // 放置路線圖層
+  var destination = {lat: lat1, lng: lng1}				<!--宣告物件加入經緯度 -->	
+  <!--放置路線圖層 -->
   directionsDisplay.setMap(map);
-  // 路線相關設定
+  <!--路線相關設定 -->
   var request = {
-    origin: { lat: 23.99483, lng: 121.630453 },				//起始地點
-    destination,											//加入destination 物件
-    travelMode: 'DRIVING',									//預設就是DRIVING
+    origin: { lat: 23.99483, lng: 121.630453 },				<!--起始地點 -->
+    destination,											<!--加入destination物件-->
+    travelMode: 'DRIVING',									<!--預設就是DRIVING-->
   };
-  // 繪製路線
+  <!--繪製路線 -->
   directionsService.route(request, function (result, status) {
       if (status == 'OK') {
-          // 回傳路線上每個步驟的細節
+    	  <!--回傳路線上每個步驟的細節-->
           console.log(result.routes[0].legs[0].steps);
           directionsDisplay.setDirections(result);
       } else {
