@@ -25,7 +25,7 @@ html {
 }
 div.actMain {
 	position: relative;
-	top: -33rem;
+	top: -30rem;
 	right: -40rem;
 }
 img {
@@ -37,7 +37,10 @@ div.queryByPage{
     left: 1.8rem;
 }
 a.btn-default{
-	background-color:#00A600
+	background-color:#B38C61;
+}
+a.btn-default:focus{
+	background-color:#8FC2C2;
 }
 .list-view .item-description .tour-item-title{
 	color:#009100;
@@ -117,7 +120,7 @@ button.queryBtn{
                       <div class="tour-footer">
                         
                         <div class="tour-price">
-                          <span class="tour-act-price"><span class="act-price">$${actVO.act_price }</span></span>
+                          <span class="tour-act-price"><span class="act-price">$${actVO.act_price}</span></span>
                         </div>
                       </div>
                		</div>
