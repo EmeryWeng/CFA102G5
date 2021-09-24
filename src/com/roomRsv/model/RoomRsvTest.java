@@ -1,5 +1,6 @@
 package com.roomRsv.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class RoomRsvTest {
@@ -42,11 +43,12 @@ public class RoomRsvTest {
 //			System.out.print(roomRsvVO.getRm_total() + ",");
 //			System.out.println(roomRsvVO.getRsv_total());
 //		}
-		String result2 = "";
+		String[] result2 = new String[list.size()];
 		for (int i = 0; i < list.size(); i++) {
-			result2 += list.get(i).getRsv_date().toString() + ",";
+			String notDate = list.get(i).getRsv_date().toString();
+			result2[i] = notDate;
 		}
-		System.out.print(result2);
+		System.out.println(Arrays.toString(result2));
 
 //		String result = list.stream().map(RoomRsvVO::getRsv_date()).collect(Collectors.joining(", "));
 

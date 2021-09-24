@@ -153,6 +153,10 @@ public class RoomTypeServlet extends HttpServlet {
 				String notDate = list.get(i).getRsv_date().toString();
 				result[i] = notDate;
 			}
+//			String result = null;
+//			for (int i = 0; i < list.size(); i++) {
+//				result += list.get(i).getRsv_date().toString() + ",";
+//			}
 
 			/*************************** 3.查詢完成,準備轉交 ************/
 			req.setAttribute("roomTypeVO", roomTypeVO); // 資料庫取出的VO物件,存入req

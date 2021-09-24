@@ -284,7 +284,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-12 col-lg-4 p-0 room-img">
                                     <div class="room-card-img">
-                                        <a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForShow">
+                                        <a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=2&action=getOneForShow">
                                         <c:choose>
 											<c:when test="${roomImgSvc.getAllByType(roomTypeVO.type_no).size() > 0}">
 												<img src="<%=request.getContextPath()%>/room/RoomImg?type_no=${roomTypeVO.type_no}&action=showFirstImages">
@@ -303,7 +303,7 @@
                                         <div><i class='bx bx-user'></i>${roomTypeVO.type_qty} 人</div>
                                         <div><i class='bx bx-expand'></i>${roomTypeVO.type_size} m<sup>2</sup></div>
                                         <div><i class='bx bxs-hotel'></i>${roomTypeVO.bed_size}</div>
-                                        <div><a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=${qty}&action=getOneForShow" class="line-btn"><div class="line"></div><i class='bx bx-chevron-right arrow'></i>查看客房詳情</a></div> 
+                                        <div><a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=2&action=getOneForShow" class="line-btn"><div class="line"></div><i class='bx bx-chevron-right arrow'></i>查看客房詳情</a></div> 
                                     </div>
                                 </div>
 

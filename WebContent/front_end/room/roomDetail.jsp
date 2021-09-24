@@ -274,7 +274,7 @@
 <!-- 					大圖 -->
 						<c:forEach var="img" items="${images}">
 						<div class="room-details-item" data-hash="${img.img_no}">
-							<img src="<%=request.getContextPath()%>/room/RoomImg?img_no=${img.img_no}&action=showImages"">
+							<img src="<%=request.getContextPath()%>/room/RoomImg?img_no=${img.img_no}&action=showImages">
 						</div>
 						</c:forEach>
 					</div>
@@ -354,7 +354,7 @@
 						<div class="type-title-area">
 							<h2>${roomTypeVO.type_name} x ${qty}間</h2>
 							<div>
-								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="NT$ ###,###" /></span>
+								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="$###,###" /></span><span> / 一晚</span>
 							</div>
 						</div>
 <!-- 						<form> -->
@@ -376,7 +376,7 @@
 <!-- 								</div> -->
 <!-- 								</form> -->
 								<div class="col-lg-12">
-	                                <h4>更改日期</h4>
+	                                <h5><i class='bx bx-edit'></i> 更改日期</h5>
 	                                <div class="form-group">
 	                                    <label><i class='bx bx-calendar'></i> 入住日期    -  退房日期</label>
 	                                    <div class="input-group">
@@ -407,8 +407,7 @@
 					</div>
 				</div>
 			</div>
-<!-- 		</div> -->
-
+		</div>
 	</div>
 		<%@ include file="/front_end/message.file" %> <!-- Message --> 
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
@@ -422,7 +421,7 @@
                 nav: true,
                 dots: false,
                 autoplayHoverPause: true,
-            });
+            })
             $('.owl-carousel').owlCarousel({
                 URLhashListener:true,
             });
@@ -431,8 +430,8 @@
 	            mode: 'range',
 	            dateFormat: "Y-m-d",
 	            minDate: "today",
-	            disable: [${result}],
+	            disable: [],
 	        });
-		</script>
+        </script>
 	</body>
-</html>
+</html> 
