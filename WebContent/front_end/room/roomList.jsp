@@ -261,7 +261,7 @@
 							<span id="guest_checkoutDate">2021-09-25</span>
 						</div>
 						<div class="booking_information_people">
-							<span id="guest_los" class="booking_information_people_adults">1間</span> 
+							<span id="guest_los" class="booking_information_people_adults">1</span> 間
 							<span id="guest_adults">2人</span>
 						</div>
 					</div>
@@ -311,7 +311,7 @@
                                     <div>
                                         <span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="NT$ ###,###"/></span><span>/ 一晚</span>
                                     </div>
-                                        <a href="<%=request.getContextPath()%>/room/RoomRsv?type_no=5&qty=2&action=notRsv" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</a>
+                                        <a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=2&action=getOneForShow" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</a>
                                 </div>
                             </div>
                         </div>
@@ -326,6 +326,8 @@
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
         <script>
 	        $(`.nav-item:nth-child(1)>a`).attr('class', 'active');
+		    const qty = $("#guest_los").innerTEXT();
+		    pageContext.setAttribute("qty", qty);
         </script>
 	</body>
 </html>
