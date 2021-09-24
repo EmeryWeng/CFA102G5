@@ -30,6 +30,11 @@
 		p.type_info {
 			-webkit-line-clamp: 5;
 		}
+		.banner-form .form-group label>i {
+		    position: relative;
+		    top: 0;
+    		left: 0;
+		}
         </style>
     </head>
     <body>
@@ -52,23 +57,12 @@
             <div class="container">
                 <div class="banner-form">
                     <form>
-                        <div class="row align-items-center">
-                            <div class="col-lg-3 col-md-3">
+                        <div class="row align-items-center d-flex justify-content-between">
+                            <div class="col-lg-4 col-md-4">
                                 <div class="form-group">
-                                    <label>CHECK IN TIME</label>
+                                    <label><i class='bx bx-calendar'></i> 入住日期    -  退房日期</label>
                                     <div class="input-group">
-                                        <input id="datetimepicker" type="text" class="form-control" placeholder="11/02/2020">
-                                        <span class="input-group-addon"></span>
-                                    </div>
-                                    <i class='bx bxs-chevron-down'></i>	
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3 col-md-3">
-                                <div class="form-group">
-                                    <label>CHECK OUT TIME</label>
-                                    <div class="input-group">
-                                        <input id="datetimepicker-check" type="text" class="form-control" placeholder="11/02/2020">
+                                    	<input type="text" id="rangeDate" placeholder="請選擇入住期間" class="form-control" data-input>
                                         <span class="input-group-addon"></span>
                                     </div>
                                     <i class='bx bxs-chevron-down'></i>	
@@ -77,8 +71,8 @@
 
                             <div class="col-lg-2 col-md-2">
                                 <div class="form-group">
-                                    <label>ROOMS</label>
-                                    <select class="form-control select-rooms">
+                                    <label><i class='bx bx-home-alt' ></i> 間數</label>
+                                    <select class="form-control">
                                         <option>01</option>
                                         <option>02</option>
                                         <option>03</option>
@@ -91,10 +85,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-1 col-md-1">
+                            <div class="col-lg-2 col-md-2">
                                 <div class="form-group">
-                                    <label>GUESTS</label>
-                                    <select class="form-control select-guests">
+                                    <label><i class='bx bx-user' ></i> 人數</label>
+                                    <select class="form-control">
                                         <option>01</option>
                                         <option>02</option>
                                         <option>03</option>
@@ -118,7 +112,7 @@
         <div class="testimonials-area-one pt-100 pb-70 room-area-bg">
             <div class="container">
                 <div class="section-title text-center">
-                    <h2 class="area-title ">房型介紹</h2>
+                    <h2 class="area-title">房型介紹</h2>
                     <hr>
                     <h3 class="area-subtitle">恬靜舒適的居住空間房與細緻用心的服務，提供您卓越的住宿體驗。</h3>
                 </div>
@@ -170,8 +164,8 @@
 					<c:forEach var="actVO" items="${actSvc.getPopularAct()}">
                     <div class="index-activity col-lg-3 col-md-5">
                         <div class="room-card">
-                            <a href="活動內頁.html">
-                                <img src="<%=request.getContextPath()%>/activity/ActivityImage?action=frontImg&actNo=${actVO.act_no}" alt="Images">
+                        	<a href="<%=request.getContextPath()%>/activity/Activity?action=frontAct&actNo=${actVO.act_no}">
+                            	<img src="<%=request.getContextPath()%>/activity/ActivityImage?action=actList&actNo=${actVO.act_no}">
                                 <div class="content">
                                     <i class='bx bxs-medal no2'></i>
                                     <h5>${actVO.act_name}</h5>
@@ -184,24 +178,6 @@
                         </div>
                     </div>
 					</c:forEach>
-<!--                     <div class="index-activity col-lg-3 col-md-5"> -->
-<!--                         <div class="room-card"> -->
-<!--                             <a href="活動內頁.html"> -->
-<%--                                 <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images"> --%>
-<!--                                 <div class="content"> -->
-<!--                                     <i class='bx bxs-medal no3'></i> -->
-<!--                                     <h5>海洋賞鯨導覽體驗</h5> -->
-<!--                                     <div class="index-activity"> -->
-<!--                                         <p> -->
-<!--                                             <i class='bx bxs-star'></i> -->
-<!--                                             4.8 (9則評價) -->
-<!--                                         </p> -->
-<!--                                         <p class="index-activity-price">NTD$ 1,100</p>  -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                     </div> -->
                 </div>
             </div>
         </div>
@@ -234,10 +210,14 @@
 
         <%@ include file="/front_end/message.file" %> <!-- Message --> 
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
-        <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
+        <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->  
         <script>
-//         	$(`.nav-item:nth-child(3)>a`).attr('class', 'active');
-        </script>      
-        
+        $("#rangeDate").flatpickr({
+            mode: 'range',
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            disable: ["2021-09-22", "2021-09-30", "2021-10-02"],
+        });
+        </script>
     </body>
 </html>

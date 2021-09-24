@@ -41,7 +41,7 @@
 			<!-- 新增圖片 -->
 			<form method="post" action="<%=request.getContextPath()%>/back_end/activity/actImg/addActImg.jsp">
 				<input type="hidden" name="action" value="addActImg">
-				<button type="submit" class="btn btn-primary">新增圖片</button>	
+				<button type="submit" class="btn btn-primary" style="top:0.6rem;">新增圖片</button>	
 			</form>
 		</div>
 			<table class="table">

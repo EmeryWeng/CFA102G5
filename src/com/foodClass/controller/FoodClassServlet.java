@@ -32,7 +32,6 @@ public class FoodClassServlet extends HttpServlet {
 			Integer fd_class_no = new Integer(req.getParameter("fd_class_no"));
 			FoodClassService ser = new FoodClassService();
 			FoodClassVO foodClassVO = ser.getClassPK(fd_class_no);
-			
 			req.setAttribute("foodClassVO", foodClassVO);
 			
 			String url = "back_end/foodClass/updateClass.jsp";

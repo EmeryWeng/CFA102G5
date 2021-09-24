@@ -30,20 +30,27 @@
                         	<img src="<%=request.getContextPath()%>/back_end/assets/img/logo.png" class="w-50">
 						</div>
                         <h3 class="text-center mb-4">後台管理登入</h3>
-                        <form action="???????">
+                        <form action="<%=request.getContextPath()%>/EmployeeServlet.do" method="post">
                         	<div class="mb-4">
                         		<label class="mb-2">Email</label>
-                                <input type="email" class="form-control">
+                                <input type="email" class="form-control" name="emp_mail" placeholder="Email" required>
                             </div>
                             <div class="mb-5">
                             	<label class="mb-2">Password</label>
-                            	<input type="password" class="form-control">
+                            	<input type="password" class="form-control" name="emp_password" placeholder="Password" required>
                             </div>
                             <div>
-                            	<button type="submit" class="btn btn-primary btn-block">登入</button>
+                            	<button type="submit" class="btn btn-primary btn-block" name="action" value="Login">登入</button>
                         	</div>
                     	</form>
                 	</div>
+                	<c:if test="${not empty errorMsgs}">
+							<ul>
+	  					  <c:forEach var="message" items="${errorMsgs}">
+						<li style="color:red">${message}</li>
+						</c:forEach>
+							</ul>
+					</c:if>
             	</div>
         	</div>
     	</div>

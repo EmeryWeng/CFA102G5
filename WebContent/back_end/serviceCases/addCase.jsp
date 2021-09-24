@@ -3,110 +3,95 @@
 <%@ page import="com.serviceCases.model.*"%>
 
 <%
-  ServiceCasesVO serviceCasesVO = (ServiceCasesVO) request.getAttribute("serviceCasesVO");
+	ServiceCasesVO serviceCasesVO = (ServiceCasesVO) request.getAttribute("serviceCasesVO");
 %>
 
 <html>
 <head>
-<title>案件新增 - addServiceCases.jsp</title>
+<%@ include file="/back_end/commonCSS.file"%>
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
 
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
+<style></style>
+
 
 </head>
-<body bgcolor='white'>
+<body>
+	<h3>案件新增:</h3>
+	<%@ include file="/back_end/header.file"%>
+	<!-- Header -->
+	<%@ include file="/back_end/sidebar.file"%>
+	<!-- sidebar -->
+	<div class="main-content card card-body table-responsive">
+		<jsp:useBean id="scSvc"	class="com.serviceCases.model.ServiceCasesService" />
+		<jsp:useBean id="memSvc" class="com.member.model.MemberService" />
+		<FORM METHOD="post"
+			ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do"
+			name="form1">
+			<table id="example4" class="display" style="min-width: 845px">
+				<tr>
+					<td>
+						<h3>
+							<a
+								href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">上一頁-案件列表</a>
+						</h3>
+					</td>
+				</tr>
+				<!-- 	暫時只有兩個會員1, 2 -->
+				<tr>
+					<td>會員編號:</td>
+					<td><select name="mem_no" size="1">
+							<c:forEach var="memVO" items="${memSvc.all}">
+								<option value="${memVO.mem_no}">${memVO.mem_no}
+							</c:forEach>
 
-<table id="table-1">
-	<tr><td>
-		 <h3>案件新增 - addCase.jsp</h3></td><td>
-		 <h4><a href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">回首頁</a></h4>
-	</td></tr>
-</table>
+							<!-- 							<option value=1>1</option> -->
+							<!-- 							<option value=2>2</option> -->
+					</select></td>
 
-<h3>案件新增:</h3>
+				</tr>
 
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
+				<tr>
+					<td>案件標題:</td>
+					<td><input type="TEXT" name="case_title" size="45"
+						value="<%=(serviceCasesVO == null) ? "" : serviceCasesVO.getCase_title()%>" />
 
-<jsp:useBean id="scSvc" class="com.serviceCases.model.ServiceCasesService" />
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do" name="form1">
+					</td>
+				</tr>
 
-<table>
-<!-- 	暫時只有兩個會員1, 2 -->
-	<tr>
-		<td>會員編號:</td>
-		<td>
-		<select name="mem_no" size="1">
-  		<option value=1>1</option>
-  		<option value=2>2</option>
-		</select></td>
-		
-<!-- 		<td><input type="TEXT" name="mem_no" size="45"  -->
-<%-- 			 value="<%= (serviceCasesVO==null)? "1" : serviceCasesVO.getMem_no()%>" /></td> --%>
-	</tr>
-	
-	<tr>
-		<td>案件標題:</td>
-		<td><input type="TEXT" name="case_title" size="45"
-			 value="<%= (serviceCasesVO==null)? "" : serviceCasesVO.getCase_title()%>" /></td>
-	</tr>
+				<tr>
+					<td>案件描述:</td>
+					<td><input type="TEXT" name="case_des" size="45"
+						value="<%=(serviceCasesVO == null) ? "" : serviceCasesVO.getCase_des()%>" /></td>
+				</tr>
 
-	<tr>
-		<td>案件描述:</td>
-		<td><input type="TEXT" name="case_des" size="45"
-			 value="<%= (serviceCasesVO==null)? "" : serviceCasesVO.getCase_des()%>" /></td>
-	</tr>
-<!-- 	<tr> -->
-<!-- 		<td>案件回覆:</td> -->
-<!-- 		<td><input type="TEXT" name="case_reply" size="45" -->
-<%-- 			 value="<%= (serviceCasesVO==null)? "" : serviceCasesVO.getCase_reply()%>" /></td> --%>
-<!-- 	</tr> -->
-	
+				<tr>
+					<td><button type="submit" class="btn btn-primary" value="送出新增">送出新增</button></td>
 
-</table>
+					<td>
+						<%-- 錯誤表列 --%> <c:if test="${not empty errorMsgs}">
+							<font style="color: red"></font>
+							<ul>
+								<c:forEach var="message" items="${errorMsgs}">
+									<li style="color: red">${message}</li>
+								</c:forEach>
+							</ul>
+						</c:if>
+					</td>
 
-<br>
-<input type="hidden" name="action" value="insert">
-<input type="submit" value="送出新增"></FORM>
+					<td><input type="hidden" name="action" value="insert"></td>
+
+				</tr>
+
+			</table>
+		</FORM>
+	</div>
+
 </body>
 
 
-
-
+<%@ include file="/back_end/commonJS.file"%>
+<script>
+	// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+	$("#pagename").text("新增案件");
+</script>
 </html>

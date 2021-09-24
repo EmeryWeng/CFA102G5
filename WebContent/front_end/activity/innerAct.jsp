@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/activity/datetimepicker/jquery.datetimepicker.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/innerAct.css" />
 
-<script src="http://maps.google.com/maps/api/js?key=AIzaSyAJNpDkwnyNLU6eh829XsUUYdFdTx2YjJs"></script>
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyAJNpDkwnyNLU6eh829XsUUYdFdTx2YjJ"></script>
 
 </head>
 <body>
@@ -45,7 +45,7 @@
 							<!--輪播下的內容 -->
 							<div class="read-more collapsed" style="margin-top: -3rem;" id="actSessionDiv">
 								<h1 class="read-more-title">
-									臺灣花蓮 | <span style="color: blue;">${actVO.act_name}</span>
+									臺灣花蓮 | <span style="color: blue;" id="actName">${actVO.act_name}</span>
 								</h1>
 								<div>
 									<i class='bx bx-map' style="color: #F00078; font-size: 1.8rem;">${actVO.act_location}</i>
@@ -80,13 +80,13 @@
 							<!--右側結束 -->
 							<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
 								<div class="actSession">
-									<form>
+									<form id="shoppingCartForm" action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post">
 										<div>
 											<label id="actSessionLabel"><h3>選擇日期</h3></label>
 											<p>
 												<b style="margin-left: 0.5rem;">請選擇出發日期</b>
 											</p>
-											<input type="text" id="act_date">
+											<input type="text"  id="act_date">
 										</div>
 
 										<div class="actSessionStartTime">
@@ -97,10 +97,20 @@
 												</c:forEach>
 											</select> 
 											<label for="actPeopleNumber" class="actPeopleNumberLabel"><b>人數:</b></label>
-											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" class="actPeopleNumberInput" value="1"> <input type="hidden" id="totalPeople"
-												value="${actPeopleNumber}"> 
+											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" class="actPeopleNumberInput" value="1"> 
+											<input type="hidden" id="totalPeople" value="${actPeopleNumber}"> 
 												<i class='bx bx-plus-circle plusIcon' id="actPricePlusBtn" onclick="plus();"></i> 
 												<i class='bx bx-minus-circle minusIcon' id="actPriceMinusBtn" onclick="minus();"></i>
+										</div>
+										<div>
+											<b style="font-size:2rem;position:relative;bottom:4rem;left:36.5rem;">總金額</b>
+											<span style="position:relative;left:58rem;bottom:4rem;font-size:2.2rem;color:#46A3FF" id="actTotalPrice">${actVO.act_price}</span>
+										</div>
+										<div>
+											
+											<button type="button" id="addActToCarBtn" class="btn btn-rounded btn-primary" style="background-color:#30504F;left: 45rem;bottom: 0.5rem">
+												<span class="btn-icon-start text-primary"><i class='bx bxs-cart'></i></span>加入購物車
+											</button>
 										</div>
 									</form>
 								</div>
@@ -119,10 +129,8 @@
 	<%@ include file="/front_end/commonJS.file"%>
 	<!-- 基本JS檔案 -->
 
-	<script
-		src="<%=request.getContextPath()%>/front_end/activity/js/fotorama.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/front_end/activity/datetimepicker/jquery.datetimepicker.full.js"></script>
+	<script src="<%=request.getContextPath()%>/front_end/activity/js/fotorama.js"></script>
+	<script src="<%=request.getContextPath()%>/front_end/activity/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 
 	<script>
@@ -153,14 +161,50 @@
 		});
 		$("#actPeopleNumber").val(1);
 	});
+	
+	
+// 	購物車
+	let shoppingCarRequest = null;
+	$("#addActToCarBtn").on('click',function(){
+		shoppingCarRequest = $.ajax({
+			url:"<%=request.getContextPath()%>/activity/ActivityOrder",
+			type:"POST",
+			data:{
+				action:'actShoppingCart',
+				carAction:'add',
+				actNo:${actVO.act_no},
+				actNameInCar:$("#actName").text(),
+				actDateInCar:$("#act_date").val(),
+				actTime:$("#actSessionStartTimeSelect option:selected").text(),
+				actPeopleNumber:$("#actPeopleNumber").val(),
+			},
+			success:function(response){
+				if(response.includes("update")){
+					autoCloseUpdate();
+					$("#carCount").text(response.charAt(8));
+					shoppingCarRequest.abort();
+				}else{
+					autoCloseForShoppingCar();
+					$("#carCount").text(response);
+					shoppingCarRequest.abort();
+				}
+			}
+		});
+	});
+	
+	
+	
+	
 	document.getElementById('actPriceMinusBtn').disabled = true;
 	document.getElementById('actPriceMinusBtn').setAttribute("style", "color:gray;");
+	
 	
 	function plus(){
 		let myInput = document.getElementById('actPeopleNumber');
 		let totalPeople = parseInt(document.getElementById('totalPeople').value);
 		let val = parseInt(myInput.value);
 		let total = totalPeople + val;
+		let totalPrice = document.getElementById('actTotalPrice');
 		
 		let plusBtn = document.getElementById('actPricePlusBtn');
 		let minusBtn = document.getElementById('actPriceMinusBtn');
@@ -170,6 +214,7 @@
 		
 		if(total < 10){
 			myInput.value = ++val;
+			totalPrice.textContent = val * ${actVO.act_price};
 		}else{
 			autoClose();
 			plusBtn.disabled = true;
@@ -184,11 +229,16 @@
 		let plusBtn = document.getElementById('actPricePlusBtn');
 		let minusBtn = document.getElementById('actPriceMinusBtn');
 		
+		let totalPrice = document.getElementById('actTotalPrice');
+		
 		plusBtn.disabled = false;
 		plusBtn.removeAttribute("style", "color:gray;");
 		--val;
-		if(val > 1){
+		minusBtn.disabled = val <= 1;
+		if(val >= 1){
 			myInput.value = val;
+			totalPrice.textContent = myInput.value * ${actVO.act_price};
+			if (val === 1) {minusBtn.style.color = 'gray';}
 		}else{
 			if (val == 0)
 				return false;
@@ -205,8 +255,6 @@
 		
 		this.lat1 = parseFloat(${actVO.act_location_latitude});
 		this.lng1 = parseFloat(${actVO.act_location_longitude});
-		console.log(lat1);
-		console.log(lng1);
 
 	  // 初始化地圖
 	  map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -263,6 +311,24 @@
 			timer : 1000
 		// 單位毫秒，1秒後自動關閉跳窗
 		})
+	}
+	function autoCloseForShoppingCar() {
+		swal.fire({
+			icon : 'success', //常用的還有'error'
+			title : '成功加入活動',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
+	}
+	function autoCloseUpdate() {
+		swal.fire({
+			icon : 'success', //常用的還有'error'
+			title : '購物車項目已更新',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
 	}
 </script>
 

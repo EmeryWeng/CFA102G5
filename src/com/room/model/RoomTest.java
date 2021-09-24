@@ -13,13 +13,13 @@ public class RoomTest {
 //		dao.insert(roomVO);
 
 		// 修改
-		RoomVO roomVO = new RoomVO();
-		roomVO.setRm_no("301");
-		roomVO.setType_no(3);
-		roomVO.setRm_info("3F，禁菸房，山景，出電梯右轉第一間");
-		roomVO.setRm_state(1);
-		roomVO.setName_title("222");
-		dao.update(roomVO);
+//		RoomVO roomVO = new RoomVO();
+//		roomVO.setRm_no("301");
+//		roomVO.setType_no(3);
+//		roomVO.setRm_info("3F，禁菸房，山景，出電梯右轉第一間");
+//		roomVO.setRm_state(1);
+//		roomVO.setName_title("222");
+//		dao.update(roomVO);
 
 		// 修改 入住
 //		RoomVO roomVO = new RoomVO();

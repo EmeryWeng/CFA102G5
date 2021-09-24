@@ -53,6 +53,10 @@ public class RoomService {
 		return dao.getOne(rm_no);
 	}
 
+	public Integer getRmTotal(Integer type_no) {
+		return dao.getRmTotal(type_no);
+	}
+
 	public List<RoomVO> getAllRoom() {
 		return dao.getAll();
 	}
