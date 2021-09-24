@@ -65,4 +65,13 @@ public class ActivityOrderDetailService {
 	public List<ActivityOrderDetailVO> getAll(){
 		return dao.getAll();
 	}
+	
+	public void orderDetailUpdate(Integer act_real_join_number,Integer act_price_total,Integer act_order_no,Integer act_session_no) {
+		dao.orderDetailUpdate(act_real_join_number, act_price_total, act_order_no, act_session_no);
+	}
+	
+	public void switchOrderDetailState(Integer act_order_detail_no,Integer act_order_detail_state) {
+		dao.switchOrderDetailState(act_order_detail_no, act_order_detail_state);
+	}
+	
 }

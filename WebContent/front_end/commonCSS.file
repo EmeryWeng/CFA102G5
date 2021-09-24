@@ -23,4 +23,8 @@
         <!-- Style CSS -->
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/style.css">
         <!-- RWD CSS -->
+<<<<<<< HEAD
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/responsive.css">
+=======
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/responsive.css">
+>>>>>>> 6d1974d0d1052a559b4a4759de8e9420310bfee7

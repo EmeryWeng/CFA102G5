@@ -29,11 +29,22 @@ public class EmployeeServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		if("getOneEmp".equals(action)) {
+			Integer emp_no = new Integer(req.getParameter("emp_no"));
+			EmpService ser = new EmpService();
+			EmployeeVO empVO = ser.getOneEmp(emp_no);
+			
+			req.setAttribute("empVO", empVO);
+			
+			String url = "back_end/emp/personal.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+		}
 		if("log_out".equals(action)) {
 			HttpSession session = req.getSession();
 			session.invalidate();
 			//導回登入頁面-------------
-			String url = "/backLogin.jsp";
+			String url = "/back_end/login/login.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}
@@ -49,9 +60,11 @@ public class EmployeeServlet extends HttpServlet {
 			EmployeeVO empVO1 = ser.Login(emp_mail, emp_password);
 			if(empVO1==null) {
 				errorMsgs.add("查無資料或輸入錯誤");
+			}else if(empVO1.getEmp_state()==false) {
+				errorMsgs.add("您已離職無法登入。");
 			}
 			if (!errorMsgs.isEmpty()) {
-				RequestDispatcher failureView = req.getRequestDispatcher("backLogin.jsp");	//查無資料返回登入
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/login/login.jsp");	//查無資料返回登入
 				failureView.forward(req, res);
 				return;// 程式中斷
 			}else {

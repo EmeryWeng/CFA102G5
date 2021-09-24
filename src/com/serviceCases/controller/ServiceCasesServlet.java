@@ -24,7 +24,7 @@ public class ServiceCasesServlet extends HttpServlet {
 		String action = req.getParameter("action");
 
 		//新增案件
-		if ("insert".equals(action)) { // 來自addEmp.jsp的請求
+		if ("insert".equals(action)) { // 來自addCase.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -33,23 +33,32 @@ public class ServiceCasesServlet extends HttpServlet {
 			
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-				//mem_no是fk直接用jsp select強制鎖定範圍內
+				
 				Integer mem_no = new Integer(req.getParameter("mem_no").trim());
 				
 				String case_title = req.getParameter("case_title").trim();
-				String case_titleReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{5,50}$";
+				String case_titleReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{5,20}$";
+				
+				String case_des = req.getParameter("case_des").trim();
+				String case_desReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{10,200}$";
 				if (case_title == null || case_title.trim().length() == 0) {
-					errorMsgs.add("描述標題請勿空白");
+					errorMsgs.add("案件標題請勿空白");
 					
-				} else if(!case_title.trim().matches(case_titleReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("標題描述最少五個字");
+				} else if(!case_title.trim().matches(case_titleReg)) { 
+					errorMsgs.add("案件描述最少5個字");
+	            } else if(!case_title.trim().matches(case_titleReg)) { 
+					errorMsgs.add("案件描述最多20個字");
 	            }
 
-				String case_des = req.getParameter("case_des").trim();
+				
 				if (case_des == null || case_des.trim().length() == 0) {
-					errorMsgs.add("問題描述請勿空白");
+					errorMsgs.add("案件描述請勿空白");
 					
-				}
+				}else if(!case_des.trim().matches(case_desReg)) { 
+					errorMsgs.add("案件描述最少10個字");
+	            }else if(!case_des.trim().matches(case_desReg)) { 
+					errorMsgs.add("案件描述最少200個字");
+	            }
 
 				String case_reply = null;
 
@@ -64,7 +73,7 @@ public class ServiceCasesServlet extends HttpServlet {
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("serviceCasesVO", serviceCasesVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					req.setAttribute("serviceCasesVO", serviceCasesVO); // 含有輸入格式錯誤的serviceCasesVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/serviceCases/addCase.jsp");
 					failureView.forward(req, res);
 					return;
@@ -76,7 +85,7 @@ public class ServiceCasesServlet extends HttpServlet {
 				
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/back_end/serviceCases/listAllCase.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllCase.jsp
 				successView.forward(req, res);
 				
 				
@@ -92,7 +101,7 @@ public class ServiceCasesServlet extends HttpServlet {
 		
 		
 				//更新案件
-				if ("update".equals(action)) { // 來自addEmp.jsp的請求
+				if ("update".equals(action)) { // 來自addCase.jsp的請求
 
 					List<String> errorMsgs = new LinkedList<String>();
 					// Store this set in the request scope, in case we need to
@@ -108,8 +117,8 @@ public class ServiceCasesServlet extends HttpServlet {
 						
 
 						String case_reply = req.getParameter("case_reply").trim();
-						if (case_des == null || case_des.trim().length() == 0) {
-							errorMsgs.add("問題描述請勿空白");
+						if (case_reply == null || case_reply.trim().length() == 0) {
+							errorMsgs.add("回覆請勿空白");
 						}
 						
 						Integer case_state = new Integer(req.getParameter("case_state").trim());
@@ -127,7 +136,7 @@ public class ServiceCasesServlet extends HttpServlet {
 
 						// Send the use back to the form, if there were errors
 						if (!errorMsgs.isEmpty()) {
-							req.setAttribute("serviceCasesVO", serviceCasesVO); // 含有輸入格式錯誤的empVO物件,也存入req
+							req.setAttribute("serviceCasesVO", serviceCasesVO); // 含有輸入格式錯誤的serviceCasesVO物件,也存入req
 							RequestDispatcher failureView = req.getRequestDispatcher("/back_end/serviceCases/updateCase.jsp");
 							failureView.forward(req, res);
 							return;
@@ -140,7 +149,7 @@ public class ServiceCasesServlet extends HttpServlet {
 						/*************************** 3.修改完成,準備轉交(Send the Success view) ***********/
 						req.setAttribute("serviceCasesVO", serviceCasesVO);
 						String url = "/back_end/serviceCases/listOneCase.jsp";
-						RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+						RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listOneCase.jsp
 						successView.forward(req, res);
 
 						/*************************** 其他可能的錯誤處理 **********************************/
@@ -151,7 +160,7 @@ public class ServiceCasesServlet extends HttpServlet {
 					}
 				}
 				
-				if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp的請求
+				if ("getOne_For_Update".equals(action)) { // 來自listOneCase.jsp的請求
 
 					List<String> errorMsgs = new LinkedList<String>();
 					// Store this set in the request scope, in case we need to
@@ -167,9 +176,9 @@ public class ServiceCasesServlet extends HttpServlet {
 						ServiceCasesVO scVO = scSvc.getOneServiceCases(case_no);
 										
 						/***************************3.查詢完成,準備轉交(Send the Success view)************/
-						req.setAttribute("serviceCasesVO", scVO);         // 資料庫取出的empVO物件,存入req
+						req.setAttribute("serviceCasesVO", scVO);         // 資料庫取出的serviceCasesVO物件,存入req
 						String url = "/back_end/serviceCases/updateCase.jsp";
-						RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+						RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 updateCase.jsp
 						successView.forward(req, res);
 
 						/***************************其他可能的錯誤處理**********************************/

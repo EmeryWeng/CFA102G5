@@ -145,6 +145,7 @@ public class RoomTypeServlet extends HttpServlet {
 			// 不可預訂的日期
 			RoomRsvService RoomRsvSvc = new RoomRsvService();
 			List<RoomRsvVO> list = RoomRsvSvc.getNotRsv(qty, type_no);
+<<<<<<< HEAD
 			System.out.println("qty=" + qty);
 			System.out.println("type_no=" + type_no);
 			System.out.println("list=" + list);
@@ -162,6 +163,23 @@ public class RoomTypeServlet extends HttpServlet {
 				result += "\"" + list.get(i).getRsv_date().toString() + "\",";
 			}
 			System.out.println("result=" + result);
+=======
+
+			// 把list裡的日期變成字串 日期變字串好煩
+//			String result = list.stream().map(RoomRsvVO::getRsv_date).collect(Collectors.joining(", "));
+
+			String[] result = new String[list.size()];
+			for (int i = 0; i < list.size(); i++) {
+				String notDate = list.get(i).getRsv_date().toString();
+				result[i] = notDate;
+			}
+			// 用字串前台也帶不出來
+//			String result = null;
+//			for (int i = 0; i < list.size(); i++) {
+//				result += list.get(i).getRsv_date().toString() + ",";
+//			}
+
+>>>>>>> 6d1974d0d1052a559b4a4759de8e9420310bfee7
 			/*************************** 3.查詢完成,準備轉交 ************/
 			req.setAttribute("roomTypeVO", roomTypeVO); // 資料庫取出的VO物件,存入req
 			req.setAttribute("facilityList", facilityList); // 分割完的設施list,存入req

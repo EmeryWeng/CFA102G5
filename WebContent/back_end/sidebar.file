@@ -61,7 +61,6 @@
 					</a>
 					<ul aria-expanded="false">
 						<li><a href="#">活動排程</a></li>
-						<li><a href="#">訂單管理</a></li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動類別管理</a>
 							<ul aria-expanded="false">
 								<li><a href="<%=request.getContextPath()%>/activity/ActivityClass?action=getAllActClass">活動類別列表</a></li>
@@ -80,10 +79,10 @@
 								<li><a href="<%=request.getContextPath()%>/activity/ActivitySession?action=getAll">活動場次列表</a></li>
 							</ul>
 						</li>
-						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動促銷管理</a>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">訂單管理</a>
 							<ul aria-expanded="false">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/ActivityOrder?action=getAll">訂單列表</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/ActivityOrderDetail?action=getAll">訂單明細列表</a></li>
 							</ul>
 						</li>
 					</ul>

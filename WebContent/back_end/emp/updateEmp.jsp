@@ -27,7 +27,7 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/EmployeeServlet.do" name="form1">
 <table id="example4" class="display" style="min-width: 845px">
 	<tr>
-		<td>員工編號:<font color=red><b>*</b></font></td>
+		<td>員工編號:</td>
 		<td><%=empVO.getEmp_no()%></td>
 	</tr>
 	<tr>
@@ -44,13 +44,13 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 	</tr>
 	<tr>
 		<td>員工狀態</td>
-		<td><input type="radio" id="true" name="emp_state"  value="true" checked>在職</td>
-		<td><input type="radio" id="false" name="emp_state"  value="false" >離職</td>
+		<td><input type="radio" id="true" name="emp_state"  value="true" ${(empVO.emp_state==true)?'checked':'' }>在職</td>
+		<td><input type="radio" id="false" name="emp_state"  value="false" ${(empVO.emp_state==false)?'checked':'' }>離職</td>
 	</tr>
 
 	<jsp:useBean id="deptSvc" scope="page" class="com.department.model.DepService" />
 	<tr>
-		<td>部門:<font color=red><b>*</b></font></td>
+		<td>部門:</td>
 		<td><select size="1" name="dep_no" >
 			<c:forEach var="DepartmentVO" items="${deptSvc.all}">
 				<option value="${DepartmentVO.dep_no}" ${(empVO.dep_no==DepartmentVO.dep_no)?'selected':'' } >${DepartmentVO.dep_name}

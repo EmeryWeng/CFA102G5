@@ -29,17 +29,17 @@ FoodClassVO ClassVO = (FoodClassVO) request.getAttribute("foodClassVO");
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodClassServlet.do" name="form1">
 <table id="example4" class="display" style="min-width: 845px">
 	<tr>
-		<td>類別編號:<font color=red><b>*</b></font></td>
+		<td>類別編號:</td>
 		<td><%=ClassVO.getFd_class_no()%></td>
 	</tr>
 	<tr>
 		<td>類別名稱:</td>
-		<td><input type="TEXT" name="fd_class_name" size="20" value="<%=ClassVO.getFd_class_name()%>" /></td>
+		<td><input type="text" name="fd_class_name" size="20" value="<%=ClassVO.getFd_class_name()%>" /></td>
 	</tr>
 	<tr>
-		<td>部門狀態</td>
-		<td><input type="radio" id="true" name="fd_class_state"  value="true" checked>使用</td>
-		<td><input type="radio" id="false" name="fd_class_state"  value="false" >不使用</td>
+		<td>類別狀態</td>
+		<td><input type="radio" id="true" name="fd_class_state"  value="true" ${(foodClassVO.fd_class_state==true)?'checked':'' } >使用</td>
+		<td><input type="radio" id="false" name="fd_class_state"  value="false" ${(foodClassVO.fd_class_state==false)?'checked':'' } >不使用</td>
 	</tr>
 
 </table>

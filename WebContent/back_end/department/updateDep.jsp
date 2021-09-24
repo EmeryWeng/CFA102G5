@@ -30,7 +30,7 @@ DepartmentVO DepVO = (DepartmentVO) request.getAttribute("DepVO");
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/DepartmentServlet.do" name="form1">
 <table id="example4" class="display" style="min-width: 845px">
 	<tr>
-		<td>部門編號:<font color=red><b>*</b></font></td>
+		<td>部門編號:</td>
 		<td><%=DepVO.getDep_no()%></td>
 	</tr>
 	<tr>
@@ -39,8 +39,8 @@ DepartmentVO DepVO = (DepartmentVO) request.getAttribute("DepVO");
 	</tr>
 	<tr>
 		<td>部門狀態</td>
-		<td><input type="radio" id="true" name="dep_state"  value="true" checked>使用</td>
-		<td><input type="radio" id="false" name="dep_state"  value="false" >不使用</td>
+		<td><input type="radio" id="true" name="dep_state"  value="true" ${(DepVO.dep_state==true)?'checked':'' }>使用</td>
+		<td><input type="radio" id="false" name="dep_state"  value="false" ${(DepVO.dep_state==false)?'checked':'' }>不使用</td>
 	</tr>
 
 </table>

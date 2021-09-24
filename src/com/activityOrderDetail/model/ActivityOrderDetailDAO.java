@@ -25,6 +25,9 @@ public class ActivityOrderDetailDAO implements I_ActivityOrderDetailDAO {
 	private final String SELECT_BY_ACTIVITY_SESSION_NO_SQL = "SELECT * FROM ACTIVITY_ORDER_DETAIL WHERE act_session_no = ?";
 	private final String SELECT_BY_ACTIVITY_ORDER_DETAIL_STATE_SQL = "SELECT * FROM ACTIVITY_ORDER_DETAIL WHERE act_order_detail_state = ?";
 	
+	private final String SWITCH_ORDER_DETAIL_STATE = "UPDATE ACTIVITY_ORDER_DETAIL SET act_order_detail_state = ? WHERE act_order_detail_no = ?";
+	private final String ORDER_DETAIL_UPDATE_SQL = "UPDATE ACTIVITY_ORDER_DETAIL SET act_real_join_number = ? "
+			+ ",act_price_total = ? WHERE act_order_no = ? AND act_session_no = ?";
 	static {	
 		try {
 			ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/TestDB");
@@ -302,5 +305,59 @@ public class ActivityOrderDetailDAO implements I_ActivityOrderDetailDAO {
 		
 		return list;
 	}
+
+	@Override
+	public void orderDetailUpdate(Integer act_real_join_number, Integer act_price_total, Integer act_order_no,
+			Integer act_session_no) {
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(ORDER_DETAIL_UPDATE_SQL);
+			ps.setInt(1,act_real_join_number);
+			ps.setInt(2,act_price_total);
+			ps.setInt(3,act_order_no);
+			ps.setInt(4,act_session_no);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void switchOrderDetailState(Integer act_order_detail_no,Integer act_order_detail_state) {
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(SWITCH_ORDER_DETAIL_STATE);
+			ps.setInt(1,act_order_detail_state);
+			ps.setInt(2,act_order_detail_no);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
+
 
 }

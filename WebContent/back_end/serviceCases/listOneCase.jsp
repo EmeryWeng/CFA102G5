@@ -6,47 +6,21 @@
 
 <html>
 <head>
-<title>案件新增 - listOneCase.jsp</title>
+<%@ include file="/back_end/commonCSS.file"%>
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
+<style></style>
 
-<style>
-  table {
-	width: 600px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-    text-align: center;
-  }
-</style>
 
 </head>
-<body bgcolor='white'>
-<table id="table-1">
+<body>
+	<%@ include file="/back_end/header.file"%>
+	<!-- Header -->
+	<%@ include file="/back_end/sidebar.file"%>
+	<!-- sidebar -->
+<div class="main-content card card-body table-responsive">
+<table id="example4" class="display" style="min-width: 845px">
 	<tr><td>
-		 <h3>案件資料 - listOneCase.jsp</h3></td><td>
-		 <h4><a href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">回首頁</a></h4>
+		 <h3><a href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">上一頁-案件列表</a></h3>
 	</td></tr>
 </table>
 
@@ -71,6 +45,11 @@
 
 	</tr>
 </table>
-
+</div>
 </body>
+<%@ include file="/back_end/commonJS.file"%>
+<script>
+	// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+	$("#pagename").text("新增案件成功");
+</script>
 </html>

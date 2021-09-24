@@ -45,7 +45,6 @@
 	<%@ include file="/back_end/sidebar.file"%>
 	<!-- sidebar -->
 	
-	<jsp:useBean id="actImgService" class="com.activityImage.model.ActivityImageService" />
 	<jsp:useBean id="actService" class="com.activity.model.ActivityService" />
 	
 <div class="main-content">
