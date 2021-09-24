@@ -46,6 +46,10 @@ public class RoomRsvService {
 		dao.getOneDayByDate(rsv_date);
 	}
 
+	public List<RoomRsvVO> getNotRsv(Integer qty, Integer type_no) {
+		return dao.getNotRsv(qty, type_no);
+	}
+
 	public List<RoomRsvVO> getAllRoomRsv() {
 		return dao.getAll();
 	}

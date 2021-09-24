@@ -66,14 +66,13 @@
             }
           	.room-facility-content h5, .room-facility-content p, .type-title-area h2, .type-title-area>div {
 				display: inline-block;
-				padding-right: 15px;
 			}
 			.side-bar-form .type-title-area h2 {
-				font-size: 28px;
+				font-size: 26px;
 				color: #a3785e;
 			}
 			span.price {
-            	font-size: 24px;
+            	font-size: 22px;
 			    letter-spacing: 0.5px;
 			    color: #30504F;
 			    font-weight: 700;
@@ -225,7 +224,6 @@
     <body>
 		<%@ include file="/front_end/loading.file" %> <!-- loading -->
         <%@ include file="/front_end/header.file" %> <!-- Header -->
-		
 		<div class="mt-5 mb-5 pt-20 container">
 			<div class="inner-title">
 				<div>
@@ -354,34 +352,39 @@
 				<div class="room-details-side">
 					<div class="side-bar-form">
 						<div class="type-title-area">
-							<h2>${roomTypeVO.type_name}</h2>
+							<h2>${roomTypeVO.type_name} x ${qty}間</h2>
 							<div>
 								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="NT$ ###,###" /></span>
 							</div>
 						</div>
-						<form>
+<!-- 						<form> -->
 							<div class="row align-items-center">
-
+<%-- 								<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv"> --%>
+<!-- 								<div class="col-lg-12"> -->
+<!-- 	                                <div class="form-group"> -->
+<!-- 	                                    <label>間數</label> -->
+<!-- 	                                    <select class="form-control" name="qty"> -->
+<!-- 	                                        <option value="1">01</option> -->
+<!-- 	                                        <option value="2">02</option> -->
+<!-- 	                                        <option value="3">03</option> -->
+<!-- 	                                        <option value="4">04</option> -->
+<!-- 	                                    </select>	 -->
+<!-- 	                                </div> -->
+<%-- 	                                <input type="hidden" name="type_no"  value="${roomTypeVO.type_no}"> --%>
+<!-- 	                                <input type="hidden" name="action" value="notRsv"> -->
+<!-- 	                                <button type="submit" class="btn btn-primary">查詢可訂日期</button> -->
+<!-- 								</div> -->
+<!-- 								</form> -->
 								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Check Out</label>
-										<div class="input-group">
-											<input id="datetimepicker-check" type="text" class="form-control" placeholder="09/29/2020"> <span class="input-group-addon"></span>
-										</div>
-										<i class='bx bxs-calendar'></i>
-									</div>
-								</div>
-
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Numbers of Persons</label> <select class="form-control">
-											<option>01</option>
-											<option>02</option>
-											<option>03</option>
-											<option>04</option>
-											<option>05</option>
-										</select>
-									</div>
+	                                <h4>更改日期</h4>
+	                                <div class="form-group">
+	                                    <label><i class='bx bx-calendar'></i> 入住日期    -  退房日期</label>
+	                                    <div class="input-group">
+	                                    	<input type="text" id="rangeDate" placeholder="請選擇入住期間" class="form-control" data-input>
+	                                        <span class="input-group-addon"></span>
+	                                    </div>
+	                                    <i class='bx bxs-chevron-down'></i>	
+	                                </div>
 								</div>
 
 								<div class="col-lg-12">
@@ -400,11 +403,11 @@
 									<button type="submit" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
 								</div>
 							</div>
-						</form>
+<!-- 						</form> -->
 					</div>
 				</div>
 			</div>
-		</div>
+<!-- 		</div> -->
 
 	</div>
 		<%@ include file="/front_end/message.file" %> <!-- Message --> 
@@ -419,11 +422,17 @@
                 nav: true,
                 dots: false,
                 autoplayHoverPause: true,
-            })
+            });
             $('.owl-carousel').owlCarousel({
                 URLhashListener:true,
             });
 	        $(".room-facility-content li:nth-child(8)>i").removeClass().addClass("bx bx-tv");
-        </script>
+	        $("#rangeDate").flatpickr({
+	            mode: 'range',
+	            dateFormat: "Y-m-d",
+	            minDate: "today",
+	            disable: [${result}],
+	        });
+		</script>
 	</body>
 </html>

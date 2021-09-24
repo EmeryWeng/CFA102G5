@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,30 @@ public class RoomRsvServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		PrintWriter out = null;
+
+		if ("notRsv".equals(action)) {
+			/*************************** 1.接收請求參數 ****************************************/
+			Integer type_no = new Integer(req.getParameter("type_no"));
+			Integer qty = new Integer(req.getParameter("qty"));
+
+			/*************************** 2.開始查詢資料，篩選資料 *********************************/
+			RoomRsvService RoomRsvSvc = new RoomRsvService();
+			List<RoomRsvVO> list = RoomRsvSvc.getNotRsv(qty, type_no);
+
+			// 把list裡的日期變成字串 日期變字串好煩
+//			String result = list.stream().map(RoomRsvVO::getRsv_date).collect(Collectors.joining(", "));
+
+			String result = "";
+			for (int i = 0; i < list.size(); i++) {
+				result += list.get(i).getRsv_date() + ",";
+			}
+
+			/*************************** 3.查詢完成,準備轉交 ************/
+			req.setAttribute("result", result);
+			String url = "/front_end/room/roomDetail.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的roomDetail.jsp
+			successView.forward(req, res);
+		}
 
 		if ("booking".equals(action)) {
 			try {

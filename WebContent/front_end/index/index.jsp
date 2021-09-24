@@ -178,24 +178,6 @@
                         </div>
                     </div>
 					</c:forEach>
-<!--                     <div class="index-activity col-lg-3 col-md-5"> -->
-<!--                         <div class="room-card"> -->
-<!--                             <a href="活動內頁.html"> -->
-<%--                                 <img src="<%=request.getContextPath()%>/front_end/assets/img/room-img.jpg" alt="Images"> --%>
-<!--                                 <div class="content"> -->
-<!--                                     <i class='bx bxs-medal no3'></i> -->
-<!--                                     <h5>海洋賞鯨導覽體驗</h5> -->
-<!--                                     <div class="index-activity"> -->
-<!--                                         <p> -->
-<!--                                             <i class='bx bxs-star'></i> -->
-<!--                                             4.8 (9則評價) -->
-<!--                                         </p> -->
-<!--                                         <p class="index-activity-price">NTD$ 1,100</p>  -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                     </div> -->
                 </div>
             </div>
         </div>

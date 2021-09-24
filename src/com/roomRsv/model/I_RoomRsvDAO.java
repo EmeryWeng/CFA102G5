@@ -12,6 +12,7 @@ public interface I_RoomRsvDAO {
 	public void cancel(RoomRsvVO roomRsvVO);	
 	public RoomRsvVO getOneByDateType(LocalDate rsv_date, Integer type_no);
 	public List<RoomRsvVO> getOneDayByDate(LocalDate rsv_date); //同一天的各房型預訂
+	public List<RoomRsvVO> getNotRsv(Integer stay, Integer type_no); // 取得不可預約的日期 前台房型詳情用
 	public List<RoomRsvVO> getAll(); // 全部
 	public List<RoomRsvVO> getAllByType(Integer type_no); //同房型的每天預訂
 	public Integer roomCheck(LocalDate rsv_date, Integer stay, Integer type_no);

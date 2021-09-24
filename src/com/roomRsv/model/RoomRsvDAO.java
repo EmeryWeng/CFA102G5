@@ -23,6 +23,7 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 	private static final String CANCEL = "UPDATE room_rsv SET rsv_total = rsv_total-間數  WHERE type_no = ? AND (rsv_date BETWEEN '2021-08-26' AND DATEDIFF( '退房日', INTERVAL 1 DAY))";
 	private static final String GET_ONE_BY_DATE_TYPE = "SELECT * FROM room_rsv WHERE rsv_date = ? AND rm_type = ?";
 	private static final String GET_ONEDAY_BY_DATE = "SELECT * FROM room_rsv WHERE rsv_date = ?";
+	private static final String GET_NOT_RSV = "SELECT * FROM room_rsv WHERE (rm_total-rsv_total) < ? AND type_no = ?";
 	private static final String GET_ALL = "SELECT * FROM room_rsv ORDER BY rsv_date";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_rsv WHERE type_no = ?";
 
@@ -173,6 +174,42 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 				list.add(roomRsvVO);
 			}
 
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<RoomRsvVO> getNotRsv(Integer qty, Integer type_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		List<RoomRsvVO> list = new ArrayList<>();
+		RoomRsvVO roomRsvVO = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_NOT_RSV);
+			pstmt.setObject(1, qty);
+			pstmt.setObject(2, type_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roomRsvVO = new RoomRsvVO();
+				roomRsvVO.setRsv_date(rs.getDate("rsv_date").toLocalDate());
+				roomRsvVO.setType_no(rs.getInt("type_no"));
+				roomRsvVO.setRm_total(rs.getInt("rm_total"));
+				roomRsvVO.setRsv_total(rs.getInt("rsv_total"));
+			}
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {

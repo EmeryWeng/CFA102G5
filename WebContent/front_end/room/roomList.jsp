@@ -8,7 +8,6 @@
 <jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
 <jsp:useBean id="roomImgSvc" scope="page" class="com.roomImg.model.RoomImgService" />
 
-
 <!doctype html>
 <html>
     <head>
@@ -267,6 +266,7 @@
 						</div>
 					</div>
 					<p>修改<i class='bx bxs-edit'></i></p>
+			        <a href="<%=request.getContextPath()%>/front_end/room/room.jsp" class="btn btn-info">***暫放未完成日曆***</a>
 				</div>
 			</div>
 			        <div class="col-lg-12 room-card-area">
@@ -303,7 +303,7 @@
                                         <div><i class='bx bx-user'></i>${roomTypeVO.type_qty} 人</div>
                                         <div><i class='bx bx-expand'></i>${roomTypeVO.type_size} m<sup>2</sup></div>
                                         <div><i class='bx bxs-hotel'></i>${roomTypeVO.bed_size}</div>
-                                        <div><a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForShow" class="line-btn"><div class="line"></div><i class='bx bx-chevron-right arrow'></i>查看客房詳情</a></div> 
+                                        <div><a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=${qty}&action=getOneForShow" class="line-btn"><div class="line"></div><i class='bx bx-chevron-right arrow'></i>查看客房詳情</a></div> 
                                     </div>
                                 </div>
 
@@ -311,7 +311,7 @@
                                     <div>
                                         <span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="NT$ ###,###"/></span><span>/ 一晚</span>
                                     </div>
-                                        <a href="room-details.html" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</a>
+                                        <a href="<%=request.getContextPath()%>/room/RoomRsv?type_no=5&qty=2&action=notRsv" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</a>
                                 </div>
                             </div>
                         </div>

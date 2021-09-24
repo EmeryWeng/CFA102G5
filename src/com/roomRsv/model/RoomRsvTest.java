@@ -1,5 +1,7 @@
 package com.roomRsv.model;
 
+import java.util.List;
+
 public class RoomRsvTest {
 
 	public static void main(String[] args) {
@@ -31,6 +33,22 @@ public class RoomRsvTest {
 //			System.out.print(roomRsvVO.getRm_total() + ",");
 //			System.out.println(roomRsvVO.getRsv_total());
 //		}
+
+		// 查詢 不能預定
+		List<RoomRsvVO> list = dao.getNotRsv(2, 5);
+//		for (RoomRsvVO roomRsvVO : list) {
+//			System.out.print(roomRsvVO.getRsv_date() + ",");
+//			System.out.print(roomRsvVO.getType_no() + ",");
+//			System.out.print(roomRsvVO.getRm_total() + ",");
+//			System.out.println(roomRsvVO.getRsv_total());
+//		}
+		String result2 = "";
+		for (int i = 0; i < list.size(); i++) {
+			result2 += list.get(i).getRsv_date().toString() + ",";
+		}
+		System.out.print(result2);
+
+//		String result = list.stream().map(RoomRsvVO::getRsv_date()).collect(Collectors.joining(", "));
 
 		// 查詢 全部
 //		List<RoomRsvVO> list = dao.getAll();
