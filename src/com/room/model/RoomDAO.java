@@ -18,6 +18,7 @@ public class RoomDAO implements I_RoomDAO {
 	private static final String UPDATE_CHECKIN = "UPDATE room SET rm_state = 2, name_title = ? WHERE rm_no = ?";
 	private static final String UPDATE_CHECKOUT = "UPDATE room SET rm_state = 1, name_title = null WHERE rm_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room WHERE rm_no = ?";
+	private static final String GET_RMTOTAL = "select count(*) as rm_qty from room where rm_state != 0 and type_no = ?";
 	private static final String GET_ALL = "SELECT * FROM room ORDER BY rm_no";
 	private static final String GET_ALL_BY_TYPE_STATE = "SELECT * FROM room WHERE type_no = ? AND rm_state = 1";
 	private static final String GET_ALL_BY_RM_STATE = "SELECT * FROM room WHERE rm_state = ?";
@@ -178,6 +179,31 @@ public class RoomDAO implements I_RoomDAO {
 			}
 		}
 		return roomVO;
+	}
+
+	@Override
+	public Integer getRmTotal(Integer type_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		Integer rm_qty = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_RMTOTAL);
+			pstmt.setInt(1, type_no);
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rm_qty;
 	}
 
 	@Override

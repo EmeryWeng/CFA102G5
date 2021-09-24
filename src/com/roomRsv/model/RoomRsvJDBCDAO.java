@@ -9,19 +9,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.room.model.RoomService;
 import com.util.JDBCUtil;
 
 public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
-	
 	private static final String INSERT = "INSERT INTO room_rsv (rsv_date, type_no, rm_total ,rsv_total) VALUES (?, ?, ?, ?)";
 //	兩間*間數 ?房型 8/26*入住日 *入住日 4*天數
 	private static final String RESERVE = "UPDATE room_rsv SET rsv_total = rsv_total+2 WHERE type_no = ? AND (rsv_date BETWEEN '2021-08-26' AND ADDDATE( '2021-08-26', INTERVAL (4-1) DAY))";
 	private static final String CANCEL = "UPDATE room_rsv SET rsv_total = rsv_total-2 WHERE type_no = ? AND (rsv_date BETWEEN '2021-08-26' AND ADDDATE( '2021-08-26', INTERVAL (4-1) DAY))";
-
+	private static final String GET_ONE_BY_DATE_TYPE = "SELECT * FROM room_rsv WHERE rsv_date = ? AND rm_type = ?";
 	private static final String GET_ONEDAY_BY_DATE = "SELECT * FROM room_rsv WHERE rsv_date = ?";
 	private static final String GET_ALL = "SELECT * FROM room_rsv ORDER BY rsv_date";
 	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_rsv WHERE type_no = ?";
-	
+
 	static {
 		try {
 			Class.forName(JDBCUtil.DRIVER);
@@ -32,21 +32,21 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 
 	@Override
 	public void insert(RoomRsvVO roomRsvVO) {
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
-			
+
 			pstmt.setObject(1, roomRsvVO.getRsv_date());
 			pstmt.setInt(2, roomRsvVO.getType_no());
 			pstmt.setInt(3, roomRsvVO.getRm_total());
 			pstmt.setInt(4, roomRsvVO.getRsv_total());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -54,9 +54,9 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(RESERVE);
-			
+
 			pstmt.setInt(1, roomRsvVO.getType_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -66,12 +66,12 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 
 	@Override
 	public void cancel(RoomRsvVO roomRsvVO) {
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(CANCEL);
-			
+
 			pstmt.setInt(1, roomRsvVO.getType_no());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -84,7 +84,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		List<RoomRsvVO> list = new ArrayList<>();
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ONEDAY_BY_DATE);
 			pstmt.setObject(1, rsv_date);
@@ -110,7 +110,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		List<RoomRsvVO> list = new ArrayList<>();
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
@@ -135,7 +135,7 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		List<RoomRsvVO> list = new ArrayList<>();
 		RoomRsvVO roomRsvVO = null;
 		ResultSet rs = null;
-		
+
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ALL_BY_TYPE);
 			pstmt.setInt(1, type_no);
@@ -154,5 +154,52 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 			se.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public RoomRsvVO getOneByDateType(LocalDate rsv_date, Integer type_no) {
+		RoomRsvVO roomRsvVO = null;
+		ResultSet rs = null;
+
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(GET_ONE_BY_DATE_TYPE);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roomRsvVO = new RoomRsvVO();
+				roomRsvVO.setRsv_date(rs.getDate("rsv_date").toLocalDate());
+				roomRsvVO.setType_no(rs.getInt("type_no"));
+				roomRsvVO.setRm_total(rs.getInt("rm_total"));
+				roomRsvVO.setRsv_total(rs.getInt("rsv_total"));
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return roomRsvVO;
+	}
+
+	@Override
+	public Integer roomCheck(LocalDate rsv_date, Integer stay, Integer type_no) {
+		Integer rmLeft = null;
+
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			RoomService rmSvc = new RoomService();
+			rmLeft = rmSvc.getRmTotal(type_no);
+			for (int i = 0; i < stay; i++) {
+				RoomRsvVO rsvvo = getOneByDateType(rsv_date.plusDays(i), type_no);
+				Integer rm_left = rsvvo.getRm_total() - rsvvo.getRsv_total();
+				if (rsvvo == null) {
+					continue;
+				} else if (rm_left == 0) {
+					rmLeft = 0;
+					break;
+				} else {
+					rmLeft = Math.min(rm_left, rmLeft);
+				}
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return rmLeft;
 	}
 }

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.roomImg.model.RoomImgService;
+import com.roomImg.model.RoomImgVO;
 import com.roomType.model.RoomTypeService;
 import com.roomType.model.RoomTypeVO;
 
@@ -116,7 +118,7 @@ public class RoomTypeServlet extends HttpServlet {
 			}
 		}
 
-		if ("getOneForUpdate".equals(action)) { // 來自listAll的請求
+		if ("getOneForUpdate".equals(action) || "getOneForShow".equals(action)) { // 來自listAll的請求 後台和前台
 
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -126,13 +128,30 @@ public class RoomTypeServlet extends HttpServlet {
 				Integer type_no = new Integer(req.getParameter("type_no"));
 
 				/*************************** 2.開始查詢資料 ****************************************/
+				// 房型資料
 				RoomTypeService roomTypeSvc = new RoomTypeService();
 				RoomTypeVO roomTypeVO = roomTypeSvc.getOneRoomType(type_no);
 
+				// 房型資料的設施字串切割存成list
+				List<String> facilityList = new LinkedList<String>();
+				String data = roomTypeVO.getType_facility();
+				String[] split = data.split(",");
+				for (int i = 0; i < split.length; i++) {
+					facilityList.add(split[i]);
+				}
+
+				// 房型圖片list
+				RoomImgService roomImgSvc = new RoomImgService();
+				List<RoomImgVO> images = roomImgSvc.getAllByType(type_no);
+
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("roomTypeVO", roomTypeVO); // 資料庫取出的VO物件,存入req
-				String url = "/back_end/roomType/updateRoomType.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				req.setAttribute("facilityList", facilityList); // 分割完的設施list,存入req
+				req.setAttribute("images", images); // 資料庫取出的VO物件,存入req
+
+				String url = (action.equals("getOneForUpdate")) ? "/back_end/roomType/updateRoomType.jsp"
+						: "/front_end/room/roomDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交後台update_emp_input.jsp或前台的roomDetail.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/

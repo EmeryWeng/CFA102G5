@@ -3,14 +3,14 @@ package com.roomType.model;
 import java.util.List;
 
 public class RoomTypeService {
-	
+
 	private I_RoomTypeDAO dao;
 
 	public RoomTypeService() {
 		dao = new RoomTypeDAO();
 	}
-	
-	public RoomTypeVO addRoomType(String type_name, Integer type_qty, Integer type_price, Integer type_size, 
+
+	public RoomTypeVO addRoomType(String type_name, Integer type_qty, Integer type_price, Integer type_size,
 			String bed_size, String type_info, String type_facility) {
 
 		RoomTypeVO roomTypeVO = new RoomTypeVO();
@@ -21,11 +21,11 @@ public class RoomTypeService {
 		roomTypeVO.setBed_size(bed_size);
 		roomTypeVO.setType_info(type_info);
 		roomTypeVO.setType_facility(type_facility);
-		
+
 		return dao.insert(roomTypeVO);
 	}
-	
-	public RoomTypeVO updateRoomType(Integer type_no, String type_name, Integer type_qty, Integer type_price, 
+
+	public RoomTypeVO updateRoomType(Integer type_no, String type_name, Integer type_qty, Integer type_price,
 			Integer type_size, String bed_size, String type_info, String type_facility, Boolean type_state) {
 
 		RoomTypeVO roomTypeVO = new RoomTypeVO();
@@ -38,19 +38,23 @@ public class RoomTypeService {
 		roomTypeVO.setType_info(type_info);
 		roomTypeVO.setType_facility(type_facility);
 		roomTypeVO.setType_state(type_state);
-		
+
 		return dao.update(roomTypeVO);
 	}
-	
+
 	public RoomTypeVO getOneRoomType(Integer type_no) {
 		return dao.getOne(type_no);
 	}
-	
+
 	public List<RoomTypeVO> getAllRoomType() {
 		return dao.getAll();
 	}
-	
-	public void changeState(Integer type_no,Boolean type_state) {
+
+	public List<RoomTypeVO> getAllRoomFront() {
+		return dao.getAllFront();
+	}
+
+	public void changeState(Integer type_no, Boolean type_state) {
 		dao.changeState(type_no, type_state);
 	}
 }
