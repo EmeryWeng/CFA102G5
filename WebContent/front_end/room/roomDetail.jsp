@@ -353,6 +353,7 @@
 					<div class="side-bar-form">
 						<div class="type-title-area">
 							<h2>${roomTypeVO.type_name} x ${qty}間</h2>
+							<h2>不能選的日期${result}</h2>
 							<div>
 								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="$###,###" /></span><span> / 一晚</span>
 							</div>
@@ -430,7 +431,7 @@
 	            mode: 'range',
 	            dateFormat: "Y-m-d",
 	            minDate: "today",
-	            disable: [],
+	            disable: [${result}],
 	        });
         </script>
 	</body>

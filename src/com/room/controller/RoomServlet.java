@@ -26,7 +26,7 @@ public class RoomServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-
+		System.out.println("action=" + action);
 //		if ("getAll".equals(action)) { // ***切換房間狀態list
 //
 //			/*************************** 開始查詢資料 ****************************************/
@@ -44,6 +44,7 @@ public class RoomServlet extends HttpServlet {
 
 			/*************************** 1.接收請求參數 ****************************************/
 			Integer rm_state = new Integer(req.getParameter("rm_state"));
+			System.out.print(rm_state);
 
 			/*************************** 2.開始查詢資料 ****************************************/
 			RoomService roomSvc = new RoomService();

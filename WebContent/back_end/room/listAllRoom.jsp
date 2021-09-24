@@ -6,13 +6,14 @@
 
 <jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
 <%-- <jsp:useBean id="roomSvcAll" scope="page" class="com.room.model.RoomService" /> --%>
-<%
+<%if(request.getAttribute("list")==null){
 	RoomService roomSvc = new RoomService();
 	List<RoomVO> list = roomSvc.getAllRoom();
 
 	pageContext.setAttribute("list", list);
 // 	List<RoomVO> list = (List<RoomVO>) request.getAttribute("list"); // **取得concroller存入request的list
 	pageContext.setAttribute("roomSvc", roomSvc); // 用來計算各個狀態的有幾筆資料
+}
 %>
 
 <!DOCTYPE html>
@@ -127,8 +128,10 @@
 						<li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="<%=request.getContextPath()%>/room/Room?action=getAll" role="tab">所有房間 (${roomSvc.getAllRoom().size()})</a></li>
 						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
 							href="<%=request.getContextPath()%>/room/Room?rm_state=1&action=getAllByRmState" role="tab">空房 (${roomSvc.getAllByRmState(1).size()})</a></li>
+						
 						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
 							href="<%=request.getContextPath()%>/room/Room?rm_state=2&action=getAllByRmState" role="tab">入住中 (${roomSvc.getAllByRmState(2).size()})</a></li>
+						
 						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
 							href="<%=request.getContextPath()%>/room/Room?rm_state=0&action=getAllByRmState" role="tab">已停用 (${roomSvc.getAllByRmState(0).size()})</a></li>
 					</ul>
