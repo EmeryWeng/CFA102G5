@@ -72,7 +72,7 @@
 									</div>
 
 									<div class="col-lg-5 col-sm-5 col-md-5 text-right">
-										<button type="button" id="deleteAll" class="default-btn" ${empty shoppingCar ? 'disabled':''}> 清除所有項目 <span></span>
+										<button type="button" id="deleteAll" class="btn btn-secondary" ${empty shoppingCar ? 'disabled':''}> 清除所有項目 <span></span>
 										</button>
 									</div>
 								</div>
@@ -88,7 +88,7 @@
 								<li>總金額<span id="totalPrice">$599.00</span></li>
 							</ul>
 
-							<a href="#" class="default-btn">結帳(SessionList)</a>
+							<button class="btn btn-primary">結帳(SessionList)</button>
 						</div>
 					</div>
 				</div>
