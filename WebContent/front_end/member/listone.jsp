@@ -3,8 +3,6 @@
 <%@ page import="com.member.model.*"%>
 <%
 MemberClassVO memVO = (MemberClassVO) request.getAttribute("memVO");
-
-
 %>
 <!doctype html>
 <html>
@@ -38,11 +36,11 @@ footer.footer{
 }
 
 
-/* footer.footer2{ */
-/* width: 100%; */
-/* position: absolute; */
-/* bottom: 0 */
-/* } */
+ footer.footer2{ 
+ width: 100%; 
+ position: absolute; 
+ bottom: 0 
+ } 
 
 .button-container form,
 .button-container form div {
@@ -51,33 +49,95 @@ footer.footer{
 }
 
 </style>
-
-
-
-
-<div class="info">
-	 <div class="p-2 bg-light border">${memVO.mem_name}</div>
-	  <div class="p-2 bg-light border">${memVO.mem_sex == 1 ? '男' : '女'}</div>
-	  <div class="p-2 bg-light border">${memVO.mem_mail}</div>
-	  <div class="p-2 bg-light border">${memVO.mem_password}</div>
-	  <div class="p-2 bg-light border">${memVO.mem_mobile}</div>
-	  <div class="p-2 bg-light border">${memVO.mem_img}</div>
-	  <div class="p-2 bg-light border">${memVO.mem_add}</div>
-	  <div class="p-2 bg-light border">${memVO.mem_state == true ? '正常' : '未啟用'}</div>
-	  
-	<div class="d-grid gap-2">
+<div>
+				<form method="post" action="<%=request.getContextPath()%>/member/member.do" name="front1" >
+					<div class="card-body d-flex justify-content-center">
+						<div class="col-xl-8">
+							<div class="row mb-2">
+							    <label for="type_name" class="col-sm-3 col-form-label">Name</label>
+							    <div class="col-sm-8">
+							    	<div class="pk col-sm-8">${memVO.mem_name}</div>
+							    </div>	
+							</div>
+							<div class="row mb-2">
+							    <label for="type_name" class="col-sm-3 col-form-label">Sex</label>
+							    <div class="col-sm-8">
+							    	<div class="pk col-sm-8">${memVO.mem_sex == 1 ? '男' : '女'}</div>
+							    </div>
+							</div>
+							<div class="row mb-2">
+							    <label for="type_qty" class="col-sm-3 col-form-label">Email</label>
+							    <div class="col-sm-8">
+							    	<div class="pk col-sm-8">${memVO.mem_mail}</div>
+							    </div>
+							</div>
+							<div class="row mb-2">
+							    <label for="type_price" class="col-sm-3 col-form-label">Password</label>
+							    <div class="col-sm-8">
+							    	<div class="pk col-sm-8">${memVO.mem_password}</div>
+							    </div>
+							</div>
+							<div class="row mb-2">
+							    <label for="type_size" class="col-sm-3 col-form-label">Mobile</label>
+							    <div class="col-sm-8">
+							    	<div class="pk col-sm-8">${memVO.mem_mobile}</div>
+							    </div>
+							</div>
+							<div class="row mb-2">
+							    <label for="bed_size" class="col-sm-3 col-form-label">Address</label>
+							    <div class="col-sm-8">
+							    	<div class="pk col-sm-8">${memVO.mem_add}</div>
+							    </div>
+							</div>
+							<div class="row mb-2">
+							    <label for="type_info" class="col-sm-3 col-form-label">狀態</label>
+							    <div class="col-sm-8">
+							    	<div class="pk col-sm-8">${memVO.mem_state == true ? '正常' : '未啟用'}</div>
+							    </div>
+							</div>
+						</div>
+					</div>  
+		       </form>
+		       
+		 <div class="d-grid gap-2 d-flex justify-content-center">
 		 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
-            <input class="btn btn-outline-secondary" type="submit" value="修改資料">
-            <input type="hidden" name="mem_no"  value="${memVO.mem_no}">
-            <input type="hidden" name="action" value="getOneForUpdate"></FORM>
+		 	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				修改
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title" id="exampleModalLabel">修改員工資料</h3>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-primary">儲存</button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!--             <input class="btn btn-primary" type="submit" value="修改資料"> -->
+<%--             <input type="hidden" name="mem_no"  value="${memVO.mem_no}"> --%>
+<!--             <input type="hidden" name="action" value="getOneForUpdate"> -->
+         </FORM>
             
-            <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/creditcard/creditcard.do" style="margin-bottom: 0px;">
-            <input class="btn btn-outline-secondary" type="submit" value="付款資訊">
+         <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/creditcard/creditcard.do" style="margin-bottom: 0px;">
+            <input class="btn btn-primary" type="submit" value="付款資訊">
             <input type="hidden" name="mem_no"  value="${memVO.mem_no}">
-            <input type="hidden" name="action" value="getallByMem_no"></FORM>
-	</div>
-	
-</div>
+            <input type="hidden" name="action" value="getallByMem_no">
+         </FORM>
+	   </div>
+				
+				
+
 
 
  <footer class="footer2">

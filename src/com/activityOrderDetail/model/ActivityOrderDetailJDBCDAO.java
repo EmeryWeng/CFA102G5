@@ -322,4 +322,19 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 		for(ActivityOrderDetailVO vo : list)
 		System.out.println(vo);
 	}
+
+	@Override
+	public void orderDetailUpdate(Integer act_real_join_number, Integer act_price_total, Integer act_order_no,
+			Integer act_session_no) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void switchOrderDetailState(Integer act_order_detail_no, Integer act_order_detail_state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

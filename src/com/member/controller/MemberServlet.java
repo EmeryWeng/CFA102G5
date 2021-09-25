@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.member.model.*;
+
+import mail.MailService;
 
 @MultipartConfig
 
@@ -48,7 +51,7 @@ public class MemberServlet extends HttpServlet {
 			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 				String mem_name = req.getParameter("mem_name");
-				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{2,10}$";
+				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{2,50}$";
 				if (mem_name == null || mem_name.trim().length() == 0) {
 					errorMsgs.add("姓名: 請勿空白");
 				} else if(!mem_name.trim().matches(mem_nameReg)) { //以下練習正則(規)表示式(regular-expression)
@@ -56,21 +59,12 @@ public class MemberServlet extends HttpServlet {
 	            }
 				String[] strRadio =  req.getParameterValues("mem_sex");
 				if(strRadio != null) {
-					for(int i = 0; i<strRadio.length; i++) {
-						System.out.println(strRadio[0]);	
+					for(int i = 0; i<strRadio.length; i++) {	
 					}
 				}
 				Integer mem_sex =  Integer.parseInt(strRadio[0]);
-				System.out.println(mem_sex);
 				
 				String mem_mail = req.getParameter("mem_mail");
-				//後端重複驗證
-				
-				
-				
-				
-				
-				
 //				if (mem_mail == null || mem_mail.trim().length() == 0) {
 //					errorMsgs.add("請填入信箱");
 //				}
@@ -83,7 +77,6 @@ public class MemberServlet extends HttpServlet {
 				}else {
 					mem_img = Preset;
 				}
-				
 				String mem_password = req.getParameter("mem_password");
 //				String mem_passwordReg = "^[(a-zA-Z0-9)]{6,20}$";
 //				if (mem_password == null || mem_password.trim().length() == 0) {
@@ -101,8 +94,6 @@ public class MemberServlet extends HttpServlet {
 //				if (mem_add == null || mem_add.trim().length() == 0) {
 //					errorMsgs.add("請填入地址");
 //				}
-				
-				
 				MemberClassVO memVO = new MemberClassVO();	
 				memVO.setMem_name(mem_name);
 				memVO.setMem_sex(mem_sex);
@@ -111,25 +102,50 @@ public class MemberServlet extends HttpServlet {
 				memVO.setMem_mobile(mem_mobile);
 				memVO.setMem_img(mem_img);
 				memVO.setMem_add(mem_add);
+				//mail 重複驗證
+				MemberService memSvc = new MemberService();
+				List<MemberClassVO> listall = memSvc.getAll();
+				for (MemberClassVO memVOList : listall) {
+					if (memVOList.getMem_mail().equals(mem_mail)) {
+						errorMsgs.add("信箱已被註冊，請重新輸入");
+					}
+				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/front_end/member/addMember.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front_end/signin/signup.jsp");
 					failureView.forward(req, res);
 					return;
 				}
-				
 				/***************************2.開始新增資料***************************************/
 				MemberService memberSvc = new MemberService();
 				memVO = memberSvc.addMember(mem_name, mem_sex, mem_mail, mem_password,mem_mobile,mem_img,mem_add,false);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				req.setAttribute("memVO", memVO);
-				String url = "/front_end/member/memberHome.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);				
+				HttpSession session  = req.getSession();
+				
+				Integer checkMem = memberSvc.getOneBymail(mem_mail).getMem_no();
+				MailService mail = new MailService();
+				String authCode = mail.getRandom();
+				String subject = "會員驗證碼";
+				String message = "感謝您註冊本網站會員，請輸入以下驗證碼完成註冊:" + authCode;
+				
+				
+				try {
+					mail.sendMail(mem_mail, subject, message);
+					session.setAttribute("checkMem", checkMem);
+		            session.setAttribute("authCode", authCode);
+		            res.sendRedirect(req.getContextPath() + "/front_end/signin/checkMember.jsp");
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+//				req.setAttribute("memVO", memVO);
+//				String url = "/front_end/member/memberHome.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req, res);				
 				/***************************其他可能的錯誤處理**********************************/
-			} catch (Exception e) {
+			}catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/member/addMember.jsp");
 				failureView.forward(req, res);
@@ -184,9 +200,9 @@ public class MemberServlet extends HttpServlet {
 					errorMsgs.add("請填入正確電話");
 				}
 				String mem_add = req.getParameter("mem_add");
-				if (mem_add == null || mem_add.trim().length() == 0) {
-					errorMsgs.add("請填入地址");
-				}
+//				if (mem_add == null || mem_add.trim().length() == 0) {
+//					errorMsgs.add("請填入地址");
+//				}
 				
 				MemberClassVO memVO = new MemberClassVO();
 				
@@ -277,6 +293,45 @@ public class MemberServlet extends HttpServlet {
 			
 
         }
+        if("forgetPassword".equals(action)) {
+        	
+        	List<String> errorMsgs = new LinkedList<String>();
+        	req.setAttribute("errorMsgs", errorMsgs);
+        	try {
+        		//請求
+        		String mem_mail = req.getParameter("mem_mail");
+				MemberService memSvc = new MemberService();
+				
+				List<MemberClassVO> listall = memSvc.getAll();
+				for (MemberClassVO memVOList : listall) {
+					if (memVOList.getMem_mail() != mem_mail) {
+						errorMsgs.add("信箱無註冊資料，請重新輸入");
+					}break;
+				}
+				MemberClassVO memVO = memSvc.getOneBymail(mem_mail);
+				MailService mail = new MailService();
+				String authCode = mail.getRandom();
+				
+				memSvc.updatePassword(authCode, memVO.getMem_no());
+				
+				String subject = "臨時密碼";
+				String message = "臨時密碼:" + authCode + "請登入後修改密碼";
+			
+
+				try {
+					mail.sendMail(mem_mail, subject, message);
+		            res.sendRedirect(req.getContextPath() + "/front_end/signin/signin.jsp");
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+        	}catch(Exception e) {
+        		errorMsgs.add(e.getMessage());
+        		RequestDispatcher failureView = req.getRequestDispatcher("/front_end/signin/forgetPassword.jsp");
+        		failureView.forward(req, res);
+        	}
+        	
+        	
+        }
         if("updateMemberstate".equals(action)) {
         	List<String> errorMsgs = new LinkedList<String>();
         	req.setAttribute("errorMsgs", errorMsgs);
@@ -290,13 +345,30 @@ public class MemberServlet extends HttpServlet {
         		memVO = memSvc.updateMemberstate(mem_state, mem_no);
         		
         		req.setAttribute("memVO", memVO);
-        		String url = "/front_end/member/listAllMember.jsp";
+        		String url = "/back_end/member/selectMemberPage.jsp";
         		RequestDispatcher success = req.getRequestDispatcher(url);
         		success.forward(req, res);
         		
         	}catch(Exception e) {
         		
         	}
+    	if("log_out".equals(action)) {
+    			HttpSession session = req.getSession();
+    			session.invalidate();
+    			//導回登入頁面-------------
+    			String url = "/front_end/index/index.jsp";
+    			RequestDispatcher successView = req.getRequestDispatcher(url);
+    			successView.forward(req, res);
+    		}
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
         	
         }
         

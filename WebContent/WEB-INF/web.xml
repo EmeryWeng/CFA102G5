@@ -118,7 +118,7 @@
     <servlet-name>MemberServlet</servlet-name>
     <url-pattern>/member/member.do</url-pattern>
   </servlet-mapping>
-  
+
   <servlet>
     <servlet-name>CreditcardServlet</servlet-name>
     <servlet-class>com.creditcard.controller.CreditcardServlet</servlet-class>
@@ -216,7 +216,20 @@
   	<servlet-name>EmployeeServlet</servlet-name>
   	<url-pattern>/EmployeeServlet.do</url-pattern>
   </servlet-mapping>
-
+  
+  <filter>
+		<filter-name>EmpLoginFilter</filter-name>
+		<filter-class>filter.EmpLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EmpLoginFilter</filter-name>
+		<url-pattern>/back_end/emp/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
 <!-- 員工結束   -->
   
 <!-- 客服功能開始 -->

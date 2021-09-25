@@ -41,4 +41,4 @@
   <b><font style="font-size:2.2rem;color:red;">第<%=whichPage%>/<%=pageNumber%>頁</font></b>
 <%}%>
 
-<b style="font-size:2.2rem">●符 合 查 詢 條 件 如 下 所 示: 共<font style="font-size:2.2rem;color:red;"><%=rowNumber%></font>筆</b>
+<b style="font-size:2.2rem">共<font style="font-size:2.2rem;color:red;"><%=rowNumber%></font>筆</b>

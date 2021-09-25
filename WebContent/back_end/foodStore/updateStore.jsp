@@ -66,8 +66,8 @@
 	</tr>
 	<tr>
 		<td>店家狀態:</td>
-		<td><input type="radio" name="fd_state"  value="true" checked>有此店家</td>
-		<td><input type="radio" name="fd_state"  value="false" >無此店家</td>
+		<td><input type="radio" name="fd_state"  value="true" ${(vo.fd_state==true)?'checked':'' }>有此店家</td>
+		<td><input type="radio" name="fd_state"  value="false" ${(vo.fd_state==false)?'checked':'' }>無此店家</td>
 	</tr>
 </table>
 <br>

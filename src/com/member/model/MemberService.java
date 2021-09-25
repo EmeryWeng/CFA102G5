@@ -7,7 +7,7 @@ public class MemberService {
 	private I_MemberClassDAO dao;
 	
 	public MemberService() {
-		dao = new MemberClassJDBCDAO();
+		dao = new MemberClassDAO();
 	}
 	
 	public MemberClassVO addMember(String mem_name,Integer mem_sex,String mem_mail,String mem_password,
@@ -60,8 +60,7 @@ public class MemberService {
 		MemberClassVO memberVO = new MemberClassVO();
 		memberVO.setMem_state(mem_state);
 		memberVO.setMem_no(mem_no);
-		
-		
+
 		dao.updateMemberstate(memberVO);
 		return memberVO;
 	}

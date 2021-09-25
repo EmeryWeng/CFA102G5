@@ -43,7 +43,7 @@
 	</tr>
 </table>
 	<div>
-		<a>原照片:<font color=red><b>*</b></font></a>
+		<a>原照片:</a>
 		<a><img src="${pageContext.request.contextPath}/FoodImgReader.do?fd_img_no=<%=foodImgVO.getFd_img_no()%>" style="width:250px;max-height:250px"></a>
 	</div>	
 	
