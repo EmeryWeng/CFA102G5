@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import com.activity.model.ActivityService;
 import com.activityOrder.model.ActivityOrderService;
-import com.activityOrder.model.ActivityOrderVO;
+import com.activityOrder.model.OrderVO;
+import com.creditcard.model.CreditcardService;
 import com.google.gson.Gson;
+import com.member.model.MemberClassVO;
+import com.member.model.MemberService;
 
 
 public class ActivityOrderServlet extends HttpServlet {
@@ -35,6 +37,40 @@ public class ActivityOrderServlet extends HttpServlet {
 		ActivityService actService = new ActivityService();
 System.out.println("action:"+action);		
 		
+//		同會員
+		if("sameAsMember".equals(action)) {
+			String mem_email = (String)request.getSession().getAttribute("mem_mail");
+			response.setCharacterEncoding("UTF-8");
+			MemberService memberService = new MemberService();
+			CreditcardService creditCardService = new CreditcardService();
+			MemberClassVO memberVO = memberService.getOneBymail(mem_email);
+			String cardNumber = creditCardService.getallByMem_no(memberVO.getMem_no())
+								.stream().map(card -> card.getCrd_num())
+								.findFirst().get();
+
+			
+			OrderVO vo = new OrderVO();
+			vo.setMem_title(memberVO.getMem_sex() == 1 ? "先生" : "女士");
+			vo.setMem_name(memberVO.getMem_name());
+			vo.setMem_phone(memberVO.getMem_mobile());
+			vo.setMem_email(memberVO.getMem_mail());
+			vo.setMem_creditCard(cardNumber);
+System.out.println(vo);			
+			Gson gson = new Gson();
+			PrintWriter out = response.getWriter();
+			out.write(gson.toJson(vo));
+			out.close();
+		}
+
+
+//		前台立即結帳頁面
+		if("immediateCheckout".equals(action)) {
+			request.getRequestDispatcher("/front_end/activity/checkout.jsp")
+			.forward(request, response);
+			
+			return;
+		}
+
 //		購物車開始
 		if("actShoppingCart".equals(action)) {
 			HttpSession session = request.getSession();
