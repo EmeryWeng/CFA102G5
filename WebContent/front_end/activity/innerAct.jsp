@@ -108,8 +108,11 @@
 										</div>
 										<div>
 											
-											<button type="button" id="addActToCarBtn" class="btn btn-rounded btn-primary" style="background-color:#30504F;left: 45rem;bottom: 0.5rem">
-												<span class="btn-icon-start text-primary"><i class='bx bxs-cart'></i></span>加入購物車
+											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:30rem;bottom: 0.5rem">
+												<span class="btn-icon-start addCar"><i class='bx bxs-cart'></i>加入購物車</span>
+											</button>
+											<button type="button" id="immediateCheckout" class="btn btn-info" style="left:32rem;bottom: 0.5rem">
+												<span class="btn-icon-start"><i class='bx bxs-cart'></i>立即結帳</span>
 											</button>
 										</div>
 									</form>
