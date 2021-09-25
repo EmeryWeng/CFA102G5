@@ -73,7 +73,7 @@ max-width:100%;
       			   </c:forEach>   
      			  </select>
      			  <input type="hidden" name="action" value="getStoreFK">
-    			   <input type="submit" value="送出" class="btn btn-primary">
+    			   <input type="submit" value="送出" class="btn btn-primary" style="width:150px">
    			 </FORM>
    			 	<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">

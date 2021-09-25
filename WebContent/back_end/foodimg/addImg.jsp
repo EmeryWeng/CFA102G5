@@ -46,11 +46,7 @@ width:300px;
         	<td><input type="hidden" name="fd_no" value="<%=fd_no%>"></td>
         </tr>
         <tr>
-<<<<<<< HEAD
-        <td><input type="file" name="fd_img" id="upload" onchange="loadImageFile(event)" required>
-=======
         <td><input type="file" accept="image/*" multiple name="fd_img" id="upload" onchange="loadImageFile(event)" required>
->>>>>>> dev
         <img id="image" src="" >
         </tr> 
         </table>
