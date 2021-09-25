@@ -13,7 +13,6 @@ img {
 }
 .actCarousel{
 	position: relative;
-    top: -6rem;
 }
 .read-more .read-more-title{
 	margin-bottom:5rem;
@@ -107,3 +106,7 @@ label.actPeopleNumberLabel{
     right:17rem;
 }
 button:focus{background-color:pink;}
+.addCar{
+	position:relative;
+	color:white;
+}
