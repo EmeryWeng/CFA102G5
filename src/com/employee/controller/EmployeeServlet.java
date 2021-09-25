@@ -23,22 +23,23 @@ public class EmployeeServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
-		
-		Integer emp_no = new Integer(req.getParameter("emp_no"));
-		EmpService ser = new EmpService();
-		EmployeeVO empVO = ser.getOneEmp(emp_no);
-		
-		req.setAttribute("empVO", empVO);
-		
-		String url = "back_end/emp/personal.jsp";
-			RequestDispatcher successView = req.getRequestDispatcher(url); 
-			successView.forward(req, res);
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		if("getOneEmp".equals(action)) {
+			Integer emp_no = new Integer(req.getParameter("emp_no"));
+			EmpService ser = new EmpService();
+			EmployeeVO empVO = ser.getOneEmp(emp_no);
+			
+			req.setAttribute("empVO", empVO);
+			
+			String url = "back_end/emp/personal.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+		}
 		if("log_out".equals(action)) {
 			HttpSession session = req.getSession();
 			session.invalidate();

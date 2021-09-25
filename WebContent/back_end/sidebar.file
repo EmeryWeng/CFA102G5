@@ -4,21 +4,6 @@
 			<ul class="metismenu" id="menu">
 				<li>
 					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-						<i class="flaticon-050-info"></i>
-						<span class="nav-text">示範</span>
-					</a>
-					<ul aria-expanded="false">
-						<li><a href="../template.html">這是不會展開的</a></li>
-						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">這是有下一層的</a>
-							<ul aria-expanded="false">
-								<li><a href="../template.html">1...</a></li>
-								<li><a href="/test/template2.html">2...</a></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
 						<i class='bx bxs-user-circle'></i>
 						<span class="nav-text">員工管理</span>
 					</a>
@@ -61,7 +46,12 @@
 								<li><a href="<%=request.getContextPath()%>/back_end/roomType/addRoomType.jsp">新增房型</a></li>
 							</ul>
 						</li>
-						<li><a href="<%=request.getContextPath()%>/back_end/room/listAllRoom.jsp">房間管理</a></li>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">房間管理</a>
+							<ul aria-expanded="false">
+								<li><a href="<%=request.getContextPath()%>/back_end/room/listAllRoom.jsp">房間列表</a></li>
+								<li><a href="<%=request.getContextPath()%>/back_end/room/addRoom.jsp">新增房間</a></li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 				<li>
@@ -71,7 +61,6 @@
 					</a>
 					<ul aria-expanded="false">
 						<li><a href="#">活動排程</a></li>
-						<li><a href="#">訂單管理</a></li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動類別管理</a>
 							<ul aria-expanded="false">
 								<li><a href="<%=request.getContextPath()%>/activity/ActivityClass?action=getAllActClass">活動類別列表</a></li>
@@ -90,10 +79,10 @@
 								<li><a href="<%=request.getContextPath()%>/activity/ActivitySession?action=getAll">活動場次列表</a></li>
 							</ul>
 						</li>
-						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動促銷管理</a>
+						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">訂單管理</a>
 							<ul aria-expanded="false">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/ActivityOrder?action=getAll">訂單列表</a></li>
+								<li><a href="<%=request.getContextPath()%>/activity/ActivityOrderDetail?action=getAll">訂單明細列表</a></li>
 							</ul>
 						</li>
 					</ul>

@@ -26,8 +26,10 @@
         <!-- Custom JS -->
         <script src="<%=request.getContextPath()%>/front_end/assets/js/custom.js"></script>
 		<!-- sweetalert2 JS -->
-		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>   
+		<!-- flatpickr datepicker CSS -->
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  
+        
         <script>
             $('#footer-message-btn').click(function(event){
                 event.preventDefault();

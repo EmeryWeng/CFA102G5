@@ -22,9 +22,36 @@ public class ActivityImageServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		if(action != null) {
+		ActivityImageService actImgService = null;
+		if("getAll".equals(action)) {
 			doPost(request,response);
-		}else{
+		}else if("frontImg".equals(action)) {
+			actImgService = new ActivityImageService();
+			Integer act_no = new Integer(request.getParameter("actNo").trim());
+			List<ActivityImageVO> list = actImgService.getActImageByActNo(act_no);
+			
+			byte[] imgArray = list.stream().findFirst().get().getAct_img();
+			ServletOutputStream out = response.getOutputStream();
+			out.write(imgArray);
+			out.close();
+			
+		}else if("actList".equals(action)) {
+			actImgService = new ActivityImageService();
+			Integer act_no = new Integer(request.getParameter("actNo").trim());
+			byte[] imgArray = actImgService.getActImageByActNo(act_no)
+						      .stream().findFirst().get().getAct_img();
+			ServletOutputStream out = response.getOutputStream();
+			out.write(imgArray);
+			out.close();
+						  
+		}else if("innerAct".equals(action)){
+			actImgService = new ActivityImageService();
+			Integer act_img_no = new Integer(request.getParameter("actImgNo").trim());
+			byte[] imgArray = actImgService.getActImageByPk(act_img_no).getAct_img();
+			ServletOutputStream out = response.getOutputStream();
+			out.write(imgArray);
+			out.close();
+		}else {
 			response.setContentType("img/jpeg");
 			String act_img_no = request.getParameter("act_img_no");
 			ActivityImageService actImageService = new ActivityImageService();

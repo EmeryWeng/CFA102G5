@@ -7,61 +7,22 @@
 
 <html>
 <head>
-<title>案件新增 - addServiceCases.jsp</title>
+<%@ include file="/back_end/commonCSS.file"%>
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
+<style></style>
 
 </head>
-<body bgcolor='white'>
-
+<body>
+	<%@ include file="/back_end/header.file"%>
+	<!-- Header -->
+	<%@ include file="/back_end/sidebar.file"%>
+	<!-- sidebar -->
+	<div class="main-content card card-body table-responsive">
 <table id="table-1">
 	<tr><td>
-		 <h3>案件回覆 - updateCase.jsp</h3></td><td>
-		 <h4><a href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">回首頁</a></h4>
+		 <h3><a href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">上一頁-案件列表</a></h3>
 	</td></tr>
 </table>
-
-<h3>案件回覆:</h3>
-
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
 
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do" name="form1">
 
@@ -96,18 +57,36 @@
   		<option value=2>處理完畢</option>
 		</select></td>
 	</tr>
-
+<tr>
+<td>
+						<%-- 錯誤表列 --%> <c:if test="${not empty errorMsgs}">
+							<font style="color: red"></font>
+							<ul>
+								<c:forEach var="message" items="${errorMsgs}">
+									<li style="color: red">${message}</li>
+								</c:forEach>
+							</ul>
+						</c:if>
+					</td>
+</tr>
 </table>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="case_no" value="<%=serviceCasesVO.getCase_no()%>">
 <input type="hidden" name="mem_no" value="<%=serviceCasesVO.getMem_no()%>">
 <input type="hidden" name="case_title" value="<%=serviceCasesVO.getCase_title()%>">
 <input type="hidden" name="case_des" value="<%=serviceCasesVO.getCase_des()%>">
-<input type="submit" value="送出修改"></FORM>
+<br><br>
+<input type="submit" class="btn btn-primary" value="送出修改">
 
-
-
+</FORM>
+</div>
 
 
 </body>
+<%@ include file="/back_end/commonJS.file"%>
+<script>
+	// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
+	$("#pagename").text("回覆案件");
+</script>
+
 </html>

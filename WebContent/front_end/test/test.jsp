@@ -12,7 +12,7 @@
 		
 		<div class="mt-5 mb-5 ptb-70 container">
 		
-<!-- 		● 以下到77行刪除  -->
+<!-- 		● 以下到83行刪除  -->
 
 			<h2>★ 外層容器的class</h2>
 			<p>● <strong>class="mt-5"</strong>，最外層或是第一個div class要加上，不然會被擋在header後面，margin-top: 3rem的意思 <br>
@@ -22,6 +22,12 @@
 
 			<hr><br>
 			
+			<h2>★ icon</h2>
+			<a href="https://boxicons.com/"><h3 style="color:red">boxicons</h3></a>
+			<p>使用方式：點選icon 複製Font裡的i標籤<br>
+			
+			<hr><br>
+
 			<h2>★ button</h2>
 			<p>前台的主要兩個button是咖啡色系，與後台的綠色系不同。<br>但是class名稱相同，同樣class="btn btn-primary" 在前台會變成咖啡色按鈕，在後台會變成綠色按鈕。<br>因前台使用按鈕的地方比較少，所以按鈕預設比較大顆(左右的padding比較大)</p>
 			<button type="button" class="btn btn-secondary">取消</button>
@@ -68,10 +74,10 @@
 			<a href="http://mishengqiang.com/sweetalert2/"><h3 style="color:red">中文官網</h3></a>
 			<br>
 			<button type="button" class="btn btn-info" onclick="addToCart()">
-				簡容版- 加入購物車
+				簡易版- 加入購物車
 			</button>
 			<button type="button" class="btn btn-success" onclick="autoClose()">
-				自動關閉版- 修改
+				自動關閉版- 加入購物車
 			</button>
 
 <!-- 		刪到這裡		 -->
@@ -96,7 +102,7 @@
         function autoClose() {
 			swal.fire({
 			  icon: 'success',  //常用的還有'error'
-			  title: '修改完成',
+			  title: '已加入購物車',
 			  showConfirmButton: false, //因為會自動關閉，所以就不顯示ok按鈕
 			  timer: 1000 // 單位毫秒，1秒後自動關閉跳窗
 			})

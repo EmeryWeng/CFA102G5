@@ -41,7 +41,7 @@
 			<!-- 新增圖片 -->
 			<form method="post" action="<%=request.getContextPath()%>/back_end/activity/actImg/addActImg.jsp">
 				<input type="hidden" name="action" value="addActImg">
-				<button type="submit" class="btn btn-primary">新增圖片</button>	
+				<button type="submit" class="btn btn-primary" style="top:0.6rem;">新增圖片</button>	
 			</form>
 		</div>
 			<table class="table">
@@ -54,7 +54,7 @@
 				</tr>
 			<%@ include file="/back_end/activity/pages/actImg/page1.file" %> 
 				<c:forEach var="actImgVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-				<tr ${(actImgVO.act_img_no == param.updateActImgNo) ? 'style="background-color:#CCCCFF;"':''}>
+				<tr ${(actImgVO.act_img_no == param.updateActImgNo) ? 'style="background-color:#FFE6FF;"':''}>
 					<th>${actImgVO.act_img_no}</th>
 					<td>
 						<c:forEach var="actVO" items="${actService.all}">

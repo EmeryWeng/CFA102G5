@@ -14,11 +14,13 @@
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/nice-select.min.css">
         <!-- Jquery Ui CSS -->
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/jquery-ui.css">
+        <!-- creditcard CSS -->
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/creditcard.css">
+        <!-- flatpickr datepicker CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <!-- Meanmenu CSS -->
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/meanmenu.css">
         <!-- Style CSS -->
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/style.css">
         <!-- RWD CSS -->
         <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/assets/css/responsive.css">
-        <!-- sweetalert2 CSS -->
-		<link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.min.css">

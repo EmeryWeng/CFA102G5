@@ -18,13 +18,13 @@
                         <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                             <ul class="navbar-nav m-auto">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="<%=request.getContextPath()%>/front_end/room/roomList.jsp" class="nav-link">
                                         房型介紹 
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        活動介紹
+                                    <a href="<%=request.getContextPath()%>/front_end/activity/actList.jsp" class="nav-link" style="text-decoration:none;">
+                                        活動介紹				
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -45,7 +45,7 @@
                             </ul>
                             <div class="nav-btn">
                                 <li >
-                                    <a href="#"><i class='bx bxs-cart'></i><span>0</span></a>
+                                    <a href="<%=request.getContextPath()%>/activity/ActivityOrder?action=lookShoppingCart"><i class='bx bxs-cart'></i><span id="carCount">${empty sessionScope.shoppingCar ? 0 : sessionScope.shoppingCar.size()}</span></a>
                                 </li>
                                 <li>
                                     <a href="<%=request.getContextPath()%>/front_end/member/memberHome.jsp"><i class='bx bxs-user' ></i></a>

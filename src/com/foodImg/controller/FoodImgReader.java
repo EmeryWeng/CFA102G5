@@ -17,6 +17,7 @@ public class FoodImgReader extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setContentType("image/jpeg");
+
 		FoodImgService vic = new FoodImgService();
 		ServletOutputStream out = res.getOutputStream();
 		
@@ -25,4 +26,8 @@ public class FoodImgReader extends HttpServlet {
 	    out.close();
 		  	
 	}
+
+
 }
+
+

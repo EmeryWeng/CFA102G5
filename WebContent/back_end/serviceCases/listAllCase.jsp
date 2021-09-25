@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    <%@ page import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
 <%@ page import="com.serviceCases.model.*"%>
     
 <%
@@ -12,7 +11,7 @@
     
 <html>
 <head>
-<%@ include file="../commonCSS.file" %>
+<%@ include file="/back_end/commonCSS.file" %>
 <title>所有案件資料 - listAllCase.jsp</title>
 <style>
   
@@ -62,7 +61,8 @@
 <!-- 			     <input type="submit" value="回覆"> -->
 			     <button type="submit" class="btn btn-primary" value="回覆">回覆</button>
 			     <input type="hidden" name="case_no" value="${serviceCasesVO.case_no}">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+			     <input type="hidden" name="action"	value="getOne_For_Update">
+			  </FORM>
 			</td>
 
 </tr>
@@ -72,16 +72,6 @@
   <li><a href="<%=request.getContextPath()%>/back_end/serviceCases/addCase.jsp">Add</a> a new Case.</li>
 </ul>
 </div>
-
-<%-- <%@ include file="page2.file" %> --%>
-
-<!-- <ul> -->
-<%--   <li><a href="<%=request.getContextPath()%>/back_end/serviceCases/addCase.jsp">Add</a> a new Case.</li> --%>
-<!-- </ul> -->
-
-
-
-
 
 
 <%@ include file="/back_end/commonJS.file" %>

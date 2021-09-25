@@ -55,7 +55,7 @@ public class CreditcardServlet extends HttpServlet {
 					errorMsgs.add("姓名為信用卡英文名稱");
 	            }
 				String crd_num = req.getParameter("crd_num");
-				if(crd_num == null || crd_num.trim().length() < 16 || crd_num.trim().length()>16) {
+				if(crd_num == null || crd_num.replace(" ","").length() < 16 || crd_num.replace(" ","").length()>16) {
 					errorMsgs.add("輸入正確卡號");
 				}
 				String crd_expiry = req.getParameter("crd_expiry");
@@ -78,14 +78,14 @@ public class CreditcardServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return;
 				}
-//				Integer mem_no = 1;
 				/***************************2.開始新增資料***************************************/
 				CreditcardService crdSvc = new CreditcardService();
 				crdVO = crdSvc.addCard(mem_no,crd_name,crd_num,crd_expiry,crd_security_code,crd_barcode);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
+				System.out.println(crdVO);
 				
 				req.setAttribute("list", crdSvc.getallByMem_no(mem_no));
-				String url = "/front_end/creditcard/listAllBymem_no.jsp";
+				String url = "/front_end/creditcard/creditcard.jsp";
 				
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);				
@@ -109,7 +109,7 @@ public class CreditcardServlet extends HttpServlet {
 				//轉交
 				HttpSession session = req.getSession();
 				session.setAttribute("list", list);
-				String url = "/front_end/creditcard/listAllBymem_no.jsp";
+				String url = "/front_end/creditcard/creditcard.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req,res);
 	
@@ -132,7 +132,7 @@ public class CreditcardServlet extends HttpServlet {
 				crdSvc.deleteCard(crd_no);;
 				//轉交
 //				System.out.println(requestURL);
-				if(requestURL.equals("/front_end/creditcard/listAllBymem_no.jsp")) {
+				if(requestURL.equals("/front_end/creditcard/creditcard.jsp")) {
 					req.setAttribute("list",crdSvc.getallByMem_no(mem_no));
 				}
 				String url = requestURL;

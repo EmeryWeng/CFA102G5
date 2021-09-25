@@ -60,8 +60,7 @@ public class MemberService {
 		MemberClassVO memberVO = new MemberClassVO();
 		memberVO.setMem_state(mem_state);
 		memberVO.setMem_no(mem_no);
-		
-		
+
 		dao.updateMemberstate(memberVO);
 		return memberVO;
 	}
