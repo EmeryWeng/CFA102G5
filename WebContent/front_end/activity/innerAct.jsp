@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/fotorama.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/activity/datetimepicker/jquery.datetimepicker.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/innerAct.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/act/innerAct.css" />
 
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyAJNpDkwnyNLU6eh829XsUUYdFdTx2YjJ"></script>
 
@@ -43,7 +43,7 @@
 							<!-- Tour Slider End -->
 
 							<!--輪播下的內容 -->
-							<div class="read-more collapsed" style="margin-top: -3rem;" id="actSessionDiv">
+							<div class="read-more collapsed" id="actSessionDiv">
 								<h1 class="read-more-title">
 									臺灣花蓮 | <span style="color: blue;" id="actName">${actVO.act_name}</span>
 								</h1>
@@ -107,11 +107,11 @@
 											<span style="position:relative;left:58rem;bottom:4rem;font-size:2.2rem;color:#46A3FF" id="actTotalPrice">${actVO.act_price}</span>
 										</div>
 										<div>
-											
+											<input type="hidden" name="action" value="immediateCheckout">
 											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:30rem;bottom: 0.5rem">
 												<span class="btn-icon-start addCar"><i class='bx bxs-cart'></i>加入購物車</span>
 											</button>
-											<button type="button" id="immediateCheckout" class="btn btn-info" style="left:32rem;bottom: 0.5rem">
+											<button type="submit" id="immediateCheckout" class="btn btn-info" style="left:32rem;bottom: 0.5rem">
 												<span class="btn-icon-start"><i class='bx bxs-cart'></i>立即結帳</span>
 											</button>
 										</div>
@@ -148,6 +148,7 @@
 		maxDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
 	});
 	
+//場次時間	
 	let currentRequest = null;
 	$('#actSessionStartTimeSelect').on('change',function(){
 		currentRequest = $.ajax({
