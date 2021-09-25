@@ -58,24 +58,30 @@ public class ActivityServlet extends HttpServlet {
 //		前台開始=======================================
 		//活動內部
 		if("frontAct".equals(action)) {
-			Integer act_no = new Integer(request.getParameter("actNo"));
-			ActivityVO actVO = actService.getActByPk(act_no);
-			ActivitySessionService actSessionService = new ActivitySessionService();
-			List<ActivitySessionVO> actSessionByActNo = actSessionService.getActSessionByActNo(act_no);
-			Integer actPeopleNumber = null;
-			
-			
-			actPeopleNumber = actOrderDetailService.getActOrderDetailByActSessionNo(actSessionByActNo.get(0).getAct_session_no())
-									  .stream()
-									  .mapToInt(detail -> detail.getAct_real_join_number())
-									  .sum();
-					
-			request.setAttribute("actPeopleNumber", actPeopleNumber);
-			request.setAttribute("actSessionByActNo",actSessionByActNo);
-			request.setAttribute("actVO",actVO);
-			request.getRequestDispatcher("/front_end/activity/innerAct.jsp")
-			.forward(request, response);
-			return;
+			try {
+				Integer act_no = new Integer(request.getParameter("actNo"));
+				ActivityVO actVO = actService.getActByPk(act_no);
+				ActivitySessionService actSessionService = new ActivitySessionService();
+				List<ActivitySessionVO> actSessionByActNo = actSessionService.getActSessionByActNo(act_no);
+				Integer actPeopleNumber = null;
+				
+				
+				actPeopleNumber = actOrderDetailService.getActOrderDetailByActSessionNo(actSessionByActNo.get(0).getAct_session_no())
+										  .stream()
+										  .mapToInt(detail -> detail.getAct_real_join_number())
+										  .sum();
+						
+				request.setAttribute("actPeopleNumber", actPeopleNumber);
+				request.setAttribute("actSessionByActNo",actSessionByActNo);
+				request.setAttribute("actVO",actVO);
+				request.getRequestDispatcher("/front_end/activity/innerAct.jsp")
+				.forward(request, response);
+				return;
+			}catch(Exception ex) {
+				request.getRequestDispatcher("/front_end/activity/actList.jsp")
+				.forward(request, response);
+				return;
+			}
 		}
 		//活動頁面 搜尋時
 		if("queryByActClass".equals(action)) {
