@@ -71,7 +71,7 @@
 		<td><input type="checkbox"  name="fd_service" value="便利支付" <%if(vo.getFd_service().contains("便利支付")==true) out.println("checked");%>>便利支付</td>
 		<td><input type="checkbox"  name="fd_service" value="提供素食" <%if(vo.getFd_service().contains("提供素食")==true) out.println("checked");%>>提供素食</td>
 		<td><input type="checkbox"  name="fd_service" value="哺(集)乳室" <%if(vo.getFd_service().contains("哺(集)乳室")==true) out.println("checked");%>>哺(集)乳室</td>
-		<td><input type="checkbox"  name="fd_service" value="停車場" <%if(vo.getFd_service().contains("停車場")==true) out.println("停車場");%>>停車場</td>
+		<td><input type="checkbox"  name="fd_service" value="停車場" <%if(vo.getFd_service().contains("停車場")==true) out.println("checked");%>>停車場</td>
 	</tr>
 	<tr>
 		<td>店家狀態:</td>
