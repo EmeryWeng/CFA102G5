@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.tribes.util.Arrays;
+
 import com.foodStore.model.*;
 
 public class FoodStoreServlet extends HttpServlet {
@@ -72,7 +75,8 @@ public class FoodStoreServlet extends HttpServlet {
             }
 			Double fd_latitude = new Double(fd_latitude1);		//正則表示後轉型成DOUBLE
 			
-			String fd_service = req.getParameter("fd_service");
+			String[] fd_service1 = req.getParameterValues("fd_service");
+			String fd_service = Arrays.toString(fd_service1);
 			
 			Boolean fd_state = new Boolean(req.getParameter("fd_state"));
 			if (!errorMsgs.isEmpty()) {
@@ -130,8 +134,9 @@ public class FoodStoreServlet extends HttpServlet {
             }
 			Double fd_latitude = new Double(fd_latitude1);		//正則表示後轉型成DOUBLE
 			
-			String fd_service = req.getParameter("fd_service");
-			
+			String[] fd_service1 = req.getParameterValues("fd_service");
+			String fd_service = Arrays.toString(fd_service1);
+						
 			Boolean fd_state = new Boolean(req.getParameter("fd_state"));
 			if (!errorMsgs.isEmpty()) {
 				RequestDispatcher failureView = req
@@ -172,13 +177,14 @@ public class FoodStoreServlet extends HttpServlet {
 				 storeVO = ser.findfdByFK(fd_class_no);
 				if(storeVO.size()==0) {
 					errorMsgs.add("查無此類別店家");
-					if (!errorMsgs.isEmpty()) {
-						RequestDispatcher failureView = req
-								.getRequestDispatcher("/front_end/storeMap/storeMap.jsp");
-						failureView.forward(req, res);
-						return;
 					}
-				}	
+				}
+			
+			if (!errorMsgs.isEmpty()) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front_end/storeMap/storeMap.jsp");
+				failureView.forward(req, res);
+				return;
 			}
 			req.setAttribute("storeVO", storeVO);
 			String url = "front_end/storeMap/storeMap.jsp";

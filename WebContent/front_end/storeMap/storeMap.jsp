@@ -91,16 +91,18 @@ max-width:100%;
 				<th>店家類別</th>
 				<th>店家名稱</th>
 				<th>店家地址</th>
+				<th>店家服務</th>
 			</tr>
 			<c:forEach var="storeVO" items="${storeVO}">
 		
 				<tr onclick="initMap(${storeVO.fd_longitude},${storeVO.fd_latitude})" style="border: 1px solid #F6F7F7;">
 					<td><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:125px;height:125px"></td>
-					<td>
+					<td style="border: 1px solid #999;">
 						${storeSvc.getClassPK(storeVO.fd_class_no).fd_class_name}
 					</td>
-					<td>${storeVO.fd_name}</td>
-					<td>${storeVO.fd_address}</td>
+					<td style="border: 1px solid #999;">${storeVO.fd_name}</td>
+					<td style="border: 1px solid #999;">${storeVO.fd_address}</td>
+					<td style="border: 1px solid #999;">${storeVO.fd_service}</td>
 				</tr>
 			</c:forEach>
 				</table>
@@ -112,7 +114,7 @@ max-width:100%;
          <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
        	 <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
  </div>
-<script src="http://maps.google.com/maps/api/js?key=AIzaSyArfUAIQgXQuAQZ8vViswotNOMyWb35r9k">
+<script src="http://maps.google.com/maps/api/js?key=zaSyArfUAIQgXQuAQZ8vViswotNOMyWb35r9k">
 </script>
 <script>
 var map;

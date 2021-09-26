@@ -9,6 +9,7 @@ FoodStoreVO storeVO = (FoodStoreVO) request.getAttribute("storeVO");
 <html>
 <head>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
+
 </head>
 <body>
 		<%@ include file="/back_end/header.file" %> <!-- Header -->
@@ -49,8 +50,16 @@ FoodStoreVO storeVO = (FoodStoreVO) request.getAttribute("storeVO");
 	</tr>
 	<tr>
 		<td>服務:</td>
-		<td><input type="text"  name="fd_service" size="20"
-			 value="<%=(storeVO==null)? "" :storeVO.getFd_service()%>" /></td>
+		<td><input type="checkbox"  name="fd_service" value="內用">內用</td>
+		<td><input type="checkbox"  name="fd_service" value="外帶">外帶</td>
+		<td><input type="checkbox"  name="fd_service" value="外送">外送</td>
+		<td><input type="checkbox"  name="fd_service" value="Free WiFi">Free WiFi</td>
+		<td><input type="checkbox"  name="fd_service" value="提供廁所">提供廁所</td>
+		<td><input type="checkbox"  name="fd_service" value="適合親子">適合親子</td>
+		<td><input type="checkbox"  name="fd_service" value="便利支付">便利支付</td>
+		<td><input type="checkbox"  name="fd_service" value="提供素食">提供素食</td>
+		<td><input type="checkbox"  name="fd_service" value="哺(集)乳室">哺(集)乳室</td>
+		<td><input type="checkbox"  name="fd_service" value="停車場">停車場</td>
 	</tr>
 	<tr>
 		<td>狀態:</td>

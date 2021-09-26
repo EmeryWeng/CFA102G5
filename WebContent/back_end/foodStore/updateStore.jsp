@@ -30,13 +30,13 @@
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodStoreServlet.do" name="form1">
 <table id="example4" class="display" style="min-width: 845px">
 	<tr>
-		<td>店家編號:<font color=red><b>*</b></font></td>
+		<td>店家編號:</td>
 		<td><%=vo.getFd_no()%></td>
 	</tr>
 	
 	<jsp:useBean id="fdsvc" scope="page" class="com.foodClass.model.FoodClassService" />
 	<tr>
-		<td>店家類別:<font color=red><b>*</b></font></td>
+		<td>店家類別:</td>
 		<td><select size="1" name="fd_class_no" >
 			<c:forEach var="fdsvcVO" items="${fdsvc.all}">
 				<option value="${fdsvcVO.fd_class_no}" ${(vo.fd_class_no==fdsvcVO.fd_class_no)?'selected':'' } >${fdsvcVO.fd_class_name}
@@ -62,7 +62,16 @@
 	</tr>
 	<tr>
 		<td>店家服務:</td>
-		<td><input type="TEXT" name="fd_service" size="50" value="<%=vo.getFd_service()%>" /></td>
+		<td><input type="checkbox"  name="fd_service" value="內用" <%if(vo.getFd_service().contains("內用")==true) out.println("checked");%>>內用</td>
+		<td><input type="checkbox"  name="fd_service" value="外帶" <%if(vo.getFd_service().contains("外帶")==true) out.println("checked");%>>外帶</td>
+		<td><input type="checkbox"  name="fd_service" value="外送" <%if(vo.getFd_service().contains("外送")==true) out.println("checked");%>>外送</td>
+		<td><input type="checkbox"  name="fd_service" value="Free WiFi" <%if(vo.getFd_service().contains("Free WiFi")==true) out.println("checked");%>>Free WiFi</td>
+		<td><input type="checkbox"  name="fd_service" value="提供廁所" <%if(vo.getFd_service().contains("提供廁所")==true) out.println("checked");%>>提供廁所</td>
+		<td><input type="checkbox"  name="fd_service" value="適合親子" <%if(vo.getFd_service().contains("適合親子")==true) out.println("checked");%>>適合親子</td>
+		<td><input type="checkbox"  name="fd_service" value="便利支付" <%if(vo.getFd_service().contains("便利支付")==true) out.println("checked");%>>便利支付</td>
+		<td><input type="checkbox"  name="fd_service" value="提供素食" <%if(vo.getFd_service().contains("提供素食")==true) out.println("checked");%>>提供素食</td>
+		<td><input type="checkbox"  name="fd_service" value="哺(集)乳室" <%if(vo.getFd_service().contains("哺(集)乳室")==true) out.println("checked");%>>哺(集)乳室</td>
+		<td><input type="checkbox"  name="fd_service" value="停車場" <%if(vo.getFd_service().contains("停車場")==true) out.println("停車場");%>>停車場</td>
 	</tr>
 	<tr>
 		<td>店家狀態:</td>
@@ -79,6 +88,7 @@
 <script>
 // 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
 			$("#pagename").text("修改店家資料");
+			
 		</script>
 		
 </body>
