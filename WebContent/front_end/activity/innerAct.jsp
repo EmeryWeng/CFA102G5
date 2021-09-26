@@ -86,7 +86,7 @@
 											<p>
 												<b style="margin-left: 0.5rem;">請選擇出發日期</b>
 											</p>
-											<input type="text"  id="act_date">
+											<input type="text" name="act_date" id="act_date">
 										</div>
 
 										<div class="actSessionStartTime">
@@ -97,7 +97,7 @@
 												</c:forEach>
 											</select> 
 											<label for="actPeopleNumber" class="actPeopleNumberLabel"><b>人數:</b></label>
-											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" class="actPeopleNumberInput" value="1"> 
+											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" value="1"> 
 											<input type="hidden" id="totalPeople" value="${actPeopleNumber}"> 
 												<i class='bx bx-plus-circle plusIcon' id="actPricePlusBtn" onclick="plus();"></i> 
 												<i class='bx bx-minus-circle minusIcon' id="actPriceMinusBtn" onclick="minus();"></i>
@@ -108,6 +108,8 @@
 										</div>
 										<div>
 											<input type="hidden" name="action" value="immediateCheckout">
+											<input type="hidden" name="act_name" value="${actVO.act_name}">
+											<input type="hidden" name="act_price" value="${actVO.act_price}">
 											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:30rem;bottom: 0.5rem">
 												<span class="btn-icon-start addCar"><i class='bx bxs-cart'></i>加入購物車</span>
 											</button>
@@ -160,6 +162,7 @@
 			},
 			success:function(response){
 				$("#totalPeople").val(response);
+				$("#actTotalPrice").text($("#actPeopleNumber").val() * ${actVO.act_price});
 				currentRequest.abort();
 			}
 		});
@@ -183,9 +186,14 @@
 				actPeopleNumber:$("#actPeopleNumber").val(),
 			},
 			success:function(response){
+console.log(response);				
 				if(response.includes("update")){
+let count = response.charAt(response.length);
+console.log(response.length);
+// console.log(count);
+console.log(response);					
 					autoCloseUpdate();
-					$("#carCount").text(response.charAt(8));
+					$("#carCount").text(response.charAt(response.length-1));
 					shoppingCarRequest.abort();
 				}else{
 					autoCloseForShoppingCar();
