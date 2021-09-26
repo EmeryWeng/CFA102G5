@@ -9,10 +9,31 @@
 <link href="<%=request.getContextPath()%>/front_end/activity/css/act/addAct.css" rel="stylesheet">
 
 <style>
+html{
+	font-size:62.5%;
+}
 .col-lg-6 {
 	position: relative;
 	left: -1rem;
 	margin-top: 1rem;
+}
+#sameAsMember{
+	position: relative;
+    left: -8rem;
+    top: -5.4rem;
+    height: 2rem;
+}
+.totalPriceDiv{
+	margin-left: 38rem;
+}
+input{
+	border:1px solid gray !important;
+}
+.table tr th{
+	font-size:2rem;
+}
+input:focus{
+	border:1px solid red !important;
 }
 </style>
 </head>
@@ -31,21 +52,20 @@
 					<div class="card-header">
 						<h1 class="card-title" style="font-size: 3rem; color: green;">訂購人資料</h1>
 					</div>
-					<div>
+					<div class="col-lg-4" style="height:7rem;">
 						<label class="col-form-label" for="sameAsMember">同會員</label>
 						<input type="checkbox" id="sameAsMember">
 					</div>
 					<div class="card-body">
 						<div class="form-validation">
-							<form id="checkoutForm" class="needs-validation" method="post" action="<%=request.getContextPath()%>/activity/Activity">
+							<form id="checkoutForm" class="needs-validation" method="post" action="<%=request.getContextPath()%>/activity/ActivityOrder">
 								<div class="row">
 									<div class="col-xl-6">
 										<div class="mb-3 row">
-											<label class="col-lg-4 col-form-label">稱謂 <span class="text-danger">*</span></label>
+											<label class="col-lg-4 col-form-label" style="top:-1.5rem;">稱謂 <span class="text-danger">*</span></label>
 											<select name="actOrderTitleSelect" class="select" id="actOrderTitleSelect" style="position: relative; top: 1.5rem;">
-												<c:forEach var="orderTitle" items="${actOrderService.getAll().stream().map(order -> order.getAct_order_title()).toList()}">
-													<option value="${orderTitle}">${orderTitle}</option>
-												</c:forEach>
+												<option value="先生">先生</option>							
+												<option value="女士">女士</option>							
 											</select>
 										</div>
 
@@ -55,7 +75,7 @@
 											</label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control" name="orderName"
-													id="orderName" max="5" value="${addAct_actVO.act_name}">
+													id="orderName" maxlength="4" placeholder="請輸入中文名" value="${addAct_actVO.act_name}">
 											</div>
 										</div>
 										<div class="mb-3 row">
@@ -63,8 +83,7 @@
 												<span class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6">
-												<input type="tel" id="orderPhone" class="form-control"
-													pattern="[0-9]{10}" value="${addAct_actVO.act_price}">
+												<input type="tel" name="orderPhone" id="orderPhone" class="form-control" maxlength="10" value="${addAct_actVO.act_price}">
 											</div>
 										</div>
 										<div class="mb-3 row">
@@ -72,27 +91,79 @@
 												<span class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6">
-												<input type="email" name="orderEmail" id="orderEmail"
+												<input type="text" name="orderEmail" id="orderEmail"
 													class="form-control">
 											</div>
 										</div>
 										<div class="mb-3 row">
-											<label class="col-lg-4 col-form-label" for="orderCreditCard">信用卡號
+											<label class="col-lg-4 col-form-label" for="orderCreditCard">信用卡卡號
 												<span class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6">
-												<input type="tel" id="orderCreditCard" pattern="[0-9]{16}" title="請輸入信用卡16位數字" placeholder="請輸入16位數字" name="orderCreditCard" class="form-control">
+												<input type="tel" id="orderCreditCard" placeholder="請輸入16位數字" maxlength="16" name="orderCreditCard" class="form-control">
 											</div>
+										</div>
+									</div>
+									
+									<div class="col-xl-6" style="border:1px solid gray">
+										<h1 style="color:#007979">結帳明細</h1>
+										<div class="table-responsive">
+											<table class="table">
+												<tr>
+													<th>活動名稱</th>
+													<th>開始日期</th>
+													<th>開始時間</th>
+													<th>人數</th>
+													<th>金額</th>
+												</tr>
+												<c:choose>		
+													<c:when test="${not empty requestScope.checkout_act_name}">
+														<tbody>
+															<tr class="top-class">
+																<td class="product-name">${checkout_act_name}</td>
+																<td class="product-price"><span class="unit-amount">${checkout_act_date}</span></td>
+																<td class="product-quantity">
+																	<span class="minus-btn">${checkout_act_time}</span>											
+																</td>
+																<td class="product-subtotal"><span class="subtotal-amount">${checkout_poepleNumber}</span></td>
+																<td class="product-subtotal"><span class="subtotal-amount actPrice">${checkout_oneOrderPrice}</span></td>															
+															</tr>
+														</tbody>
+														<input type="hidden" name="checkoutAction" value="immediateCheckout">
+														<input type="hidden" name="actSessionDate" value="${checkout_act_date}">
+														<input type="hidden" name="actSessionTime" value="${checkout_act_time}">
+														<input type="hidden" name="actRealJoinNumber" value="${checkout_poepleNumber}">
+														<input type="hidden" name="actOrderPrice" value="${checkout_oneOrderPrice}">
+													</c:when>
+													<c:otherwise>
+														<c:forEach var="map" items="${shoppingCar}">		
+															<tr class="top-class">
+																<td class="product-name">${map["act_name"]}</td>
+																<td class="product-price"><span class="unit-amount">${map["act_date"]}</span></td>
+																<td class="product-quantity">
+																	<span class="minus-btn">${map["act_session_start_time"]}</span>											
+																</td>
+																<td class="product-subtotal"><span class="subtotal-amount">${map["act_people_number"]}</span></td>
+																<td class="product-subtotal"><span class="subtotal-amount actPrice totalPrice">${map["act_price"] * map["act_people_number"]}</span></td>
+															</tr>
+														</c:forEach>
+														<input type="hidden" name="checkoutAction" value="shoppingCarCheckout">
+													</c:otherwise>
+												</c:choose>
+											</table>
+										</div>
+										<div class="totalPriceDiv">
+											<h2>總金額：${checkout_oneOrderPrice + totalPrice}</h2>
 										</div>
 									</div>
 								</div>
 								<input type="hidden" name="action" value="checkout">
-								<div class="mb-3 row twoBtn">
-									<div class="col-lg-2">
-										<button type="button" class="btn btn-primary" onclick="check();">確定</button>
-									</div>
-									<div class="col-lg-2">
-										<button type="reset" class="btn btn-secondary btn">重填</button>
+								<input type="hidden" name="orderTotalPrice" value="${checkout_oneOrderPrice + totalPrice}">
+								
+								<div class="mb-3 row">
+									<div class="col-lg-12" style="left:17rem;">
+										<button type="button" class="btn btn-primary" onclick="check();">結帳</button>
+										<button type="reset" class="btn btn-secondary btn" style="margin-left:2rem;font-size:2rem">重填</button>
 									</div>
 								</div>
 							</form>
@@ -108,6 +179,7 @@
     <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 --> 
     
 	<script>
+	
 	let currentRequest = null;
 		$("#sameAsMember").change(function(){
 			if(this.checked){
@@ -122,8 +194,15 @@
 						let obj = JSON.parse(response);
 						
 						console.log(obj);
-						
-						$("#actOrderTitleSelect select").val(obj.mem_title);
+						console.log(obj.mem_title);
+						console.log(obj.mem_title === '先生');
+// 						if(obj.mem_title === '先生'){
+// 							$("#actOrderTitleSelect option:first").prop("selected",true);
+// 						}else{
+// 							$("#actOrderTitleSelect option:last").prop("selected",true);
+// 						}
+						let opt = document.getElementById('actOrderTitleSelect');
+						opt.options[opt.selectedIndex].text = obj.mem_title;
 						$("#orderName").val(obj.mem_name);
 						$("#orderPhone").val(obj.mem_phone);
 						$("#orderEmail").val(obj.mem_email);
@@ -140,27 +219,55 @@
 		});
 		
 		function check(){
-			let name = document.getElementById('orderName').value;
-			let phone = document.getElementById('orderPhone').value;
-			let email = document.getElementById('orderEmail').value;
-			let creditCard = document.getElementById('orderCreditCard').value;
+			let pattern = "[\u4e00-\u9fa5]{3,4}";
+			let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			let name = document.getElementById('orderName');
+			let phone = document.getElementById('orderPhone');
+			let email = document.getElementById('orderEmail');
+			let creditCard = document.getElementById('orderCreditCard');
 			let form = document.getElementById('checkoutForm');
-			if(name === ''){
-				autoClose();
+			if(name.value === ''){
+				alert("名稱請勿空白");
 				name.focus();
 				return false;
 			}
-			if(phone === ''){
-				autoClose();
+			if(!(name.value.match(pattern))){
+				alert("請輸入3-4個中文作為名稱");
+				name.focus();
+				return false;
+			}
+			if(phone.value === ''){
+				alert("電話請勿空白");
 				phone.focus();
 				return false;
 			}
-			if(creditCard === ''){
-				autoClose();
+			if(!phone.value.match("^09[0-9]{8}")){
+				alert("電話不符合格式");
+				phone.focus();
+				return false;
+			}
+			if(email.value === ''){
+				alert("Email請勿空白");
+				email.focus();
+				return false;
+			}
+			if(!email.value.match(mailformat)){
+				alert("Email不符合格式");
+				email.focus();
+				return false;
+			}
+			if(!creditCard.value.match("[0-9]{16}")){
+				alert("請輸入16位信用卡卡號");
 				creditCard.focus();
 				return false;
 			}
-			
+			if(creditCard.value === ''){
+				alert("信用卡卡號請勿空白");
+				creditCard.focus();
+				return false;
+			}
+			successCheckout();
+			form.submit();
 		}
 		
 		function autoClose() {
@@ -172,6 +279,16 @@
 			// 單位毫秒，1秒後自動關閉跳窗
 			})
 		}
+		function successCheckout() {
+			swal.fire({
+				icon : 'success', //常用的還有'error'
+				title : '付款成功',
+				showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+				timer : 500
+			// 單位毫秒，1秒後自動關閉跳窗
+			})
+		}
+		
 		// ● 可在這更改header的標題，不寫也可以，但請變成空字串 
 		$("#pagename").text("");
 	</script>
