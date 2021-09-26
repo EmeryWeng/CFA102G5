@@ -105,7 +105,6 @@ label.actPeopleNumberLabel{
     top:0.5rem;
     right:17rem;
 }
-button:focus{background-color:pink;}
 .addCar{
 	position:relative;
 	color:white;
