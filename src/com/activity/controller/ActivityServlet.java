@@ -39,9 +39,7 @@ public class ActivityServlet extends HttpServlet {
 //											.stream().count();
 		final Integer act_evaluation_number = 0;
 		
-		Integer act_sell_number = (int)actOrderDetailService.getAll()
-											.stream().filter(orderDetail -> orderDetail.getAct_order_detail_state() != 2)
-											.count(); //寫錯的 之後等訂單做好 才能追加 同場活動 計算累計銷售人數
+		Integer act_sell_number = 0; //寫錯的 之後等訂單做好 才能追加 同場活動 計算累計銷售人數
 												      //一產生訂單 就去改變對應活動的累計銷售人數
 		
 //		Double act_average_star_number = (double)actEvaluationService.getAll().stream()
@@ -258,7 +256,10 @@ public class ActivityServlet extends HttpServlet {
 					.forward(request, response);
 					return;
 				}
-						
+				
+			//取得目前活動的累積銷售人數
+			act_sell_number = actService.getActByPk(act_no).getAct_sell_number();
+				
 			//活動評價總人數、活動平均星數  要靠撈活動評價table 以及 會員評價總星數/活動評價總人數			
 			actService.updateAct(act_no,act_class_no, act_name, act_price, act_location, act_schedule_time, act_instruction, act_gather_location, act_location_longitude, act_location_latitude, act_sell_number, act_join_number, act_evaluation_number, act_average_star_number, act_state);
 			//修改時 欄位無誤的情況	-> selectAct.jsp
