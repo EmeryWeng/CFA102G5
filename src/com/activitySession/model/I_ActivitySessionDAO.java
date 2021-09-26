@@ -9,4 +9,5 @@ public interface I_ActivitySessionDAO {
 	public ActivitySessionVO findByPk(Integer act_session_no);
 	public List<ActivitySessionVO> findByActNo(Integer act_no);
 	public List<ActivitySessionVO> getAll();
+	public void updateActSessionRealNumber(Integer act_session_no,Integer act_session_real_number);
 }
