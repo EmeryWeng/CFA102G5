@@ -37,7 +37,8 @@ public class ActivityDAO implements I_ActivityDAO{
 			+ ",act.act_evaluation_number,act.act_average_star_number"
 			+ " FROM ACTIVITY act JOIN ACTIVITY_CLASS actClass"
 			+ " ON act.act_class_no = actClass.act_class_no";
-
+	private final String UPDATE_ACTIVITY_SELL_NUMBER_SQL = "UPDATE ACTIVITY SET act_sell_number = ? WHERE act_no = ?";
+	
 	static {	
 		try {
 			ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/TestDB");
@@ -433,6 +434,31 @@ public class ActivityDAO implements I_ActivityDAO{
 			ps.setBoolean(1,act_state);
 			ps.setInt(2,act_no);
 			
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void updateActSellNumber(Integer act_no, Integer act_sell_number) {
+		Connection con = null;
+		
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(UPDATE_ACTIVITY_SELL_NUMBER_SQL);
+			ps.setInt(1,act_sell_number);
+			ps.setInt(2,act_no);
+
 			ps.executeUpdate();
 
 		} catch (SQLException ex) {
