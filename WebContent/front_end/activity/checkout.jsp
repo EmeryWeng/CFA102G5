@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Feliz-後台</title>
+<title>Feliz Hotel</title>
 <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/front_end/activity/css/act/addAct.css" rel="stylesheet">
 
