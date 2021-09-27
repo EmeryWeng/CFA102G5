@@ -105,12 +105,17 @@
 	<!-- Footer -->
 	<%@ include file="/front_end/commonJS.file"%>
 	<!-- 基本JS檔案 -->
-	
+
 <script>
-	
+
 	function checkCar(){
 		if(parseInt('${shoppingCar.size()}') === 0){
 			autoClose();
+			return false;
+		}
+		if('${mem_mail}' === ''){
+			notLogin();
+			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
 			return false;
 		}
 		document.getElementById('checkoutForm').submit();
@@ -165,8 +170,7 @@
 						deleteAllRequest.abort();
 					}
 				})
-		    
-		  }
+		  	 }
 		})
 	});
 	
@@ -174,6 +178,15 @@
 		swal.fire({
 			icon : 'error', //常用的還有'error'
 			title : '購物車空的',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
+	}
+	function notLogin() {
+		swal.fire({
+			icon : 'error', //常用的還有'error'
+			title : '請先登入',
 			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
 			timer : 1000
 		// 單位毫秒，1秒後自動關閉跳窗
