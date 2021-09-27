@@ -80,7 +80,7 @@
 							<!--右側結束 -->
 							<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
 								<div class="actSession">
-									<form id="shoppingCartForm" action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post">
+									<form id="immediateCheckoutForm" action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post">
 										<div>
 											<label id="actSessionLabel"><h3>選擇日期</h3></label>
 											<p>
@@ -113,7 +113,7 @@
 											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:30rem;bottom: 0.5rem">
 												<span class="btn-icon-start addCar"><i class='bx bxs-cart'></i>加入購物車</span>
 											</button>
-											<button type="submit" id="immediateCheckout" class="btn btn-info" style="left:32rem;bottom: 0.5rem">
+											<button type="button" id="immediateCheckout" onclick="check();" class="btn btn-info" style="left:32rem;bottom: 0.5rem">
 												<span class="btn-icon-start"><i class='bx bxs-cart'></i>立即結帳</span>
 											</button>
 										</div>
@@ -149,7 +149,16 @@
 		minDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
 		maxDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
 	});
-	
+//檢查立即結帳時有無登入
+	function check(){
+		if('${mem_mail}' === ''){
+			notLogin();
+			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
+			return false;
+		}
+		document.getElementById('immediateCheckoutForm').submit();
+	}
+
 //場次時間	
 	let currentRequest = null;
 	$('#actSessionStartTimeSelect').on('change',function(){
@@ -203,13 +212,8 @@
 				actTime:$("#actSessionStartTimeSelect option:selected").text(),
 				actPeopleNumber:$("#actPeopleNumber").val(),
 			},
-			success:function(response){
-console.log(response);				
-				if(response.includes("update")){
-let count = response.charAt(response.length);
-console.log(response.length);
-// console.log(count);
-console.log(response);					
+			success:function(response){				
+				if(response.includes("update")){					
 					autoCloseUpdate();
 					$("#carCount").text(response.charAt(response.length-1));
 					shoppingCarRequest.abort();
@@ -221,8 +225,6 @@ console.log(response);
 			}
 		});
 	});
-	
-	
 	
 	
 	document.getElementById('actPriceMinusBtn').disabled = true;
@@ -355,6 +357,15 @@ console.log(response);
 		swal.fire({
 			icon : 'success', //常用的還有'error'
 			title : '購物車項目已更新',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
+	}
+	function notLogin() {
+		swal.fire({
+			icon : 'error', //常用的還有'error'
+			title : '請先登入',
 			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
 			timer : 1000
 		// 單位毫秒，1秒後自動關閉跳窗
