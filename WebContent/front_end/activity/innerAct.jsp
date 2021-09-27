@@ -161,14 +161,32 @@
 				sessionNo:$("#actSessionStartTimeSelect option:selected").val(),			
 			},
 			success:function(response){
-				$("#totalPeople").val(response);
-				$("#actTotalPrice").text($("#actPeopleNumber").val() * ${actVO.act_price});
+				$("#totalPeople").val(response);//帶回來該場次目前有多少人
+				$("#actPeopleNumber").val(1);//當change事情發生 要把該人數設回1
+				$("#actTotalPrice").text($("#actPeopleNumber").val() * ${actVO.act_price});//總價
+// 				一定要先設定值
+				
+				let myInput = document.getElementById('actPeopleNumber');
+				let plusBtn = document.getElementById('actPricePlusBtn');
+				let minus	= document.getElementById('actPriceMinusBtn');
+				
+				if(parseInt(response) >= 10){
+					alert("不好意思，該場次人數已達上限!");
+					plusBtn.disabled = true;
+					plusBtn.setAttribute("style","color:gray;");
+				}
+				if(parseInt(myInput.value) + parseInt(response) < 10){
+										
+					plusBtn.disabled = false;
+					plusBtn.removeAttribute("style","color:gray;");
+				}
+				minus.setAttribute("style","color:gray;");
+				minus.disabled = true;
+				
 				currentRequest.abort();
 			}
 		});
-		$("#actPeopleNumber").val(1);
 	});
-	
 	
 // 	購物車
 	let shoppingCarRequest = null;
