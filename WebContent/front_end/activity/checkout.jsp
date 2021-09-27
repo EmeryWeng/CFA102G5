@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Feliz Hotel</title>
 <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/front_end/activity/css/act/addAct.css" rel="stylesheet">
 
@@ -227,6 +226,7 @@ input:focus{
 			let email = document.getElementById('orderEmail');
 			let creditCard = document.getElementById('orderCreditCard');
 			let form = document.getElementById('checkoutForm');
+			
 			if(name.value === ''){
 				alert("名稱請勿空白");
 				name.focus();
@@ -268,9 +268,14 @@ input:focus{
 				return false;
 			}
 			successCheckout();
-			form.submit();
+			form.submit(() =>{
+				setTimeout(() => {},800);
+			});
 		}
-		
+// 		function submitForm(){
+// 			let form = document.getElementById('checkoutForm');
+// 			form.submit();
+// 		}
 		function autoClose() {
 			swal.fire({
 				icon : 'error', //常用的還有'error'

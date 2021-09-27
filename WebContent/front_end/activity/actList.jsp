@@ -13,7 +13,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Feliz Hotel</title>
 <%@ include file="/front_end/commonCSS.file"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
 <!-- 基本CSS檔案 -->
