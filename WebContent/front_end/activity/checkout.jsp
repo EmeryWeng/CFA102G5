@@ -196,13 +196,14 @@ input:focus{
 						console.log(obj);
 						console.log(obj.mem_title);
 						console.log(obj.mem_title === '先生');
-// 						if(obj.mem_title === '先生'){
-// 							$("#actOrderTitleSelect option:first").prop("selected",true);
-// 						}else{
-// 							$("#actOrderTitleSelect option:last").prop("selected",true);
-// 						}
-						let opt = document.getElementById('actOrderTitleSelect');
-						opt.options[opt.selectedIndex].text = obj.mem_title;
+						if(obj.mem_title === '先生'){
+							$("#actOrderTitleSelect option:first").attr("selected",true);
+							$("span.current").text(obj.mem_title);
+						}else{
+							$("#actOrderTitleSelect option:last").attr("selected",true);
+							$("span.current").text(obj.mem_title);
+						}
+						
 						$("#orderName").val(obj.mem_name);
 						$("#orderPhone").val(obj.mem_phone);
 						$("#orderEmail").val(obj.mem_email);
