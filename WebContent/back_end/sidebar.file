@@ -60,7 +60,6 @@
 						<span class="nav-text">活動管理</span>
 					</a>
 					<ul aria-expanded="false">
-						<li><a href="#">活動排程</a></li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">活動類別管理</a>
 							<ul aria-expanded="false">
 								<li><a href="<%=request.getContextPath()%>/activity/ActivityClass?action=getAllActClass">活動類別列表</a></li>
