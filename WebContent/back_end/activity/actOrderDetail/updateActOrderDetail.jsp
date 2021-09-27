@@ -152,7 +152,7 @@
 										<input type="hidden" name="updateActOrderDetailNo" value="${actOrderDetailVO.act_order_detail_no}">
 										<input type="hidden" name="updateActSessionNo" value="${actOrderDetailVO.act_session_no}">										
 										<input type="hidden" name="updateOrderNo" value="${actOrderDetailVO.act_order_no}">
-										<button type="submit" class="btn btn-primary" style="margin-left:-50rem;width:10rem;height:5rem;font-size:2rem">確定</button>
+										<button type="submit" id="sureBtn" class="btn btn-primary" style="margin-left:-50rem;width:10rem;height:5rem;font-size:2rem">確定</button>
 									</div>
 									<div class="col-lg-2">
 										<button type="reset" class="btn btn-secondary" style="margin-left:-45rem;">重填</button>
@@ -169,7 +169,7 @@
 	
 <script>
 	let currentRequest = null;
-		$('#actSessionTimeSelect').on('change',function(){
+		$('#actSessionTimeSelect,#changeActPeopleSelect').on('change',function(){
 			currentRequest = $.ajax({
 				url:"<%=request.getContextPath()%>/activity/ActivityOrderDetail",
 				type:"POST",
@@ -182,10 +182,13 @@
 				},
 				success:function(response){
 					if(response === "true"){
+// 						document.getElementById('sureBtn').disabled = false;
 						currentRequest.abort();
 					}else{
 						alert("場次人數已達上限，無法更換場次");
-						$('#actSessionTimeSelect').val("${actSessionVO.act_session_no}").change();
+// 						document.getElementById('sureBtn').disabled = true;
+						$('#changeActPeopleSelect').val("1");
+						$('#actSessionTimeSelect').val("${actSessionVO.act_session_no}");
 						currentRequest.abort();
 					}
 				}

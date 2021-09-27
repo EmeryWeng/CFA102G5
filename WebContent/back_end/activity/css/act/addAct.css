@@ -63,4 +63,8 @@
 		color:#A23400;
 		vertical-align:left;
 	}
+	.col-lg-6{
+		position:relative !important;
+		top:1rem !important;
+	}
 	

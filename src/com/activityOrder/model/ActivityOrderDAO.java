@@ -10,6 +10,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.activityOrderDetail.model.ActivityOrderDetailDAO;
+import com.activityOrderDetail.model.ActivityOrderDetailVO;
+
 
 public class ActivityOrderDAO implements I_ActivityOrderDAO {
 	private static DataSource ds;
@@ -222,5 +225,71 @@ public class ActivityOrderDAO implements I_ActivityOrderDAO {
 		}
 		
 		return list;
+	}
+
+	@Override
+	public void insertWithOrderDetails(ActivityOrderVO actOrderVO, List<ActivityOrderDetailVO> list) {
+		Connection con = null;
+		ResultSet rs = null;
+		
+		try{
+			con = ds.getConnection();
+			//交易開始
+			con.setAutoCommit(false);
+			
+			PreparedStatement ps = con.prepareStatement(INSERT_SQL, GET_KEY);
+			ps.setString(1, null); // AI
+			ps.setInt(2, actOrderVO.getMem_no());
+			ps.setObject(3, actOrderVO.getAct_booking_date());
+			ps.setInt(4, actOrderVO.getAct_order_total_price());
+			ps.setString(5,actOrderVO.getAct_order_title());
+			ps.setString(6, actOrderVO.getAct_order_name());
+			ps.setString(7, actOrderVO.getAct_order_phone());
+			ps.setString(8, actOrderVO.getAct_order_email());
+			ps.setString(9,actOrderVO.getAct_order_credit_card());
+			ps.executeUpdate();
+			
+			Integer act_order_no = null;
+			rs = ps.getGeneratedKeys(); //綁定主鍵值，這樣撈回來才有正確的Id
+			if (rs.next()) {
+				act_order_no = rs.getInt(1);
+				actOrderVO.setAct_order_no(act_order_no);
+System.out.println("訂單自增主鍵值:"+act_order_no);				
+			}else {
+System.out.println("未取得自增主鍵值");				
+			}
+
+			rs.close();
+			ActivityOrderDetailDAO dao = new ActivityOrderDetailDAO();
+			for(ActivityOrderDetailVO vo : list) {
+				vo.setAct_order_no(act_order_no);
+				dao.insertWithOrder(vo, con);
+			}
+			
+			con.commit();
+			con.setAutoCommit(true);
+System.out.println("新增訂單編號" + act_order_no + "時,共有" + list.size()
+			+ "筆訂單明細同時被新增");			
+			
+		} catch (SQLException ex) {
+			if(con != null) {
+				try {
+System.out.println("Rollback");
+					con.rollback();
+				} catch (SQLException e) {
+					throw new RuntimeException(e.getMessage());
+				}
+			}
+			throw new RuntimeException(ex.getMessage());
+			
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 }

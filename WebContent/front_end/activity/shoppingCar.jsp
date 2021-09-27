@@ -72,7 +72,7 @@
 									</div>
 
 									<div class="col-lg-5 col-sm-5 col-md-5 text-right">
-										<button type="button" id="deleteAll" class="default-btn" ${empty shoppingCar ? 'disabled':''}> 清除所有項目 <span></span>
+										<button type="button" id="deleteAll" class="btn btn-secondary" ${empty shoppingCar ? 'disabled':''}> 清除所有項目 <span></span>
 										</button>
 									</div>
 								</div>
@@ -85,10 +85,12 @@
 							<h3>Cart Totals</h3>
 
 							<ul>
-								<li>總金額<span id="totalPrice">$599.00</span></li>
+								<li>總金額<span id="totalPrice"></span></li>
 							</ul>
-
-							<a href="#" class="default-btn">結帳(SessionList)</a>
+						<form action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post" id="checkoutForm">
+							<input type="hidden" name="action" value="carCheckout">
+							<button type="button" class="btn btn-primary" onclick="checkCar();">結帳</button>
+						</form>
 						</div>
 					</div>
 				</div>
@@ -105,6 +107,15 @@
 	<!-- 基本JS檔案 -->
 	
 <script>
+	
+	function checkCar(){
+		if(parseInt('${shoppingCar.size()}') === 0){
+			autoClose();
+			return false;
+		}
+		document.getElementById('checkoutForm').submit();
+	}
+
 	window.addEventListener('load',function(){
 		let array = document.getElementsByClassName('actPrice');
 		let total = 0;
@@ -131,34 +142,43 @@
 		});
 	});
 	
-	
 	let deleteAllRequest = null;
 	$("#deleteAll").click(function(){
 		Swal.fire({
-			  title: '確定清除購物車?',
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  confirmButtonText: 'OK'
-			}).then((result) => {
-			  if (result.isConfirmed) {
-				  deleteAllRequest = $.ajax({
-						url:"<%=request.getContextPath()%>/activity/ActivityOrder",
-						type:"post",
-						data:{
-							action:"actShoppingCart",
-							carAction:"deleteAll"
-						},
-						success:function(){
-							location.reload();
-							deleteAllRequest.abort();
-						}
-					})
-			    
-			  }
-			})
+		  title: '確定清除購物車?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'OK'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  deleteAllRequest = $.ajax({
+					url:"<%=request.getContextPath()%>/activity/ActivityOrder",
+					type:"post",
+					data:{
+						action:"actShoppingCart",
+						carAction:"deleteAll"
+					},
+					success:function(){
+						location.reload();
+						deleteAllRequest.abort();
+					}
+				})
+		    
+		  }
+		})
 	});
+	
+	function autoClose() {
+		swal.fire({
+			icon : 'error', //常用的還有'error'
+			title : '購物車空的',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
+	}
 </script>
 </body>
 </html>

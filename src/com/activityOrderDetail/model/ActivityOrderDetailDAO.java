@@ -359,5 +359,49 @@ public class ActivityOrderDetailDAO implements I_ActivityOrderDetailDAO {
 		}
 	}
 
+	@Override
+	public void insertWithOrder(ActivityOrderDetailVO actOrderDetailVO, Connection con) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement(INSERT_SQL, GET_KEY);
+			ps.setString(1,null);
+			ps.setInt(2,actOrderDetailVO.getAct_order_no());
+			ps.setInt(3,actOrderDetailVO.getAct_session_no());
+			ps.setInt(4,actOrderDetailVO.getAct_real_join_number());
+			ps.setInt(5,actOrderDetailVO.getAct_order_price());
+			ps.setInt(6,actOrderDetailVO.getAct_coupon_price());
+			ps.setInt(7,actOrderDetailVO.getAct_price_total());
+			ps.setInt(8,actOrderDetailVO.getAct_order_detail_state());
+			ps.executeUpdate();
+     		
+			rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				actOrderDetailVO.setAct_order_detail_no(rs.getInt(1));
+			}
+		} catch (SQLException ex) {
+			if (con != null) {
+				try {
+System.err.println("Rolledback");
+System.out.println("================");
+					con.rollback();
+				} catch (SQLException e) {
+					throw new RuntimeException(e.getMessage());
+				}
+			}
+			throw new RuntimeException(ex.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
 
 }

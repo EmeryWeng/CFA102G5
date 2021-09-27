@@ -3,6 +3,8 @@ package com.activityOrder.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.activityOrderDetail.model.ActivityOrderDetailVO;
+
 public class ActivityOrderService {
 	private I_ActivityOrderDAO dao;
 	
@@ -61,5 +63,25 @@ public class ActivityOrderService {
 	
 	public List<ActivityOrderVO> getAll() {
 		return dao.getAll();
+	}
+	
+	public void insertWithOrderDetails(Integer mem_no,
+			LocalDateTime act_booking_date,Integer act_order_total_price,
+			String act_order_title,String act_order_name,
+			String act_order_phone,String act_order_email,
+			String act_order_credit_card,List<ActivityOrderDetailVO> list) {
+		
+		ActivityOrderVO vo = new ActivityOrderVO();
+		
+		vo.setMem_no(mem_no);
+		vo.setAct_booking_date(act_booking_date);
+		vo.setAct_order_total_price(act_order_total_price);
+		vo.setAct_order_title(act_order_title);
+		vo.setAct_order_name(act_order_name);
+		vo.setAct_order_phone(act_order_phone);
+		vo.setAct_order_email(act_order_email);
+		vo.setAct_order_credit_card(act_order_credit_card);
+		
+		dao.insertWithOrderDetails(vo, list);
 	}
 }

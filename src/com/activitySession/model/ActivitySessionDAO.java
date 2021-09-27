@@ -22,6 +22,7 @@ public class ActivitySessionDAO implements I_ActivitySessionDAO {
 	private final String SELECT_BY_PK_SQL = "SELECT * FROM ACTIVITY_SESSION WHERE act_session_no = ?";
 	private final String SELECT_BY_ACTIVITY_NO_SQL = "SELECT * FROM ACTIVITY_SESSION WHERE act_no = ?";
 	private final String SWITCH_ACTIVITY_SESSION_STATE_SQL = "UPDATE ACTIVITY_SESSION SET act_session_hold_state = ? WHERE act_session_no = ? ORDER BY act_session_start_date,act_session_start_time";
+	private final String UPDATE_ACTIVITY_REAL_JOIN_NUMBER = "UPDATE ACTIVITY_SESSION SET act_session_real_number = ? WHERE act_session_no = ? ";
 	
 	static {	
 		try {
@@ -254,5 +255,31 @@ public class ActivitySessionDAO implements I_ActivitySessionDAO {
 		
 		return list;
 	}
+
+	@Override
+	public void updateActSessionRealNumber(Integer act_session_no, Integer act_session_real_number) {
+			Connection con = null;
+		
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(UPDATE_ACTIVITY_REAL_JOIN_NUMBER);
+			ps.setInt(1, act_session_real_number);
+			ps.setObject(2,act_session_no);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
+
 
 }

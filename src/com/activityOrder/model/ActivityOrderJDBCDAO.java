@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.activityOrderDetail.model.ActivityOrderDetailVO;
 import com.util.JDBCUtil;
 
 public class ActivityOrderJDBCDAO implements I_ActivityOrderDAO {
@@ -246,6 +247,12 @@ public class ActivityOrderJDBCDAO implements I_ActivityOrderDAO {
 		List<ActivityOrderVO> list = dao.getAll();
 		for(ActivityOrderVO vo : list)
 		System.out.println(vo);
+		
+	}
+
+	@Override
+	public void insertWithOrderDetails(ActivityOrderVO actOrderVO, List<ActivityOrderDetailVO> list) {
+		// TODO Auto-generated method stub
 		
 	}
 	

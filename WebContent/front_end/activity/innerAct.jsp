@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/fotorama.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/activity/datetimepicker/jquery.datetimepicker.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/innerAct.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/act/innerAct.css" />
 
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyAJNpDkwnyNLU6eh829XsUUYdFdTx2YjJ"></script>
 
@@ -43,7 +43,7 @@
 							<!-- Tour Slider End -->
 
 							<!--輪播下的內容 -->
-							<div class="read-more collapsed" style="margin-top: -3rem;" id="actSessionDiv">
+							<div class="read-more collapsed" id="actSessionDiv">
 								<h1 class="read-more-title">
 									臺灣花蓮 | <span style="color: blue;" id="actName">${actVO.act_name}</span>
 								</h1>
@@ -86,7 +86,7 @@
 											<p>
 												<b style="margin-left: 0.5rem;">請選擇出發日期</b>
 											</p>
-											<input type="text"  id="act_date">
+											<input type="text" name="act_date" id="act_date">
 										</div>
 
 										<div class="actSessionStartTime">
@@ -97,7 +97,7 @@
 												</c:forEach>
 											</select> 
 											<label for="actPeopleNumber" class="actPeopleNumberLabel"><b>人數:</b></label>
-											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" class="actPeopleNumberInput" value="1"> 
+											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" value="1"> 
 											<input type="hidden" id="totalPeople" value="${actPeopleNumber}"> 
 												<i class='bx bx-plus-circle plusIcon' id="actPricePlusBtn" onclick="plus();"></i> 
 												<i class='bx bx-minus-circle minusIcon' id="actPriceMinusBtn" onclick="minus();"></i>
@@ -107,9 +107,14 @@
 											<span style="position:relative;left:58rem;bottom:4rem;font-size:2.2rem;color:#46A3FF" id="actTotalPrice">${actVO.act_price}</span>
 										</div>
 										<div>
-											
-											<button type="button" id="addActToCarBtn" class="btn btn-rounded btn-primary" style="background-color:#30504F;left: 45rem;bottom: 0.5rem">
-												<span class="btn-icon-start text-primary"><i class='bx bxs-cart'></i></span>加入購物車
+											<input type="hidden" name="action" value="immediateCheckout">
+											<input type="hidden" name="act_name" value="${actVO.act_name}">
+											<input type="hidden" name="act_price" value="${actVO.act_price}">
+											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:30rem;bottom: 0.5rem">
+												<span class="btn-icon-start addCar"><i class='bx bxs-cart'></i>加入購物車</span>
+											</button>
+											<button type="submit" id="immediateCheckout" class="btn btn-info" style="left:32rem;bottom: 0.5rem">
+												<span class="btn-icon-start"><i class='bx bxs-cart'></i>立即結帳</span>
 											</button>
 										</div>
 									</form>
@@ -145,6 +150,7 @@
 		maxDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
 	});
 	
+//場次時間	
 	let currentRequest = null;
 	$('#actSessionStartTimeSelect').on('change',function(){
 		currentRequest = $.ajax({
@@ -156,6 +162,7 @@
 			},
 			success:function(response){
 				$("#totalPeople").val(response);
+				$("#actTotalPrice").text($("#actPeopleNumber").val() * ${actVO.act_price});
 				currentRequest.abort();
 			}
 		});
@@ -179,9 +186,14 @@
 				actPeopleNumber:$("#actPeopleNumber").val(),
 			},
 			success:function(response){
+console.log(response);				
 				if(response.includes("update")){
+let count = response.charAt(response.length);
+console.log(response.length);
+// console.log(count);
+console.log(response);					
 					autoCloseUpdate();
-					$("#carCount").text(response.charAt(8));
+					$("#carCount").text(response.charAt(response.length-1));
 					shoppingCarRequest.abort();
 				}else{
 					autoCloseForShoppingCar();
