@@ -120,75 +120,62 @@ public class RoomTypeServlet extends HttpServlet {
 			}
 		}
 
-		if ("getOneForShow".equals(action)) {
-			/*************************** 1.接收請求參數 ****************************************/
-			Integer type_no = new Integer(req.getParameter("type_no"));
-			Integer qty = new Integer(req.getParameter("qty"));
+		if ("getOneForShow".equals(action)) { // 前台房型詳情roomDetail.jsp
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				Integer type_no = new Integer(req.getParameter("type_no"));
+				Integer qty = new Integer(req.getParameter("qty")); // qty之後要改存session
 
-			/*************************** 2.開始查詢資料 ****************************************/
-			// 房型資料
-			RoomTypeService roomTypeSvc = new RoomTypeService();
-			RoomTypeVO roomTypeVO = roomTypeSvc.getOneRoomType(type_no);
+				/*************************** 2.開始查詢資料 ****************************************/
+				// 房型資料
+				RoomTypeService roomTypeSvc = new RoomTypeService();
+				RoomTypeVO roomTypeVO = roomTypeSvc.getOneRoomType(type_no);
+				// 如果該房型已被下架，就回到房型列表
+				if (roomTypeVO.getType_state() == false) {
+					// RequestDispatcher failureView =
+					// req.getRequestDispatcher("/front_end/room/roomList.jsp");
+					req.getRequestDispatcher("/front_end/room/roomList.jsp").forward(req, res);
+					return;
+				}
 
-			// 房型資料的設施字串切割存成list
-			List<String> facilityList = new LinkedList<String>();
-			String data = roomTypeVO.getType_facility();
-			String[] split = data.split(",");
-			for (int i = 0; i < split.length; i++) {
-				facilityList.add(split[i]);
+				// 房型資料的設施字串切割存成list
+				List<String> facilityList = new LinkedList<String>();
+				String data = roomTypeVO.getType_facility();
+				String[] split = data.split(",");
+				for (int i = 0; i < split.length; i++) {
+					facilityList.add(split[i]);
+				}
+
+				// 房型圖片list
+				RoomImgService roomImgSvc = new RoomImgService();
+				List<RoomImgVO> images = roomImgSvc.getAllByType(type_no);
+
+				// 不可預訂的日期
+				RoomRsvService RoomRsvSvc = new RoomRsvService();
+				List<RoomRsvVO> list = RoomRsvSvc.getNotRsv(qty, type_no);
+				System.out.println("qty=" + qty);
+				System.out.println("type_no=" + type_no);
+				System.out.println("list=" + list);
+
+				// 把list裡的日期變成字串
+				String result = "";
+				for (int i = 0; i < list.size(); i++) {
+					result += "\"" + list.get(i).getRsv_date().toString() + "\",";
+				}
+				System.out.println("result=" + result);
+				/*************************** 3.查詢完成,準備轉交 ************/
+				req.setAttribute("roomTypeVO", roomTypeVO); // 資料庫取出的VO物件,存入req
+				req.setAttribute("facilityList", facilityList); // 分割完的設施list,存入req
+				req.setAttribute("images", images); // 資料庫取出的VO物件,存入req
+				req.setAttribute("result", result); // 不可預訂的日期
+				req.setAttribute("qty", qty); // 把間數再帶回前台頁面
+				String url = "/front_end/room/roomDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的roomDetail.jsp
+				successView.forward(req, res);
+			} catch (Exception e) {
+				// 若錯誤 導回房型列表
+				req.getRequestDispatcher("/front_end/room/roomList.jsp").forward(req, res);
 			}
-
-			// 房型圖片list
-			RoomImgService roomImgSvc = new RoomImgService();
-			List<RoomImgVO> images = roomImgSvc.getAllByType(type_no);
-
-			// 不可預訂的日期
-			RoomRsvService RoomRsvSvc = new RoomRsvService();
-			List<RoomRsvVO> list = RoomRsvSvc.getNotRsv(qty, type_no);
-<<<<<<< HEAD
-			System.out.println("qty=" + qty);
-			System.out.println("type_no=" + type_no);
-			System.out.println("list=" + list);
-			// 把list裡的日期變成字串 日期變字串好煩
-//			String result = list.stream().map(RoomRsvVO::getRsv_date).collect(Collectors.joining(", "));
-
-//			String[] result = new String[list.size()];
-//			for (int i = 0; i < list.size(); i++) {
-//				String notDate = list.get(i).getRsv_date().toString();
-//				result[i] = notDate;
-//			}
-			// 用字串前台也帶不出來
-			String result = "";
-			for (int i = 0; i < list.size(); i++) {
-				result += "\"" + list.get(i).getRsv_date().toString() + "\",";
-			}
-			System.out.println("result=" + result);
-=======
-
-			// 把list裡的日期變成字串 日期變字串好煩
-//			String result = list.stream().map(RoomRsvVO::getRsv_date).collect(Collectors.joining(", "));
-
-			String[] result = new String[list.size()];
-			for (int i = 0; i < list.size(); i++) {
-				String notDate = list.get(i).getRsv_date().toString();
-				result[i] = notDate;
-			}
-			// 用字串前台也帶不出來
-//			String result = null;
-//			for (int i = 0; i < list.size(); i++) {
-//				result += list.get(i).getRsv_date().toString() + ",";
-//			}
-
->>>>>>> 6d1974d0d1052a559b4a4759de8e9420310bfee7
-			/*************************** 3.查詢完成,準備轉交 ************/
-			req.setAttribute("roomTypeVO", roomTypeVO); // 資料庫取出的VO物件,存入req
-			req.setAttribute("facilityList", facilityList); // 分割完的設施list,存入req
-			req.setAttribute("images", images); // 資料庫取出的VO物件,存入req
-			req.setAttribute("result", result); // 不可預訂的日期
-			req.setAttribute("qty", qty); // 把間數再帶回前台頁面
-			String url = "/front_end/room/roomDetail.jsp";
-			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的roomDetail.jsp
-			successView.forward(req, res);
 		}
 
 		if ("getOneForUpdate".equals(action)) { // 來自listAll的請求

@@ -2241,8 +2241,8 @@
  }
 
  .table-striped>tbody>tr:nth-of-type(odd) {
-     --bs-table-accent-bg: var(--bs-table-striped-bg);
-     color: var(--bs-table-striped-color)
+/*      --bs-tsable-accent-bg: var(--bs-table-striped-bg); */
+/*      color: var(--bs-table-striped-color) */
  }
 
  .table-active {
@@ -12896,7 +12896,7 @@
  }
 
  .nav-header .brand-logo>img {
-    width: 190px;
+    width: 230px;
 }
 
  @media only screen and (max-width: 87.5rem) {
@@ -13342,8 +13342,8 @@
      position: fixed;
      top: 0;
      width: 100%;
-     /* box-shadow: 0px 4px 4px 1px rgba(201, 201, 201, 0.1); */
-     background: linear-gradient(15deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 10%, rgba(247,246,242,1) 100%);
+/*      box-shadow: 0px 4px 4px 1px rgba(201, 201, 201, 0.1); */
+     background: linear-gradient(15deg, #FDFDFB 0%, #FDFDFB 10%, #F7F7F1 100%);
  }
 
  [data-header-position="fixed"] .content-body {
@@ -16868,7 +16868,8 @@
  [data-sidebar-position="fixed"][data-layout="vertical"] .nav-header {
      position: fixed;
      border-top-left-radius: 0;
-     border-top-right-radius: 0
+     border-top-right-radius: 0;
+     background-color: transparent;
  }
 
  [data-sidebar-position="fixed"][data-layout="vertical"] .deznav {
@@ -35192,7 +35193,7 @@
 
  .table.table-striped tbody tr:nth-of-type(odd),
  .table.table-hover tr:hover {
-     background-color: #f2f4fa
+     background-color: #eee;
  }
 
  [data-theme-version="dark"] .table.table-striped tbody tr:nth-of-type(odd),
@@ -35603,8 +35604,8 @@
  }
 
  table.dataTable.default-table tbody td {
-     padding-top: 1.8rem;
-     padding-bottom: 1.8rem
+     padding-top: 1rem;
+     padding-bottom: 1rem
  }
 
  table.dataTable.default-table tbody tr {

@@ -1,5 +1,6 @@
 package com.roomType.model;
 
+import java.sql.Date;
 import java.util.List;
 
 public class RoomTypeService {
@@ -56,5 +57,9 @@ public class RoomTypeService {
 
 	public void changeState(Integer type_no, Boolean type_state) {
 		dao.changeState(type_no, type_state);
+	}
+
+	public List<RoomTypeVO> getEnoughType(Date start_date, Date end_date, Integer qty, Integer guest) {
+		return dao.getEnoughType(start_date, end_date, qty, guest);
 	}
 }

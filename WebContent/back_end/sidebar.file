@@ -39,7 +39,7 @@
 					<ul aria-expanded="false">
 						<li><a href="#">房型排程</a></li>
 						<li><a href="#">當日房務</a></li>
-						<li><a href="#">訂單管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back_end/roomOrder/listAllOrder.jsp">訂單管理</a></li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">房型管理</a>
 							<ul aria-expanded="false">
 								<li><a href="<%=request.getContextPath()%>/back_end/roomType/listAllRoomType.jsp">房型列表</a></li>
@@ -115,13 +115,6 @@
 					<ul aria-expanded="false">
 						<li><a href="#">客服即時通</a></li>
 						<li><a href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">客服案件管理</a></li>
-						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">機器人問答管理</a>
-							<ul aria-expanded="false">
-								<li><a href="#">問答列表</a></li>
-								<li><a href="#">新增問題</a></li>
-							</ul>
-						</li>
-						<li><a href="#">活動評論審核</a></li>
 					</ul>
 				</li>
 			</ul>
