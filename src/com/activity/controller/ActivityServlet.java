@@ -259,7 +259,7 @@ public class ActivityServlet extends HttpServlet {
 				
 			//取得目前活動的累積銷售人數
 			act_sell_number = actService.getActByPk(act_no).getAct_sell_number();
-				
+System.out.println("目前活動累積銷售人數:"+ act_sell_number);				
 			//活動評價總人數、活動平均星數  要靠撈活動評價table 以及 會員評價總星數/活動評價總人數			
 			actService.updateAct(act_no,act_class_no, act_name, act_price, act_location, act_schedule_time, act_instruction, act_gather_location, act_location_longitude, act_location_latitude, act_sell_number, act_join_number, act_evaluation_number, act_average_star_number, act_state);
 			//修改時 欄位無誤的情況	-> selectAct.jsp

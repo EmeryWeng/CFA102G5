@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.creditcard.model.CreditcardService;
 import com.google.gson.Gson;
 import com.member.model.MemberClassVO;
 import com.member.model.MemberService;
+import com.util.activity.SendMail;
 
 
 public class ActivityOrderServlet extends HttpServlet {
@@ -131,7 +133,16 @@ System.out.println("購物車:已更新活動場次人數");
 					}
 					actService.updateActSellNumber(actNo, total);						
 				}
-System.out.println("購物車:已更新活動場次人數");				
+System.out.println("購物車:已更新活動場次人數");	
+
+//寄信
+				SendMail mail = new SendMail();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:m:s");
+				
+				String messageText = act_order_name + act_order_title + " 您好，您於 " + formatter.format(act_booking_date)
+						+ " 在Feliz網站下訂活動，非常感謝，我們會在活動開始前一天通知您! ";
+									
+				mail.sendMail(act_order_email, "Feliz Hotel 訂購完成信件", messageText);
 				
 				//回首頁
 				request.getRequestDispatcher("/front_end/index/index.jsp")
@@ -195,6 +206,14 @@ System.out.println("立即訂購:已更新活動場次人數");
 System.out.println("立即訂購:已更新活動人數");					
 				
 
+//寄信
+				SendMail mail = new SendMail();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:m:s");
+				
+				String messageText = act_order_name + act_order_title + " 您好，您於 " + formatter.format(act_booking_date)
+						+ " 在Feliz網站下訂活動，非常感謝，我們會在活動開始前一天通知您! ";
+									
+				mail.sendMail(act_order_email, "Feliz Hotel 訂購完成信件", messageText);
 
 				//回首頁
 				request.getRequestDispatcher("/front_end/index/index.jsp")

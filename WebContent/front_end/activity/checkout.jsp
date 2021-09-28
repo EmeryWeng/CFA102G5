@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Feliz-後台</title>
 <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/front_end/activity/css/act/addAct.css" rel="stylesheet">
 
@@ -196,13 +195,14 @@ input:focus{
 						console.log(obj);
 						console.log(obj.mem_title);
 						console.log(obj.mem_title === '先生');
-// 						if(obj.mem_title === '先生'){
-// 							$("#actOrderTitleSelect option:first").prop("selected",true);
-// 						}else{
-// 							$("#actOrderTitleSelect option:last").prop("selected",true);
-// 						}
-						let opt = document.getElementById('actOrderTitleSelect');
-						opt.options[opt.selectedIndex].text = obj.mem_title;
+						if(obj.mem_title === '先生'){
+							$("#actOrderTitleSelect option:first").attr("selected",true);
+							$("span.current").text(obj.mem_title);
+						}else{
+							$("#actOrderTitleSelect option:last").attr("selected",true);
+							$("span.current").text(obj.mem_title);
+						}
+						
 						$("#orderName").val(obj.mem_name);
 						$("#orderPhone").val(obj.mem_phone);
 						$("#orderEmail").val(obj.mem_email);
@@ -226,6 +226,7 @@ input:focus{
 			let email = document.getElementById('orderEmail');
 			let creditCard = document.getElementById('orderCreditCard');
 			let form = document.getElementById('checkoutForm');
+			
 			if(name.value === ''){
 				alert("名稱請勿空白");
 				name.focus();
@@ -267,9 +268,14 @@ input:focus{
 				return false;
 			}
 			successCheckout();
-			form.submit();
+			form.submit(() =>{
+				setTimeout(() => {},800);
+			});
 		}
-		
+// 		function submitForm(){
+// 			let form = document.getElementById('checkoutForm');
+// 			form.submit();
+// 		}
 		function autoClose() {
 			swal.fire({
 				icon : 'error', //常用的還有'error'
