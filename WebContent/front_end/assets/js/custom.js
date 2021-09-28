@@ -327,5 +327,8 @@
     jQuery(window).on('load',function(){
         jQuery(".preloader").fadeOut(500);
     });
-
+    
+    $("#member-btn").click(function(){
+    	$(".memberCenter-area").toggle();
+    });
 })(jQuery);

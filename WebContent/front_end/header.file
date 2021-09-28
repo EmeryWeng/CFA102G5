@@ -47,9 +47,17 @@
                                 <li >
                                     <a href="<%=request.getContextPath()%>/activity/ActivityOrder?action=lookShoppingCart"><i class='bx bxs-cart'></i><span id="carCount">${empty sessionScope.shoppingCar ? 0 : sessionScope.shoppingCar.size()}</span></a>
                                 </li>
-                                <li>
-                                    <a href="<%=request.getContextPath()%>/front_end/member/memberHome.jsp"><i class='bx bxs-user' ></i></a>
+                                <li id="member-btn">
+                                    <a href="javascript:void(0)"><i class='bx bxs-user' ></i></a>
                                 </li>
+                                <div class="memberCenter-area">
+							        <a href="<%=request.getContextPath()%>/front_end/member/memberHome.jsp" class="dropdown-item ai-icon">
+							            <span>Home</span>
+							        </a>
+							        <a href="<%=request.getContextPath()%>/member/member.do?action=log_out" class="dropdown-item ai-icon">
+							            <span>Logout</span>
+							        </a>
+							    </div>
                             </div> 
                         </div>
                     </nav>
