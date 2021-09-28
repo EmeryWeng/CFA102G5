@@ -1,0 +1,28 @@
+package com.util.activity;
+
+import java.util.Timer;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+
+
+@WebListener
+public class ActivityScheduleListener implements ServletContextListener {
+	
+	Timer timer;
+    
+    public void contextDestroyed(ServletContextEvent sce)  {
+    	timer.cancel();
+    }
+
+	
+    public void contextInitialized(ServletContextEvent sce)  {
+System.out.println("==========排程器已啟動==========");
+    	timer = new Timer();
+    	timer.schedule(new ActivitySchedule(), 5000, 86400000);
+System.out.println("==========已執行回來==========");    	
+    	//86,400,000 one day
+    }
+	
+}
