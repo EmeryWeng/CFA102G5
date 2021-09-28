@@ -87,9 +87,9 @@ public class ActivityServlet extends HttpServlet {
 			List<ActivityVO> list = null;
 			try {
 				act_class_no = new Integer(request.getParameter("actClassNo"));
-				list = actService.getActByClassNo(act_class_no);
+				list = actService.getActByClassNo(act_class_no).stream().filter(act -> act.getAct_state() == true).collect(Collectors.toList());
 			}catch(NumberFormatException ex) {
-				request.setAttribute("list",actService.getAll());
+				request.setAttribute("list",actService.getAll().stream().filter(act -> act.getAct_state() == true).collect(Collectors.toList()));
 				request.getRequestDispatcher("/front_end/activity/actList.jsp")
 				.forward(request, response);
 				return;
