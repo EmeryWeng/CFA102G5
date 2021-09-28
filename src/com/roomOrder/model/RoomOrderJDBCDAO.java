@@ -13,7 +13,7 @@ import com.util.JDBCUtil;
 public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 	private static final String INSERT = "INSERT INTO room_order (mem_no, type_no, start_date, end_date, rm_num, price, total_price, note, title, name, phone, email, payment, ord_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? , NOW())";
 	private static final String UPDATE = "UPDATE room_order SET ord_state = 4 WHERE start_date < CURDATE()";
-	private static final String CANCEL = "UPDATE room_order SET total_price = ?, ord_state = 3 WHERE ord_no = ?";
+	private static final String CANCEL = "UPDATE room_order SET total_price = 0, ord_state = 3 WHERE ord_no = ?";
 	private static final String CHANGE = "UPDATE room_order SET start_date = ?, end_date = ?,ord_state = 2 WHERE ord_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_order WHERE ord_no = ?";
 	private static final String GET_ALL = "SELECT * FROM room_order";
@@ -75,9 +75,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(CANCEL);
-
-			pstmt.setInt(1, roomOrderVO.getTotal_price());
-			pstmt.setInt(2, roomOrderVO.getOrd_no());
+			pstmt.setInt(1, roomOrderVO.getOrd_no());
 
 			pstmt.executeUpdate();
 

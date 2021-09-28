@@ -39,11 +39,10 @@ public class RoomOrderService {
 		dao.update(roomOrderVO);
 	}
 
-	public void cancelRoomOrder(Integer ord_no, Integer total_price) {
+	public void cancel(Integer ord_no) {
 
 		RoomOrderVO roomOrderVO = new RoomOrderVO();
 		roomOrderVO.setOrd_no(ord_no);
-		roomOrderVO.setTotal_price(total_price);
 
 		dao.cancel(roomOrderVO);
 	}

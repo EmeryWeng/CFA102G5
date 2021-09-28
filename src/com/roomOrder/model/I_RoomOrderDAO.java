@@ -6,7 +6,7 @@ public interface I_RoomOrderDAO {
 	public RoomOrderVO insert(RoomOrderVO roomOrderVO); // 新增訂單
 	
 	public void update(RoomOrderVO roomOrderVO); // 已完成
-	public void cancel(RoomOrderVO roomOrderVO); // 已取消：改總金額、狀態，再改預約表
+	public void cancel(RoomOrderVO roomOrderVO); // 已取消：改總金額0、狀態，再改預約表
 	public void change(RoomOrderVO roomOrderVO); // 已改期
 	
 	public RoomOrderVO getOne(Integer ord_no); // 一筆訂單

@@ -1,10 +1,7 @@
 package com.roomOrder.model;
 
-import java.time.LocalDate;
-import java.util.List;
-
 public class RoomOrderTest {
-	
+
 	public static void main(String[] args) {
 		I_RoomOrderDAO dao = new RoomOrderJDBCDAO();
 
@@ -24,24 +21,23 @@ public class RoomOrderTest {
 //		roomOrderVO.setEmail("sfsfsd@gmail.com");	
 //		roomOrderVO.setPayment("000011112222");	
 //		dao.insert(roomOrderVO);
-		
+
 		// UPDATE 已完成
 //		RoomOrderVO roomOrderVO = new RoomOrderVO();
 //		dao.update(roomOrderVO);
-		
+
 		// 已取消
-//		RoomOrderVO roomOrderVO = new RoomOrderVO();
-//		roomOrderVO.setTotal_price(99);
-//		roomOrderVO.setOrd_no(4);
-//		dao.cancel(roomOrderVO);
-		
+		RoomOrderVO roomOrderVO = new RoomOrderVO();
+		roomOrderVO.setOrd_no(1);
+		dao.cancel(roomOrderVO);
+
 		// 已改期
 //		RoomOrderVO roomOrderVO = new RoomOrderVO();
 //		roomOrderVO.setStart_date(LocalDate.of(2021,9,11));
 //		roomOrderVO.setEnd_date(LocalDate.of(2021,9,12));
 //		roomOrderVO.setOrd_no(3);
 //		dao.change(roomOrderVO);
-		
+
 		// 查詢一筆 用PK
 //		RoomOrderVO roomOrderVO = dao.getOne(1);
 //		System.out.print(roomOrderVO.getOrd_no() + ",");
@@ -61,7 +57,7 @@ public class RoomOrderTest {
 //		System.out.print(roomOrderVO.getPayment() + ",");
 //		System.out.print(roomOrderVO.getOrd_date() + ",");
 //		System.out.println(roomOrderVO.getOrd_state());
-		
+
 		// 查詢 全部
 //		List<RoomOrderVO> list = dao.getAll();
 //		for (RoomOrderVO roomOrderVO : list) {
@@ -83,7 +79,7 @@ public class RoomOrderTest {
 //		System.out.print(roomOrderVO.getOrd_date() + ",");
 //		System.out.println(roomOrderVO.getOrd_state());
 //		}
-		
+
 		// 查詢 會員的全部訂單
 //		List<RoomOrderVO> list = dao.getAllByMem(2);
 //		for (RoomOrderVO roomOrderVO : list) {
@@ -105,6 +101,6 @@ public class RoomOrderTest {
 //		System.out.print(roomOrderVO.getOrd_date() + ",");
 //		System.out.println(roomOrderVO.getOrd_state());
 //		}
-		
+
 	}
 }
