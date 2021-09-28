@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.roomImg.model.RoomImgService;
 import com.roomImg.model.RoomImgVO;
@@ -124,7 +125,8 @@ public class RoomTypeServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				Integer type_no = new Integer(req.getParameter("type_no"));
-				Integer qty = new Integer(req.getParameter("qty")); // qty之後要改存session
+				HttpSession session = req.getSession();
+				Integer qty = (Integer) session.getAttribute("qty");
 
 				/*************************** 2.開始查詢資料 ****************************************/
 				// 房型資料
@@ -132,8 +134,6 @@ public class RoomTypeServlet extends HttpServlet {
 				RoomTypeVO roomTypeVO = roomTypeSvc.getOneRoomType(type_no);
 				// 如果該房型已被下架，就回到房型列表
 				if (roomTypeVO.getType_state() == false) {
-					// RequestDispatcher failureView =
-					// req.getRequestDispatcher("/front_end/room/roomList.jsp");
 					req.getRequestDispatcher("/front_end/room/roomList.jsp").forward(req, res);
 					return;
 				}
@@ -153,9 +153,6 @@ public class RoomTypeServlet extends HttpServlet {
 				// 不可預訂的日期
 				RoomRsvService RoomRsvSvc = new RoomRsvService();
 				List<RoomRsvVO> list = RoomRsvSvc.getNotRsv(qty, type_no);
-				System.out.println("qty=" + qty);
-				System.out.println("type_no=" + type_no);
-				System.out.println("list=" + list);
 
 				// 把list裡的日期變成字串
 				String result = "";
@@ -168,7 +165,6 @@ public class RoomTypeServlet extends HttpServlet {
 				req.setAttribute("facilityList", facilityList); // 分割完的設施list,存入req
 				req.setAttribute("images", images); // 資料庫取出的VO物件,存入req
 				req.setAttribute("result", result); // 不可預訂的日期
-				req.setAttribute("qty", qty); // 把間數再帶回前台頁面
 				String url = "/front_end/room/roomDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的roomDetail.jsp
 				successView.forward(req, res);

@@ -11,6 +11,8 @@ public interface I_RoomOrderDAO {
 	
 	public RoomOrderVO getOne(Integer ord_no); // 一筆訂單
 	public List<RoomOrderVO> getAll(); // 後台：訂單管理 
+	public List<RoomOrderVO> getAllByOrdState(Integer ord_no); // 後台：訂單管理 
+	public List<RoomOrderVO> getAllByType(Integer type_no); // 後台：訂單管理 
 	public List<RoomOrderVO> getAllByMem(Integer mem_no); // 前台：會員中心 訂房訂單管理
 	
 	// **新增 訂單 與 新增訂單明細 與 預定表

@@ -271,13 +271,13 @@
 				<div class="guest_duration d-flex">
 					<div class="booking_information d-flex">
 						<div class="booking_information_date">
-							<span id="guest_checkinDate" class="mr-10">2021-09-21</span>
+							<span id="guest_checkinDate" class="mr-10">${start_date}</span>
 							<i class='bx bx-right-arrow-alt' ></i>
-							<span id="guest_checkoutDate">2021-09-25</span>
+							<span id="guest_checkoutDate">${end_date}</span>
 						</div>
 						<div class="booking_information_people">
-							<span id="guest_los" class="booking_information_people_adults">4</span> 間
-							<span id="guest_adults">2人</span>
+							<span id="guest_los" class="booking_information_people_adults">${qty}</span>間
+							<span id="guest_adults">${guest}</span>人
 						</div>
 					</div>
 					<p>修改<i class='bx bxs-edit'></i></p>
@@ -299,7 +299,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-12 col-lg-4 p-0 room-img">
                                     <div class="room-card-img">
-                                        <a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=${qty}&action=getOneForShow">
+                                        <a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForShow">
                                         <c:choose>
 											<c:when test="${roomImgSvc.getAllByType(roomTypeVO.type_no).size() > 0}">
 												<img src="<%=request.getContextPath()%>/room/RoomImg?type_no=${roomTypeVO.type_no}&action=showFirstImages">
@@ -318,7 +318,7 @@
                                         <div><i class='bx bx-user'></i>${roomTypeVO.type_qty} 人</div>
                                         <div><i class='bx bx-expand'></i>${roomTypeVO.type_size} m<sup>2</sup></div>
                                         <div><i class='bx bxs-hotel'></i>${roomTypeVO.bed_size}</div>
-                                        <div><a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=${qty}&action=getOneForShow" class="line-btn"><div class="line"></div><i class='bx bx-chevron-right arrow'></i>查看客房詳情</a></div> 
+<%--                                         <div><a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=${qty}&action=getOneForShow" class="line-btn"><div class="line"></div><i class='bx bx-chevron-right arrow'></i>查看客房詳情</a></div>  --%>
                                     </div>
                                 </div>
 
@@ -326,7 +326,7 @@
                                     <div>
                                         <span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="NT$ ###,###"/></span><span>/ 一晚</span>
                                     </div>
-                                        <a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&qty=${qty}&action=getOneForShow" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</a>
+                                        <a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForShow" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</a>
                                 </div>
                             </div>
                         </div>
@@ -340,9 +340,9 @@
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
         <script>
+        $(document).ready(function () {
 	        $(`.nav-item:nth-child(1)>a`).attr('class', 'active');
-		    const qty = $("#guest_los").innerTEXT();
-		    pageContext.setAttribute("qty", qty);
-        </script>
+        })
+		</script>
 	</body>
 </html>

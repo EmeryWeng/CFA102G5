@@ -219,7 +219,7 @@
             mode: 'range',
             dateFormat: "Y-m-d",
             minDate: "today",
-            disable: ["2021-09-22", "2021-09-30", "2021-10-02"],
+            disable: [],
         });
         </script>
     </body>

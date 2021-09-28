@@ -38,7 +38,7 @@
 					</a>
 					<ul aria-expanded="false">
 						<li><a href="#">房型排程</a></li>
-						<li><a href="#">當日房務</a></li>
+						<li><a href="<%=request.getContextPath()%>/back_end/roomWork/todayWorkList.jsp">當日房務</a></li>
 						<li><a href="<%=request.getContextPath()%>/back_end/roomOrder/listAllOrder.jsp">訂單管理</a></li>
 						<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">房型管理</a>
 							<ul aria-expanded="false">

@@ -7,7 +7,7 @@
 <jsp:useBean id="roomTypeSvc" class="com.roomType.model.RoomTypeService" />
 
 <%
-	//用來計算各個狀態的有幾筆資料
+	// 用來計算各個狀態的有幾筆資料
 	RoomService roomSvc = new RoomService();
 	pageContext.setAttribute("roomSvc", roomSvc);
 	
@@ -18,9 +18,9 @@
 		pageContext.setAttribute("list", list);
 	}
 
-	// 切換分類的下底線，第一次進來分類stateTab=1
-	if (request.getAttribute("stateTab") == null) {
-		pageContext.setAttribute("stateTab", 1);
+	// 切換分類的下底線，第一次進來分類0，第一個li加底線
+	if (request.getAttribute("rm_state") == null) {
+		pageContext.setAttribute("rm_state", 0);
 	}
 %>
 
@@ -134,16 +134,16 @@
 				<div class="card-tabs mt-3 mt-sm-0">
 					<ul class="nav nav-tabs" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link" data-tab="1" href="<%=request.getContextPath()%>/room/Room?action=getAll">所有房間 (${roomSvc.getAllRoom().size()})</a>
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?action=getAll">所有房間 (${roomSvc.getAllRoom().size()})</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-tab="2" href="<%=request.getContextPath()%>/room/Room?stateTab=2&rm_state=1&action=getAllByRmState">空房 (${roomSvc.getAllByRmState(1).size()})</a>
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=1&action=getAllByRmState">空房 (${roomSvc.getAllByRmState(1).size()})</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-tab="3" href="<%=request.getContextPath()%>/room/Room?stateTab=3&rm_state=2&action=getAllByRmState">入住中 (${roomSvc.getAllByRmState(2).size()})</a>
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=2&action=getAllByRmState">入住中 (${roomSvc.getAllByRmState(2).size()})</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-tab="4" href="<%=request.getContextPath()%>/room/Room?stateTab=4&rm_state=0&action=getAllByRmState">已停用 (${roomSvc.getAllByRmState(0).size()})</a>
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=3&action=getAllByRmState">已停用 (${roomSvc.getAllByRmState(3).size()})</a>
 						</li>
 					</ul>
 				</div>
@@ -168,9 +168,9 @@
 							<td>${roomVO.rm_info}</td>
 							<td>
 								<c:choose>
-									<c:when test="${roomVO.rm_state==0}">已停用</c:when>
 									<c:when test="${roomVO.rm_state==1}">空房</c:when>
 									<c:when test="${roomVO.rm_state==2}">入住中</c:when>
+									<c:when test="${roomVO.rm_state==3}">已停用</c:when>
 								</c:choose>
 							</td>
 							<td>${roomVO.name_title}</td>
@@ -215,12 +215,7 @@
 			            },
 			        }
 			    } );
-			    $("li.nav-item:eq(${stateTab})").children().addClass("nav-link active");
-			    $("a.nav-link").click(function(){
-// 			    	alert($(this).data('tab')); 
-			    	stateTab = $(this).data('tab');
-<%-- 			    	<% session.setAttribute("stateTab",stateTab); %> --%>
-			    });
+			    $("li.nav-item:eq(${rm_state+1})").children().addClass("nav-link active");
 			} );
 		</script>
 	</body>

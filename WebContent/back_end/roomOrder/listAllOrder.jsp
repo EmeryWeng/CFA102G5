@@ -8,18 +8,33 @@
 <%@ page import="java.time.LocalDate"%>
 
 <jsp:useBean id="roomTypeSvc" class="com.roomType.model.RoomTypeService" />
+<jsp:useBean id="orderSvc" class="com.roomOrder.model.RoomOrderService" />
+<jsp:useBean id="detailSvc" class="com.roomOrderDetail.model.RoomOrderDetailService" />
 
-<%
-	LocalDate today = LocalDate.now();
+<%	
+	//用來計算各個狀態的有幾筆資料
+	pageContext.setAttribute("orderSvc", orderSvc);
 
-	RoomOrderService orderSvc = new RoomOrderService();
-	List<RoomOrderVO> ordList = orderSvc.getAllRoomOrder();
-	pageContext.setAttribute("ordList", ordList);
-
-	RoomOrderDetailService detailSvc = new RoomOrderDetailService();
 	pageContext.setAttribute("detailSvc", detailSvc);
-	List<RoomOrderDetailVO> detailList = detailSvc.getAll();
-	pageContext.setAttribute("detailList", detailList);
+	
+	// 第一次進來執行if裡面，list是getAll
+	// 不是第一次進來(點擊狀態分類從controller過來的)，table中就用forward過來的list
+	if (request.getAttribute("ordList") == null) {
+		List<RoomOrderVO> ordList = orderSvc.getAllRoomOrder();
+		pageContext.setAttribute("ordList", ordList);
+	}
+
+	// 切換分類的下底線，第一次進來分類0，第一個li加底線
+	if (request.getAttribute("ord_state") == null && request.getAttribute("type_no") != null) {
+		pageContext.setAttribute("ord_state", 9);
+	} else if (request.getAttribute("ord_state") == null && request.getAttribute("type_no") == null) {
+		pageContext.setAttribute("ord_state", 0);
+	}
+
+	// 切換房型分類的下底線，第一次進來分類0，第一個li加底線
+	if (request.getAttribute("type_no") == null) {
+		pageContext.setAttribute("type_no", 0);
+	}
 %>
 
 <!DOCTYPE html>
@@ -101,10 +116,22 @@
 			margin: 0 1%;
 		}
 		i.bxs-chevron-down {
-			font-size: 14px;
+			font-size: 18px;
+			padding-left: 7px;
 		}
 		table i {
 			padding: 5px;
+		}
+		.btn-sm, .btn-group-sm>.btn {
+			font-size: 1rem !important;
+		    padding: 0.625rem 1.6rem;
+		}
+		.dropdown-menu {
+		    z-index: 3;
+		    min-width: 9rem;
+		    padding: .5rem 0;
+		    text-align: center;
+		    border-radius: .5rem;
 		}
 		</style>
 	</head>
@@ -127,35 +154,45 @@
 		<div class="d-flex mb-4 align-items-center flex-wrap">
 			<div class="dropdown custom-dropdown">
 				<button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="dropdown">
-					依房型篩選<i class='bx bxs-chevron-down'></i>
+					<c:choose>
+						<c:when test="${type_no==0}">依房型篩選<i class='bx bxs-chevron-down'></i></c:when>
+						<c:when test="${type_no!=0}">${roomTypeSvc.getOneRoomType(type_no).type_name}<i class='bx bxs-chevron-down'></i></c:when>
+					</c:choose>
 				</button>
 				<div class="dropdown-menu dropdown-menu-end">
-					<a class="dropdown-item" href="<%=request.getContextPath()%>/room/Room?stateTab=2&rm_state=1&action=getAllByRmState">豪華房型</a> <a class="dropdown-item" href="#">22</a> <a class="dropdown-item" href="#">33</a>
+					<c:forEach var="roomTypeVO" items="${roomTypeSvc.allRoomType}">
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/room/RoomOrder?type_no=${roomTypeVO.type_no}&action=getAllByType">${roomTypeVO.type_name}</a>
+					</c:forEach>
 				</div>
 			</div>
 			<div class="card-tabs mt-3 mt-sm-0">
 				<ul class="nav nav-tabs" role="tablist">
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/Room?action=getAll">所有訂單 (${roomSvc.getAllRoom().size()})</a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/Room?ord_state=1&action=getAllByRmState">已付款 (${roomSvc.getAllByRmState(1).size()})</a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/Room?ord_state=2&action=getAllByRmState">已改期 (${roomSvc.getAllByRmState(2).size()})</a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/Room?ord_state=3&action=getAllByRmState">已取消 (${roomSvc.getAllByRmState(0).size()})</a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/Room?ord_state=4&action=getAllByRmState">已完成 (${roomSvc.getAllByRmState(0).size()})</a></li>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/RoomOrder?action=getAll">所有訂單 (${orderSvc.getAllRoomOrder().size()})</a></li>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/RoomOrder?ord_state=1&action=getAllByOrdState">已付款 (${orderSvc.getAllByOrdState(1).size()})</a></li>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/RoomOrder?ord_state=2&action=getAllByOrdState">已改期 (${orderSvc.getAllByOrdState(2).size()})</a></li>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/RoomOrder?ord_state=3&action=getAllByOrdState">已取消 (${orderSvc.getAllByOrdState(3).size()})</a></li>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/room/RoomOrder?ord_state=4&action=getAllByOrdState">已完成 (${orderSvc.getAllByOrdState(4).size()})</a></li>
 				</ul>
 			</div>
 			<div class="input-group search-area">
 				<input type="text" class="form-control" placeholder="Search here"> <span class="input-group-text"><a href="javascript:void(0)"> <i class="flaticon-381-search-2"></i></a></span>
 			</div>
 		</div>
-		<%=LocalDate.now()%>
+		<div>
+<%-- 			${roomTypeSvc.getOneRoomType(type_no).type_name} --%>
+<%-- 			${orderSvc.getAllByOrdState(ord_state)} 要轉中文 --%>
+<%-- 			搜尋結果0筆時要出現什麼 --%>
+<!-- 			else -->
+		</div>
 		<table class="table fold-table">
 			<thead>
 				<tr>
 					<th>訂單編號</th>
 					<th>會員編號</th>
-					<th>房型</th>
-					<th>間數</th>
 					<th>預計入住日期</th>
 					<th>預計退房日期</th>
+					<th>房型</th>
+					<th>間數</th>
 					<th>訂單狀態</th>
 				</tr>
 			</thead>
@@ -164,10 +201,10 @@
 					<tr class="view">
 						<td>${orderVO.ord_no}</td>
 						<td>${orderVO.mem_no}</td>
-						<td>${roomTypeSvc.getOneRoomType(orderVO.type_no).type_name}</td>
-						<td>${orderVO.rm_num}</td>
 						<td>${orderVO.start_date}</td>
 						<td>${orderVO.end_date}</td>
+						<td>${roomTypeSvc.getOneRoomType(orderVO.type_no).type_name}</td>
+						<td>${orderVO.rm_num}</td>
 						<td><c:choose>
 								<c:when test="${orderVO.ord_state==1}">
 									<i class='bx bxs-circle' style='color: green'></i>已付款</c:when>
@@ -210,25 +247,25 @@
 									</tr>
 								</thead>
 								<tbody>
-								
-<%-- 									<c:forEach var="detailVO" items="${detailList}"> --%>
-									<c:forEach var="detailVO" items="${detailSvc.getAllByOrdno(1)}">
-										<%-- 									<c:if test="${detailVO.ord_no}==1"> --%>
+									<c:forEach var="detailVO" items="${detailSvc.getAllByOrdno(orderVO.ord_no)}">
 										<tr>
 											<td>${detailVO.ord_no}</td>
 											<td>${detailVO.detail_no}</td>
 											<td>${detailVO.checkin_date}</td>
 											<td>${detailVO.checkout_date}</td>
-											<td><c:choose>
+											<td>							
+												<c:choose>
+													<c:when test="${orderSvc.getOneRoomOrder(detailVO.ord_no).ord_state==3}">
+														<i class='bx bxs-square' style='color: red'></i>已取消</c:when>
 													<c:when test="${detailVO.detail_state==1}">
 														<i class='bx bxs-square' style='color: green'></i>待入住</c:when>
 													<c:when test="${detailVO.detail_state==2}">
 														<i class='bx bxs-square' style='color: orange'></i>入住中 (${detailVO.rm_no})</c:when>
 													<c:when test="${detailVO.detail_state==3}">
 														<i class='bx bxs-square' style='color: gray'></i>已退房</c:when>
-												</c:choose></td>
+												</c:choose>
+											</td>
 										</tr>
-<%-- 																			</c:if> --%>
 									</c:forEach>
 								</tbody>
 								<tfoot>
@@ -260,12 +297,11 @@
 		<script>
 			$(document).ready(function() {
 				$("#pagename").text("訂單管理");
-// 			    $(".fold-table tr.view").on("click", function () {
-// 		            $(this).toggleClass("open").next(".fold").toggleClass("open");
-// 		        });
 			    $(".fold-table tr.view").on("click", function () {
 		            $(this).toggleClass("open").next(".fold").toggleClass("open");
 		        });
+			    $("li.nav-item:eq(${ord_state+1})").children().addClass("nav-link active");
+// 			    $(".btn-secondary").text("${roomTypeSvc.getOneRoomType(type_no).type_name}");
 			} );
 		</script>
 	</body>

@@ -11,7 +11,7 @@
 		var options = {
 		  series: [70],
 		  chart: {
-		  height: 150,
+		  height: 100,
 		  type: 'radialBar',
 		  sparkline:{
 			  enabled:true
@@ -31,6 +31,10 @@
 		};
 
 		var chart = new ApexCharts(document.querySelector("#radialChart"), options);
+		chart.render();
+		var chart = new ApexCharts(document.querySelector("#radialChart1"), options);
+		chart.render();
+		var chart = new ApexCharts(document.querySelector("#radialChart2"), options);
 		chart.render();
 	}
 	

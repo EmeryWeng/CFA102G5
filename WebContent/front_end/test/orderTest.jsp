@@ -106,7 +106,6 @@
 					<th>預計入住日期</th>
 					<th>預計退房日期</th>
 					<th>訂單狀態</th>
-					<th>改期</th>
 					<th>取消</th>
 				</tr>
 			</thead>
@@ -126,12 +125,6 @@
 							<c:when test="${orderVO.ord_state==3}"><i class='bx bxs-circle' style='color:red'></i>已取消</c:when>
 							<c:when test="${orderVO.ord_state==4}"><i class='bx bxs-circle' style='color:gray'></i>已完成</c:when>
 						</c:choose>
-					</td>
-					<td>
-<!-- 						今天小於開始日 今天不會出現  且 狀態是1-->	
-						<c:if test="${LocalDate.now()<orderVO.start_date && orderVO.ord_state == 1}">
-							<button type="submit" class="btn btn-secondary btn-sm">改期</button>
-						</c:if>
 					</td>
 					<td>
 <!-- 						今天小於等於開始日 今天會出現 且 狀態是1-->	

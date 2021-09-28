@@ -44,14 +44,13 @@ public class RoomServlet extends HttpServlet {
 
 			/*************************** 1.接收請求參數 ****************************************/
 			Integer rm_state = new Integer(req.getParameter("rm_state"));
-			Integer stateTab = new Integer(req.getParameter("stateTab"));
 
 			/*************************** 2.開始查詢資料 ****************************************/
 			RoomService roomSvc = new RoomService();
 			List<RoomVO> list = roomSvc.getAllByRmState(rm_state);
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-			req.setAttribute("stateTab", stateTab);
+			req.setAttribute("rm_state", rm_state);
 			req.setAttribute("list", list); // 資料庫取出的VO物件,存入req
 			String url = "/back_end/room/listAllRoom.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
