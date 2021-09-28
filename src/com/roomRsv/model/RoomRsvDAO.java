@@ -209,6 +209,7 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 				roomRsvVO.setType_no(rs.getInt("type_no"));
 				roomRsvVO.setRm_total(rs.getInt("rm_total"));
 				roomRsvVO.setRsv_total(rs.getInt("rsv_total"));
+				list.add(roomRsvVO);
 			}
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());

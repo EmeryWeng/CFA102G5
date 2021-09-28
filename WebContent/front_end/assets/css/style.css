@@ -6319,3 +6319,28 @@ input[type=text]:focus,input[type=search]:focus,input[type=password]:focus,input
 	border-color: #d4b77b #F7F6F2 #F7F6F2 #F7F6F2;
 	cursor: pointer;
 }
+.memberCenter-area {
+	position: absolute;
+	right: -40px;
+	top: 50px;
+	background: #D1E6E6;
+	color: #30504F;
+	border-radius: 10px;
+	display: none;
+}
+.memberCenter-area>a:first-child {
+	border-bottom: 1px solid #F7F6F2;
+}
+.memberCenter-area>a {
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	    padding: .4rem 1.5rem;
+}
+.memberCenter-area>a:first-child:hover {
+	background: #8FC2C2;
+	border-radius: 10px 10px 0 0;
+}
+.memberCenter-area>a:last-child:hover {
+	background: #8FC2C2;
+	border-radius: 0 0 10px 10px;
+}

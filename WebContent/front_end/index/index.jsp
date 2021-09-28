@@ -35,6 +35,9 @@
 		    top: 0;
     		left: 0;
 		}
+		.banner-form .btn-primary {
+			padding: 12px;
+		}
         </style>
     </head>
     <body>
@@ -56,13 +59,13 @@
         <div class="banner-form-area">
             <div class="container">
                 <div class="banner-form">
-                    <form>
+                    <form method="post" action="<%=request.getContextPath()%>/room/RoomRsv">
                         <div class="row align-items-center d-flex justify-content-between">
                             <div class="col-lg-4 col-md-4">
                                 <div class="form-group">
-                                    <label><i class='bx bx-calendar'></i> 入住日期    -  退房日期</label>
+                                    <label><i class='bx bx-calendar'></i> 入住期間</label>
                                     <div class="input-group">
-                                    	<input type="text" id="rangeDate" placeholder="請選擇入住期間" class="form-control" data-input>
+                                    	<input type="text" id="rangeDate" name="rangedate" placeholder="請選擇入住期間" class="form-control" data-input>
                                         <span class="input-group-addon"></span>
                                     </div>
                                     <i class='bx bxs-chevron-down'></i>	
@@ -72,15 +75,15 @@
                             <div class="col-lg-2 col-md-2">
                                 <div class="form-group">
                                     <label><i class='bx bx-home-alt' ></i> 間數</label>
-                                    <select class="form-control">
-                                        <option>01</option>
-                                        <option>02</option>
-                                        <option>03</option>
-                                        <option>04</option>
-                                        <option>05</option>
-                                        <option>06</option>
-                                        <option>07</option>
-                                        <option>08</option>
+                                    <select id="qty" name="qty" class="form-control" required>
+                                        <option value="1">01</option>
+                                        <option value="2">02</option>
+                                        <option value="3">03</option>
+                                        <option value="4">04</option>
+                                        <option value="5">05</option>
+                                        <option value="6">06</option>
+                                        <option value="7">07</option>
+                                        <option value="8">08</option>
                                     </select>	
                                 </div>
                             </div>
@@ -88,18 +91,18 @@
                             <div class="col-lg-2 col-md-2">
                                 <div class="form-group">
                                     <label><i class='bx bx-user' ></i> 人數</label>
-                                    <select class="form-control">
-                                        <option>01</option>
-                                        <option>02</option>
-                                        <option>03</option>
-                                        <option>04</option>
+                                    <select id="guest" name="guest" class="form-control" required>
+                                        <option value="1">01</option>
+                                        <option value="2">02</option>
+                                        <option value="3">03</option>
+                                        <option value="4">04</option>
                                     </select>	
                                 </div>
                             </div>
 
                             <div class="col-lg-3 col-md-3 d-flex justify-content-end pt-70">
-                                <input type="hidden" name="action" value="">
-                                <input class="btn btn-primary col-lg-8" type="submit" value="查看空房">
+                                <input type="hidden" name="action" value="getEnoughType">
+                                <input class="btn btn-primary col-lg-8" type="submit" value="查看可訂房型">
                             </div>
                         </div>
                     </form>
@@ -194,7 +197,7 @@
                                 <hr>
                                 <h3 class="area-subtitle text-left">飯店周邊的美食店家，在地人推薦的特色花蓮美食！<br>好山好水又靠海的花蓮，除了豐富的名勝跟景點讓人玩不膩，花蓮美食更是多到數不清。</h3>
                             </div>
-                            <a href="food.html" class="default-btn btn-bg-one">更多周邊美食</a>
+                            <a href="<%=request.getContextPath()%>/front_end/storeMap/storeMap.jsp" class="default-btn btn-bg-one">更多周邊美食</a>
                         </div>
                     </div>
                     
@@ -216,7 +219,7 @@
             mode: 'range',
             dateFormat: "Y-m-d",
             minDate: "today",
-            disable: ["2021-09-22", "2021-09-30", "2021-10-02"],
+            disable: [],
         });
         </script>
     </body>

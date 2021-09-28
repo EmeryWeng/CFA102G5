@@ -4,19 +4,28 @@
 <%@ page import="com.roomType.model.*"%>
 <%@ page import="com.room.model.*"%>
 
-<jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
-<%-- <jsp:useBean id="roomSvcAll" scope="page" class="com.room.model.RoomService" /> --%>
-<%
-	RoomService roomSvc = new RoomService();
-	List<RoomVO> list = roomSvc.getAllRoom();
+<jsp:useBean id="roomTypeSvc" class="com.roomType.model.RoomTypeService" />
 
-	pageContext.setAttribute("list", list);
-// 	List<RoomVO> list = (List<RoomVO>) request.getAttribute("list"); // **取得concroller存入request的list
-	pageContext.setAttribute("roomSvc", roomSvc); // 用來計算各個狀態的有幾筆資料
+<%
+	// 用來計算各個狀態的有幾筆資料
+	RoomService roomSvc = new RoomService();
+	pageContext.setAttribute("roomSvc", roomSvc);
+	
+	// 第一次進來執行if裡面，list是getAll
+	// 不是第一次進來(點擊狀態分類從controller過來的)，table中就用forward過來的list
+	if (request.getAttribute("list") == null) {
+		List<RoomVO> list = roomSvc.getAllRoom();
+		pageContext.setAttribute("list", list);
+	}
+
+	// 切換分類的下底線，第一次進來分類0，第一個li加底線
+	if (request.getAttribute("rm_state") == null) {
+		pageContext.setAttribute("rm_state", 0);
+	}
 %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<%@ include file="/back_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 		<style>
@@ -124,17 +133,21 @@
 				</a>
 				<div class="card-tabs mt-3 mt-sm-0">
 					<ul class="nav nav-tabs" role="tablist">
-						<li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="<%=request.getContextPath()%>/room/Room?action=getAll" role="tab">所有房間 (${roomSvc.getAllRoom().size()})</a></li>
-						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
-							href="<%=request.getContextPath()%>/room/Room?rm_state=1&action=getAllByRmState" role="tab">空房 (${roomSvc.getAllByRmState(1).size()})</a></li>
-						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
-							href="<%=request.getContextPath()%>/room/Room?rm_state=2&action=getAllByRmState" role="tab">入住中 (${roomSvc.getAllByRmState(2).size()})</a></li>
-						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
-							href="<%=request.getContextPath()%>/room/Room?rm_state=0&action=getAllByRmState" role="tab">已停用 (${roomSvc.getAllByRmState(0).size()})</a></li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?action=getAll">所有房間 (${roomSvc.getAllRoom().size()})</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=1&action=getAllByRmState">空房 (${roomSvc.getAllByRmState(1).size()})</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=2&action=getAllByRmState">入住中 (${roomSvc.getAllByRmState(2).size()})</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=3&action=getAllByRmState">已停用 (${roomSvc.getAllByRmState(3).size()})</a>
+						</li>
 					</ul>
 				</div>
 			</div>
-
 			<div class="table-responsive">
 				<table id="roomTypeTable" class="display default-table" style="min-width: 845px;">
 					<thead>
@@ -155,9 +168,9 @@
 							<td>${roomVO.rm_info}</td>
 							<td>
 								<c:choose>
-									<c:when test="${roomVO.rm_state==0}">已停用</c:when>
 									<c:when test="${roomVO.rm_state==1}">空房</c:when>
 									<c:when test="${roomVO.rm_state==2}">入住中</c:when>
+									<c:when test="${roomVO.rm_state==3}">已停用</c:when>
 								</c:choose>
 							</td>
 							<td>${roomVO.name_title}</td>
@@ -182,7 +195,7 @@
 			$(document).ready(function() {
 				$("#pagename").text("房間列表");
 			    $("#roomTypeTable").DataTable( {
-			    	"lengthMenu": [20, 10, 5],
+			    	"lengthMenu": [5, 10, 20],
 			        "language": {
 			        	"processing": "處理中...",
 			            "loadingRecords": "載入中...",
@@ -202,19 +215,7 @@
 			            },
 			        }
 			    } );
-			    $(".switches").click(function(){
-			    	$("#staticBackdrop").modal('show');
-			    	var data_no = $(this).data('no');
-			    	var data_state = $(this).data('state');
-			    	var state_text = (data_state == true) ? "下架" : "上架";
-			        $('#no_text').text(data_no);
-			    	$('#state_text').text(state_text);
-			        $('#modal_type_no').val(data_no);
-			        $('#modal_type_state').val(data_state);
-			    });
-			    $(".cancel").click(function(){
-			    	$("#staticBackdrop").modal('hide');
-			    });
+			    $("li.nav-item:eq(${rm_state+1})").children().addClass("nav-link active");
 			} );
 		</script>
 	</body>

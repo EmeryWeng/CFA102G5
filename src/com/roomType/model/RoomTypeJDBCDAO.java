@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 	private static final String GET_ALL = "SELECT * FROM room_type ORDER BY type_no";
 	private static final String GET_ALL_FRONT = "SELECT * FROM room_type WHERE type_state=true ORDER BY type_no";
 	private static final String CHANGE_STATE = "UPDATE room_type SET type_state = ? WHERE type_no = ?";
+	private static final String GET_ENOUGH_TYPE = "SELECT * FROM room_type JOIN (SELECT MIN(rm_total-rsv_total) as minqty, type_no as typeno FROM room_rsv WHERE rsv_date BETWEEN ? AND ? GROUP BY type_no) as rsv ON room_type.type_no = rsv.typeno WHERE minqty >= ? AND type_qty >= ? AND type_state = 1";
 
 	static {
 		try {
@@ -175,6 +177,40 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<RoomTypeVO> getEnoughType(LocalDate start_date, LocalDate end_date, Integer qty, Integer guest) {
+		List<RoomTypeVO> list = new ArrayList<>();
+		RoomTypeVO roomTypeVO = null;
+		ResultSet rs = null;
+
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(GET_ENOUGH_TYPE);
+			pstmt.setObject(1, start_date);
+			pstmt.setObject(2, end_date);
+			pstmt.setInt(3, qty);
+			pstmt.setInt(4, guest);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roomTypeVO = new RoomTypeVO();
+				roomTypeVO.setType_no(rs.getInt("type_no"));
+				roomTypeVO.setType_name(rs.getString("type_name"));
+				roomTypeVO.setType_qty(rs.getInt("type_qty"));
+				roomTypeVO.setType_price(rs.getInt("type_price"));
+				roomTypeVO.setType_size(rs.getInt("type_size"));
+				roomTypeVO.setBed_size(rs.getString("bed_size"));
+				roomTypeVO.setType_info(rs.getString("type_info"));
+				roomTypeVO.setType_facility(rs.getString("type_facility"));
+				roomTypeVO.setType_state(rs.getBoolean("type_state"));
+				list.add(roomTypeVO);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return list;
 	}
 
 }

@@ -1,9 +1,10 @@
 package com.roomType.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class RoomTypeTest {
-	
+
 	public static void main(String[] args) {
 		I_RoomTypeDAO dao = new RoomTypeJDBCDAO();
 
@@ -17,7 +18,7 @@ public class RoomTypeTest {
 //		roomTypeVO.setType_info("1這個房間有三張分很開的單人床");
 //		roomTypeVO.setType_facility("1有樸克牌");
 //		dao.insert(roomTypeVO);
-		
+
 		// 修改
 //		RoomTypeVO roomTypeVO = new RoomTypeVO();
 //		roomTypeVO.setType_no(11);
@@ -30,7 +31,7 @@ public class RoomTypeTest {
 //		roomTypeVO.setType_facility("9有樸克牌");
 //		roomTypeVO.setType_state(false);
 //		dao.update(roomTypeVO);
-		
+
 		// 查詢一筆 用PK
 //		RoomTypeVO roomTypeVO = dao.getOne(12);
 //		System.out.print(roomTypeVO.getType_no() + ",");
@@ -42,7 +43,21 @@ public class RoomTypeTest {
 //		System.out.print(roomTypeVO.getType_info() + ",");
 //		System.out.print(roomTypeVO.getType_facility() + ",");
 //		System.out.println(roomTypeVO.getType_state());
-		
+
+		// 查詢足夠的房型
+		List<RoomTypeVO> list = dao.getEnoughType(LocalDate.of(2021, 9, 27), LocalDate.of(2021, 9, 30), 4, 3);
+		for (RoomTypeVO roomTypeVO : list) {
+			System.out.print(roomTypeVO.getType_no() + ",");
+			System.out.print(roomTypeVO.getType_name() + ",");
+			System.out.print(roomTypeVO.getType_qty() + ",");
+			System.out.print(roomTypeVO.getType_price() + ",");
+			System.out.print(roomTypeVO.getType_size() + ",");
+			System.out.print(roomTypeVO.getBed_size() + ",");
+			System.out.print(roomTypeVO.getType_info() + ",");
+			System.out.print(roomTypeVO.getType_facility() + ",");
+			System.out.println(roomTypeVO.getType_state());
+		}
+
 		// 查詢全部
 //		List<RoomTypeVO> list = dao.getAll();
 //		for (RoomTypeVO roomTypeVO : list) {
@@ -56,6 +71,6 @@ public class RoomTypeTest {
 //			System.out.print(roomTypeVO.getType_facility() + ",");
 //			System.out.println(roomTypeVO.getType_state());
 //		}
-		
+
 	}
 }
