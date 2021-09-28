@@ -19,7 +19,7 @@ public class RoomRsvServlet extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		doPost(req, res);
+
 	}
 
 	@Override
@@ -27,9 +27,8 @@ public class RoomRsvServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-//		PrintWriter out = null;
 
-		if ("getEnoughType".equals(action)) { //
+		if ("getEnoughType".equals(action)) {
 			/*************************** 1.接收請求參數 ****************************************/
 			String rangedate = req.getParameter("rangedate");
 			Integer qty = new Integer(req.getParameter("qty"));
@@ -41,7 +40,6 @@ public class RoomRsvServlet extends HttpServlet {
 			for (int i = 0; i < split.length; i++) {
 				dateList.add(split[i]);
 			}
-//			System.out.println(split[0] + split[1]);
 			String start_date = split[0];
 			String end_date = split[1];
 
@@ -60,6 +58,32 @@ public class RoomRsvServlet extends HttpServlet {
 			session.setAttribute("guest", guest);
 			String url = "/front_end/room/roomList.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的roomList.jsp
+			successView.forward(req, res);
+		}
+
+		if ("writeInfo".equals(action)) {
+			String rangedate = req.getParameter("rangedate");
+			HttpSession session = req.getSession();
+			Integer qty = (Integer) session.getAttribute("qty");
+			Integer guest = (Integer) session.getAttribute("guest");
+
+			// 將收到的住宿期間分割成 起始日 和 結束日
+			List<String> dateList = new LinkedList<String>();
+			String[] split = rangedate.split(" to ");
+			for (int i = 0; i < split.length; i++) {
+				dateList.add(split[i]);
+			}
+			String start_date = split[0];
+			String end_date = split[1];
+
+			/**************** 值都存入session完成，準備轉交 ************/
+			session.setAttribute("rangedate", rangedate);
+			session.setAttribute("start_date", start_date);
+			session.setAttribute("end_date", end_date);
+			session.setAttribute("qty", qty);
+			session.setAttribute("guest", guest);
+			String url = "/front_end/room/writeInfo.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的writeInfo.jsp
 			successView.forward(req, res);
 		}
 

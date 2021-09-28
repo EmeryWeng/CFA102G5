@@ -392,7 +392,7 @@
 <!-- 								</div> -->
 
 								<div class="col-lg-12 col-md-12">
-									<input type="hidden" name="action" value="checkOut">
+									<input type="hidden" name="action" value="writeInfo">
 									<button type="submit" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
 								</div>
 							</div>
