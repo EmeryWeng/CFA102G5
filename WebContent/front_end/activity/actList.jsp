@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.stream.Collectors"%>
 <%@ page import ="com.activity.model.*" %>
 <%@ page import ="java.util.List" %>
 
+
 <%
 	ActivityService actSvc = new ActivityService();
-	List<ActivityVO> list = actSvc.getAll();
+	List<ActivityVO> list = actSvc.getAll().stream()
+								  .filter(act -> act.getAct_state() == true)
+								  .collect(Collectors.toList());
 	pageContext.setAttribute("list",list);
 %>
 
@@ -76,7 +80,7 @@ button.queryBtn{
 										<div class="search-category div-pad bd-bot">
 											<h1 class="second-title" style="font-size:2rem;color:#007979;">活動類別</h1>
 												<form method="post" action="<%=request.getContextPath()%>/activity/Activity" id="queryForm">
-											<c:forEach var="actClassVO" items="${actClassService.all}">
+											<c:forEach var="actClassVO" items="${actClassService.getAll().stream().filter(act -> act.getAct_class_state() == true).toList()}">
 												<div class="custom-control">
 													<input type="radio" name="actClassNo" style="width: 2rem;"
 													 id="check${actClassVO.act_class_no}" value="${actClassVO.act_class_no}"> 
