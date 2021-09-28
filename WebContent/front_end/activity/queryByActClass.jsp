@@ -133,6 +133,15 @@ button.queryBtn{
 
 
 	<script>
+		$(window).on('load',function(){
+			if(${list.size() == 0}){
+				alert('該活動類別下無活動');
+				location.href ="<%=request.getContextPath()%>/front_end/activity/actList.jsp";
+				
+				return false;
+			}
+		});
+		
 		$("#queryBtn").click(function(){
 			$("#queryForm").submit();
 		});
