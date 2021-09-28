@@ -30,6 +30,7 @@ public class ActivitySchedule extends TimerTask{
 	public void run() {
 		SendMail mail = new SendMail();
 		Map<String,String> map = new HashMap<>();	
+		LocalDate now = LocalDate.now(); //當天
 		
 System.out.println("正在執行任務============");		
 		ActivitySessionService sessionService = new ActivitySessionService();
@@ -37,6 +38,23 @@ System.out.println("正在執行任務============");
 		ActivityOrderDetailService orderDetailService = new ActivityOrderDetailService();
 		MemberService memService = new MemberService();
 		ActivityService actService = new ActivityService();
+		
+		//該場次開始前兩天 檢查是否滿足最低人數 更改該場次狀態
+		List<ActivitySessionVO> sessionList = sessionService.getAll();
+		
+		for(ActivitySessionVO vo : sessionList) {
+			LocalDate date = vo.getAct_session_start_date();
+			Period period = Period.between(now,date);
+			if(period.getDays() == 2) {
+System.out.println("抓到剩餘天數為2");
+				if(vo.getAct_session_real_number() >= 3) {
+System.out.println("已滿足場次舉辦條件 人數  >= 下限" + (vo.getAct_session_real_number() >= 3));					
+System.out.println("已將該場次更改為舉辦:" + vo.getAct_session_no());
+					sessionService.switchActSessionState(vo.getAct_session_no(),true);
+				}
+			}
+		}
+		
 		//過濾掉 明細狀態為2(已取消的情況)
 		List<ActivityOrderDetailVO> detailList = orderDetailService.getAll()
 												.stream().filter(detail -> detail.getAct_order_detail_state() != 2)
@@ -46,7 +64,7 @@ System.out.println("正在執行任務============");
 			//抓場次vo
 			ActivitySessionVO sesionVO = sessionService.getActSessionByPk(datailVO.getAct_session_no());
 			LocalDate start_date = sesionVO.getAct_session_start_date(); //已結帳下的場次的開始日期
-			LocalDate now = LocalDate.now();
+			
 			
 			LocalTime start_time = sesionVO.getAct_session_start_time();
 			
@@ -76,6 +94,7 @@ System.out.println("抓到剩餘天數==1");
 								   + start_date + " " + amOrPm + " " + start_time + " 開始，請前往 "
 								   + act_gather_location +" 集合，謝謝您，祝您遊玩愉快!";
 				
+				//同會員同場次 只寄一次信
 				if(!map.containsKey(email) && !map.containsValue(String.valueOf(session_no))) {
 					map.put("email", email);
 System.out.println("map"+map);					
