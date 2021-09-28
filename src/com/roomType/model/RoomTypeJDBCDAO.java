@@ -1,11 +1,11 @@
 package com.roomType.model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,15 +180,15 @@ public class RoomTypeJDBCDAO implements I_RoomTypeDAO {
 	}
 
 	@Override
-	public List<RoomTypeVO> getEnoughType(LocalDate start_date, LocalDate end_date, Integer qty, Integer guest) {
+	public List<RoomTypeVO> getEnoughType(Date start_date, Date end_date, Integer qty, Integer guest) {
 		List<RoomTypeVO> list = new ArrayList<>();
 		RoomTypeVO roomTypeVO = null;
 		ResultSet rs = null;
 
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(GET_ENOUGH_TYPE);
-			pstmt.setObject(1, start_date);
-			pstmt.setObject(2, end_date);
+			pstmt.setDate(1, start_date);
+			pstmt.setDate(2, end_date);
 			pstmt.setInt(3, qty);
 			pstmt.setInt(4, guest);
 			rs = pstmt.executeQuery();

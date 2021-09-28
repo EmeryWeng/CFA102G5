@@ -1,6 +1,5 @@
 package com.roomType.model;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class RoomTypeTest {
@@ -45,7 +44,8 @@ public class RoomTypeTest {
 //		System.out.println(roomTypeVO.getType_state());
 
 		// 查詢足夠的房型
-		List<RoomTypeVO> list = dao.getEnoughType(LocalDate.of(2021, 9, 27), LocalDate.of(2021, 9, 30), 4, 3);
+		List<RoomTypeVO> list = dao.getEnoughType(java.sql.Date.valueOf("2021-10-08"),
+				java.sql.Date.valueOf("2021-10-09"), 4, 3);
 		for (RoomTypeVO roomTypeVO : list) {
 			System.out.print(roomTypeVO.getType_no() + ",");
 			System.out.print(roomTypeVO.getType_name() + ",");
