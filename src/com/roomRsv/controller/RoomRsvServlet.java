@@ -63,9 +63,8 @@ public class RoomRsvServlet extends HttpServlet {
 
 		if ("writeInfo".equals(action)) {
 			String rangedate = req.getParameter("rangedate");
-			HttpSession session = req.getSession();
-			Integer qty = (Integer) session.getAttribute("qty");
-			Integer guest = (Integer) session.getAttribute("guest");
+			Integer qty = new Integer(req.getParameter("qty"));
+			Integer type_no = new Integer(req.getParameter("type_no"));
 
 			// 將收到的住宿期間分割成 起始日 和 結束日
 			List<String> dateList = new LinkedList<String>();
@@ -76,12 +75,19 @@ public class RoomRsvServlet extends HttpServlet {
 			String start_date = split[0];
 			String end_date = split[1];
 
-			/**************** 值都存入session完成，準備轉交 ************/
+			/**************** 可能更新的值都存入session，同時存入req完成，準備轉交 ************/
+			HttpSession session = req.getSession();
 			session.setAttribute("rangedate", rangedate);
 			session.setAttribute("start_date", start_date);
 			session.setAttribute("end_date", end_date);
 			session.setAttribute("qty", qty);
-			session.setAttribute("guest", guest);
+
+			req.setAttribute("rangedate", rangedate);
+			req.setAttribute("start_date", start_date);
+			req.setAttribute("end_date", end_date);
+			req.setAttribute("type_no", type_no);
+			req.setAttribute("qty", qty);
+
 			String url = "/front_end/room/writeInfo.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的writeInfo.jsp
 			successView.forward(req, res);
