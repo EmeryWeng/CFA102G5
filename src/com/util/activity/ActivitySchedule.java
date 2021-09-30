@@ -1,18 +1,17 @@
 package com.util.activity;
 
 
-import java.time.Duration;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
+
+import org.apache.log4j.Logger;
 
 import com.activity.model.ActivityService;
 import com.activity.model.ActivityVO;
@@ -25,14 +24,13 @@ import com.member.model.MemberClassVO;
 import com.member.model.MemberService;
 
 public class ActivitySchedule extends TimerTask{
-	
+	private Logger logger = Logger.getLogger(ActivitySchedule.class);
 	@Override
 	public void run() {
 		SendMail mail = new SendMail();
 		Map<String,String> map = new HashMap<>();	
 		LocalDate now = LocalDate.now(); //當天
 		
-System.out.println("正在執行任務============");		
 		ActivitySessionService sessionService = new ActivitySessionService();
 		ActivityOrderService orderService = new ActivityOrderService();
 		ActivityOrderDetailService orderDetailService = new ActivityOrderDetailService();
@@ -41,16 +39,19 @@ System.out.println("正在執行任務============");
 		
 		//該場次開始前兩天 檢查是否滿足最低人數 更改該場次狀態
 		List<ActivitySessionVO> sessionList = sessionService.getAll();
-		
+logger.info("日誌紀錄中: 開始排程器");		
 		for(ActivitySessionVO vo : sessionList) {
 			LocalDate date = vo.getAct_session_start_date();
 			Period period = Period.between(now,date);
 			if(period.getDays() == 2) {
-System.out.println("抓到剩餘天數為2");
-				if(vo.getAct_session_real_number() >= 3) {
-System.out.println("已滿足場次舉辦條件 人數  >= 下限" + (vo.getAct_session_real_number() >= 3));					
-System.out.println("已將該場次更改為舉辦:" + vo.getAct_session_no());
+			
+logger.info("抓到剩餘天數為2");
+				if(vo.getAct_session_real_number() >= 3 && vo.getAct_session_real_number() <= 10) {
+logger.info("已滿足場次舉辦條件 人數  >= 下限" + (vo.getAct_session_real_number() >= 3));					
+logger.info("已將該場次更改為舉辦:" + vo.getAct_session_no());
 					sessionService.switchActSessionState(vo.getAct_session_no(),true);
+				}else {
+					mail.sendMail(to, subject, messageText);
 				}
 			}
 		}
@@ -68,12 +69,12 @@ System.out.println("已將該場次更改為舉辦:" + vo.getAct_session_no());
 			
 			LocalTime start_time = sesionVO.getAct_session_start_time();
 			
-System.out.println("Now:(day)"+now);
-System.out.println("資料庫明細的日期:"+ start_date);
+logger.info("Now:(day)"+now);
+logger.info("資料庫明細的日期:"+ start_date);
 			Period period = Period.between(now,start_date);
-System.out.println("相差天數:"+ period.getDays());		
+logger.info("相差天數:"+ period.getDays());		
 			if(period.getDays() == 1) {
-System.out.println("抓到剩餘天數==1");				
+logger.info("抓到剩餘天數==1");				
 				
 				Integer order_no = datailVO.getAct_order_no();
 				
@@ -97,13 +98,12 @@ System.out.println("抓到剩餘天數==1");
 				//同會員同場次 只寄一次信
 				if(!map.containsKey(email) && !map.containsValue(String.valueOf(session_no))) {
 					map.put("email", email);
-System.out.println("map"+map);					
+					
 					map.put("sessionNo",String.valueOf(session_no));
 					mail.sendMail(map.get("email"),"Feliz Hotel提醒您活動快開始了", messageText);
-System.out.println("已通知該會員: "+email + " 於場次 " + session_no);
+logger.info("已通知該會員: "+email + " 於場次 " + session_no);
 				}
 
-System.out.println("此輪任務已結束==========");
 			}
 		}		
 	}

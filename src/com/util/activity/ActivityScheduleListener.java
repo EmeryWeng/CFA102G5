@@ -18,10 +18,10 @@ public class ActivityScheduleListener implements ServletContextListener {
 
 	
     public void contextInitialized(ServletContextEvent sce)  {
-System.out.println("==========排程器已啟動==========");
+
     	timer = new Timer();
     	timer.schedule(new ActivitySchedule(), 5000, 86400000);
-System.out.println("==========已執行回來==========");    	
+    	
     	//86,400,000 one day
     }
 	
