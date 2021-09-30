@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.activityOrderDetail.model.ActivityOrderDetailService;
 import com.activityOrderDetail.model.ActivityOrderDetailVO;
 import com.activitySession.model.ActivitySessionService;
@@ -19,7 +21,7 @@ import com.google.gson.Gson;
 
 public class ActivityOrderDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+    private final Logger logger = Logger.getLogger(ActivityOrderDetailServlet.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request,response);
@@ -30,12 +32,12 @@ public class ActivityOrderDetailServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		ActivityOrderDetailService actOrderDetailService = new ActivityOrderDetailService();
 		ActivitySessionService actSessionService = new ActivitySessionService();
-		
+logger.info(action);
 		
 //		來自前台人數檢查
 		if("checkSessionPeopleNumber".equals(action)) {
 			Integer act_session_no = new Integer(request.getParameter("sessionNo"));
-System.out.println("場次的值:"+act_session_no);
+
 			Integer act_people_number = actOrderDetailService
 								 .getActOrderDetailByActSessionNo(act_session_no)
 								 .stream().mapToInt(detail -> detail.getAct_real_join_number())
@@ -80,8 +82,7 @@ System.out.println("場次的值:"+act_session_no);
 			Integer actNo = actSessionListByActNo.stream()
 					.mapToInt(session -> session.getAct_no()).distinct()
 					.findFirst().getAsInt();
-			
-//System.out.println("目前符合的有:"+actSessionListByActNo);			
+						
 			request.setAttribute("actNo", actNo);
 			request.setAttribute("actSessionVO", actSessionVO);
 			request.setAttribute("actOrderDetailVO", actOrderDetailVO);	
@@ -99,7 +100,7 @@ System.out.println("場次的值:"+act_session_no);
 			
 			//可選擇要改場次的人數，確認人數(要更換的) 但有可能明細沒有該場次 這時候就直接動場次
 			Integer change_act_people_number = new Integer(request.getParameter("changeActPeopleSelect"));
-//System.out.println("要更換場次的人數:"+change_act_people_number);			
+			
 			Integer change_session_act_real_join_number = null;
 			try {
 				change_session_act_real_join_number = actOrderDetailService.getAll().stream()
@@ -109,18 +110,9 @@ System.out.println("場次的值:"+act_session_no);
 						.getAsInt();
 			}catch(NoSuchElementException ex) {
 				change_session_act_real_join_number = 0;
-//				System.out.println("例外發生~~~要更換場次的人數:"+change_act_people_number);		
-//				System.out.println("例外拋出現在無該場次:"+change_act_session_no);
-			}
+
+			}		
 			
-			
-//System.out.println("訂單編號:"+act_order_no);			
-//System.out.println("原本的場次編號:"+old_act_session_no);			
-//System.out.println("原本場次人數!!!!!!!!!!:"+change_act_people_number);
-//System.out.println("=========================");
-//System.out.println("要更換的場次編號"+change_act_session_no);	
-//System.out.println("要更換的場次人數!!!!!!!!:"+change_session_act_real_join_number);
-//System.out.println("========================================================以下為修改");
 			Gson gson = new Gson();
 			
 			if(change_act_people_number + change_session_act_real_join_number <= 10) {
@@ -136,13 +128,13 @@ System.out.println("場次的值:"+act_session_no);
 			Integer act_session_price = new Integer(request.getParameter("actSessionPrice"));
 			//實際報名人數(原本的場次)
 			Integer old_act_session_people_number = new Integer(request.getParameter("changeActPeopleSelect"));			
-//System.out.println("原本的場次選擇多少人:"+old_act_session_people_number);				
+				
 			//原本的場次編號
 			Integer old_act_session_no = new Integer(request.getParameter("updateActSessionNo"));
-//System.out.println("原本的場次編號"+old_act_session_no);			
+			
 			//要更換的場次(不存在的情況要注意)
 			Integer change_act_session_no = new Integer(request.getParameter("actSessionTimeSelect"));
-//System.out.println("要換過去的場次編號"+ change_act_session_no);
+
 			//訂單編號
 			Integer act_order_no = new Integer(request.getParameter("updateOrderNo"));
 			
@@ -160,15 +152,14 @@ System.out.println("場次的值:"+act_session_no);
 								 	.findFirst()
 								 	.getAsInt();
 			
-//System.out.println("要換過去場次的人數:"+change_act_people_number);
 			totalPeople = old_act_session_people_number+change_act_people_number;
-//System.out.println("總人數:"+ totalPeople);
+
 			act_price_total = act_session_price * totalPeople;
-//System.out.println("總金額:"+ act_price_total);
+
 			actOrderDetailService.orderDetailUpdate(totalPeople, act_price_total, act_order_no, change_act_session_no);
-//System.out.println("要換過去的明細更新成功");
+
 			}catch(NoSuchElementException ex) {
-//				System.out.println("明細中 無該場次 直接更動原明細");
+
 				act_price_total = old_act_session_people_number * act_session_price;
 				actOrderDetailService.addActOrderDetail(act_order_no, change_act_session_no, old_act_session_people_number, act_session_price, 0, act_price_total, 1);
 			}
@@ -178,15 +169,33 @@ System.out.println("場次的值:"+act_session_no);
 					 .mapToInt(detail -> detail.getAct_real_join_number())
 					 .findFirst()
 					 .getAsInt();
-//System.out.println("原本場次的總人數:"+ totalPeople);			
+			
 			totalPeople -= old_act_session_people_number;
-//System.out.println("原本的明細 扣除過後的人數:"+ totalPeople);	
+	
 			Integer old_act_price_total = totalPeople * act_session_price;
 			actOrderDetailService.orderDetailUpdate(totalPeople, old_act_price_total, act_order_no, old_act_session_no);
-//System.out.println("原本的明細更新成功");	
 
 
 			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetail.jsp")
+			.forward(request, response);
+			return;
+		}
+		
+		//根據分類查詢 (已付款、已取消、已改期)
+		if("canceled".equals(action)) {
+			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(2);
+			
+			request.setAttribute("selectByState",selectByState);
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			.forward(request, response);
+			return;
+		}
+		
+		if("changeDate".equals(action)) {
+			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(3);
+			
+			request.setAttribute("selectByState",selectByState);
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
 			.forward(request, response);
 			return;
 		}
