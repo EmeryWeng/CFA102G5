@@ -232,11 +232,12 @@
     <body>
 		<%@ include file="/front_end/loading.file" %> <!-- loading -->
         <%@ include file="/front_end/header.file" %> <!-- Header -->
+        
 		<div class="mt-5 mb-5 pt-20 container">
 			<div class="inner-title">
 				<div>
 					<ul class="check">
-						<li><i class='bx bx-check-circle'></i></i>7天前免費取消</li>
+						<li><i class='bx bx-check-circle'></i>入住1天前免費取消</li>
 						<li><i class='bx bx-check-circle'></i>訂房皆含早餐</li>
 						<li><i class='bx bx-check-circle'></i>送活動折價券</li>
 					</ul>
@@ -365,8 +366,7 @@
 							<div>
 								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="$###,###" /></span><span> / 一晚</span>
 							</div>
-						</div>
-						<form method="post" action="<%=request.getContextPath()%>/room/RoomOrder" name="checkOut">
+						<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" id="checkoutForm">
 							<div class="row align-items-center">
 								<div class="col-lg-12">
 	                                <div class="form-group">
@@ -378,22 +378,11 @@
 	                                    <i class='bx bxs-chevron-down'></i>	
 	                                </div>
 								</div>
-
-<!-- 								<div class="col-lg-12"> -->
-<!-- 									<div class="form-group"> -->
-<!-- 										<label>Numbers of Rooms</label> <select class="form-control"> -->
-<!-- 											<option>01</option> -->
-<!-- 											<option>02</option> -->
-<!-- 											<option>03</option> -->
-<!-- 											<option>04</option> -->
-<!-- 											<option>05</option> -->
-<!-- 										</select> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-
 								<div class="col-lg-12 col-md-12">
+									<input type="hidden" name="type_no" value="${roomTypeVO.type_no}">
+									<input type="hidden" name="qty" value="${qty}">
 									<input type="hidden" name="action" value="writeInfo">
-									<button type="submit" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
+									<button type="submit" class="btn btn-primary line-btn" onclick="checkCar();"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
 								</div>
 							</div>
 						</form>
@@ -401,6 +390,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 		<%@ include file="/front_end/message.file" %> <!-- Message --> 
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
@@ -424,8 +414,24 @@
 	            dateFormat: "Y-m-d",
 	            defaultDate: ["${start_date}", "${end_date}"],
 	            minDate: "today",
-	            disable: [${result}],
+	            disable: [${result}]
 	        });
+	        function checkOut(){
+	    		if('${mem_mail}' === ''){
+	    			notLogin();
+	    			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
+	    			return false;
+	    		}
+	    		document.getElementById('checkoutForm').submit();
+	    	}
+	        function notLogin() {
+	    		swal.fire({
+	    			icon : 'error',
+	    			title : '請先登入',
+	    			showConfirmButton : false,
+	    			timer : 1000
+	    		})		
+	    	}   
         </script>
 	</body>
 </html> 
