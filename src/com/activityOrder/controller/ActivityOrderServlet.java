@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+
 import com.activity.model.ActivityService;
 import com.activityOrder.model.ActivityOrderService;
 import com.activityOrder.model.OrderVO;
@@ -33,7 +36,7 @@ import com.util.activity.SendMail;
 
 public class ActivityOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+    private final Logger logger = Logger.getLogger(ActivityOrderServlet.class);
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request,response);
@@ -47,13 +50,13 @@ public class ActivityOrderServlet extends HttpServlet {
 		ActivityOrderDetailService detailService = new ActivityOrderDetailService();
 		ActivityService actService = new ActivityService();
 		ActivitySessionService sessionService = new ActivitySessionService();
-System.out.println("action:"+action);		
+logger.info("action:"+action);		
 		
 		
 //		付款流程
 		if("checkout".equals(action)) {
 			String checkoutAction = request.getParameter("checkoutAction");
-System.out.println("結帳動作:"+checkoutAction);
+logger.info("結帳動作:"+checkoutAction);
 			HttpSession session = request.getSession();
 			
 			String mem_email = (String)session.getAttribute("mem_mail");
@@ -77,8 +80,7 @@ System.out.println("結帳動作:"+checkoutAction);
 					ActivityOrderDetailVO vo = new ActivityOrderDetailVO();					
 					LocalDate date = LocalDate.parse(map.get("act_date"));
 					LocalTime time = LocalTime.parse(map.get("act_session_start_time"));
-System.out.println("Date:"+date);
-System.out.println("Time"+time);
+
 					Integer act_session_no = sessionService.getAll()
 					.stream().filter(act -> act.getAct_session_start_date().equals(date) && act.getAct_session_start_time().equals(time))
 							 .mapToInt(act -> act.getAct_session_no()).findFirst().getAsInt();
@@ -98,7 +100,7 @@ System.out.println("Time"+time);
 				actOrderService.insertWithOrderDetails(mem_no, act_booking_date, 
 						act_order_total_price, act_order_title, act_order_name, 
 						act_order_phone, act_order_email, act_order_credit_card, detailList);
-System.out.println("交易完成");
+
 				//清空購物車
 				list.clear();
 				session.setAttribute("shoppingCar",list);
@@ -119,7 +121,7 @@ System.out.println("交易完成");
 					}
 					sessionService.updateActSessionRealJoinNumber(sessionNo,total);							
 				}
-System.out.println("購物車:已更新活動場次人數");				
+				
 //更新活動累積銷售的人數				
 			int[] actNoArray = actService.getAll().stream().mapToInt(act->act.getAct_no()).toArray();
 			List<ActivitySessionVO> actSessionList = sessionService.getAll();
@@ -133,7 +135,7 @@ System.out.println("購物車:已更新活動場次人數");
 					}
 					actService.updateActSellNumber(actNo, total);						
 				}
-System.out.println("購物車:已更新活動場次人數");	
+	
 
 //寄信
 				SendMail mail = new SendMail();
@@ -155,8 +157,7 @@ System.out.println("購物車:已更新活動場次人數");
 				List<ActivityOrderDetailVO> detailList = new ArrayList<>();
 				LocalDate date = LocalDate.parse(request.getParameter("actSessionDate"));
 				LocalTime time = LocalTime.parse(request.getParameter("actSessionTime"));
-System.out.println("Date:"+date);
-System.out.println("Time"+time);				
+				
 				
 				Integer act_session_no = sessionService.getAll()
 						.stream().filter(act -> act.getAct_session_start_date().equals(date) && act.getAct_session_start_time().equals(time))
@@ -181,8 +182,7 @@ System.out.println("Time"+time);
 				actOrderService.insertWithOrderDetails(mem_no, act_booking_date,
 						act_order_total_price, act_order_title, act_order_name, 
 						act_order_phone, act_order_email, act_order_credit_card, detailList);
-System.out.println("交易完成");
-				
+			
 				
 //更新場次的人數 不包含已取消 退款的人數
 				List<ActivityOrderDetailVO> actOrderDetailList = detailService.getActOrderDetailByActSessionNo(act_session_no)
@@ -194,8 +194,6 @@ System.out.println("交易完成");
 				
 				sessionService.updateActSessionRealJoinNumber(act_session_no,total);							
 				
-System.out.println("立即訂購:已更新活動場次人數");	
-				
 				ActivitySessionVO sessionVO = sessionService.getActSessionByPk(act_session_no);
 				Integer act_no = sessionVO.getAct_no();
 				
@@ -203,9 +201,7 @@ System.out.println("立即訂購:已更新活動場次人數");
 				Integer peopleTotal = actService.getActByPk(act_no).getAct_sell_number();
 				Integer totalNum = peopleTotal + act_real_join_number;
 				actService.updateActSellNumber(act_no, totalNum);
-System.out.println("立即訂購:已更新活動人數");					
 				
-
 //寄信
 				SendMail mail = new SendMail();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:m:s");
@@ -313,13 +309,7 @@ System.out.println("對購物車的操作是:"+car_action);
 				String act_people_number = request.getParameter("actPeopleNumber").trim();
 				
 				String act_price = String.valueOf(actService.getActByPk(new Integer(act_no)).getAct_price());
-				
-//System.out.println(act_name);			
-//System.out.println(act_date);			
-//System.out.println(act_session_start_time);			
-//System.out.println(act_people_number);
-//System.out.println("上半部為一開始");
-				
+							
 			
 //				一開始為空
 				if(list == null && map == null) {
@@ -381,12 +371,7 @@ System.out.println("對購物車的操作是:"+car_action);
 					list.clear();			
 				}
 			}
-			
-			
-System.out.println("************************");			
-System.out.println("現有的list狀態"+ list);			
-System.out.println("************************");			
-			
+				
 			
 			session.setAttribute("shoppingCar",list);
 			
@@ -399,7 +384,7 @@ System.out.println("************************");
 			return;
 		}
 		
-		//查看訂單列表
+		// 後台開始  查看訂單列表
 		if("getAll".equals(action)) {
 			
 			request.getRequestDispatcher("/back_end/activity/actOrder/selectActOrder.jsp")
@@ -407,7 +392,6 @@ System.out.println("************************");
 			return;
 		}
 		
-		//新增待做
 	}
 
 }
