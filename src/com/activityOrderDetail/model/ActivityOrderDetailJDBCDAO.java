@@ -342,5 +342,11 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 		
 	}
 
+	@Override
+	public Integer findByActOrderNoAndByActSessionNO(Integer act_order_no, Integer act_session_no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

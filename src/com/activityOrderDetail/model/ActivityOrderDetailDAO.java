@@ -28,6 +28,7 @@ public class ActivityOrderDetailDAO implements I_ActivityOrderDetailDAO {
 	private final String SWITCH_ORDER_DETAIL_STATE = "UPDATE ACTIVITY_ORDER_DETAIL SET act_order_detail_state = ? WHERE act_order_detail_no = ?";
 	private final String ORDER_DETAIL_UPDATE_SQL = "UPDATE ACTIVITY_ORDER_DETAIL SET act_real_join_number = ? "
 			+ ",act_price_total = ? WHERE act_order_no = ? AND act_session_no = ?";
+	private final String SELECT_PK_BY_ORDERNO_AND_SESSIONNO = "SELECT act_order_detail_no FROM ACTIVITY_ORDER_DETAIL WHERE act_order_no = ? AND act_session_no = ?";
 	static {	
 		try {
 			ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/TestDB");
@@ -401,6 +402,38 @@ System.out.println("================");
 				}
 			}
 		}
+	}
+
+	@Override
+	public Integer findByActOrderNoAndByActSessionNO(Integer act_order_no, Integer act_session_no) {
+		Connection con = null;
+		ResultSet rs = null;
+		Integer act_order_detail_no = null;
+		try{
+			con = ds.getConnection();
+			PreparedStatement ps = con.prepareStatement(SELECT_BY_ACTIVITY_ORDER_DETAIL_STATE_SQL);
+			
+			ps.setInt(1,act_order_no);
+			ps.setInt(1,act_session_no);
+			
+			rs = ps.executeQuery();	
+			while (rs.next()) {
+				act_order_detail_no = rs.getInt(1);
+			}
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		
+		return act_order_detail_no;
 	}
 
 

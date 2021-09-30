@@ -17,4 +17,5 @@ public interface I_ActivityOrderDetailDAO {
 	public void orderDetailUpdate(Integer act_real_join_number,Integer act_price_total,Integer act_order_no,Integer act_session_no);
 	public void switchOrderDetailState(Integer act_order_detail_no,Integer act_order_detail_state);
 	public void insertWithOrder(ActivityOrderDetailVO actOrderDetailVO,Connection con);
+	public Integer findByActOrderNoAndByActSessionNO(Integer act_order_no,Integer act_session_no);
 }
