@@ -6,10 +6,13 @@
 <%@ page import ="com.activityOrder.model.*" %>
 <%@ page import ="com.activitySession.model.*" %>
 <%@ page import ="java.util.List" %>
+<%@ page import="java.util.stream.Collectors"%>
 
 <%
 	ActivityOrderDetailService actOrderDetailSvc = new ActivityOrderDetailService();
-	List<ActivityOrderDetailVO> list = actOrderDetailSvc.getAll();
+	List<ActivityOrderDetailVO> list = actOrderDetailSvc.getAll()
+								.stream().filter(detail -> detail.getAct_order_detail_state() == 1)
+								.collect(Collectors.toList());
 	pageContext.setAttribute("list",list);
 %>
 
@@ -53,6 +56,22 @@
 	.modal-body{
 		width: 140rem;
 	}
+	.stateDiv .canceled{
+		position: relative;
+		left:7rem;
+    	top:-1.8rem;
+	}
+	.stateDiv .changeDate{
+		position: relative;
+		left:14rem;
+    	top:-4.4rem;
+	}
+	.stateDiv{
+		position: relative;
+    	width: 20rem;
+  		left: 15rem;
+	}
+	
 </style>
 </head>
 <body>
@@ -70,7 +89,16 @@
 			<button type="button" class="btn btn-primary btn-xs switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropSwitchActOrderDetailState">切換訂單明細狀態</button>
 				<!-- 切換上下架的modal -->
 			<jsp:include page="/back_end/activity/modal/actOrderDetail/switchActOrderDetailStateModal.jsp"/>
-				
+				<div class="stateDiv">
+					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
+						<input type="hidden" name="action" value="canceled">
+						<button type="submit" class="btn btn-danger btn-xs canceled">已取消</button>
+					</form>
+					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
+						<input type="hidden" name="action" value="changeDate">
+						<button type="submit" class="btn btn-warning btn-xs changeDate">已改期</button>
+					</form>
+				</div>
 		</div>
 			<table class="table">
 				<tr>
@@ -84,9 +112,10 @@
 					<th>活動訂單狀態</th>				
 					<th>修改明細</th>
 				</tr>
-				
-			<%@ include file="/back_end/activity/pages/actOrderDetail/page1.file" %> 
-				<c:forEach var="actOrderDetailVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+						
+			
+<%@ include file="/back_end/activity/pages/actOrderDetail/page1.file" %>
+			<c:forEach var="actOrderDetailVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 				<tr ${(actOrderDetailVO.act_order_detail_no == param.updateActOrderDetailNo) ? 'style="background-color:#FFE6FF;"':''}>
 					<th>${actOrderDetailVO.act_order_detail_no}</th>
 					<td>
@@ -131,9 +160,9 @@
 						</form>
 					</td>				
 				</tr>
-				</c:forEach>
-			</table>
-		<%@ include file="/back_end/activity/pages/actOrderDetail/page2.file" %> 
+			</c:forEach>
+		</table>
+<%@ include file="/back_end/activity/pages/actOrderDetail/page2.file" %> 
 	</div>
 </div>
 	
