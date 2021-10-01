@@ -113,7 +113,7 @@ public class ActivityServlet extends HttpServlet {
 		}
 		
 //		查詢某活動類別
-		if("queryByActClass".equals(action)) {
+		if("queryByActClassBackEnd".equals(action)) {
 			Integer queryId = new Integer(request.getParameter("queryActClass"));
 			List<ActivityVO> list = actService.getAll().stream()
 									.filter(act -> act.getAct_class_no() == queryId.intValue())
@@ -393,7 +393,6 @@ System.out.println("目前活動累積銷售人數:"+ act_sell_number);
 			return;
 			
 			}catch(Exception ex) {
-				errorMsgs.add("新增失敗:"+ex.getMessage());
 				Integer selectedNumber = act_class_no;
 				
 				actVO.setAct_name(act_name);
