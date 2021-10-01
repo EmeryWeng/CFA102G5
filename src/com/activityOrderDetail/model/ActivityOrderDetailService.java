@@ -74,7 +74,11 @@ public class ActivityOrderDetailService {
 		dao.switchOrderDetailState(act_order_detail_no, act_order_detail_state);
 	}
 	
-	public Integer getByActOrderNoAndByActSessionNO(Integer act_order_no,Integer act_session_no){
+	public void switchOrderDetailState(Integer act_order_no,Integer act_session_no,Integer act_order_detail_state) {
+		dao.switchOrderDetailState(act_order_no, act_session_no,act_order_detail_state);
+	}
+	
+	public ActivityOrderDetailVO getByActOrderNoAndByActSessionNO(Integer act_order_no,Integer act_session_no){
 		return dao.findByActOrderNoAndByActSessionNO(act_order_no, act_session_no);
 	}
 	
