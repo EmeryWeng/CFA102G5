@@ -1,6 +1,7 @@
 package com.activityOrderDetail.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -123,11 +124,12 @@ logger.info(action);
 			
 		}
 		
-		if("updateActOrderDetailSure".equalsIgnoreCase(action)) {
+		if("updateActOrderDetailSure".equals(action)) {
 			//活動場次單價
 			Integer act_session_price = new Integer(request.getParameter("actSessionPrice"));
+			
 			//實際報名人數(原本的場次)
-			Integer old_act_session_people_number = new Integer(request.getParameter("changeActPeopleSelect"));			
+			Integer act_session_people_number = new Integer(request.getParameter("actRealJoinNumber"));			
 				
 			//原本的場次編號
 			Integer old_act_session_no = new Integer(request.getParameter("updateActSessionNo"));
@@ -152,16 +154,21 @@ logger.info(action);
 								 	.findFirst()
 								 	.getAsInt();
 			
-			totalPeople = old_act_session_people_number+change_act_people_number;
+			totalPeople = act_session_people_number+change_act_people_number;
 
 			act_price_total = act_session_price * totalPeople;
-
+			
 			actOrderDetailService.orderDetailUpdate(totalPeople, act_price_total, act_order_no, change_act_session_no);
-
+			
+			//已改期的判斷 舊場次人數全部更換
+			if(old_act_session_no != change_act_session_no) {
+				actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
+			}
+			
 			}catch(NoSuchElementException ex) {
 
-				act_price_total = old_act_session_people_number * act_session_price;
-				actOrderDetailService.addActOrderDetail(act_order_no, change_act_session_no, old_act_session_people_number, act_session_price, 0, act_price_total, 1);
+				act_price_total = act_session_people_number * act_session_price;
+				actOrderDetailService.addActOrderDetail(act_order_no, change_act_session_no, act_session_people_number, act_session_price, 0, act_price_total, 1);
 			}
 //同時也要扣除相對應明細的人數以及總金額
 			totalPeople = actOrderDetailService.getAll().stream()
@@ -170,7 +177,7 @@ logger.info(action);
 					 .findFirst()
 					 .getAsInt();
 			
-			totalPeople -= old_act_session_people_number;
+			totalPeople -= act_session_people_number;
 	
 			Integer old_act_price_total = totalPeople * act_session_price;
 			actOrderDetailService.orderDetailUpdate(totalPeople, old_act_price_total, act_order_no, old_act_session_no);
