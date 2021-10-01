@@ -1,6 +1,7 @@
 package com.activityImage.controller;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -86,15 +87,19 @@ public class ActivityImageServlet extends HttpServlet {
 		}
 		//新增圖片
 		if("addActImg".equals(action)) {
-			Part part = request.getPart("actImg");
+			Collection<Part> parts = request.getParts();
 			Integer act_no = new Integer(request.getParameter("actNoSelect"));
 			
-			byte[] imgArray = new byte[part.getInputStream().available()];
-			BufferedInputStream buf = new BufferedInputStream(part.getInputStream());
-			buf.read(imgArray);
-			buf.close();
-
-			actImageService.addActImage(act_no, imgArray);
+			for(Part part : parts) {
+				InputStream in = part.getInputStream();
+				
+				if(part.getContentType() != null) {
+					byte[] imgArray = new byte[in.available()];
+					in.read(imgArray);
+					in.close();
+					actImageService.addActImage(act_no, imgArray);			
+				}
+			}
 			
 			request.getRequestDispatcher("/back_end/activity/actImg/selectActImg.jsp")
 			.forward(request, response);
@@ -126,7 +131,6 @@ public class ActivityImageServlet extends HttpServlet {
 		
 		//將該ID做修改
 		if("updateActImgSure".equals(action)) {
-			String requestURL = request.getParameter("requestURL");
 			Part part = request.getPart("actImg");
 			String act_img_no = request.getParameter("updateActImgNo");
 			Integer act_no = new Integer(request.getParameter("actNoSelect"));
