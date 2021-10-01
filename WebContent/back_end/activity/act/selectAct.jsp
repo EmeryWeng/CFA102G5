@@ -53,7 +53,7 @@
 						</c:forEach>
 					</c:forEach>
 				</select>
-					<input type="hidden" name="action" value="queryByActClass">
+					<input type="hidden" name="action" value="queryByActClassBackEnd">
 					<button class="btn light btn-secondary btn-xs">查詢</button>
 			 </form>
 		</div>
