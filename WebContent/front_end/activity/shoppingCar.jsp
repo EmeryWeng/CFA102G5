@@ -9,7 +9,7 @@
 
 <style>
 	.delete{
-		font-size:2rem;
+		font-size:20px;
 	}
 	.delete:hover{
 		cursor: pointer;
@@ -28,7 +28,7 @@
 					<div class="col-lg-8 col-md-12">
 						<form>
 							<div class="cart-table table-responsive">
-<a href="<%=request.getContextPath()%>/front_end/activity/actList.jsp" style="color:#2894FF"><b style="font-size:2rem;">回商品列表</b></a>
+<a href="<%=request.getContextPath()%>/front_end/activity/actList.jsp" style="color:#2894FF"><b style="font-size:20px;">回商品列表</b></a>
 								<table class="table table-bordered">
 									<thead>
 										<tr>

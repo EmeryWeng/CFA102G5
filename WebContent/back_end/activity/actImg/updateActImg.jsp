@@ -22,10 +22,10 @@
 	<div class="main-content">
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
-			<font style="color:red;font-size:2.5rem;">請修正以下錯誤:</font>
+			<font style="color:red;font-size:25px;">請修正以下錯誤:</font>
 			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red;font-size:1.5rem;">${message}</li>
+					<li style="color: red;font-size:18px;">${message}</li>
 				</c:forEach>
 			</ul>
 		</c:if>
@@ -33,7 +33,7 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h1 class="card-title" style="font-size:2rem;color:green;">修改活動圖片-表單</h1>
+						<h1 class="card-title" style="font-size:28px;color:green;">修改活動圖片-表單</h1>
 					</div>
 					<div class="card-body">
 						<div class="form-validation">
@@ -65,7 +65,7 @@
 											<div class="col-lg-6">
 												<input type="file" class="form-control" name="actImg"
 													id="uploadImg" onchange="loadImg(event);">
-												<img src="<%=request.getContextPath()%>/activity/ActivityImage?act_img_no=${actImageVO.act_img_no}" id="showImg" style="margin-top:3rem;">
+												<img src="<%=request.getContextPath()%>/activity/ActivityImage?act_img_no=${actImageVO.act_img_no}" id="showImg" style="margin-top:30px;">
 											</div>
 										</div>
 									</div>
@@ -75,10 +75,10 @@
 										<input type="hidden" name="action" value="updateActImgSure">
 										<input type="hidden" name="whichPage" value="${param.whichPage}">
 										<input type="hidden" name="updateActImgNo" value="${actImageVO.act_img_no}">
-										<button type="submit" class="btn btn-primary" style="margin-left:-50rem;width:10rem;height:5rem;font-size:2rem">確定</button>
+										<button type="submit" class="btn btn-primary" style="margin-left:-500px;width:100px;height:50px;font-size:20px">確定</button>
 									</div>
 									<div class="col-lg-2">
-										<button type="reset" class="btn btn-secondary" style="margin-left:-45rem;">重填</button>
+										<button type="reset" class="btn btn-secondary" style="margin-left:-450px;">重填</button>
 									</div>
 								</div>
 							</form>

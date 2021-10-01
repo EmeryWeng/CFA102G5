@@ -14,33 +14,29 @@
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/selectAct.css" rel="stylesheet">
 <style>
-	html{
-		font-size:62.5%;
-	}
 	div.queryByPage{
 		position: absolute;
-   		top: 0rem;
-    	right: 5rem;
+   		right: 50px;
     }
     table tbody tr td {
-    	font-size: 2rem;
+    	font-size: 20px;
     	text-align: center;
     	position:relative;
-		top:-5rem;
+		top:-50px;
 	}
     table tbody tr th{
-    	font-size: 2rem;
+    	font-size: 20px;
    	 	text-align: center;
    	 	position:relative;
-		top:-5rem;
+		top:-50px;
     }
     table tbody tr{
     	position:relative;
-		top:-3rem;
+		top:-30px;
     }
     table tbody .VOContent{
-    	top:-11rem;
-    }	
+    	top:-110px;
+    }
 	table tr td span.cancel{
 		color:#FF2D2D;
 	}
@@ -48,25 +44,25 @@
 		color:#EA7500;
 	}
 	.modal-content{
-		left: -35rem;
-		width: 140rem;
+		left: -350px;
+		width: 1400px;
 	}
 	.modal-body{
-		width: 140rem;
+		width: 1400px;
 	}
 	.stateDiv .canceled{
 		position: relative;
-		top:-2.5rem;
+		top:-31px;
 	}
 	.stateDiv .changeDate{
 		position: relative;
-		left:6.5rem;
-    	top:-5.1rem;
+		left:80px;
+    	top:-62px;
 	}
 	.stateDiv{
 		position: relative;
-    	width: 20rem;
-  		left: 15rem;
+    	width: 200px;
+  		left: 150px;
 	}
 	
 </style>
@@ -133,6 +129,9 @@
 					<td>${actOrderDetailVO.act_coupon_price}</td>
 					<td>${actOrderDetailVO.act_price_total}</td>
 					<td>
+						<c:if test="${actOrderDetailVO.act_order_detail_state == 1}">
+							<span class="paid">已付款</span>
+						</c:if>
 						<c:if test="${actOrderDetailVO.act_order_detail_state == 2}">
 							<span class="cancel">已取消</span>
 						</c:if>
@@ -145,6 +144,7 @@
 						<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
 							<input type="hidden" name="action" value="updateActOrderDetail">
 							<input type="hidden" name="updateActOrderDetailNo" value="${actOrderDetailVO.act_order_detail_no}">
+							<input type="hidden" name="actSessionNo" value="${actOrderDetailVO.act_session_no}">
 							<button type="submit" class="btn btn-primary">修改</button>
 						</form>
 					</td>				
@@ -163,6 +163,25 @@
 				location.href="<%=request.getContextPath()%>/back_end/activity/actOrderDetail/selectActOrderDetail.jsp";
 			}
 		});
+		
+		function createWhichPage(){
+			let select = document.getElementById('switchActOrderDetailStateSelect');
+			let value = select.options[select.selectedIndex].value; //option value
+			let myForm = document.getElementById('switchActOrderDetailStateForm');
+			let input = document.createElement('input');
+			let goBackPage = 0;
+			if(value % 5 == 0){
+				goBackPage = value/4;
+			}else{
+				goBackPage = (value/4)+1;
+			}
+			input.setAttribute("type","hidden");
+			input.setAttribute("name","whichPage");
+			input.setAttribute("value",parseInt(goBackPage));
+			myForm.appendChild(input)
+			
+			myForm.submit();
+		}
 		// ● 可在這更改header的標題，不寫也可以，但請變成空字串 
 		$("#pagename").text("");
 	</script>

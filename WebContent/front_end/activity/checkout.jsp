@@ -8,28 +8,25 @@
 <link href="<%=request.getContextPath()%>/front_end/activity/css/act/addAct.css" rel="stylesheet">
 
 <style>
-html{
-	font-size:62.5%;
-}
 .col-lg-6 {
 	position: relative;
-	left: -1rem;
-	margin-top: 1rem;
+	left: -10px;
+	margin-top: 10px;
 }
 #sameAsMember{
 	position: relative;
-    left: -8rem;
-    top: -5.4rem;
-    height: 2rem;
+    left: -80px;
+    top: -54px;
+    height: 20px;
 }
 .totalPriceDiv{
-	margin-left: 38rem;
+	margin-left: 380px;
 }
 input{
 	border:1px solid gray !important;
 }
 .table tr th{
-	font-size:2rem;
+	font-size:20px;
 }
 input:focus{
 	border:1px solid red !important;
@@ -43,15 +40,15 @@ input:focus{
 	<jsp:useBean id="actOrderService" class="com.activityOrder.model.ActivityOrderService" />
 	<jsp:useBean id="memberService" class="com.member.model.MemberService" />
 	
-	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 2rem; padding-bottom: 15rem;">
+	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 20px; padding-bottom:150px;">
 
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card allForm">
 					<div class="card-header">
-						<h1 class="card-title" style="font-size: 3rem; color: green;">訂購人資料</h1>
+						<h1 class="card-title" style="font-size:30px; color: green;">訂購人資料</h1>
 					</div>
-					<div class="col-lg-4" style="height:7rem;">
+					<div class="col-lg-4" style="height:70px;">
 						<label class="col-form-label" for="sameAsMember">同會員</label>
 						<input type="checkbox" id="sameAsMember">
 					</div>
@@ -61,8 +58,8 @@ input:focus{
 								<div class="row">
 									<div class="col-xl-6">
 										<div class="mb-3 row">
-											<label class="col-lg-4 col-form-label" style="top:-1.5rem;">稱謂 <span class="text-danger">*</span></label>
-											<select name="actOrderTitleSelect" class="select" id="actOrderTitleSelect" style="position: relative; top: 1.5rem;">
+											<label class="col-lg-4 col-form-label" style="top:-15px;">稱謂 <span class="text-danger">*</span></label>
+											<select name="actOrderTitleSelect" class="select" id="actOrderTitleSelect" style="position: relative; top: 15px;">
 												<option value="先生">先生</option>							
 												<option value="女士">女士</option>							
 											</select>
@@ -160,9 +157,9 @@ input:focus{
 								<input type="hidden" name="orderTotalPrice" value="${checkout_oneOrderPrice + totalPrice}">
 								
 								<div class="mb-3 row">
-									<div class="col-lg-12" style="left:17rem;">
+									<div class="col-lg-12" style="left:170px;">
 										<button type="button" class="btn btn-primary" onclick="check();">結帳</button>
-										<button type="reset" class="btn btn-secondary btn" style="margin-left:2rem;font-size:2rem">重填</button>
+										<button type="reset" class="btn btn-secondary btn" style="margin-left:20px;font-size:20px">重填</button>
 									</div>
 								</div>
 							</form>

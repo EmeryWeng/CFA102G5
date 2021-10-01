@@ -18,9 +18,9 @@
 <link href="<%=request.getContextPath()%>/back_end/activity/css/actImg/selectActImg.css" rel="stylesheet">
 <style>
 	div.queryByPage{
-		position: absolute;
-   		top: 0rem;
-    	right: 5rem;
+		position: relative;
+    	left: 1380px;
+    	bottom: 950px;
     }
 </style>
 </head>
@@ -37,11 +37,11 @@
 	
 <div class="main-content">
 	<div class="table-responsive">
-		<div class="updateAndSwitch" style="top:-5rem;">
+		<div class="updateAndSwitch" style="top:-50px;">
 			<!-- 新增圖片 -->
 			<form method="post" action="<%=request.getContextPath()%>/back_end/activity/actImg/addActImg.jsp">
 				<input type="hidden" name="action" value="addActImg">
-				<button type="submit" class="btn btn-primary" style="top:0.6rem;">新增圖片</button>	
+				<button type="submit" class="btn btn-primary" style="top:6px;">新增圖片</button>	
 			</form>
 		</div>
 			<table class="table">

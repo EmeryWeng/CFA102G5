@@ -10,11 +10,7 @@
 <title>Feliz-後台</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/selectAct.css" rel="stylesheet">
-<style>
-	div.query{
-		top:-3rem;
-	}
-</style>
+
 </head>
 <body>
 	<%-- 	<%@ include file="/back_end/loading.file"%> --%>
@@ -50,7 +46,7 @@
 						</c:forEach>
 					</c:forEach>
 				</select>
-					<input type="hidden" name="action" value="queryByActClass">
+					<input type="hidden" name="action" value="queryByActClassBackEnd">
 					<button class="btn light btn-secondary btn-xs">查詢</button>
 			 </form>
 		</div>

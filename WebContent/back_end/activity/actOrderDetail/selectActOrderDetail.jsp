@@ -23,25 +23,21 @@
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/selectAct.css" rel="stylesheet">
 <style>
-	html{
-		font-size:62.5%;
-	}
 	div.queryByPage{
 		position: absolute;
-   		top: 0rem;
-    	right: 5rem;
+   		right: 50px;
     }
     table tr td {
-    	font-size: 2rem;
+    	font-size: 20px;
     	text-align: center;
 	}
     table tr th{
-    	font-size: 2rem;
+    	font-size: 20px;
    	 	text-align: center;
     }
     table tr td span.paid{
-		color:#28FF28;
-	}	
+		color:#00EC00;
+	}
 	table tr td span.cancel{
 		color:#FF2D2D;
 	}
@@ -50,26 +46,25 @@
 	}
 	
 	.modal-content{
-		left: -35rem;
-		width: 140rem;
+		left: -350px;
+		width: 1400px;
 	}
 	.modal-body{
-		width: 140rem;
+		width: 1400px;
 	}
 	.stateDiv .canceled{
 		position: relative;
-		left:7rem;
-    	top:-1.8rem;
+		top:-31px;
 	}
 	.stateDiv .changeDate{
 		position: relative;
-		left:14rem;
-    	top:-4.4rem;
+		left:80px;
+    	top:-62px;
 	}
 	.stateDiv{
 		position: relative;
-    	width: 20rem;
-  		left: 15rem;
+    	width: 200px;
+  		left: 150px;
 	}
 	
 </style>

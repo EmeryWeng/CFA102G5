@@ -12,9 +12,9 @@
 	#actInstruction{
 		resize: none;
     	overflow: visible;
-    	min-height:12rem;
-    	max-height:12rem;
-    	width:32rem;
+    	min-height:120px;
+    	max-height:120px;
+    	width:320px;
     	margin-left:5px;
 	}
 </style>
@@ -33,10 +33,10 @@
 	<div class="main-content">
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
-			<font style="color:red;font-size:2.5rem;">請修正以下錯誤:</font>
+			<font style="color:red;font-size:25px;">請修正以下錯誤:</font>
 			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red;font-size:1.5rem;">${message}</li>
+					<li style="color: red;font-size:18px;">${message}</li>
 				</c:forEach>
 			</ul>
 		</c:if>
@@ -44,7 +44,7 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h2 class="card-title" style="font-size:2rem;color:blue;">修改活動-表單</h2>
+						<h2 class="card-title" style="font-size:28px;color:blue;">修改活動-表單</h2>
 					</div>
 					<div class="card-body">
 						<div class="form-validation">
@@ -119,7 +119,7 @@
 												for="actLocationLongitude">活動地點的經度<span
 												class="text-danger">*</span>
 											</label>
-											<div class="col-lg-6">
+											<div class="col-lg-6" style="margin-left:10px">
 												<input type="text" class="form-control"
 													id="actLocationLongitude" name="actLocationLongitude"
 													maxlength="11" value="${updateAct_actVO.act_location_longitude}">
@@ -130,7 +130,7 @@
 												for="actLocationLatitude">活動地點的緯度 <span
 												class="text-danger">*</span>
 											</label>
-											<div class="col-lg-6">
+											<div class="col-lg-6" style="margin-left:10px">
 												<input type="text" class="form-control"
 													name="actLocationLatitude" maxlength="10"
 													id="actLocationLatitude" value="${updateAct_actVO.act_location_latitude}">

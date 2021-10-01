@@ -21,10 +21,10 @@
 	<div class="main-content">
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
-			<font style="color:red;font-size:2.5rem;">請修正以下錯誤:</font>
+			<font style="color:red;font-size:25px;">請修正以下錯誤:</font>
 			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red;font-size:1.5rem;">${message}</li>
+					<li style="color: red;font-size:18px;">${message}</li>
 				</c:forEach>
 			</ul>
 		</c:if>
@@ -32,7 +32,7 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h2 class="card-title" style="font-size:2rem;color:green;">新增活動-表單</h2>
+						<h2 class="card-title" style="font-size:28px;color:green;">新增活動-表單</h2>
 					</div>
 					<div class="card-body">
 						<div class="form-validation">

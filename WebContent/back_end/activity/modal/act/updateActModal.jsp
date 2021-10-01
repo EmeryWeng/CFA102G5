@@ -15,7 +15,7 @@
 			</div>
 		<form method="post" action="<%=request.getContextPath()%>/activity/Activity">
 			<div class="modal-body">
-				<select name="updatePk" style="margin-left:12rem;font-size:2rem;" autofocus>
+				<select name="updatePk" style="margin-left:120px;font-size:20px;" autofocus>
 					<c:forEach var="actVO" items="${actSvc.all}">
 						<option value="${actVO.act_no}">${actVO.act_no} - ${actVO.act_name}</option>						
 					</c:forEach>
