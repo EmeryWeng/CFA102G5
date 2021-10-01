@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page import="java.util.Comparator" %>
 
 <!DOCTYPE html>
 <html>
@@ -25,7 +25,7 @@
 		class="com.activityImage.model.ActivityImageService" />
 
 
-	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 2rem; padding-bottom: 15rem;">
+	<div class="mt-5 mb-5 ptb-70 container" style="padding-top:20px; padding-bottom: 150px;">
 		<div id="wrapper">
 			<div class="tour-details-main">
 				<div class="container">
@@ -48,10 +48,10 @@
 									臺灣花蓮 | <span style="color: blue;" id="actName">${actVO.act_name}</span>
 								</h1>
 								<div>
-									<i class='bx bx-map' style="color: #F00078; font-size: 1.8rem;">${actVO.act_location}</i>
+									<i class='bx bx-map' style="color: #F00078; font-size: 18px;">${actVO.act_location}</i>
 								</div>
 
-								<div style="margin: 2rem 0;">
+								<div style="margin: 20px 0;">
 									<i class='bx bx-globe'>中文 導覽</i><i class='bx bx-bell'>2天前可免費取消</i>
 								</div>
 
@@ -84,13 +84,13 @@
 										<div>
 											<label id="actSessionLabel"><h3>選擇日期</h3></label>
 											<p>
-												<b style="margin-left: 0.5rem;">請選擇出發日期</b>
+												<b style="margin-left: 5px;">請選擇出發日期</b>
 											</p>
 											<input type="text" name="act_date" id="act_date">
 										</div>
 
 										<div class="actSessionStartTime">
-											<b style="position: relative; left: -17rem; top: -0.5rem;">場次時間:</b>
+											<b style="position: relative; left: -170px; top: -5px;">場次時間:</b>
 											<select name="actSessionStartTimeSelect" id="actSessionStartTimeSelect">
 												<c:forEach var="actSessionVO" items="${actSessionByActNo}">
 													<option value="${actSessionVO.act_session_no}">${actSessionVO.act_session_start_time}</option>
@@ -103,17 +103,17 @@
 												<i class='bx bx-minus-circle minusIcon' id="actPriceMinusBtn" onclick="minus();"></i>
 										</div>
 										<div>
-											<b style="font-size:2rem;position:relative;bottom:4rem;left:36.5rem;">總金額</b>
-											<span style="position:relative;left:58rem;bottom:4rem;font-size:2.2rem;color:#46A3FF" id="actTotalPrice">${actVO.act_price}</span>
+											<b style="font-size:20px;position:relative;bottom:40px;left:365px;">總金額</b>
+											<span style="position:relative;left:580px;bottom:40px;font-size:22px;color:#46A3FF" id="actTotalPrice">${actVO.act_price}</span>
 										</div>
 										<div>
 											<input type="hidden" name="action" value="immediateCheckout">
 											<input type="hidden" name="act_name" value="${actVO.act_name}">
 											<input type="hidden" name="act_price" value="${actVO.act_price}">
-											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:30rem;bottom: 0.5rem">
+											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:300px;bottom:5px">
 												<span class="btn-icon-start addCar"><i class='bx bxs-cart'></i>加入購物車</span>
 											</button>
-											<button type="button" id="immediateCheckout" onclick="check();" class="btn btn-info" style="left:32rem;bottom: 0.5rem">
+											<button type="button" id="immediateCheckout" onclick="check();" class="btn btn-info" style="left:320px;bottom: 5px">
 												<span class="btn-icon-start"><i class='bx bxs-cart'></i>立即結帳</span>
 											</button>
 										</div>
