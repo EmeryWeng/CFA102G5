@@ -127,6 +127,9 @@ public class RoomTypeServlet extends HttpServlet {
 				Integer type_no = new Integer(req.getParameter("type_no"));
 				HttpSession session = req.getSession();
 				Integer qty = (Integer) session.getAttribute("qty");
+				if (qty == null) {
+					qty = 1;
+				}
 
 				/*************************** 2.開始查詢資料 ****************************************/
 				// 房型資料
@@ -165,6 +168,7 @@ public class RoomTypeServlet extends HttpServlet {
 				req.setAttribute("facilityList", facilityList); // 分割完的設施list,存入req
 				req.setAttribute("images", images); // 資料庫取出的VO物件,存入req
 				req.setAttribute("result", result); // 不可預訂的日期
+				req.setAttribute("qty", qty); // 不可預訂的日期
 				String url = "/front_end/room/roomDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的roomDetail.jsp
 				successView.forward(req, res);

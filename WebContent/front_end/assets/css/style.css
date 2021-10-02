@@ -44,8 +44,6 @@ template.
 /*================================================
 Default CSS
 =================================================*/
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
 body {
   font-size: 16px;
   line-height: 1.8;
@@ -280,7 +278,7 @@ Navbar Area
 ====================================*/
 .main-nav {
   position:fixed;
-  background-color:  rgba(255,255,255,0.8);
+  background-color:  rgba(255,255,255,0.9);
   top: 0;
   left: 0;
   z-index: 2;
@@ -1133,14 +1131,14 @@ Banner Form Area
 .banner-form .form-group .form-control {
   height: 40px;
   padding: 0 10px;
-  font-size: 15px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
   border: none;
   color: #555555;
   background-color: transparent;
   font-weight: 500;
   border-radius: 0;
 }
-
 .banner-form .form-group .select-rooms {
   z-index: 3;
 }
