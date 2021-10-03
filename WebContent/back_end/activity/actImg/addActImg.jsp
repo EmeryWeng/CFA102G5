@@ -20,15 +20,6 @@
 	<jsp:useBean id="actService" class="com.activity.model.ActivityService" />
 
 	<div class="main-content">
-		<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs}">
-			<font style="color:red;font-size:25px;">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red;font-size:18px;">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card">
@@ -47,13 +38,9 @@
 											<div class="col-lg-6">
 												<div class="mb-3 row">
 													<select name="actNoSelect" class="select" style="width:80%;margin-top: 10px;">
-														<c:forEach var="actNo" items="${actImgService.getAll().stream().map(act -> act.getAct_no()).distinct().toList()}" varStatus="selectedNumber">
-															<c:forEach var="actVO" items="${actService.all}">
-																<c:if test="${actNo == actVO.act_no }">
-																	<option value="${actNo}">${actVO.act_name}</option>
-																</c:if>
-															</c:forEach>
-														</c:forEach>
+														<c:forEach var="actVO" items="${actService.all}">
+															<option value="${actVO.act_no}">${actVO.act_name}</option>												
+														</c:forEach>													
 													</select>
 												</div>
 											</div>
@@ -123,7 +110,6 @@
 
 		if(file ===''){
 			alert("請選擇檔案");
-			
 			return false;
 		}
 		
@@ -131,6 +117,7 @@
 			myForm.submit();
 		}else{
 			alert('圖片不符合格式: .jpg .png .gif')
+			return false;
 		}
 		
 	}

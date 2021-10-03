@@ -20,15 +20,6 @@
 	<jsp:useBean id="actService" class="com.activity.model.ActivityService" />
 
 	<div class="main-content">
-		<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs}">
-			<font style="color:red;font-size:25px;">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red;font-size:18px;">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card">
@@ -65,7 +56,7 @@
 											<div class="col-lg-6">
 												<input type="file" class="form-control" name="actImg"
 													id="uploadImg" onchange="loadImg(event);">
-												<img src="<%=request.getContextPath()%>/activity/ActivityImage?act_img_no=${actImageVO.act_img_no}" id="showImg" style="margin-top:30px;">
+												<img src="<%=request.getContextPath()%>/activity/ActivityImage?act_img_no=${actImageVO.act_img_no}" id="showImg" style="width:300px;height:200px;margin-top:30px;">
 											</div>
 										</div>
 									</div>

@@ -53,15 +53,9 @@
 									<div class="col-xl-6">
 										<div class="mb-3 row">
 											<select name="actClassNoSelect" class="select">
-									
-											<c:forEach var="actClassNo" items="${actService.getAll().stream().map(act -> act.getAct_class_no()).distinct().toList()}" varStatus="selectedNumber">
 												<c:forEach var="actClassVO" items="${actClassService.all}">
-													<c:if test="${actClassNo == actClassVO.act_class_no }">
-														<option value="${actClassNo}" ${selectedNumber.count == updateAct_actVO.act_class_no ? 'selected':''}>${actClassVO.act_class_name}</option>
-													</c:if>
-												</c:forEach>
-											</c:forEach>
-										
+													<option value="${actClassVO.act_class_no}">${actClassVO.act_class_name}</option>												
+												</c:forEach>										
 											</select>
 										</div>
 										
@@ -70,8 +64,8 @@
 												<span class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" name="actName"
-													id="actName" value="${updateAct_actVO.act_name}">
+												<input type="text" class="form-control" name="actName" id="actName" value="${updateAct_actVO.act_name}">
+											<span style="color:red;font-size:20px;">${errorMap["error_act_name"]}</span>
 											</div>
 										</div>
 										<div class="mb-3 row">
@@ -79,8 +73,8 @@
 												<span class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" name="actPrice"
-													id="actPrice" value="${updateAct_actVO.act_price}">
+												<input type="text" class="form-control" name="actPrice" id="actPrice" value="${updateAct_actVO.act_price}">
+											<span style="color:red;font-size:20px;">${errorMap["error_act_price"]}</span>
 											</div>
 										</div>
 									</div>
@@ -92,6 +86,7 @@
 											<textarea class="form-control" name="actInstruction"
 												id="actInstruction" oninput="autoGrow(this)">${updateAct_actVO.act_instruction}
 											</textarea>
+										<span style="color:red;font-size:20px;">${errorMap["error_act_instruction"]}</span>
 										</div>
 									</div>
 								</div>
@@ -101,8 +96,8 @@
 											<span class="text-danger">*</span>
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												name="actScheduleTime" id="actScheduleTime" value="${updateAct_actVO.act_schedule_time}">
+											<input type="text" class="form-control" name="actScheduleTime" id="actScheduleTime" value="${updateAct_actVO.act_schedule_time}">
+										<span style="color:red;font-size:20px;">${errorMap["error_act_schedule_time"]}</span>
 										</div>
 									</div>
 									<div class="mb-3 row">
@@ -110,9 +105,9 @@
 											class="text-danger">*</span>
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												id="actGatherLocation" name="actGatherLocation"
+											<input type="text" class="form-control" id="actGatherLocation" name="actGatherLocation"
 												value="${updateAct_actVO.act_gather_location}">
+										<span style="color:red;font-size:20px;">${errorMap["error_act_gather_location"]}</span>
 										</div>
 										<div class="mb-3 row">
 											<label class="col-lg-4 col-form-label"
@@ -120,9 +115,9 @@
 												class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6" style="margin-left:10px">
-												<input type="text" class="form-control"
-													id="actLocationLongitude" name="actLocationLongitude"
+												<input type="text" class="form-control" id="actLocationLongitude" name="actLocationLongitude"
 													maxlength="11" value="${updateAct_actVO.act_location_longitude}">
+											<span style="color:red;font-size:20px;">${errorMap["error_act_location_longitude"]}</span>
 											</div>
 										</div>
 										<div class="mb-3 row">
@@ -131,9 +126,9 @@
 												class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6" style="margin-left:10px">
-												<input type="text" class="form-control"
-													name="actLocationLatitude" maxlength="10"
+												<input type="text" class="form-control" name="actLocationLatitude" maxlength="10"
 													id="actLocationLatitude" value="${updateAct_actVO.act_location_latitude}">
+											<span style="color:red;font-size:20px;">${errorMap["error_act_location_latitude"]}</span>
 											</div>
 											<div class="mb-3 row twoBtn" >
 												<div class="col-lg-2">												
