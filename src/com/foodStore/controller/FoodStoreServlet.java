@@ -179,7 +179,12 @@ public class FoodStoreServlet extends HttpServlet {
 					errorMsgs.add("查無此類別店家");
 					}
 				}
-			
+			//刪除(下架)false店家
+			for(int i =0;i<storeVO.size();i++) {
+				if(storeVO.get(i).getFd_state()==false) {
+					storeVO.remove(i);
+				}
+			}
 			if (!errorMsgs.isEmpty()) {
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front_end/storeMap/storeMap.jsp");
