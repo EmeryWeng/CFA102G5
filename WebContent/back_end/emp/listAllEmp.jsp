@@ -12,6 +12,8 @@
 <jsp:useBean id="deptSvc" scope="page" class="com.department.model.DepService" />
 <html>
 <head>
+<style>
+</style>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 </head>
 <body bgcolor='white'>
@@ -55,7 +57,7 @@
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/EmployeeServlet.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+			     <input type="submit" value="修改" class="btn btn-secondary">
 			     <input type="hidden" name="emp_no" value="${EmployeeVO.emp_no}">
 			     <input type="hidden" name="action"	value="Update_One"></FORM>
 			</td>

@@ -11,9 +11,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+</style>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <meta charset="BIG5">
-<title>Insert title here</title>
 </head>
 <body>
 		<%@ include file="/back_end/header.file" %> <!-- Header -->
@@ -47,7 +48,7 @@
 			<td>${FoodClassVO.fd_class_state}</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodClassServlet.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+			     <input type="submit" value="修改" class="btn btn-secondary">
 			     <input type="hidden" name="fd_class_no" value="${FoodClassVO.fd_class_no}">
 			     <input type="hidden" name="action"	value="Update_One"></FORM>
 			</td>

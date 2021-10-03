@@ -14,8 +14,6 @@
 <html>
 <head>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
-<title>Insert title here</title>
-
 <style>
  
 </style>
@@ -47,7 +45,7 @@
 		<th>店家狀態</th>
 		<th>修改</th>
 		<th>查看照片</th>
-		<td>新增照片</td>
+		<th>新增照片</th>
 
 	</tr>
 </thead>
@@ -66,19 +64,19 @@
 			<td>${FoodStoreVO.fd_state}</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodStoreServlet.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+			     <input type="submit" value="修改" class="btn btn-primary btn-sm">
 			     <input type="hidden" name="fd_no" value="${FoodStoreVO.fd_no}">
 			     <input type="hidden" name="action"	value="Update_One"></FORM>
 			</td>
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="查看照片">
+			     <input type="submit" value="查看照片" class="btn btn-primary btn-sm">
 			     <input type="hidden" name="fd_no" value="${FoodStoreVO.fd_no}">
 			     <input type="hidden" name="action"	value="getOneFoodStoreImg"></FORM>
 			</td>
 			<td>
-		<a href="<%=request.getContextPath()%>/back_end/foodimg/addImg.jsp?fd_no=${FoodStoreVO.fd_no}">新增照片</a>
+		<a href="<%=request.getContextPath()%>/back_end/foodimg/addImg.jsp?fd_no=${FoodStoreVO.fd_no}" class="btn btn-primary btn-sm">新增照片</a>
 			</td>
 		</tr>
 	</c:forEach>

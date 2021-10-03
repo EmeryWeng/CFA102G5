@@ -12,11 +12,6 @@
 <html>
 <head>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
-<title>Insert title here</title>
-<style>
- 
-</style>
-
 </head>
 <body>
 		<%@ include file="/back_end/header.file" %> <!-- Header -->
@@ -51,7 +46,7 @@
 			<td>${DepartmentVO.dep_state}</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/DepartmentServlet.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+			     <input type="submit" value="修改" class="btn btn-secondary">
 			     <input type="hidden" name="dep_no" value="${DepartmentVO.dep_no}">
 			     <input type="hidden" name="action"	value="Update_One"></FORM>
 			</td>

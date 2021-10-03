@@ -10,6 +10,12 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 <title>Insert title here</title>
 <style>
 
+#example4{
+ display: inline-block;
+ width:70%!important;
+ margin:0;
+}
+
 </style>
 </head>
 <body>
@@ -26,7 +32,7 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 	</ul>
 </c:if>
 
-<div class="main-content card card-body table-responsive">
+<div class="main-content card card-body table-responsive" id="fi">
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/EmployeeServlet.do" name="form1">
 <table id="example4" class="display" style="min-width: 845px">
 	<tr>
@@ -45,14 +51,14 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 			 value="<%=(empVO==null)? "" :empVO.getEmp_password()%>" /></td>
 	</tr>
 	<tr>
-		<td>狀態:</td>
-		<td><input type="radio" name="emp_state" value="true" checked>在職</td>
+		<td style="width:50px">狀態:</td>
+		<td style="width:50px"><input type="radio" name="emp_state" value="true" checked>在職</td>
 		<td><input type="radio" name="emp_state" value="false">離職</td>
 	</tr>
 
 	<jsp:useBean id="deptSvc" scope="page" class="com.department.model.DepService" />
 	<tr>
-		<td>部門:<font color=red><b>*</b></font></td>
+		<td>部門:</td>
 		<td><select size="1" name="dep_no">
 			<c:forEach var="deptVO" items="${deptSvc.all}">
 				<option value="${deptVO.dep_no}" ${(empVO.dep_no==deptVO.dep_no)? 'selected':'' } >${deptVO.dep_name}
@@ -63,7 +69,7 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 </table>
 <br>
 <input type="hidden" name="action" value="insert">
-<input type="submit" value="送出新增"></FORM>
+<input type="submit" value="送出新增" class="btn btn-primary"></FORM>
 </div>
 <%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 <script>

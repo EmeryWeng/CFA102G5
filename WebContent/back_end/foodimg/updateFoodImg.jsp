@@ -11,10 +11,7 @@
 <head>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 </head>
-<style>
 
-
-</style>
 <body>
 		<%@ include file="/back_end/header.file" %> <!-- Header -->
 		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
@@ -56,7 +53,7 @@
 <br>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="fd_img_no" value="<%=foodImgVO.getFd_img_no()%>">
-<input type="submit" value="送出修改">
+<input type="submit" value="送出修改" class="btn btn-primary">
 
 <script>
 function loadImageFile(event){ 
