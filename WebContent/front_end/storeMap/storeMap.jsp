@@ -9,7 +9,6 @@
 <head>
         <%@ include file="/front_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 <meta http-equiv="Content-Type" content="text/html">
-<title>Insert title here</title>
 <style>
 *{
   box-sizing: border-box;
@@ -56,6 +55,13 @@ max-width:100%;
   background-color:#F6F7F7;
   color:gray;
 }
+#div1{
+width:100%;
+height:200px;
+border: 1px solid #999;
+margin-bottom:10px;
+background-color:snow;
+}
 </style>
 </head>
 <body>
@@ -73,7 +79,7 @@ max-width:100%;
       			   </c:forEach>   
      			  </select>
      			  <input type="hidden" name="action" value="getStoreFK">
-    			   <input type="submit" value="送出" class="btn btn-primary" style="width:150px">
+    			   <input type="submit" value="送出" class="btn btn-primary btn-sm" style="width:100px">
    			 </FORM>
    			 	<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">
@@ -84,28 +90,28 @@ max-width:100%;
 					</c:forEach>
 				</ul>
 			</c:if>
-		
-				<table style="width:100%;">
-			<tr>
-				<th>店家照片</th>
-				<th>店家類別</th>
-				<th>店家名稱</th>
-				<th>店家地址</th>
-				<th>店家服務</th>
-			</tr>
+
 			<c:forEach var="storeVO" items="${storeVO}">
-		
-				<tr onclick="initMap(${storeVO.fd_longitude},${storeVO.fd_latitude})" style="border: 1px solid #F6F7F7;">
-					<td><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:125px;height:125px"></td>
-					<td style="border: 1px solid #999;">
+
+				<div id="div1">
+					<div><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:200px;height:200px;float:left;margin-right:15px;"></div>
+					<div style="font-size:1.5em;margin-left:20%;height:30px;">${storeVO.fd_name}</div>
+					<div style="font-size:smaller;margin-top:5px;margin-left:20%">
 						${storeSvc.getClassPK(storeVO.fd_class_no).fd_class_name}
-					</td>
-					<td style="border: 1px solid #999;">${storeVO.fd_name}</td>
-					<td style="border: 1px solid #999;">${storeVO.fd_address}</td>
-					<td style="border: 1px solid #999;">${storeVO.fd_service}</td>
-				</tr>
+					</div>
+					<div style="margin-left:20%">${storeVO.fd_address}</div>
+					<div style="font-size:smaller;margin-left:20%;">店家服務:${storeVO.fd_service}</div>
+					<div>
+					<button type="button" class="btn btn-primary btn-sm" onclick="initMap(${storeVO.fd_longitude},${storeVO.fd_latitude})">查看路線</button>
+					</div>
+					<FORM target="_blank" METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" name="form1" style="float:left;">
+					<input type="hidden" name="action" value="getStoreImg">
+					<input type="hidden" name="fd_no" value="${storeVO.fd_no}">
+					<input type="submit" value="更多店家照片" class="btn btn-primary btn-sm"></FORM>
+					
+				</div>
 			</c:forEach>
-				</table>
+				
 				</div>
 <div id="map-canvas"></div>					<!--地圖生成 --> 
 		</div>
@@ -114,7 +120,7 @@ max-width:100%;
          <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
        	 <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
  </div>
-<script src="http://maps.google.com/maps/api/js?key=zaSyArfUAIQgXQuAQZ8vViswotNOMyWb35r9k">
+<script src="http://maps.google.com/maps/api/js?key=">
 </script>
 <script>
 var map;
