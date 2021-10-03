@@ -18,16 +18,13 @@
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/actImg/selectActImg.css" rel="stylesheet">
 <style>
-	html{
-		font-size:62.5%;
-	}
 	div.queryByPage{
-		position: absolute;
-   		top: 0rem;
-    	right: 5rem;
+		position: relative;
+    	right: 50px;
+    	bottom: 600px
     }
     table tr th{
-    	font-size:1.8rem;
+    	font-size:18px;
     }
     table tr td.upstate{
 		color:#28FF28;

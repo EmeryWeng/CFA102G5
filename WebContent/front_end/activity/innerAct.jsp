@@ -92,7 +92,7 @@
 										<div class="actSessionStartTime">
 											<b style="position: relative; left: -170px; top: -5px;">場次時間:</b>
 											<select name="actSessionStartTimeSelect" id="actSessionStartTimeSelect">
-												<c:forEach var="actSessionVO" items="${actSessionByActNo}">
+												<c:forEach var="actSessionVO" items="${actSessionByActNoList}">
 													<option value="${actSessionVO.act_session_no}">${actSessionVO.act_session_start_time}</option>
 												</c:forEach>
 											</select> 
@@ -145,9 +145,9 @@
 		timepicker : false,
 		step : 1,
 		format : 'Y-m-d',
-		value : '${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
-		minDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
-		maxDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
+		value : '${actSessionByActNoList.stream().findFirst().get().getAct_session_start_date()}',
+		minDate:'${actSessionByActNoList.stream().findFirst().get().getAct_session_start_date()}',
+		maxDate:'${actSessionByActNoList.stream().findFirst().get().getAct_session_start_date()}',
 	});
 //檢查立即結帳時有無登入
 	function check(){

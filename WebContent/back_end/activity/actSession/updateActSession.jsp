@@ -104,7 +104,6 @@ div.xdsoft_datetimepicker xdsoft_noselect xdsoft_ {
 										<div class="col-lg-2">
 											<input type="hidden" name="action" value="updateActSessionSure">
 											<input type="hidden" name="updateActSessionNo" value="${updateActSession_actSessionVO.act_session_no}">
-											<input type="hidden" name="actSessionState" value="${updateActSession_actSessionVO.act_session_hold_state}">
 											<input type="hidden" name="requestURL" value="${param.requestURL}">
 											<input type="hidden" name="whichPage" value="${param.whichPage}">
 											<button type="submit" class="btn btn-primary">確定</button>

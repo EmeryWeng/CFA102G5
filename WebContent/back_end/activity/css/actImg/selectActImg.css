@@ -1,5 +1,9 @@
 @charset "UTF-8";
-	
+	.table-responsive{
+		overflow:hidden;
+		position: relative;
+    	top: 10px;
+	}
 	table tr td img{
 		max-width:100%;
 		box-sizing:border-box;
@@ -43,6 +47,10 @@
 		color:#FF2D2D;
 	}
 	div.updateAndSwitch{
-		position:absolute;
-		top:-32px;
+		position:relative;	
 	}
+	div.queryByPage{
+		position: relative;
+    	left: 1380px;
+    	bottom: 1050px;
+    }

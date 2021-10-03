@@ -5,7 +5,7 @@
 		height:50px;
 	}
 	table th{
-		font-size:17px;
+		font-size:15px;
 		text-align:center;
 		color:red;
 		vertical-align:middle;
@@ -32,4 +32,13 @@
 	}	
 	table tr td.downstate{
 		color:#FF2D2D;
+	}
+	div.importExcel{
+		position:relative;
+		left:250px;
+		top:-27px;
+		width:400px;
+	}
+	#importExcelFile{
+		width:200px;
 	}

@@ -24,6 +24,12 @@
     	top: 10px;
     	width: 60%;
 	}
+	div.twoBtn div.col-lg-2 .updateSureBtn{
+		margin-left:-500px;
+		width:100px;
+		height:50px;
+		font-size:20px;
+	}
 </style>
 </head>
 <body>
@@ -140,7 +146,7 @@
 										<input type="hidden" name="updateActOrderDetailNo" value="${actOrderDetailVO.act_order_detail_no}">
 										<input type="hidden" name="updateActSessionNo" value="${actOrderDetailVO.act_session_no}">										
 										<input type="hidden" name="updateOrderNo" value="${actOrderDetailVO.act_order_no}">
-										<button type="submit" id="sureBtn" class="btn btn-primary" style="margin-left:-500px;width:100px;height:50px;font-size:20px">確定</button>
+										<button type="submit" id="sureBtn" class="btn btn-primary updateSureBtn">確定</button>
 									</div>
 									<div class="col-lg-2">
 										<button type="reset" class="btn btn-secondary" style="margin-left:-450px;">重填</button>
@@ -166,18 +172,15 @@
 					oldSessionNo:'${actSessionVO.act_session_no}',
 					changeSessionNo:$('#actSessionTimeSelect').val(),
 					orderNo:'${actOrderDetailVO.act_order_no}',
-					changeActPeopleSelect:$('#changeActPeopleSelect').val()
+					changeActPeopleSelect:$('#act_real_join_number').val()
 				},
 				success:function(response){
+			console.log(response);
 					if(response === "true"){
- 						document.getElementById('sureBtn').disabled = false;
- 						document.getElementById('sureBtn').removeAttribute("style","color:gray");
-						currentRequest.abort();
+ 						currentRequest.abort();
 					}else{
 						alert("場次人數已達上限，無法更換場次");
- 						document.getElementById('sureBtn').disabled = true;
- 						document.getElementById('sureBtn').setAttribute("style","color:gray");
-						$('#actSessionTimeSelect').val("${actSessionVO.act_session_no}");
+ 						$('#actSessionTimeSelect').val("${actSessionVO.act_session_no}");
 						currentRequest.abort();
 					}
 				}
