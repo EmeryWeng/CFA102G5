@@ -7,6 +7,25 @@
 <%@ page import ="com.activitySession.model.*" %>
 <%@ page import ="java.util.List" %>
 
+<%
+	ActivityOrderDetailService actOrderDetailSvc = new ActivityOrderDetailService();
+
+	Long paidCount = actOrderDetailSvc.getAll()
+	.stream().filter(detail -> detail.getAct_order_detail_state() == 1)
+	.count();
+	pageContext.setAttribute("paidCount",paidCount);
+	
+	Long cancelCount = actOrderDetailSvc.getAll()
+	.stream().filter(detail -> detail.getAct_order_detail_state() == 2)
+	.count();
+	pageContext.setAttribute("cancelCount",cancelCount);
+	
+	Long changeDateCount = actOrderDetailSvc.getAll()
+	.stream().filter(detail -> detail.getAct_order_detail_state() == 3)
+	.count();
+	pageContext.setAttribute("changeDateCount",changeDateCount);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,11 +51,11 @@
     }
     table tbody tr{
     	position:relative;
-		top:-30px;
+		top:-20px;
     }
-    table tbody .VOContent{
-    	top:-110px;
-    }
+    table tr td span.paid{
+		color:#00EC00;
+	}
 	table tr td span.cancel{
 		color:#FF2D2D;
 	}
@@ -50,14 +69,20 @@
 	.modal-body{
 		width: 1400px;
 	}
+	.stateDiv .paid{
+		position: relative;
+		top:-43px;
+		left:60px;
+	}
 	.stateDiv .canceled{
 		position: relative;
-		top:-31px;
+		left:180px;
+		top:-85px;
 	}
 	.stateDiv .changeDate{
 		position: relative;
-		left:80px;
-    	top:-62px;
+		left:300px;
+    	top:-127px;
 	}
 	.stateDiv{
 		position: relative;
@@ -78,18 +103,22 @@
 	
 <div class="main-content">
 	<div class="table-responsive">
-		<div class="updateAndSwitch">			
-			<button type="button" class="btn btn-primary btn-xs switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropSwitchActOrderDetailState">切換訂單明細狀態</button>
+		<div class="updateAndSwitch" style="height:110px;">			
+			<button type="button" class="btn btn-primary switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropSwitchActOrderDetailState">切換訂單明細狀態</button>
 				<!-- 切換上下架的modal -->
 			<jsp:include page="/back_end/activity/modal/actOrderDetail/switchActOrderDetailStateModal.jsp"/>
 				<div class="stateDiv">
 					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
+						<input type="hidden" name="action" value="paid">
+						<button type="submit" class="btn btn-success paid">已付款	<b style="color:blue;">${paidCount}</b></button>
+					</form>
+					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
 						<input type="hidden" name="action" value="canceled">
-						<button type="submit" class="btn btn-danger btn-xs canceled">已取消</button>
+						<button type="submit" class="btn btn-danger canceled">已取消	<b style="color:blue;">${cancelCount}</b></button>
 					</form>
 					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
 						<input type="hidden" name="action" value="changeDate">
-						<button type="submit" class="btn btn-warning btn-xs changeDate">已改期</button>
+						<button type="submit" class="btn btn-warning changeDate">已改期	<b style="color:blue;">${changeDateCount}</b></button>
 					</form>
 				</div>
 		</div>
@@ -104,10 +133,11 @@
 					<th>活動場次金額</th>				
 					<th>活動訂單狀態</th>				
 					<th>修改明細</th>
+					<th>申請取消</th>
 				</tr>
 				
 			<c:forEach var="actOrderDetailVO" items="${selectByState}">
-				<tr class="VOContent">
+				<tr>
 					<th>${actOrderDetailVO.act_order_detail_no}</th>
 					<td>
 						<button type="button" class="btn light btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdropActOrder${actOrderDetailVO.act_order_no}">${actOrderDetailVO.act_order_no}</button>
@@ -147,7 +177,10 @@
 							<input type="hidden" name="actSessionNo" value="${actOrderDetailVO.act_session_no}">
 							<button type="submit" class="btn btn-primary">修改</button>
 						</form>
-					</td>				
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger" onclick="cancel(${actOrderDetailVO.act_order_detail_no},${actOrderDetailVO.act_session_no});">取消</button>					
+					</td>	
 				</tr>
 				</c:forEach>
 		</table>
@@ -163,6 +196,31 @@
 				location.href="<%=request.getContextPath()%>/back_end/activity/actOrderDetail/selectActOrderDetail.jsp";
 			}
 		});
+		
+		let currentRequest = null;
+		function cancel(cancelStateNo,actSessionNo){
+			
+			currentRequest = $.ajax({
+				url:"<%=request.getContextPath()%>/activity/ActivityOrderDetail",
+				type:"POST",
+				data:{
+					action:'cancelState',
+					cancelStateNo:cancelStateNo,
+					actSessionNo:actSessionNo
+				},
+				success:function(response){
+					console.log(response);
+					if(response === "true"){
+						alert('取消成功');
+						currentRequest.abort();
+					}else{
+						alert('距離活動開始少於兩天，無法取消');
+						currentRequest.abort();
+					}
+				}
+			});
+			
+		}
 		
 		function createWhichPage(){
 			let select = document.getElementById('switchActOrderDetailStateSelect');
