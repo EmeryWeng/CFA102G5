@@ -1,6 +1,19 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<% 
+	int finalTotal = 0;
+	List<Map<String,String>> shoppingList = (List<Map<String,String>>)session.getAttribute("shoppingCar");
+	for(Map<String,String> map : shoppingList){
+		finalTotal += Integer.parseInt(map.get("act_price")) * 
+				Integer.parseInt(map.get("act_people_number"));		
+	}
+	pageContext.setAttribute("finalTotal", finalTotal);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -148,9 +161,18 @@ input:focus{
 												</c:choose>
 											</table>
 										</div>
-										<div class="totalPriceDiv">
-											<h2>總金額：${checkout_oneOrderPrice + totalPrice}</h2>
-										</div>
+										<c:choose>
+											<c:when test="${not empty requestScope.checkout_act_name}">
+												<div class="totalPriceDiv">
+													<h2>總金額：${checkout_oneOrderPrice + totalPrice}</h2>
+												</div>										
+											</c:when>
+											<c:otherwise>
+												<div class="totalPriceDiv">
+													<h2>總金額：${finalTotal}</h2>
+												</div>	
+											</c:otherwise>
+										</c:choose>					
 									</div>
 								</div>
 								<input type="hidden" name="action" value="checkout">
@@ -189,9 +211,6 @@ input:focus{
 						
 						let obj = JSON.parse(response);
 						
-						console.log(obj);
-						console.log(obj.mem_title);
-						console.log(obj.mem_title === '先生');
 						if(obj.mem_title === '先生'){
 							$("#actOrderTitleSelect option:first").attr("selected",true);
 							$("span.current").text(obj.mem_title);
@@ -266,7 +285,7 @@ input:focus{
 			}
 			successCheckout();
 			form.submit(() =>{
-				setTimeout(() => {},800);
+				setTimeout(() => {},1000);
 			});
 		}
 // 		function submitForm(){

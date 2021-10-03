@@ -1,5 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
+
+<% 
+	int finalTotal = 0;
+	List<Map<String,String>> shoppingList = (List<Map<String,String>>)session.getAttribute("shoppingCar");
+	for(Map<String,String> map : shoppingList){
+		finalTotal += Integer.parseInt(map.get("act_price")) * 
+				Integer.parseInt(map.get("act_people_number"));		
+	}
+	pageContext.setAttribute("finalTotal", finalTotal);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,7 +98,7 @@
 							<h3>Cart Totals</h3>
 
 							<ul>
-								<li>總金額<span id="totalPrice"></span></li>
+								<li>總金額<span id="totalPrice">${finalTotal}</span></li>
 							</ul>
 						<form action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post" id="checkoutForm">
 							<input type="hidden" name="action" value="carCheckout">
@@ -120,15 +133,6 @@
 		}
 		document.getElementById('checkoutForm').submit();
 	}
-
-	window.addEventListener('load',function(){
-		let array = document.getElementsByClassName('actPrice');
-		let total = 0;
-		for(let i=0;i<array.length;i++){
-			total += parseInt(array[i].innerText);
-		}
-		document.getElementById("totalPrice").textContent = total;
-	});
 	
 	let deleteRequest = null;
 	$(".delete").click(function(){
