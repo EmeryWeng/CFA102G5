@@ -29,21 +29,19 @@
 		<div class="updateAndSwitch">
 			<button type="button" class="btn btn-primary btn-xs updateBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropUpdateAct">選擇修改活動</button>
 				<!-- 修改的modal -->
-				<jsp:include page="/back_end/activity/modal/act/updateActModal.jsp">
-					<jsp:param name="actService" value="${actService}"/>
-					<jsp:param name="actClassService" value="${actClassService}"/>
-				</jsp:include>
-			<button type="button" class="btn btn-info btn-xs switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropActInstruction${actVO.act_no}">切換上下架</button>
+			<jsp:include page="/back_end/activity/modal/act/updateActModal.jsp"/>
+			
+				
+			<button type="button" class="btn btn-info btn-xs switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropSwitchActState">切換上下架</button>
+				<!-- 切換上下架的modal -->
+			<jsp:include page="/back_end/activity/modal/act/switchActStateModal.jsp"/>
+					
 		</div>
 		<div class="query">
 			 <form method="post" action="<%=request.getContextPath()%>/activity/Activity">
 				<select name="queryActClass" class="querySelect">
-					<c:forEach var="actClassNo" items="${actService.getAll().stream().map(act -> act.getAct_class_no()).distinct().toList()}">
-						<c:forEach var="actClassVO" items="${actClassService.all}">
-							<c:if test="${actClassNo == actClassVO.act_class_no }">
-								<option value="${actClassNo}">${actClassVO.act_class_name}</option>
-							</c:if>
-						</c:forEach>
+					<c:forEach var="actClassVO" items="${actClassService.all}">
+						<option value="${actClassVO.act_class_no}">${actClassVO.act_class_name}</option>
 					</c:forEach>
 				</select>
 					<input type="hidden" name="action" value="queryByActClassBackEnd">
@@ -107,11 +105,37 @@
 	<%@ include file="/back_end/commonJS.file"%>
 	
 	<script>
+		window.addEventListener('load',function(){
+			if(${selectAct_queryList.size()} == 0){
+				alert("該分類下為空");
+				location.href="<%=request.getContextPath()%>/back_end/activity/act/selectAct.jsp";
+			}
+		});
+		
 		$(document).ready(function(){
 			$(document).on('shown.bs.modal',function(){
 				 $(this).find('[autofocus]').focus();
 			});
 		});
+		
+		function createWhichPage(){
+			let select = document.getElementById('switchActStateSelect');
+			let value = select.options[select.selectedIndex].value; //option value
+			let myForm = document.getElementById('switchActStateForm');
+			let input = document.createElement('input');
+			let goBackPage = 0;
+			if(value % 5 == 0){
+				goBackPage = value/5;
+			}else{
+				goBackPage = (value/5)+1;
+			}
+			input.setAttribute("type","hidden");
+			input.setAttribute("name","whichPage");
+			input.setAttribute("value",parseInt(goBackPage));
+			myForm.appendChild(input)
+			
+			myForm.submit();
+		}
 		// ● 可在這更改header的標題，不寫也可以，但請變成空字串 
 		$("#pagename").text("");
 	</script>
