@@ -1,9 +1,12 @@
 package com.activityOrderDetail.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 
@@ -33,7 +36,7 @@ public class ActivityOrderDetailServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		ActivityOrderDetailService actOrderDetailService = new ActivityOrderDetailService();
 		ActivitySessionService actSessionService = new ActivitySessionService();
-logger.info(action);
+System.out.println("Action:"+action);
 		
 //		來自前台人數檢查
 		if("checkSessionPeopleNumber".equals(action)) {
@@ -98,22 +101,21 @@ logger.info(action);
 			Integer change_act_session_no = new Integer(request.getParameter("changeSessionNo"));
 			//哪筆訂單  訂單編號與場次編號 形成該筆的訂單明細編號
 			Integer act_order_no = new Integer(request.getParameter("orderNo"));
-			
+		
 			//可選擇要改場次的人數，確認人數(要更換的) 但有可能明細沒有該場次 這時候就直接動場次
 			Integer change_act_people_number = new Integer(request.getParameter("changeActPeopleSelect"));
 			
 			Integer change_session_act_real_join_number = null;
 			try {
 				change_session_act_real_join_number = actOrderDetailService.getAll().stream()
-						.filter(detail -> detail.getAct_order_no() == act_order_no.intValue() && detail.getAct_session_no() == change_act_session_no.intValue())
+						.filter(detail -> detail.getAct_session_no() == change_act_session_no.intValue())
 						.mapToInt(detail -> detail.getAct_real_join_number())
-						.findFirst()
-						.getAsInt();
+						.sum();
 			}catch(NoSuchElementException ex) {
 				change_session_act_real_join_number = 0;
 
 			}		
-			
+		
 			Gson gson = new Gson();
 			
 			if(change_act_people_number + change_session_act_real_join_number <= 10) {
@@ -124,7 +126,7 @@ logger.info(action);
 			
 		}
 		
-		if("updateActOrderDetailSure".equals(action)) {
+		if("updateActOrderDetailSure".equals(action)) {			
 			//活動場次單價
 			Integer act_session_price = new Integer(request.getParameter("actSessionPrice"));
 			
@@ -160,14 +162,19 @@ logger.info(action);
 			
 			actOrderDetailService.orderDetailUpdate(totalPeople, act_price_total, act_order_no, change_act_session_no);
 			
+			LocalDate old_session_date = actSessionService.getActSessionByPk(old_act_session_no).getAct_session_start_date();
+			
+			LocalDate change_session_date = actSessionService.getActSessionByPk(change_act_session_no).getAct_session_start_date();
+			
 			//已改期的判斷 舊場次人數全部更換
-			if(old_act_session_no != change_act_session_no) {
+			if(old_act_session_no != change_act_session_no && (!old_session_date.equals(change_session_date))) {
 				actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
 			}
 			
 			}catch(NoSuchElementException ex) {
 
 				act_price_total = act_session_people_number * act_session_price;
+				actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
 				actOrderDetailService.addActOrderDetail(act_order_no, change_act_session_no, act_session_people_number, act_session_price, 0, act_price_total, 1);
 			}
 //同時也要扣除相對應明細的人數以及總金額
@@ -181,14 +188,47 @@ logger.info(action);
 	
 			Integer old_act_price_total = totalPeople * act_session_price;
 			actOrderDetailService.orderDetailUpdate(totalPeople, old_act_price_total, act_order_no, old_act_session_no);
+			
+//重新計算 現有明細的人數 以及 場次 活動等
+			
+			List<ActivityOrderDetailVO> list = actOrderDetailService.getAll()
+																	.stream()
+																	.filter(detail -> detail.getAct_order_detail_state() != 2)
+																	.collect(Collectors.toList());
+			
+			Integer oldSessionNumberTotal = list.stream()
+											.filter(vo -> vo.getAct_session_no() == old_act_session_no.intValue())
+											.mapToInt(people -> people.getAct_real_join_number())
+											.sum();
+System.out.println("oldSession"+old_act_session_no);			
+System.out.println("changeSession"+change_act_session_no);			
+			Integer changeSessionNumberTotal = list.stream()
+					.filter(vo -> vo.getAct_session_no() == change_act_session_no.intValue())
+					.mapToInt(people -> people.getAct_real_join_number())
+					.sum();
+System.out.println("oldSessionNumberTotal"+oldSessionNumberTotal);
+System.out.println("changeSessionNumberTotal"+changeSessionNumberTotal);
 
-
+			actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
+			actSessionService.updateActSessionRealJoinNumber(old_act_session_no, oldSessionNumberTotal);
+			actSessionService.updateActSessionRealJoinNumber(change_act_session_no, changeSessionNumberTotal);
+			
 			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetail.jsp")
 			.forward(request, response);
 			return;
 		}
 		
 		//根據分類查詢 (已付款、已取消、已改期)
+			
+		if("paid".equals(action)) {
+			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(1);
+			
+			request.setAttribute("selectByState",selectByState);
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			.forward(request, response);
+			return;
+		}
+		
 		if("canceled".equals(action)) {
 			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(2);
 			
@@ -205,6 +245,28 @@ logger.info(action);
 			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
 			.forward(request, response);
 			return;
+		}
+
+		//申請取消
+		if("cancelState".equals(action)) {
+			Integer act_order_detail_no = new Integer(request.getParameter("cancelStateNo"));
+			Integer act_session_no = new Integer(request.getParameter("actSessionNo"));
+			
+			LocalDate now = LocalDate.now();
+			LocalDate start_date = actSessionService.getActSessionByPk(act_session_no)
+											  		.getAct_session_start_date();
+		
+			Gson gson = new Gson();
+			
+			Period period = Period.between(now, start_date);
+
+			if(period.getMonths() <1 && period.getDays() >= 2) {
+				System.out.println("更改成功");
+				actOrderDetailService.switchOrderDetailState(act_order_detail_no, 2);
+				response.getWriter().write(gson.toJson(true));				
+			}else {	
+				response.getWriter().write(gson.toJson(false));
+			}
 		}
 	}
 

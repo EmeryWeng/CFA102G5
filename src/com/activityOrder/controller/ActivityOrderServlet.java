@@ -245,7 +245,7 @@ logger.info("結帳動作:"+checkoutAction);
 		}
 //      購物車結帳
 		if("carCheckout".equals(action)) {
-System.out.println("購物車結帳區塊");			
+			
 			HttpSession session = request.getSession();
 			List<Map<String,String>> list = (List<Map<String,String>>)session.getAttribute("shoppingCar");
 			Integer totalPrice = 0;
@@ -298,7 +298,6 @@ System.out.println("購物車結帳區塊");
 			Integer repeatIndex = null; //記錄重複的索引
 			Map<String,String> map = null;
 			String car_action = request.getParameter("carAction");
-System.out.println("對購物車的操作是:"+car_action);
 
 			if("add".equals(car_action)) {
 		
