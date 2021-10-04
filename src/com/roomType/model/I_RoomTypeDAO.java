@@ -17,4 +17,8 @@ public interface I_RoomTypeDAO {
 	public void changeState(Integer type_no, Boolean type_state);
 
 	public List<RoomTypeVO> getEnoughType(Date start_date, Date end_date, Integer qty, Integer guest);
+
+	public List<RoomTypeVO> getNotEnoughType(Date start_date, Date end_date, Integer qty, Integer guest);
+
+	public List<RoomTypeVO> paymentCheck(Date start_date, Date end_date, Integer qty, Integer type_no);
 }

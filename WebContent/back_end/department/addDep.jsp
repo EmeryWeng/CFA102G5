@@ -11,6 +11,12 @@ DepartmentVO depVO = (DepartmentVO) request.getAttribute("depVO");
 <title>Insert title here</title>
 <style>
 
+#example4{
+ display: inline-block;
+ width:70%!important;
+ margin:0;
+}
+
 </style>
 </head>
 <body>
@@ -45,7 +51,7 @@ DepartmentVO depVO = (DepartmentVO) request.getAttribute("depVO");
 </table>
 <br>
 <input type="hidden" name="action" value="insert">
-<input type="submit" value="送出新增"></FORM>
+<input type="submit" value="送出新增" class="btn btn-primary"></FORM>
 </div>
 <%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 <script>

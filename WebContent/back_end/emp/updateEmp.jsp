@@ -7,6 +7,13 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 %>
 <html>
 <head>
+<style>
+#example4{
+ display: inline-block;
+ width:70%!important;
+ margin:0;
+}
+</style>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <meta charset="UTF-8">
 </head>
@@ -43,7 +50,7 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 		<td><input type="TEXT" name="emp_mail" size="50" value="<%=empVO.getEmp_mail()%>" /></td>
 	</tr>
 	<tr>
-		<td>員工狀態</td>
+		<td>員工狀態:</td>
 		<td><input type="radio" id="true" name="emp_state"  value="true" ${(empVO.emp_state==true)?'checked':'' }>在職</td>
 		<td><input type="radio" id="false" name="emp_state"  value="false" ${(empVO.emp_state==false)?'checked':'' }>離職</td>
 	</tr>
@@ -62,7 +69,7 @@ EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 <br>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="emp_no" value="<%=empVO.getEmp_no()%>">
-<input type="submit" value="送出修改"></FORM>
+<input type="submit" value="送出修改" class="btn btn-primary"></FORM>
 </div>
 <%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 <script>

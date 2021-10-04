@@ -53,14 +53,14 @@
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+			     <input type="submit" value="修改" class="btn btn-secondary">
 			     <input type="hidden" name="fd_img_no" value="${FoodImgVO.fd_img_no}">
 			     <input type="hidden" name="action"	value="One_Img_Update"></FORM>
 			</td>
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="刪除">
+			     <input type="submit" value="刪除" class="btn btn-danger">
 			     <input type="hidden" name="fd_img_no"  value="${FoodImgVO.fd_img_no}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>

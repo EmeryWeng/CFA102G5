@@ -31,8 +31,17 @@
 		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  
         
         <script>
+        var unMember = "${memberSvc.getOneBymail(mem_mail).mem_name}"
             $('#footer-message-btn').click(function(event){
+                if (unMember === ""){
+                alert("You need to sign in before you use it.");
+                } else {
                 event.preventDefault();
-                $('.message-box').fadeToggle(700);
+                $('.message-box').fadeToggle(300);
+                }
+            });
+             $('i.bx-x-circle').click(function(event){
+                event.preventDefault();
+                $('.message-box').fadeToggle(300);
             });
         </script>

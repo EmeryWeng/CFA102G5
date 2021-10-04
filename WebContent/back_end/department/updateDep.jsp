@@ -9,6 +9,13 @@ DepartmentVO DepVO = (DepartmentVO) request.getAttribute("DepVO");
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+#example4{
+ display: inline-block;
+ width:85%!important;
+ margin:0;
+}
+</style>
 <%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <meta charset="UTF-8">
 </head>
@@ -47,7 +54,7 @@ DepartmentVO DepVO = (DepartmentVO) request.getAttribute("DepVO");
 <br>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="dep_no" value="<%=DepVO.getDep_no()%>">
-<input type="submit" value="送出修改"></FORM>
+<input type="submit" value="送出修改" class="btn btn-primary"></FORM>
 </div>
 
 <%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->

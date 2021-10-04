@@ -125,8 +125,12 @@ public class RoomTypeServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				Integer type_no = new Integer(req.getParameter("type_no"));
+				System.out.print("==============" + type_no);
 				HttpSession session = req.getSession();
 				Integer qty = (Integer) session.getAttribute("qty");
+				if (qty == null) {
+					qty = 1;
+				}
 
 				/*************************** 2.開始查詢資料 ****************************************/
 				// 房型資料
@@ -159,12 +163,13 @@ public class RoomTypeServlet extends HttpServlet {
 				for (int i = 0; i < list.size(); i++) {
 					result += "\"" + list.get(i).getRsv_date().toString() + "\",";
 				}
-				System.out.println("result=" + result);
+
 				/*************************** 3.查詢完成,準備轉交 ************/
 				req.setAttribute("roomTypeVO", roomTypeVO); // 資料庫取出的VO物件,存入req
 				req.setAttribute("facilityList", facilityList); // 分割完的設施list,存入req
 				req.setAttribute("images", images); // 資料庫取出的VO物件,存入req
 				req.setAttribute("result", result); // 不可預訂的日期
+				req.setAttribute("qty", qty); // 間數，沒搜尋過session就沒有存，帶入1傳回前台，不存session是怕被汙染，這些參數都要互相符合
 				String url = "/front_end/room/roomDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的roomDetail.jsp
 				successView.forward(req, res);

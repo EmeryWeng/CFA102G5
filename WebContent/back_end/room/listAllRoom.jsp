@@ -143,7 +143,10 @@
 							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=2&action=getAllByRmState">入住中 (${roomSvc.getAllByRmState(2).size()})</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=3&action=getAllByRmState">已停用 (${roomSvc.getAllByRmState(3).size()})</a>
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=3&action=getAllByRmState">待清潔 (${roomSvc.getAllByRmState(3).size()})</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%=request.getContextPath()%>/room/Room?rm_state=4&action=getAllByRmState">已停用 (${roomSvc.getAllByRmState(4).size()})</a>
 						</li>
 					</ul>
 				</div>
@@ -170,7 +173,8 @@
 								<c:choose>
 									<c:when test="${roomVO.rm_state==1}">空房</c:when>
 									<c:when test="${roomVO.rm_state==2}">入住中</c:when>
-									<c:when test="${roomVO.rm_state==3}">已停用</c:when>
+									<c:when test="${roomVO.rm_state==3}">待清潔</c:when>
+									<c:when test="${roomVO.rm_state==4}">已停用</c:when>
 								</c:choose>
 							</td>
 							<td>${roomVO.name_title}</td>

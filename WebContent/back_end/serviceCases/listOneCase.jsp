@@ -24,7 +24,7 @@
 	</td></tr>
 </table>
 
-<table>
+<table id="example4" class="display" style="min-width: 845px">
 	<tr>
 		<th>案件編號</th>
 		<th>會員編號</th>

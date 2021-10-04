@@ -218,12 +218,40 @@
   </servlet-mapping>
   
   <filter>
+		<filter-name>EmpFilter</filter-name>
+		<filter-class>filter.EmpFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EmpFilter</filter-name>
+		<url-pattern>/back_end/emp/addEmp.jsp</url-pattern>
+		<url-pattern>/back_end/emp/listAllEmp.jsp</url-pattern>
+
+		<url-pattern>/back_end/department/addDep.jsp</url-pattern>
+		<url-pattern>/back_end/department/allDep.jsp</url-pattern>
+
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
+	<filter>
 		<filter-name>EmpLoginFilter</filter-name>
 		<filter-class>filter.EmpLoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>EmpLoginFilter</filter-name>
 		<url-pattern>/back_end/emp/*</url-pattern>
+		<url-pattern>/back_end/activity/*</url-pattern>
+		<url-pattern>/back_end/department/*</url-pattern>
+		<url-pattern>/back_end/foodClass/*</url-pattern>
+		<url-pattern>/back_end/foodStore/*</url-pattern>
+		<url-pattern>/back_end/member/*</url-pattern>
+		<url-pattern>/back_end/room/*</url-pattern>
+		<url-pattern>/back_end/roomType/*</url-pattern>
+		<url-pattern>/back_end/serviceCases/*</url-pattern>
+		<url-pattern>/back_end/test/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -234,11 +262,11 @@
   
 <!-- 客服功能開始 -->
   <servlet>
-    <servlet-name>InstantMessagingServlet</servlet-name>
-    <servlet-class>com.instantMessaging.controller.InstantMessagingServlet</servlet-class>
+    <servlet-name>NameServlet</servlet-name>
+    <servlet-class>com.instantMessaging.controller.NameServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>InstantMessagingServlet</servlet-name>
+    <servlet-name>NameServlet</servlet-name>
     <url-pattern>/instantMessaging/InstantMessaging.do</url-pattern>
   </servlet-mapping>
   

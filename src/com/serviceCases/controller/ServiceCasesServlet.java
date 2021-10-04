@@ -33,35 +33,25 @@ public class ServiceCasesServlet extends HttpServlet {
 			
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-				
 				Integer mem_no = new Integer(req.getParameter("mem_no").trim());
+				String case_title = req.getParameter("case_title");
+				String case_des = req.getParameter("case_des");
 				
-				String case_title = req.getParameter("case_title").trim();
-				String case_titleReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{5,20}$";
-				
-				String case_des = req.getParameter("case_des").trim();
-				String case_desReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{10,200}$";
-				if (case_title == null || case_title.trim().length() == 0) {
+				if (case_title == null || case_title.length() == 0) {
 					errorMsgs.add("案件標題請勿空白");
 					
-				} else if(!case_title.trim().matches(case_titleReg)) { 
-					errorMsgs.add("案件描述最少5個字");
-	            } else if(!case_title.trim().matches(case_titleReg)) { 
-					errorMsgs.add("案件描述最多20個字");
-	            }
+				} else if(case_title.trim().length() > 20) { 
+					errorMsgs.add("案件標題要20個字以內");
+	            } 
 
-				
 				if (case_des == null || case_des.trim().length() == 0) {
 					errorMsgs.add("案件描述請勿空白");
 					
-				}else if(!case_des.trim().matches(case_desReg)) { 
-					errorMsgs.add("案件描述最少10個字");
-	            }else if(!case_des.trim().matches(case_desReg)) { 
-					errorMsgs.add("案件描述最少200個字");
-	            }
+				} else if (case_des.trim().length() > 200) {
+					errorMsgs.add("案件描述要200個字以內");
+				}
 
 				String case_reply = null;
-
 				Integer case_state = 1;
 
 				ServiceCasesVO serviceCasesVO = new ServiceCasesVO();
@@ -99,6 +89,72 @@ public class ServiceCasesServlet extends HttpServlet {
 			}
 		}
 		
+		if ("userinsert".equals(action)) { // 來自addCase.jsp的請求
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				
+				Integer mem_no = new Integer(req.getParameter("mem_no").trim());
+				
+				String case_title = req.getParameter("case_title");
+				
+				
+				String case_des = req.getParameter("case_des");
+//				String case_desReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{10,200}$";
+				if (case_title == null || case_title.length() == 0) {
+					errorMsgs.add("案件標題請勿空白");
+					
+				} else if(case_title.trim().length() > 20) { 
+					errorMsgs.add("案件標題要20個字以內");
+	            } 
+
+				if (case_des == null || case_des.trim().length() == 0) {
+					errorMsgs.add("案件描述請勿空白");
+					
+				} else if (case_des.trim().length() > 200) {
+					errorMsgs.add("案件描述要200個字以內");
+				}
+
+				String case_reply = null;
+				Integer case_state = 1;
+
+				ServiceCasesVO serviceCasesVO = new ServiceCasesVO();
+				serviceCasesVO.setMem_no(mem_no);
+				serviceCasesVO.setCase_title(case_title);
+				serviceCasesVO.setCase_des(case_des);
+				serviceCasesVO.getCase_reply();
+				serviceCasesVO.setCase_state(case_state);
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("serviceCasesVO", serviceCasesVO); // 含有輸入格式錯誤的serviceCasesVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/front_end/serviceCases/userAddCase.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+
+				/*************************** 2.開始新增資料 ***************************************/
+				ServiceCasesService scSvc = new ServiceCasesService();
+				serviceCasesVO = scSvc.addServiceCases(mem_no, case_title, case_des, case_reply,case_state);
+				
+				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				String url = "/front_end/member/memberHome.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交
+				successView.forward(req, res);
+				
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/serviceCases/userAddCase.jsp");
+				failureView.forward(req, res);
+				
+			}
+		}
 		
 				//更新案件
 				if ("update".equals(action)) { // 來自addCase.jsp的請求
@@ -113,12 +169,14 @@ public class ServiceCasesServlet extends HttpServlet {
 						Integer case_no = new Integer(req.getParameter("case_no").trim());
 						Integer mem_no = new Integer(req.getParameter("mem_no").trim());
 						String case_title = req.getParameter("case_title").trim();
-						String case_des = req.getParameter("case_des").trim();
-						
+						String case_des = req.getParameter("case_des").trim();	
+						String case_reply = req.getParameter("case_reply");
 
-						String case_reply = req.getParameter("case_reply").trim();
 						if (case_reply == null || case_reply.trim().length() == 0) {
-							errorMsgs.add("回覆請勿空白");
+							errorMsgs.add("案件描述請勿空白");
+							
+						} else if (case_reply.trim().length() > 200) {
+							errorMsgs.add("案件描述要200個字以內");
 						}
 						
 						Integer case_state = new Integer(req.getParameter("case_state").trim());
@@ -190,11 +248,6 @@ public class ServiceCasesServlet extends HttpServlet {
 					}
 				}
 				
-				
-				
-				
-				
-
 	}
 
 }

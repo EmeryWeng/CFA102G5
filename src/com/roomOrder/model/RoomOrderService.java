@@ -1,7 +1,9 @@
 package com.roomOrder.model;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
+
+import com.roomOrderDetail.model.RoomOrderDetailVO;
 
 public class RoomOrderService {
 
@@ -11,9 +13,9 @@ public class RoomOrderService {
 		dao = new RoomOrderDAO();
 	}
 
-	public RoomOrderVO addRoomOrder(Integer mem_no, Integer type_no, LocalDate start_date, LocalDate end_date,
-			Integer rm_num, Integer price, Integer total_price, String note, String title, String name, String phone,
-			String email, String payment) {
+	public RoomOrderVO insert(Integer mem_no, Integer type_no, Date start_date, Date end_date, Integer rm_num,
+			Integer price, Integer total_price, String note, String title, String name, String phone, String email,
+			String payment) {
 
 		RoomOrderVO roomOrderVO = new RoomOrderVO();
 		roomOrderVO.setMem_no(mem_no);
@@ -33,6 +35,28 @@ public class RoomOrderService {
 		return dao.insert(roomOrderVO);
 	}
 
+	public void insertAuto(Integer mem_no, Integer type_no, Date start_date, Date end_date, Integer rm_num,
+			Integer price, Integer total_price, String note, String title, String name, String phone, String email,
+			String payment, List<RoomOrderDetailVO> list) {
+
+		RoomOrderVO roomOrderVO = new RoomOrderVO();
+		roomOrderVO.setMem_no(mem_no);
+		roomOrderVO.setType_no(type_no);
+		roomOrderVO.setStart_date(start_date);
+		roomOrderVO.setEnd_date(end_date);
+		roomOrderVO.setRm_num(rm_num);
+		roomOrderVO.setPrice(price);
+		roomOrderVO.setTotal_price(total_price);
+		roomOrderVO.setNote(note);
+		roomOrderVO.setTitle(title);
+		roomOrderVO.setName(name);
+		roomOrderVO.setPhone(phone);
+		roomOrderVO.setEmail(email);
+		roomOrderVO.setPayment(payment);
+
+		dao.insertAuto(roomOrderVO, list);
+	}
+
 	public void updateRoomOrder() {
 
 		RoomOrderVO roomOrderVO = new RoomOrderVO();
@@ -47,7 +71,7 @@ public class RoomOrderService {
 		dao.cancel(roomOrderVO);
 	}
 
-	public void changeRoomOrder(Integer ord_no, LocalDate start_date, LocalDate end_date) {
+	public void changeRoomOrder(Integer ord_no, Date start_date, Date end_date) {
 
 		RoomOrderVO roomOrderVO = new RoomOrderVO();
 		roomOrderVO.setOrd_no(ord_no);

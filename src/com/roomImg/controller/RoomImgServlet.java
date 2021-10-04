@@ -34,7 +34,7 @@ public class RoomImgServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		res.setContentType("image/jpeg");
 		String action = req.getParameter("action");
-		System.out.println("action=" + action);
+
 		// 顯示第一張圖片
 		if ("showFirstImages".equals(action)) {
 			/*************************** 1.接收請求參數 ****************************************/

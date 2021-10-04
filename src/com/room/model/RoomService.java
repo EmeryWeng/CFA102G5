@@ -49,6 +49,14 @@ public class RoomService {
 		dao.updateCheckout(roomVO);
 	}
 
+	public void cleanRoom(String rm_no) {
+
+		RoomVO roomVO = new RoomVO();
+		roomVO.setRm_no(rm_no);
+
+		dao.updateCheckout(roomVO);
+	}
+
 	public RoomVO getOneRoom(String rm_no) {
 		return dao.getOne(rm_no);
 	}

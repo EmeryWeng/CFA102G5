@@ -7,6 +7,15 @@ FoodClassVO clasVO = (FoodClassVO) request.getAttribute("clasVO");
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+
+#example4{
+ display: inline-block;
+ width:70%!important;
+ margin:0;
+}
+
+</style>
 <%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <title>Insert title here</title>
 </head>
@@ -41,7 +50,7 @@ FoodClassVO clasVO = (FoodClassVO) request.getAttribute("clasVO");
 </table>
 <br>
 <input type="hidden" name="action" value="insert">
-<input type="submit" value="送出新增"></FORM>
+<input type="submit" value="送出新增" class="btn btn-primary"></FORM>
 </div>
 <%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
 <script>

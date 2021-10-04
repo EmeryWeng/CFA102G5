@@ -81,12 +81,11 @@
 		<td>地址:</td>
 		<td><input type="TEXT" name="mem_add" size="45" value="<%=memVO.getMem_add()%>" /></td>
 	</tr>
-	
 </table>
 <input type="hidden" name="action" value="updateMember">
 <input type="hidden" name="mem_no" value="<%=memVO.getMem_no()%>">
-<input type="submit" value="送出修改"></FORM>
-
+<input type="submit" value="送出修改">
+</form>
 
 
 </body>

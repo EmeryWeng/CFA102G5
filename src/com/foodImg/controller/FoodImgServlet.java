@@ -26,13 +26,30 @@ public class FoodImgServlet extends HttpServlet {
 		FoodImgService vic = new FoodImgService();
 		
 		ServletOutputStream out = res.getOutputStream();
-	    out.write(vic.findImgOne(fd_no).getFd_img());  
+	    out.write(vic.findImgOne(fd_no).getFd_img());
 	    out.close();
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
+		if("getStoreImg".equals(action)) {	// 來自select_page.jsp的請求
+
+			Integer fd_no = new Integer(req.getParameter("fd_no").trim());
+			/*************************** 2.開始查詢資料 *****************************************/
+			FoodImgService imgSvc = new FoodImgService();
+			List<FoodImgVO> imgVO = imgSvc.foodImg(fd_no);
+			
+			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+			req.setAttribute("imgVO", imgVO);
+			String url = "/front_end/storeMap/storeImg.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
+			successView.forward(req, res);
+			return;
+			/*************************** 其他可能的錯誤處理 *************************************/
+			
+		}
 		
 		if("getOneFoodStoreImg".equals(action)) {	// 來自select_page.jsp的請求
 			List<String> errorMsgs = new LinkedList<String>();
@@ -46,14 +63,14 @@ public class FoodImgServlet extends HttpServlet {
 			if(imgVO.size()==0) {
 				errorMsgs.add("此店家無照片請先新增照片。");
 				req.setAttribute("fd_no", fd_no);
-				String url = "back_end/foodimg/addImg.jsp";
+				String url = "/back_end/foodImg/addImg.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
 				successView.forward(req, res);
 				return;
 			}
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 			req.setAttribute("imgVO", imgVO);
-			String url = "back_end/foodimg/getOneFoodStoreImg.jsp";
+			String url = "/back_end/foodImg/getOneFoodStoreImg.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
 			successView.forward(req, res);
 			return;
@@ -61,7 +78,7 @@ public class FoodImgServlet extends HttpServlet {
 			}catch (Exception e) {
 				errorMsgs.add("查無此店家或圖片或輸入錯誤"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("back_end/foodStore/allStore.jsp");
+						.getRequestDispatcher("/back_end/foodStore/allStore.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -94,13 +111,13 @@ public class FoodImgServlet extends HttpServlet {
 			List<FoodImgVO> imgVO = imgSvc.foodImg(fd_no);
 			/***************************4.新增完成,準備轉交(Send the Success view)***********/
 			req.setAttribute("imgVO", imgVO);
-			String url ="back_end/foodimg/getOneFoodStoreImg.jsp";
+			String url ="/back_end/foodImg/getOneFoodStoreImg.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}catch (Exception e) {
-			errorMsgs.add("新增失敗 請填寫正確店家編號"+e.getMessage());
+			errorMsgs.add("新增失敗"+e.getMessage());
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("back_end/foodimg/addImg.jsp");
+					.getRequestDispatcher("/back_end/foodImg/addImg.jsp");
 			failureView.forward(req, res);
 		}
 		}
@@ -122,7 +139,7 @@ public class FoodImgServlet extends HttpServlet {
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/		
 				req.setAttribute("imgVO", imgVO);
-				String url ="back_end/foodimg/getOneFoodStoreImg.jsp";
+				String url ="/back_end/foodImg/getOneFoodStoreImg.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 				
@@ -130,7 +147,7 @@ public class FoodImgServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("back_end/foodStore/allStore.jsp");
+						.getRequestDispatcher("/back_end/foodStore/allStore.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -148,7 +165,7 @@ public class FoodImgServlet extends HttpServlet {
 			
 				req.setAttribute("imgvo", imgvo);
 				
-				String url = "back_end/foodimg/updateFoodImg.jsp";
+				String url = "/back_end/foodImg/updateFoodImg.jsp";
   				RequestDispatcher successView = req.getRequestDispatcher(url); 
   				successView.forward(req, res);
   				/***************************其他可能的錯誤處理**********************************/
@@ -174,7 +191,13 @@ public class FoodImgServlet extends HttpServlet {
 			Part fd_img = req.getPart("fd_img");
 			InputStream img = fd_img.getInputStream();
 			if(img.available()==0) {
-				
+				errorMsgs.add("沒有選擇照片");
+			}
+			if (!errorMsgs.isEmpty()) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/back_end/foodStore/allStore.jsp");
+				failureView.forward(req, res);
+				return;
 			}
 			byte[] Pic = new byte[img.available()];
 			img.read(Pic);
@@ -190,7 +213,7 @@ public class FoodImgServlet extends HttpServlet {
 			List<FoodImgVO> imgVO = Svc.foodImg(fd_no);
 			
 			req.setAttribute("imgVO", imgVO); 
-			String url = "back_end/foodimg/getOneFoodStoreImg.jsp";
+			String url = "/back_end/foodImg/getOneFoodStoreImg.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 			/***************************其他可能的錯誤處理**********************************/
@@ -198,7 +221,7 @@ public class FoodImgServlet extends HttpServlet {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
 					e.printStackTrace();
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("back_end/foodStore/allStore.jsp");
+								.getRequestDispatcher("/back_end/foodStore/allStore.jsp");
 						failureView.forward(req, res);
 			}
 		

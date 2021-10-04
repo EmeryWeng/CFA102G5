@@ -8,7 +8,7 @@
 	List<ServiceCasesVO> list = scSvc.getAll();
     pageContext.setAttribute("list",list);
 %>
-    
+
 <html>
 <head>
 <%@ include file="/back_end/commonCSS.file" %>
@@ -36,7 +36,7 @@
 		<th>回覆</th>
 
 	</tr>
-	</thead>
+</thead>
 <%-- 	<%@ include file="page1.file" %>  --%>
 <c:forEach var="serviceCasesVO" items="${list}">
 <%-- 	<c:forEach var="serviceCasesVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>"> --%>
@@ -59,7 +59,7 @@
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do" style="margin-bottom: 0px;">
 <!-- 			     <input type="submit" value="回覆"> -->
-			     <button type="submit" class="btn btn-primary" value="回覆">回覆</button>
+			     <button type="submit" class="btn btn-primary btn-lg"" value="回覆">Reply</button>
 			     <input type="hidden" name="case_no" value="${serviceCasesVO.case_no}">
 			     <input type="hidden" name="action"	value="getOne_For_Update">
 			  </FORM>
@@ -78,6 +78,6 @@
 <script>
 // 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
 			$("#pagename").text("案件列表");
-		</script>
+</script>
 </body>
 </html>

@@ -231,6 +231,7 @@
 									<h4>
 										<i class='bx bx-credit-card'></i> 付款資料
 									</h4>
+<%-- 									<div>訂單成立日期： <fmt:formatDate value="${orderVO.ord_date}" pattern="yyyy-MM-dd HH:mm:ss" /></div> --%>
 									<div>訂單成立日期： ${orderVO.ord_date}</div>
 									<div>信用卡號碼： ${orderVO.payment}</div>
 									<div>備註： ${orderVO.note}</div>

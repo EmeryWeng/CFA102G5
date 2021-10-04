@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.roomOrderDetail.model.RoomOrderDetailVO;
 import com.util.JDBCUtil;
 
 public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
@@ -37,6 +38,34 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 
 			pstmt.setInt(1, roomOrderVO.getMem_no());
 			pstmt.setInt(2, roomOrderVO.getType_no());
+			pstmt.setDate(3, roomOrderVO.getStart_date());
+			pstmt.setDate(4, roomOrderVO.getEnd_date());
+			pstmt.setInt(5, roomOrderVO.getRm_num());
+			pstmt.setInt(6, roomOrderVO.getPrice());
+			pstmt.setInt(7, roomOrderVO.getTotal_price());
+			pstmt.setString(8, roomOrderVO.getNote());
+			pstmt.setString(9, roomOrderVO.getTitle());
+			pstmt.setString(10, roomOrderVO.getName());
+			pstmt.setString(11, roomOrderVO.getPhone());
+			pstmt.setString(12, roomOrderVO.getEmail());
+			pstmt.setString(13, roomOrderVO.getPayment());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return roomOrderVO;
+	}
+
+	@Override
+	public void insertAuto(RoomOrderVO roomOrderVO, List<RoomOrderDetailVO> list) {
+
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(INSERT);
+
+			pstmt.setInt(1, roomOrderVO.getMem_no());
+			pstmt.setInt(2, roomOrderVO.getType_no());
 			pstmt.setObject(3, roomOrderVO.getStart_date());
 			pstmt.setObject(4, roomOrderVO.getEnd_date());
 			pstmt.setInt(5, roomOrderVO.getRm_num());
@@ -54,7 +83,6 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
-		return roomOrderVO;
 	}
 
 	@Override
@@ -116,8 +144,8 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setOrd_no(rs.getInt("ord_no"));
 				roomOrderVO.setMem_no(rs.getInt("mem_no"));
 				roomOrderVO.setType_no(rs.getInt("type_no"));
-				roomOrderVO.setStart_date(rs.getDate("start_date").toLocalDate());
-				roomOrderVO.setEnd_date(rs.getDate("end_date").toLocalDate());
+				roomOrderVO.setStart_date(rs.getDate("start_date"));
+				roomOrderVO.setEnd_date(rs.getDate("end_date"));
 				roomOrderVO.setRm_num(rs.getInt("rm_num"));
 				roomOrderVO.setPrice(rs.getInt("price"));
 				roomOrderVO.setTotal_price(rs.getInt("total_price"));
@@ -127,7 +155,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setPhone(rs.getString("phone"));
 				roomOrderVO.setEmail(rs.getString("email"));
 				roomOrderVO.setPayment(rs.getString("payment"));
-				roomOrderVO.setOrd_date(rs.getDate("ord_date").toLocalDate());
+				roomOrderVO.setOrd_date(rs.getDate("ord_date"));
 				roomOrderVO.setOrd_state(rs.getInt("ord_state"));
 			}
 
@@ -152,8 +180,8 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setOrd_no(rs.getInt("ord_no"));
 				roomOrderVO.setMem_no(rs.getInt("mem_no"));
 				roomOrderVO.setType_no(rs.getInt("type_no"));
-				roomOrderVO.setStart_date(rs.getDate("start_date").toLocalDate());
-				roomOrderVO.setEnd_date(rs.getDate("end_date").toLocalDate());
+				roomOrderVO.setStart_date(rs.getDate("start_date"));
+				roomOrderVO.setEnd_date(rs.getDate("end_date"));
 				roomOrderVO.setRm_num(rs.getInt("rm_num"));
 				roomOrderVO.setPrice(rs.getInt("price"));
 				roomOrderVO.setTotal_price(rs.getInt("total_price"));
@@ -163,7 +191,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setPhone(rs.getString("phone"));
 				roomOrderVO.setEmail(rs.getString("email"));
 				roomOrderVO.setPayment(rs.getString("payment"));
-				roomOrderVO.setOrd_date(rs.getDate("ord_date").toLocalDate());
+				roomOrderVO.setOrd_date(rs.getDate("ord_date"));
 				roomOrderVO.setOrd_state(rs.getInt("ord_state"));
 				list.add(roomOrderVO);
 			}
@@ -190,8 +218,8 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setOrd_no(rs.getInt("ord_no"));
 				roomOrderVO.setMem_no(rs.getInt("mem_no"));
 				roomOrderVO.setType_no(rs.getInt("type_no"));
-				roomOrderVO.setStart_date(rs.getDate("start_date").toLocalDate());
-				roomOrderVO.setEnd_date(rs.getDate("end_date").toLocalDate());
+				roomOrderVO.setStart_date(rs.getDate("start_date"));
+				roomOrderVO.setEnd_date(rs.getDate("end_date"));
 				roomOrderVO.setRm_num(rs.getInt("rm_num"));
 				roomOrderVO.setPrice(rs.getInt("price"));
 				roomOrderVO.setTotal_price(rs.getInt("total_price"));
@@ -201,7 +229,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setPhone(rs.getString("phone"));
 				roomOrderVO.setEmail(rs.getString("email"));
 				roomOrderVO.setPayment(rs.getString("payment"));
-				roomOrderVO.setOrd_date(rs.getDate("ord_date").toLocalDate());
+				roomOrderVO.setOrd_date(rs.getDate("ord_date"));
 				roomOrderVO.setOrd_state(rs.getInt("ord_state"));
 				list.add(roomOrderVO);
 			}
@@ -228,8 +256,8 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setOrd_no(rs.getInt("ord_no"));
 				roomOrderVO.setMem_no(rs.getInt("mem_no"));
 				roomOrderVO.setType_no(rs.getInt("type_no"));
-				roomOrderVO.setStart_date(rs.getDate("start_date").toLocalDate());
-				roomOrderVO.setEnd_date(rs.getDate("end_date").toLocalDate());
+				roomOrderVO.setStart_date(rs.getDate("start_date"));
+				roomOrderVO.setEnd_date(rs.getDate("end_date"));
 				roomOrderVO.setRm_num(rs.getInt("rm_num"));
 				roomOrderVO.setPrice(rs.getInt("price"));
 				roomOrderVO.setTotal_price(rs.getInt("total_price"));
@@ -239,7 +267,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setPhone(rs.getString("phone"));
 				roomOrderVO.setEmail(rs.getString("email"));
 				roomOrderVO.setPayment(rs.getString("payment"));
-				roomOrderVO.setOrd_date(rs.getDate("ord_date").toLocalDate());
+				roomOrderVO.setOrd_date(rs.getDate("ord_date"));
 				roomOrderVO.setOrd_state(rs.getInt("ord_state"));
 				list.add(roomOrderVO);
 			}
@@ -266,8 +294,8 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setOrd_no(rs.getInt("ord_no"));
 				roomOrderVO.setMem_no(rs.getInt("mem_no"));
 				roomOrderVO.setType_no(rs.getInt("type_no"));
-				roomOrderVO.setStart_date(rs.getDate("start_date").toLocalDate());
-				roomOrderVO.setEnd_date(rs.getDate("end_date").toLocalDate());
+				roomOrderVO.setStart_date(rs.getDate("start_date"));
+				roomOrderVO.setEnd_date(rs.getDate("end_date"));
 				roomOrderVO.setRm_num(rs.getInt("rm_num"));
 				roomOrderVO.setPrice(rs.getInt("price"));
 				roomOrderVO.setTotal_price(rs.getInt("total_price"));
@@ -277,7 +305,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 				roomOrderVO.setPhone(rs.getString("phone"));
 				roomOrderVO.setEmail(rs.getString("email"));
 				roomOrderVO.setPayment(rs.getString("payment"));
-				roomOrderVO.setOrd_date(rs.getDate("ord_date").toLocalDate());
+				roomOrderVO.setOrd_date(rs.getDate("ord_date"));
 				roomOrderVO.setOrd_state(rs.getInt("ord_state"));
 				list.add(roomOrderVO);
 			}

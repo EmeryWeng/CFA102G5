@@ -8,6 +8,13 @@ FoodClassVO ClassVO = (FoodClassVO) request.getAttribute("foodClassVO");
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+#example4{
+ display: inline-block;
+ width:85%!important;
+ margin:0;
+}
+</style>
 <%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <title>Insert title here</title>
 </head>
@@ -46,7 +53,7 @@ FoodClassVO ClassVO = (FoodClassVO) request.getAttribute("foodClassVO");
 <br>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="fd_class_no" value="<%=ClassVO.getFd_class_no()%>">
-<input type="submit" value="送出修改"></FORM>
+<input type="submit" value="送出修改" class="btn btn-primary"></FORM>
 </div>
 
 <%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->

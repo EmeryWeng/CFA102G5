@@ -17,6 +17,7 @@
 		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 <div class="main-content card card-body table-responsive">
      <h4><a href="<%=request.getContextPath()%>/back_end/foodStore/allStore.jsp">回店家列表</a></h4>
+     <h4><a href="<%=request.getContextPath()%>/back_end/foodImg/addImg.jsp?fd_no=${imgVO[0].fd_no}">新增照片</a></h4>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -45,14 +46,14 @@
 		
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+			     <input type="submit" value="修改" class="btn btn-secondary">
 			     <input type="hidden" name="fd_img_no" value="${FoodImgVO.fd_img_no}">
 			     <input type="hidden" name="action"	value="One_Img_Update"></FORM>
 			</td>
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="刪除">
+			     <input type="submit" value="刪除" class="btn btn-danger">
 			     <input type="hidden" name="fd_img_no"  value="${FoodImgVO.fd_img_no}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>

@@ -20,7 +20,7 @@ public class ActivityScheduleListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce)  {
 
     	timer = new Timer();
-    	timer.schedule(new ActivitySchedule(), 5000, 86400000);
+    	timer.schedule(new ActivitySchedule(), 1000, 86400000);
     	
     	//86400000 one day
     }

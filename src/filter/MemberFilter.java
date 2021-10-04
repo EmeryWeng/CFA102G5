@@ -24,9 +24,9 @@ public class MemberFilter implements Filter {
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
-	    Object mem_mail = session.getAttribute("mem_mail");                  
-	    if (mem_mail == null) {                                            
-	      session.setAttribute("location", req.getRequestURI());      
+	    String mem_mail = (String) session.getAttribute("mem_mail");
+	    if (mem_mail == null) {
+	      session.setAttribute("location", req.getRequestURI());
 	      res.sendRedirect(req.getContextPath()+"/front_end/signin/signin.jsp"); 
 		} else {
 			chain.doFilter(request, response);

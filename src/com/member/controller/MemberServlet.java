@@ -43,7 +43,6 @@ public class MemberServlet extends HttpServlet {
 		
 		
         if ("addMember".equals(action)) { 
-			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			InputStream is = null;
@@ -68,15 +67,15 @@ public class MemberServlet extends HttpServlet {
 //				if (mem_mail == null || mem_mail.trim().length() == 0) {
 //					errorMsgs.add("請填入信箱");
 //				}
-				byte[] Preset = getPictureByteArray("C:\\CFA102G5_workspace\\CFA102G5\\WebContent\\front_end\\member\\images\\peter1.jpg");
-				Part part = req.getPart("mem_img");
-				if(part.getSize() != 0) {
-					is = part.getInputStream();
-					mem_img = new byte[is.available()];
-					is.read(mem_img);
-				}else {
-					mem_img = Preset;
-				}
+//				byte[] Preset = getPictureByteArray("C:\\CFA102G5_workspace\\CFA102G5\\WebContent\\front_end\\member\\images\\peter1.jpg");
+//				Part part = req.getPart("mem_img");
+//				if(part.getSize() != 0) {
+//					is = part.getInputStream();
+//					mem_img = new byte[is.available()];
+//					is.read(mem_img);
+//				}else {
+//					mem_img = Preset;
+//				}
 				String mem_password = req.getParameter("mem_password");
 //				String mem_passwordReg = "^[(a-zA-Z0-9)]{6,20}$";
 //				if (mem_password == null || mem_password.trim().length() == 0) {
@@ -147,7 +146,7 @@ public class MemberServlet extends HttpServlet {
 				/***************************其他可能的錯誤處理**********************************/
 			}catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/member/addMember.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/signin/signup.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -166,7 +165,7 @@ public class MemberServlet extends HttpServlet {
         		successView.forward(req, res);
        		
         	}catch(Exception e){
-				errorMsgs.add("舞法取得:"+e.getMessage());
+				errorMsgs.add("無法取得:"+e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front_end/member/listMember.jsp");
 				failureView.forward(req, res);
@@ -352,24 +351,15 @@ public class MemberServlet extends HttpServlet {
         	}catch(Exception e) {
         		
         	}
-    	if("log_out".equals(action)) {
-    			HttpSession session = req.getSession();
-    			session.invalidate();
-    			//導回登入頁面-------------
-    			String url = "/front_end/index/index.jsp";
-    			RequestDispatcher successView = req.getRequestDispatcher(url);
-    			successView.forward(req, res);
-    		}
     	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-        	
+        }
+        if("log_out".equals(action)) {
+        	HttpSession session = req.getSession();
+        	session.invalidate();
+        	//導回登入頁面-------------
+        	String url = "/front_end/index/index.jsp";
+        	RequestDispatcher successView = req.getRequestDispatcher(url);
+        	successView.forward(req, res);
         }
         
  

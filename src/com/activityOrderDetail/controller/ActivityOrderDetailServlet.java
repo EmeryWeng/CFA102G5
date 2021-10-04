@@ -200,14 +200,12 @@ System.out.println("Action:"+action);
 											.filter(vo -> vo.getAct_session_no() == old_act_session_no.intValue())
 											.mapToInt(people -> people.getAct_real_join_number())
 											.sum();
-System.out.println("oldSession"+old_act_session_no);			
-System.out.println("changeSession"+change_act_session_no);			
+		
 			Integer changeSessionNumberTotal = list.stream()
 					.filter(vo -> vo.getAct_session_no() == change_act_session_no.intValue())
 					.mapToInt(people -> people.getAct_real_join_number())
 					.sum();
-System.out.println("oldSessionNumberTotal"+oldSessionNumberTotal);
-System.out.println("changeSessionNumberTotal"+changeSessionNumberTotal);
+
 
 			actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
 			actSessionService.updateActSessionRealJoinNumber(old_act_session_no, oldSessionNumberTotal);

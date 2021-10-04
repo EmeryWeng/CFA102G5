@@ -4,13 +4,17 @@
 <%@page import="java.util.List"%>
 
 <% 
+
 	int finalTotal = 0;
 	List<Map<String,String>> shoppingList = (List<Map<String,String>>)session.getAttribute("shoppingCar");
-	for(Map<String,String> map : shoppingList){
-		finalTotal += Integer.parseInt(map.get("act_price")) * 
-				Integer.parseInt(map.get("act_people_number"));		
+	if(shoppingList != null){
+		for(Map<String,String> map : shoppingList){
+			finalTotal += Integer.parseInt(map.get("act_price")) * 
+					Integer.parseInt(map.get("act_people_number"));		
+		}
+		pageContext.setAttribute("finalTotal", finalTotal);
 	}
-	pageContext.setAttribute("finalTotal", finalTotal);
+
 %>
 
 <!DOCTYPE html>

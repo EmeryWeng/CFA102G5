@@ -10,7 +10,7 @@
 <%@ include file="/front_end/commonCSS.file"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/fotorama.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/activity/datetimepicker/jquery.datetimepicker.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/datetimepicker/jquery.datetimepicker.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/act/innerAct.css" />
 
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyAJNpDkwnyNLU6eh829XsUUYdFdTx2YjJ"></script>
