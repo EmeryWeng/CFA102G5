@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.util.*"%>
 <%@ page import="com.roomType.model.*"%>
 
 <jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
@@ -242,6 +243,9 @@
 		font-weight: 600;
 		color: #a3785e;
 	}
+	textarea {
+		resize: none;
+	}
 	</style>
     </head>
     <body>
@@ -293,17 +297,16 @@
 			</div>
 			
 			<div class="room-card-area">
-            <!-- <div class="row"> -->
-				<form action="#" class="row">
+				<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" id="checkoutForm" class="row">
 				<!-- **左邊 -->
                 <div class="col-lg-8 checkbox-form">
-                
+
                 	<h3 class="title">訂購人資料</h3>
 					<div class="basic-info">
 						<p><i class='bx bxs-user-check'></i>已帶入您的會員資料</p>
                         	<div class="form-group row col-12">
                         		<label class="col-sm-3 align-self-center">稱謂 <span class="required">*</span></label>
-                       			<select class="myniceselect nice-select wide col-sm-3">
+                       			<select class="myniceselect nice-select wide col-sm-3" name="title">
                                 	<option value="先生" ${memberSvc.getOneBymail(mem_mail).mem_sex == 1 ? 'selected' : '' }>先生</option>
                                 	<option value="女士" ${memberSvc.getOneBymail(mem_mail).mem_sex == 2 ? 'selected' : '' }>女士</option>                           
                         		</select>
@@ -311,45 +314,45 @@
 
                             <div class="form-group row col-12">
 	                        	<label class="col-sm-3 align-self-center">姓名 <span class="required">*</span></label>
-	                        	<input class="col-sm-4 form-control" type="text" value="${memberSvc.getOneBymail(mem_mail).mem_name}">
+	                        	<input class="col-sm-4 form-control" type="text" name="name" id="name" maxlength="10" value="${memberSvc.getOneBymail(mem_mail).mem_name}">
                             </div>
 
                             <div class="form-group row col-12">
                             	<label class="col-sm-3 align-self-center">電話 <span class="required">*</span></label>
-                            	<input class="col-sm-4 form-control" type="text" maxlength="10" placeholder="請輸入10碼行動電話" value="${memberSvc.getOneBymail(mem_mail).mem_mobile}">
+                            	<input class="col-sm-4 form-control" type="text" name="phone" id="phone" maxlength="10" placeholder="請輸入10碼行動電話" value="${memberSvc.getOneBymail(mem_mail).mem_mobile}">
                             </div>
 
                             <div class="form-group row col-12">
                            		<label class="col-sm-3 align-self-center">e-mail <span class="required">*</span></label>
-                            	<input class="col-sm-8 form-control" type="email" placeholder="請輸入有效的email" value="${mem_mail}">
+                            	<input class="col-sm-8 form-control" type="email" name="email" id="email" placeholder="請輸入有效的email" value="${mem_mail}">
                             </div>
 
                             <div class="order-notes form-group row col-12">     
                             	<label class="col-sm-3 align-self-center">偏好 <span class="required">*</span></label>                          
                                 <div class="checkout-form-list">
-                                	<input type="checkbox" id="note1">
+                                	<input type="checkbox" id="note1" name="note1" value="禁菸房">
                                 	<label for="note1"> 禁菸房</label>
                                 </div>
                                 <div class="checkout-form-list">
-                                	<input type="checkbox" id="note2">
+                                	<input type="checkbox" id="note2" name="note2" value="靠近電梯">
                                 	<label for="note2"> 靠近電梯</label>
                                 </div>
                             </div>
                             
                             <div class="form-group row col-12"> 
                             	<label class="col-sm-3 align-self-center">備註</label>
-                            	<textarea class="col-sm-8 form-control" id="message" cols="30" rows="3"
+                            	<textarea class="col-sm-8 form-control" name="notearea" maxlength="90" cols="30" rows="4"
                                         placeholder="房間偏好需視實際住房情況而定。我們將會竭盡所能滿足您的要求。"></textarea>
                             </div>
 						</div>
-						
+
 						<h3 class="title">選擇信用卡</h3>
 						<div class="creditcard-info">
                             <div class="col-12">
                             	<c:forEach var="crdVO" items="${crdSvc.getallByMem_no(memberSvc.getOneBymail(mem_mail).mem_no)}">
                                     <div class="form-group">
-                                        <input type="radio" name="creditcard"
-                                            id="${crdVO.crd_no}">
+                                        <input type="radio" name="creditcard" id="${crdVO.crd_no}"
+                                            value="${crdVO.crd_num}">
                                         <label for="${crdVO.crd_no}">
                                             ${crdVO.crd_num}
                                         </label>
@@ -360,10 +363,10 @@
                                 	<label for="addCard">使用別張信用卡</label>
                                 </div>
                                 <div class="form-group" id="addCard-area">
-									<input type=text name=card_no1 size=4 value="" maxlength=4><i class='bx bx-minus'></i>
-									<input type=text name=card_no1 size=4 value="" maxlength=4><i class='bx bx-minus'></i>
-									<input type=text name=card_no1 size=4 value="" maxlength=4><i class='bx bx-minus'></i>
-									<input type=text name=card_no1 size=4 value="" maxlength=4>
+									<input type="text" name="card_no1" size="4" value="" maxlength="4"><i class='bx bx-minus'></i>
+									<input type="text" name="card_no2" size="4" value="" maxlength="4"><i class='bx bx-minus'></i>
+									<input type="text" name="card_no3" size="4" value="" maxlength="4"><i class='bx bx-minus'></i>
+									<input type="text" name="card_no4" size="4" value="" maxlength="4">
                                 </div>
                             </div>
 						</div>
@@ -377,7 +380,14 @@
 						</div>
 						
 						<div class="col-12 d-flex justify-content-center">
-	                        <button type="button" class="btn btn-primary col-3"></i>付款</button>
+							<input type="hidden" name="mem_no" value="${memberSvc.getOneBymail(mem_mail).mem_no}">
+							<input type="hidden" name="type_no" value="${type_no}">
+							<input type="hidden" name="start_date" value="${start_date}">
+							<input type="hidden" name="end_date" value="${end_date}">
+							<input type="hidden" name="days" value="${days}">
+							<input type="hidden" name="qty" value="${qty}">
+							<input type="hidden" name="action" value="paying">
+	                        <button type="button" class="btn btn-primary col-xl-4 col-sm-5" onclick="check();">付款</button>
                         </div>
 					</div>
 
@@ -385,7 +395,6 @@
                 <div class="col-lg-4">
                 
                     <div class="your-order-area">
-
                         <h3 class="title">訂購明細</h3>
                         <div class="your-order-table table-responsive">
                         	<div class="booking_information">
@@ -393,15 +402,16 @@
 									<span id="guest_checkinDate" class="mr-10">${start_date}</span> <i class='bx bx-right-arrow-alt'></i> <span id="guest_checkoutDate">${end_date}</span>
 								</div>
 								<div class="booking_information_people">
-									<span id="guest_adults">4晚</span>
-									<span id="guest_los" class="booking_information_people_adults">${qty}間房</span>
+									<span>${days}晚</span>
+									<span id="qty" class="booking_information_people_adults">${qty}間房</span>
 								</div>
 							</div>
 						
 							<hr>
 						
                             <div class="roomtype_information">
-                                <div>${roomTypeSvc.getOneRoomType(type_no).type_name}</div>
+                            <p>XXX${type_no}XXX</p>
+                                <div><i class='bx bx-purchase-tag-alt' ></i> ${roomTypeSvc.getOneRoomType(type_no).type_name}</div>
                             	<div class="room-card-img">
                             	<c:choose>
 									<c:when test="${roomImgSvc.getAllByType(type_no).size() > 0}">
@@ -413,21 +423,19 @@
 								</c:choose>
 								</div>
                                 <div class="d-flex justify-content-between">
-                                	<div>一間房一晚 </div>
+                                	<div>一間房一晚</div>
                                 	<div><fmt:formatNumber value="${roomTypeSvc.getOneRoomType(type_no).type_price}" pattern="NT$ ###,###" /></div>
 								</div>
 								<hr>
                                 <div class="d-flex justify-content-between">
-                                	<div>總價 </div>
-                                	<div><fmt:formatNumber value="${roomTypeSvc.getOneRoomType(type_no).type_price*3}" pattern="NT$ ###,###" /></div>
+                                	<div>總價</div>
+                                	<div><fmt:formatNumber value="${roomTypeSvc.getOneRoomType(type_no).type_price*qty*days}" pattern="NT$ ###,###,###" /></div>
 								</div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 			</form>
-            <!-- </div> -->
 			</div>
 		</div>
 		
@@ -436,35 +444,20 @@
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
         
         <script>
-		// ● header顯示目前在哪個區塊，"活動"的頁面請將nth-child(1)改成2，"美食"的頁面改成3，其他人這行可刪掉
+		// header顯示在哪個區塊
         $(`.nav-item:nth-child(1)>a`).attr('class', 'active');
-        
-		// ● 以下是sweetalert2的範例也可以刪除
-        // 簡易版
-        function addToCart() {
-					// 簡易版；標題,內文,圖示
-        	swal.fire('已加入購物車','快到購物車內結帳吧！','success');
-        }
-     	// 自動關閉版
-        function autoClose() {
-			swal.fire({
-			  icon: 'success',  //常用的還有'error'
-			  title: '已加入購物車',
-			  showConfirmButton: false, //因為會自動關閉，所以就不顯示ok按鈕
-			  timer: 1000 // 單位毫秒，1秒後自動關閉跳窗
-			})
-		}
      	
-     	
+     	// 使用別張信用卡區塊顯示
         $('input[type=radio][name="creditcard"]').on('change', function() {
-			if($(this).val() == 'addCard') {
+			if($(this).val() == "addCard") {
 				$("#addCard-area").show();
 				$('#addCard-area input:nth-child(1)').focus();
 			} else {
 				$("#addCard-area").hide();
 			}     
         })
-		 // 信用卡卡號自動跳下欄位
+        
+		// 信用卡卡號自動跳下欄位
 		$('body').find('#addCard-area').children('input').keyup( function(e){
 		// 限制只能輸入數字
 		  if(!/^\d+$/.test(this.value)){
@@ -473,7 +466,86 @@
 		    }
 		  this.value.length == this.getAttribute('maxlength') && $(this).next().next().focus();
 		});
-        
+     	
+     	// 欄位驗證
+     	function check(){
+			let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			let name = document.getElementById('name');
+			let phone = document.getElementById('phone');
+			let email = document.getElementById('email');
+			let form = document.getElementById('checkoutForm');
+			
+			if(name.value.trim() === '' || name.value.trim().length > 10){
+				name.focus();
+				autoClose();
+				return false;
+			} else if (!phone.value.match("^09[0-9]{8}")){
+				phone.focus();
+				autoClose();
+				return false;
+			} else if (email.value.trim() === '' || !email.value.match(mailformat)){
+				email.focus();
+				autoClose();
+				return false;
+			} else if($("input:radio[name='creditcard']:checked").val() == null){
+				creditcard();
+				return false;
+			} else if($("input:radio[name='creditcard']:checked").val() == "addCard" && ($("input[name='card_no1']").val().length != 4 || $("input[name='card_no2']").val().length != 4 || $("input[name='card_no3']").val().length != 4 || $("input[name='card_no4']").val().length != 4)){
+				$('#addCard-area input:nth-child(1)').focus();
+				cardNo();
+				return false;
+			} else if($("input[id=cancelRules]").is(':checked') === false){
+				$("input[id=cancelRules]").focus();
+				cancelRules();
+				return false;
+			} 
+
+			form.submit();
+		}
+     	// alert樣式
+     	function autoClose() {
+			swal.fire({
+				icon : 'error',
+				title : '請完成必填欄位',
+				showConfirmButton : false,
+				timer : 1000
+			})
+		}
+     	function cancelRules() {
+			swal.fire({
+				icon : 'warning',
+				title : '請勾選同意取消規則',
+				showConfirmButton : false,
+				timer : 1000
+			})
+		}
+     	function creditcard() {
+			swal.fire({
+				icon : 'error',
+				title : '請選擇信用卡',
+				showConfirmButton : false,
+				timer : 1000
+			})
+		}
+     	function cardNo() {
+			swal.fire({
+				icon : 'error',
+				title : '信用卡共需16碼',
+				showConfirmButton : false,
+				timer : 1000
+			})
+		}
+     	function paying() {
+     		swal.fire({
+     		  	title: '產生訂單中...',
+     		  	html: '請勿重整或關閉畫面',
+     		  	showConfirmButton : false,
+     		  	timer: 1500,
+     		  	timerProgressBar: true,
+     		}).then(function () {
+     	        window.location.href = "<%=request.getContextPath()%>/front_end/index/index.jsp";
+     	    })
+     	}
         </script>
         
     </body>

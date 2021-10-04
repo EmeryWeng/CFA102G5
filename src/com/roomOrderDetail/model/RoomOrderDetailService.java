@@ -10,12 +10,20 @@ public class RoomOrderDetailService {
 		dao = new RoomOrderDetailDAO();
 	}
 
-	public RoomOrderDetailVO addDetail(Integer ord_no) {
+	public RoomOrderDetailVO insert(Integer ord_no) {
 
 		RoomOrderDetailVO detailVO = new RoomOrderDetailVO();
 		detailVO.setOrd_no(ord_no);
 
 		return dao.insert(detailVO);
+	}
+
+	public void insertAuto(Integer ord_no) {
+
+		RoomOrderDetailVO detailVO = new RoomOrderDetailVO();
+		detailVO.setOrd_no(ord_no);
+
+		dao.insertAuto(detailVO, null);
 	}
 
 	public void checkinDetail(Integer detail_no, String rm_no) {
@@ -37,6 +45,14 @@ public class RoomOrderDetailService {
 
 	public RoomOrderDetailVO getOneDetail(Integer detail_no) {
 		return dao.getOne(detail_no);
+	}
+
+	public List<RoomOrderDetailVO> checkoutList() {
+		return dao.checkoutList();
+	}
+
+	public List<RoomOrderDetailVO> stayList() {
+		return dao.stayList();
 	}
 
 	public List<RoomOrderDetailVO> getAll() {

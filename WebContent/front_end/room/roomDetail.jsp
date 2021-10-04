@@ -428,7 +428,8 @@
 	            dateFormat: "Y-m-d",
 	            defaultDate: ["${start_date}", "${end_date}"],
 	            minDate: "today",
-	            disable: [${result}]
+	            maxDate: new Date().fp_incr(90),
+	            disable: [${result}],
 	        });
 	        
 	      	// 預訂時有無登入會員，有登入就驗證(qty是null就是session消失了，住宿期間錯誤可能是 重選選錯||session消失)
@@ -437,13 +438,12 @@
 	      		
 	    		if('${mem_mail}' === ''){
 	    			notLogin();
-	    			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
 	    			return false;
 	    		} else if ("${qty}" === ''){
 	    			qtyIsNull();
-	    			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/index/index.jsp",800);
 	    			return false;
 	    		} else if (duringStay.value.length != 24){
+	    			duringStay.focus();
 	    			rangeDateIsNull();
 	    			return false;
 	    		} else {
@@ -457,7 +457,9 @@
 	    			title : '請先登入',
 	    			showConfirmButton : false,
 	    			timer : 1000
-	    		})		
+	    		}).then(function () {
+	     	        window.location.href = "<%=request.getContextPath()%>/front_end/signin/signin.jsp";
+	     	    })
 	    	}
 	        function qtyIsNull() {
 	    		swal.fire({
@@ -465,7 +467,9 @@
 	    			title : '請選擇房間數量',
 	    			showConfirmButton : false,
 	    			timer : 1000
-	    		})		
+	    		}).then(function () {
+	     	        window.location.href = "<%=request.getContextPath()%>/front_end/index/index.jsp";
+	     	    })		
 	    	}
 	        function rangeDateIsNull() {
 	    		swal.fire({

@@ -250,13 +250,14 @@
             dateFormat: "Y-m-d",
             defaultDate: ["${start_date}", "${end_date}"],
             minDate: "today",
+            maxDate: new Date().fp_incr(90),
             disable: [],
         });
         function check(){
     		let duringStay = document.getElementById('rangeDate');
-// 			let form = document.getElementById('checkoutForm');
       		
 			if (duringStay.value.length != 24){
+				duringStay.focus();
     			rangeDateIsNull();
     			return false;
     		} else {

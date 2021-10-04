@@ -19,4 +19,6 @@ public interface I_RoomTypeDAO {
 	public List<RoomTypeVO> getEnoughType(Date start_date, Date end_date, Integer qty, Integer guest);
 
 	public List<RoomTypeVO> getNotEnoughType(Date start_date, Date end_date, Integer qty, Integer guest);
+
+	public List<RoomTypeVO> paymentCheck(Date start_date, Date end_date, Integer qty, Integer type_no);
 }

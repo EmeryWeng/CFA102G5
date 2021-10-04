@@ -15,7 +15,7 @@
 		pageContext.setAttribute("allList", allList);
 	}
 		
-	// rangedate字串分割成start_date、end_date，顯示在哪日曆上
+	// rangedate字串分割成start_date、end_date，也可以放controller裡
 	if (session.getAttribute("rangedate") != null) {
 		String rangedate = (String) session.getAttribute("rangedate");
 		List<String> dateList = new LinkedList<String>();
@@ -380,7 +380,8 @@ body {
 					<div class="row align-items-center">
 						<div class="col-sm-12 col-lg-4 p-0 room-img">
 							<div class="room-card-img">
-								<a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForShow"> <c:choose>
+								<a href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForShow">
+									<c:choose>
 										<c:when test="${roomImgSvc.getAllByType(roomTypeVO.type_no).size() > 0}">
 											<img src="<%=request.getContextPath()%>/room/RoomImg?type_no=${roomTypeVO.type_no}&action=showFirstImages">
 										</c:when>
@@ -459,12 +460,12 @@ body {
 							<div>
 								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="NT$ ###,###" /></span><span>/ 一晚</span>
 							</div>
-							<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" id="immediateCheckoutForm">
+							<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" id="toPayment">
 								<input type="hidden" name="rangedate" value="${rangedate}">
-								<input type="hidden" name="qty" value="${qty}">
 								<input type="hidden" name="type_no" value="${roomTypeVO.type_no}">
+								<input type="hidden" name="qty" value="${qty}">
 								<input type="hidden" name="action" value="payment">
-								<button type="button" class="btn btn-primary line-btn" onclick="checkout();"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
+								<button type="button" class="btn btn-primary line-btn" onclick="checkout();"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂${roomTypeVO.type_no}</button>
 							</form>
 						</div>
 					</div>
@@ -538,6 +539,7 @@ body {
 	            dateFormat: "Y-m-d",
 	            defaultDate: ["${start_date}", "${end_date}"],
 	            minDate: "today",
+	            maxDate: new Date().fp_incr(90),
 	        });
 	        function checkout(){
 	    		if('${mem_mail}' === ''){
@@ -545,7 +547,7 @@ body {
 	    			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
 	    			return false;
 	    		} else {
-	    			document.getElementById('immediateCheckoutForm').submit();
+	    			document.getElementById('toPayment').submit();
 	    		}
 	    	}
 	      	// alert樣式

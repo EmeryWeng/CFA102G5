@@ -14,9 +14,10 @@ public class RoomJDBCDAO implements I_RoomDAO {
 	private static final String INSERT = "INSERT INTO room (rm_no, type_no, rm_info) VALUES (?, ?, ?)";
 	private static final String UPDATE = "UPDATE room SET type_no = ?, rm_info = ?, rm_state = ?, name_title = ? WHERE rm_no = ?";
 	private static final String UPDATE_CHECKIN = "UPDATE room SET rm_state = 2, name_title = ? WHERE rm_no = ?";
-	private static final String UPDATE_CHECKOUT = "UPDATE room SET rm_state = 1, name_title = null WHERE rm_no = ?";
+	private static final String UPDATE_CHECKOUT = "UPDATE room SET rm_state = 3, name_title = null WHERE rm_no = ?";
+	private static final String UPDATE_CLEAN = "UPDATE room SET rm_state = 1 WHERE rm_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room WHERE rm_no = ?";
-	private static final String GET_RMTOTAL = "select count(*) as rm_qty from room where rm_state != 0 and type_no = ?";
+	private static final String GET_RMTOTAL = "select count(*) as rm_qty from room where rm_state != 4 and type_no = ?";
 	private static final String GET_ALL = "SELECT * FROM room ORDER BY rm_no";
 	private static final String GET_ALL_BY_TYPE_STATE = "SELECT * FROM room WHERE type_no = ? AND rm_state = 1";
 	private static final String GET_ALL_BY_RM_STATE = "SELECT * FROM room WHERE rm_state = ?";
@@ -85,6 +86,20 @@ public class RoomJDBCDAO implements I_RoomDAO {
 
 	@Override
 	public void updateCheckout(RoomVO roomVO) {
+
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKOUT);
+			pstmt.setString(1, roomVO.getRm_no());
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void updateClean(RoomVO roomVO) {
 
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(UPDATE_CHECKOUT);
