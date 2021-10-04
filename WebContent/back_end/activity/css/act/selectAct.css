@@ -1,35 +1,31 @@
 @charset "UTF-8";
-
-	html{
-		font-size:62.5%;
-	}
+	
 	table.table{
 		width:98%;
-		height:50rem;
+		height:50px;
 	}
 	table th{
-		font-size:1.4rem;
+		font-size:15px;
 		text-align:center;
 		color:red;
 		vertical-align:middle;
 	}	
 	table td{
-		font-size:1.4rem;
+		font-size:16px;
 		text-align:center;
 	}	
 	textarea.actInstruction{
-		font-size:1.8rem;
-		height:10rem;
+		font-size:18px;
+		height:100px;
 	}	
 	div.query{
-		width:15rem;
 		position:absolute;
-		top:1rem;
-		right:1.5rem;
+		top:10px;
+		right:15px;
 		z-index:999;	
 	}	
 	select.querySelect{
-		font-size:1.5rem;
+		font-size:15px;
 	}
 	table tr td.upstate{
 		color:#28FF28;
@@ -37,7 +33,12 @@
 	table tr td.downstate{
 		color:#FF2D2D;
 	}
-	div.updateAndSwitch{
-		position:absolute;
-		top:-3.2rem;
+	div.importExcel{
+		position:relative;
+		left:250px;
+		top:-27px;
+		width:400px;
+	}
+	#importExcelFile{
+		width:200px;
 	}

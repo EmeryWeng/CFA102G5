@@ -15,7 +15,7 @@
 			</div>
 		<form id="switchActStateForm" method="post" action="<%=request.getContextPath()%>/activity/Activity">
 			<div class="modal-body">
-				<select name="updateActNo" id="switchActStateSelect" style="margin-left:12rem;font-size:2rem;" autofocus>
+				<select name="updateActNo" id="switchActStateSelect" style="margin-left:120px;font-size:20px;" autofocus>
 					<c:forEach var="actVO" items="${actSvcForSwitch.all}">
 						<option value="${actVO.act_no}">${actVO.act_no} - ${actVO.act_name}</option>						
 					</c:forEach>

@@ -34,13 +34,8 @@
     --rgba-primary-7: rgba(179,140,97, 0.7);
     --rgba-primary-8: rgba(179,140,97, 0.8);
     --rgba-primary-9: rgba(179,140,97, 0.9);
-<<<<<<< HEAD
-    --font-family-base: Roboto, sans-serif;
-    --font-family-title: Roboto, sans-serif;
-=======
     --font-family-base: Arial, "Times New Roman", sans-serif;
     --font-family-title: Arial, "Times New Roman", sans-serif;
->>>>>>> origin/dev
     --title: #000
 }
 .btn i {
@@ -249,11 +244,7 @@
 
  body {
      margin: 0;
-<<<<<<< HEAD
-     font-family: "Roboto", sans-serif;
-=======
      font-family: Arial, "Times New Roman", sans-serif;
->>>>>>> origin/dev
      font-size: .875rem;
      font-weight: 400;
      line-height: 1.5;
@@ -2250,8 +2241,8 @@
  }
 
  .table-striped>tbody>tr:nth-of-type(odd) {
-     --bs-table-accent-bg: var(--bs-table-striped-bg);
-     color: var(--bs-table-striped-color)
+/*      --bs-tsable-accent-bg: var(--bs-table-striped-bg); */
+/*      color: var(--bs-table-striped-color) */
  }
 
  .table-active {
@@ -6419,11 +6410,7 @@
      z-index: 1070;
      display: block;
      margin: 0;
-<<<<<<< HEAD
-     font-family: "Roboto", sans-serif;
-=======
      font-family: Arial, "Times New Roman", sans-serif;
->>>>>>> origin/dev
      font-style: normal;
      font-weight: 400;
      line-height: 1.5;
@@ -6550,11 +6537,7 @@
      z-index: 1060;
      display: block;
      max-width: 276px;
-<<<<<<< HEAD
-     font-family: "Roboto", sans-serif;
-=======
      font-family: Arial, "Times New Roman", sans-serif;
->>>>>>> origin/dev
      font-style: normal;
      font-weight: 400;
      line-height: 1.5;
@@ -12913,7 +12896,7 @@
  }
 
  .nav-header .brand-logo>img {
-    width: 190px;
+    width: 230px;
 }
 
  @media only screen and (max-width: 87.5rem) {
@@ -13359,11 +13342,8 @@
      position: fixed;
      top: 0;
      width: 100%;
-     /* box-shadow: 0px 4px 4px 1px rgba(201, 201, 201, 0.1); */
-<<<<<<< HEAD
-=======
-     background: linear-gradient(15deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 10%, rgba(247,246,242,1) 100%);
->>>>>>> origin/dev
+/*      box-shadow: 0px 4px 4px 1px rgba(201, 201, 201, 0.1); */
+     background: linear-gradient(15deg, #FDFDFB 0%, #FDFDFB 10%, #F7F7F1 100%);
  }
 
  [data-header-position="fixed"] .content-body {
@@ -14110,13 +14090,8 @@
      left: 0;
      padding-top: 0;
      z-index: 4;
-<<<<<<< HEAD
-     background-color: var(--sidebar-bg);
-     transition: all .2s ease
-=======
      transition: all .2s ease;
      background: linear-gradient(214deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 12%, rgba(247,246,242,1) 100%);
->>>>>>> origin/dev
  }
 
  @media only screen and (max-width: 87.5rem) {
@@ -16893,7 +16868,8 @@
  [data-sidebar-position="fixed"][data-layout="vertical"] .nav-header {
      position: fixed;
      border-top-left-radius: 0;
-     border-top-right-radius: 0
+     border-top-right-radius: 0;
+     background-color: transparent;
  }
 
  [data-sidebar-position="fixed"][data-layout="vertical"] .deznav {
@@ -35217,7 +35193,7 @@
 
  .table.table-striped tbody tr:nth-of-type(odd),
  .table.table-hover tr:hover {
-     background-color: #f2f4fa
+     background-color: #eee;
  }
 
  [data-theme-version="dark"] .table.table-striped tbody tr:nth-of-type(odd),
@@ -35628,8 +35604,8 @@
  }
 
  table.dataTable.default-table tbody td {
-     padding-top: 1.8rem;
-     padding-bottom: 1.8rem
+     padding-top: 1rem;
+     padding-bottom: 1rem
  }
 
  table.dataTable.default-table tbody tr {
@@ -35910,15 +35886,9 @@
  }
 
  .authincation {
-<<<<<<< HEAD
-     background: var(--rgba-primary-1);
-     display: flex;
-     min-height: 100vh
-=======
      display: flex;
      min-height: 100vh;
      background-color: #D1E6E6;
->>>>>>> origin/dev
  }
 
  .authincation .login-aside {
@@ -35976,15 +35946,9 @@
  }
 
  .authincation-content {
-<<<<<<< HEAD
-     background: #fff;
-     box-shadow: 0 0 2.1875rem 0 rgba(154, 161, 171, 0.15);
-     border-radius: 0.3125rem
-=======
      background: linear-gradient(#f7f2ee, #F7F6F2);
      box-shadow: 0 0 2.1875rem 0 rgba(154, 161, 171, 0.2);
      border-radius: 15px;
->>>>>>> origin/dev
  }
 
  [data-theme-version="dark"] .authincation-content {
@@ -36105,11 +36069,7 @@
  }
 
  .auth-form {
-<<<<<<< HEAD
-     padding: 3.125rem 3.125rem
-=======
      padding: 2rem 3.125rem 3.125rem 3.125rem;
->>>>>>> origin/dev
  }
 
  @media only screen and (max-width: 35.9375rem) {
@@ -38439,9 +38399,6 @@
  .form-control:focus {
     border-color: #30504F;
     outline: 0;
-<<<<<<< HEAD
-}
-=======
 }
 
 input[type=text],input[type=search],input[type=password],input[type=number],input[type=email],select,textarea{
@@ -38453,4 +38410,3 @@ input[type=text],input[type=search],input[type=password],input[type=number],inpu
 ::placeholder{
     color: #8FC2C2;
 }
->>>>>>> origin/dev

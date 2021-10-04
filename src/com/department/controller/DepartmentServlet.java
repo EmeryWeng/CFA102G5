@@ -49,7 +49,8 @@ public class DepartmentServlet extends HttpServlet {
 			Integer dep_no = new Integer(req.getParameter("dep_no"));
 			String dep_name = req.getParameter("dep_name");
 			if (dep_name == null || dep_name.trim().length() == 0) {
-				errorMsgs.add("部門名稱: 請勿空白");	}
+				errorMsgs.add("部門名稱: 請勿空白");	
+			}
 			Boolean dep_state = new Boolean(req.getParameter("dep_state"));
 
 			if (!errorMsgs.isEmpty()) {
@@ -88,9 +89,9 @@ public class DepartmentServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return;
 			}
-			DepartmentVO vo = new DepartmentVO();
 			DepService ser = new DepService();
-			vo = ser.addDep(dep_name, dep_state);
+			DepartmentVO vo = ser.addDep(dep_name, dep_state);
+			req.setAttribute("vo", vo);
 			String url = "/back_end/department/allDep.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 			successView.forward(req, res);				

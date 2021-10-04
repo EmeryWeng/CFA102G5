@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.stream.Collectors"%>
 <%@ page import ="com.activity.model.*" %>
 <%@ page import ="java.util.List" %>
 
+
 <%
 	ActivityService actSvc = new ActivityService();
-	List<ActivityVO> list = actSvc.getAll();
+	List<ActivityVO> list = actSvc.getAll().stream()
+								  .filter(act -> act.getAct_state() == true)
+								  .collect(Collectors.toList());
 	pageContext.setAttribute("list",list);
 %>
 
@@ -20,13 +24,10 @@
 body {
 	margin: 0px;
 }
-html {
-	font-size: 62.5%;
-}
 div.actMain {
 	position: relative;
-	top: -30rem;
-	right: -40rem;
+	top: -300px;
+	right: -400px;
 }
 img {
 	max-width: 100%;
@@ -34,7 +35,7 @@ img {
 }
 div.queryByPage{
 	position: relative;
-    left: 1.8rem;
+    left: 18px;
 }
 a.btn-default{
 	background-color:#B38C61;
@@ -44,12 +45,12 @@ a.btn-default:focus{
 }
 .list-view .item-description .tour-item-title{
 	color:#009100;
-	font-size:2rem;
+	font-size:20px;
 }
 button.queryBtn{
 	position: absolute;
-    right: 2.5rem;
-    bottom: 4.5rem;
+    right: 25px;
+    bottom: 45px;
 	background-color: #996A4D;
 }
 </style>
@@ -61,7 +62,7 @@ button.queryBtn{
 
 	<jsp:useBean id="actClassService" class="com.activityClass.model.ActivityClassService" />
 	
-	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 2rem; padding-bottom: 15rem;">
+	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 20px; padding-bottom: 150px;">
 		<div id="wrapper">
 			<div class="search-result">
 				<div class="container">
@@ -74,11 +75,11 @@ button.queryBtn{
 									aria-hidden="true">
 									<div class="search-filter-body">
 										<div class="search-category div-pad bd-bot">
-											<h1 class="second-title" style="font-size:2rem;color:#007979;">活動類別</h1>
+											<h1 class="second-title" style="font-size:20px;color:#007979;">活動類別</h1>
 												<form method="post" action="<%=request.getContextPath()%>/activity/Activity" id="queryForm">
-											<c:forEach var="actClassVO" items="${actClassService.all}">
+											<c:forEach var="actClassVO" items="${actClassService.getAll().stream().filter(act -> act.getAct_class_state() == true).toList()}">
 												<div class="custom-control">
-													<input type="radio" name="actClassNo" style="width: 2rem;"
+													<input type="radio" name="actClassNo" style="width:20px;"
 													 id="check${actClassVO.act_class_no}" value="${actClassVO.act_class_no}"> 
 														<label for="check${actClassVO.act_class_no}">${actClassVO.act_class_name}</label>
 													<input type="hidden" name="action" value="queryByActClass">
@@ -111,9 +112,9 @@ button.queryBtn{
                         
                         <p class="tour-item-title">${actVO.act_name}</p>
                         <div class="tour-item-review">
-                          <span class="tour-review"><i class='bx bx-map' style="color:#F00078;margin-right:2rem;font-size:1.6rem;" >台灣 花蓮</i></span>
-                          <span class="tour-review"><i class='bx bx-calendar' style="color:blue;font-size:1.6rem;">最早可預訂日:2021-10-01</i></span><br><br>
-                          <span class="tour-review"><i class='bx bx-bell' style="color:red;font-size:1.6rem;">2天前免費取消</i></span>
+                          <span class="tour-review"><i class='bx bx-map' style="color:#F00078;margin-right:20px;font-size:16px;" >台灣 花蓮</i></span>
+                          <span class="tour-review"><i class='bx bx-calendar' style="color:blue;font-size:16px;">最早可預訂日:2021-10-01</i></span><br><br>
+                          <span class="tour-review"><i class='bx bx-bell' style="color:red;font-size:16px;">2天前免費取消</i></span>
                         </div><br>
                         <p class="tour-item-desc">${actVO.act_instruction}</p>
                       </div>

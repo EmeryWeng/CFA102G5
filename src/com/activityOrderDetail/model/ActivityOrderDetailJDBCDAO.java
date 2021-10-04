@@ -336,5 +336,23 @@ public class ActivityOrderDetailJDBCDAO implements I_ActivityOrderDetailDAO {
 		
 	}
 
+	@Override
+	public void insertWithOrder(ActivityOrderDetailVO actOrderDetailVO, Connection con) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void switchOrderDetailState(Integer act_order_no, Integer act_session_no, Integer act_order_detail_state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ActivityOrderDetailVO findByActOrderNoAndByActSessionNO(Integer act_order_no, Integer act_session_no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

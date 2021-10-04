@@ -15,7 +15,6 @@
 }
 body{
   margin: 0;
-  padding: 10px;
 }
 #header{
 max-width:100%;
@@ -28,16 +27,16 @@ margin: 0 0 10px 0 ;
 }
 #svc{
 height:800px; 
-width:33%;
+width:30%;
 display: inline-block;
 vertical-align: top;
-margin-right: 10px;
+margin-left: 20px;
 overflow: auto;
 overflow-x: hidden;
 }
 #map-canvas{
 height:800px; 
-width: calc(77% - 200px - 1em);
+width: calc(77% - 150px - 1em);
 display: inline-block;
 vertical-align: top;
 }
@@ -59,9 +58,15 @@ max-width:100%;
 width:100%;
 height:200px;
 border: 1px solid #999;
-margin-bottom:10px;
 background-color:snow;
+overflow: hidden;
+margin: 2% 0 5% 0;
+box-shadow: 5px 5px #f0e9df;
+border: 1px solid #f0e8df;
+background: #fcfbf9;
+padding: 20px;
 }
+
 </style>
 </head>
 <body>
@@ -94,21 +99,22 @@ background-color:snow;
 			<c:forEach var="storeVO" items="${storeVO}">
 
 				<div id="div1">
-					<div><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:200px;height:200px;float:left;margin-right:15px;"></div>
+					<div><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:150px;height:150px;float:left;margin-right:15px;"></div>
 					<div style="font-size:1.5em;margin-left:20%;height:30px;">${storeVO.fd_name}</div>
-					<div style="font-size:smaller;margin-top:5px;margin-left:20%">
+					<div style="font-size:smaller;margin-left:20%">
 						${storeSvc.getClassPK(storeVO.fd_class_no).fd_class_name}
 					</div>
 					<div style="margin-left:20%">${storeVO.fd_address}</div>
 					<div style="font-size:smaller;margin-left:20%;">店家服務:${storeVO.fd_service}</div>
 					<div>
-					<button type="button" class="btn btn-primary btn-sm" onclick="initMap(${storeVO.fd_longitude},${storeVO.fd_latitude})">查看路線</button>
-					</div>
+					
+					<button type="button" class="btn btn-primary btn-xs" onclick="initMap(${storeVO.fd_longitude},${storeVO.fd_latitude})" style="margin:3px 0 0;">查看路線</button>
+					
 					<FORM target="_blank" METHOD="post" ACTION="<%=request.getContextPath()%>/FoodImg.do" name="form1" style="float:left;">
 					<input type="hidden" name="action" value="getStoreImg">
 					<input type="hidden" name="fd_no" value="${storeVO.fd_no}">
-					<input type="submit" value="更多店家照片" class="btn btn-primary btn-sm"></FORM>
-					
+					<input type="submit" value="更多店家照片" class="btn btn-primary btn-xs"></FORM>
+					</div>
 				</div>
 			</c:forEach>
 				

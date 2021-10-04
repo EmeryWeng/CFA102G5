@@ -97,9 +97,10 @@
 							    <label class="col-sm-3 col-form-label">房間狀態</label>
 							    <div class="col-sm-8">
 									<select class="mt-2 form-select" name="rm_state">
-	                                    <option value="0" ${roomVO.rm_state == 0 ? 'selected' : '' }>已停用</option>
 										<option value="1" ${roomVO.rm_state == 1 ? 'selected' : '' }>空房</option>
 										<option value="2" ${roomVO.rm_state == 2 ? 'selected' : '' }>入住中</option>
+										<option value="3" ${roomVO.rm_state == 3 ? 'selected' : '' }>待清潔</option>
+	                                    <option value="4" ${roomVO.rm_state == 4 ? 'selected' : '' }>已停用</option>
 	                                </select>
                                 </div>	
 							</div>

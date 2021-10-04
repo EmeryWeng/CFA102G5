@@ -72,6 +72,10 @@ public class ActivitySessionService {
 		return dao.findByActNo(act_no);
 	}
 	
+	public void updateActSessionRealJoinNumber(Integer act_session_no,Integer act_session_real_number) {
+		dao.updateActSessionRealNumber(act_session_no, act_session_real_number);
+	}
+	
 	public List<ActivitySessionVO> getActSessionShowFront() {
 		return dao.getAll().stream()
 				.filter(act -> act.getAct_session_hold_state() == true)

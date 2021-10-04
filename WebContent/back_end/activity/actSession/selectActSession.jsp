@@ -18,16 +18,13 @@
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/actImg/selectActImg.css" rel="stylesheet">
 <style>
-	html{
-		font-size:62.5%;
-	}
 	div.queryByPage{
-		position: absolute;
-   		top: 0rem;
-    	right: 5rem;
+		position: relative;
+    	right: 50px;
+    	bottom: 600px
     }
     table tr th{
-    	font-size:1.8rem;
+    	font-size:18px;
     }
     table tr td.upstate{
 		color:#28FF28;
@@ -62,7 +59,6 @@
 					<th>最低下限人數</th>				
 					<th>舉辦狀態</th>				
 					<th>修改</th>				
-					<th>切換舉辨狀態</th>				
 				</tr>
 				
 			<%@ include file="/back_end/activity/pages/actSession/page1.file" %> 
@@ -95,16 +91,6 @@
 			    			<input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
 			     			<button type="submit" class="btn btn-primary">修改</button>
 						</form>
-					</td>
-					<td>		<!--切換狀態 -->
-						<form method="post" action="<%=request.getContextPath()%>/activity/ActivitySession">
-							<input type="hidden" name="action" value="switchActSessionState">
-							<input type="hidden" name="updateActSessionNo" value="${actSessionVO.act_session_no}">
-							<input type="hidden" name="updateActSessionState" value="${actSessionVO.act_session_hold_state}">
-							<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			    			<input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
-			     			<button type="submit" class="btn btn-danger">切換</button>
-						</form>				
 					</td>
 				</tr>
 				</c:forEach>

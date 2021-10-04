@@ -6,11 +6,24 @@
 <%@ page import ="com.activityOrder.model.*" %>
 <%@ page import ="com.activitySession.model.*" %>
 <%@ page import ="java.util.List" %>
+<%@ page import="java.util.stream.Collectors"%>
 
 <%
 	ActivityOrderDetailService actOrderDetailSvc = new ActivityOrderDetailService();
-	List<ActivityOrderDetailVO> list = actOrderDetailSvc.getAll();
+	List<ActivityOrderDetailVO> list = actOrderDetailSvc.getAll()
+								.stream().filter(detail -> detail.getAct_order_detail_state() == 1)
+								.collect(Collectors.toList());
 	pageContext.setAttribute("list",list);
+	
+	Long cancelCount = actOrderDetailSvc.getAll()
+							.stream().filter(detail -> detail.getAct_order_detail_state() == 2)
+							.count();
+	pageContext.setAttribute("cancelCount",cancelCount);
+	
+	Long changeDateCount = actOrderDetailSvc.getAll()
+							.stream().filter(detail -> detail.getAct_order_detail_state() == 3)
+							.count();
+	pageContext.setAttribute("changeDateCount",changeDateCount);
 %>
 
 <!DOCTYPE html>
@@ -20,25 +33,21 @@
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/selectAct.css" rel="stylesheet">
 <style>
-	html{
-		font-size:62.5%;
-	}
 	div.queryByPage{
 		position: absolute;
-   		top: 0rem;
-    	right: 5rem;
+   		right: 50px;
     }
     table tr td {
-    	font-size: 2rem;
+    	font-size: 20px;
     	text-align: center;
 	}
     table tr th{
-    	font-size: 2rem;
+    	font-size: 20px;
    	 	text-align: center;
     }
     table tr td span.paid{
-		color:#28FF28;
-	}	
+		color:#00EC00;
+	}
 	table tr td span.cancel{
 		color:#FF2D2D;
 	}
@@ -47,12 +56,33 @@
 	}
 	
 	.modal-content{
-		left: -35rem;
-		width: 140rem;
+		left: -350px;
+		width: 1400px;
 	}
 	.modal-body{
-		width: 140rem;
+		width: 1400px;
 	}
+	.stateDiv .paid{
+		position: relative;
+		top:-43px;
+		left:60px;
+	}
+	.stateDiv .canceled{
+		position: relative;
+		left:180px;
+		top:-85px;
+	}
+	.stateDiv .changeDate{
+		position: relative;
+		left:300px;
+    	top:-127px;
+	}
+	.stateDiv{
+		position: relative;
+    	width: 200px;
+  		left: 150px;
+	}
+	
 </style>
 </head>
 <body>
@@ -66,11 +96,24 @@
 	
 <div class="main-content">
 	<div class="table-responsive">
-		<div class="updateAndSwitch">			
-			<button type="button" class="btn btn-primary btn-xs switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropSwitchActOrderDetailState">切換訂單明細狀態</button>
+		<div class="updateAndSwitch" style="height:110px;">			
+			<button type="button" class="btn btn-primary switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropSwitchActOrderDetailState">切換訂單明細狀態</button>
 				<!-- 切換上下架的modal -->
 			<jsp:include page="/back_end/activity/modal/actOrderDetail/switchActOrderDetailStateModal.jsp"/>
-				
+				<div class="stateDiv">
+					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
+						<input type="hidden" name="action" value="paid">
+						<button type="submit" class="btn btn-success paid">已付款	<b style="color:blue;">${list.size()}</b></button>
+					</form>
+					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
+						<input type="hidden" name="action" value="canceled">
+						<button type="submit" class="btn btn-danger canceled">已取消	<b style="color:blue;">${cancelCount}</b></button>
+					</form>
+					<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
+						<input type="hidden" name="action" value="changeDate">
+						<button type="submit" class="btn btn-warning changeDate">已改期	<b style="color:blue;">${changeDateCount}</b></button>
+					</form>
+				</div>
 		</div>
 			<table class="table">
 				<tr>
@@ -83,10 +126,12 @@
 					<th>活動場次金額</th>				
 					<th>活動訂單狀態</th>				
 					<th>修改明細</th>
+					<th>申請取消</th>
 				</tr>
-				
-			<%@ include file="/back_end/activity/pages/actOrderDetail/page1.file" %> 
-				<c:forEach var="actOrderDetailVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+						
+			
+<%@ include file="/back_end/activity/pages/actOrderDetail/page1.file" %>
+			<c:forEach var="actOrderDetailVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 				<tr ${(actOrderDetailVO.act_order_detail_no == param.updateActOrderDetailNo) ? 'style="background-color:#FFE6FF;"':''}>
 					<th>${actOrderDetailVO.act_order_detail_no}</th>
 					<td>
@@ -130,16 +175,44 @@
 			     			<button type="submit" class="btn btn-primary">修改</button>
 						</form>
 					</td>				
+					<td>
+						<button type="button" class="btn btn-danger" onclick="cancel(${actOrderDetailVO.act_order_detail_no},${actOrderDetailVO.act_session_no});">取消</button>					
+					</td>				
 				</tr>
-				</c:forEach>
-			</table>
-		<%@ include file="/back_end/activity/pages/actOrderDetail/page2.file" %> 
+			</c:forEach>
+		</table>
+<%@ include file="/back_end/activity/pages/actOrderDetail/page2.file" %> 
 	</div>
 </div>
 	
 	<%@ include file="/back_end/commonJS.file"%>
 	
 	<script>
+	let currentRequest = null;
+	function cancel(cancelStateNo,actSessionNo){
+		
+		currentRequest = $.ajax({
+			url:"<%=request.getContextPath()%>/activity/ActivityOrderDetail",
+			type:"POST",
+			data:{
+				action:'cancelState',
+				cancelStateNo:cancelStateNo,
+				actSessionNo:actSessionNo
+			},
+			success:function(response){
+				console.log(response);
+				if(response === "true"){
+					alert('取消成功');
+					currentRequest.abort();
+				}else{
+					alert('距離活動開始少於兩天，無法取消');
+					currentRequest.abort();
+				}
+			}
+		});
+		
+	}
+	
 	function createWhichPage(){
 		let select = document.getElementById('switchActOrderDetailStateSelect');
 		let value = select.options[select.selectedIndex].value; //option value

@@ -18,7 +18,8 @@ import com.room.model.RoomService;
 public class RoomRsvDAO implements I_RoomRsvDAO {
 
 	private static final String INSERT = "INSERT INTO room_rsv (rsv_date, type_no, rm_total ,rsv_total) VALUES (?, ?, ?, ?)";
-//	兩間*間數 ?房型 8/26*入住日 *入住日 4*天數   要有訂單內容
+
+	// 兩間*間數 ?房型 8/26*入住日 *入住日 4*天數 要有訂單內容
 	private static final String RESERVE = "UPDATE room_rsv SET rsv_total = rsv_total+間數  WHERE type_no = ? AND (rsv_date BETWEEN '入住日' AND DATEDIFF( '退房日', INTERVAL 1 DAY))";
 	private static final String CANCEL = "UPDATE room_rsv SET rsv_total = rsv_total-間數  WHERE type_no = ? AND (rsv_date BETWEEN '2021-08-26' AND DATEDIFF( '退房日', INTERVAL 1 DAY))";
 	private static final String GET_ONE_BY_DATE_TYPE = "SELECT * FROM room_rsv WHERE rsv_date = ? AND rm_type = ?";
@@ -209,6 +210,7 @@ public class RoomRsvDAO implements I_RoomRsvDAO {
 				roomRsvVO.setType_no(rs.getInt("type_no"));
 				roomRsvVO.setRm_total(rs.getInt("rm_total"));
 				roomRsvVO.setRsv_total(rs.getInt("rsv_total"));
+				list.add(roomRsvVO);
 			}
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());

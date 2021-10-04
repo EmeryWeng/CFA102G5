@@ -495,5 +495,11 @@ public class ActivityJDBCDAO implements I_ActivityDAO{
 //		System.out.println(vo);
 		dao.switchActState(2, true);
 	}
+
+	@Override
+	public void updateActSellNumber(Integer act_no, Integer act_sell_number) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

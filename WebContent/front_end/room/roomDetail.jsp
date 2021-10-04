@@ -5,6 +5,9 @@
 <%@ page import="com.roomType.model.*"%>
 <%@ page import="com.roomImg.model.*"%>
 
+<jsp:useBean id="memberSvc" class="com.member.model.MemberService" />
+<jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
+
 <!doctype html>
 <html>
     <head>
@@ -67,6 +70,13 @@
           	.room-facility-content h5, .room-facility-content p, .type-title-area h2, .type-title-area>div {
 				display: inline-block;
 			}
+			.room-facility-content h5 {
+				margin-right: 4%;
+			}
+			.room-facility-content>p:last-child {
+				padding: 2% 3%;
+				color: rgba(236, 100, 75, 1);
+			}
 			.side-bar-form .type-title-area h2 {
 				font-size: 26px;
 				color: #a3785e;
@@ -79,8 +89,8 @@
 			    padding-left: 15px;
             }
 			.room-facility-content p {
-				font-size: 16px;
-				color: #DC143C;
+				font-size: 18px;
+				color: #00694C;
 			}
             .room-facility-content, .room-info-content p {
             	padding: 2%;
@@ -219,18 +229,27 @@
 /*             	background-color: #f7f9fa; */
 
 			}
+			.side-bar-form .form-group label, .side-bar-form .form-group i {
+ 	    		color: #30504F;
+			}
+			.side-bar-form .form-group i.bx-calendar {
+			    position: relative;
+			    top: 0;
+	    		left: 0;
+			}
         </style>
 	</head>
     <body>
 		<%@ include file="/front_end/loading.file" %> <!-- loading -->
         <%@ include file="/front_end/header.file" %> <!-- Header -->
+        
 		<div class="mt-5 mb-5 pt-20 container">
 			<div class="inner-title">
 				<div>
 					<ul class="check">
-						<li><i class='bx bx-check-circle'></i></i>7天前免費取消</li>
+						<li><i class='bx bx-check-circle'></i>入住前免費取消</li>
 						<li><i class='bx bx-check-circle'></i>訂房皆含早餐</li>
-						<li><i class='bx bx-check-circle'></i>送活動折價券</li>
+						<li><i class='bx bx-check-circle'></i>細緻用心的服務</li>
 					</ul>
 				</div>
 				<div class="row">
@@ -341,7 +360,7 @@
 									<li class="exclusive"><i class='bx bx-check-circle'></i>${facility}</li>
 								</c:forEach>
 							</ul>
-							<div></div>
+							<p>※每間房間裝潢與設備因樓層或位置不同而稍有差異，依實際入住客房為準。</p>
 						</div>
 					</div>
 				</div>
@@ -352,68 +371,44 @@
 				<div class="room-details-side">
 					<div class="side-bar-form">
 						<div class="type-title-area">
+							<h5>不能選的日期${result}${mem_mail}</h5>
 							<h2>${roomTypeVO.type_name} x ${qty}間</h2>
 							<div>
 								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="$###,###" /></span><span> / 一晚</span>
 							</div>
-						</div>
-<!-- 						<form> -->
+						<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" id="immediateCheckoutForm">
 							<div class="row align-items-center">
-<%-- 								<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv"> --%>
-<!-- 								<div class="col-lg-12"> -->
-<!-- 	                                <div class="form-group"> -->
-<!-- 	                                    <label>間數</label> -->
-<!-- 	                                    <select class="form-control" name="qty"> -->
-<!-- 	                                        <option value="1">01</option> -->
-<!-- 	                                        <option value="2">02</option> -->
-<!-- 	                                        <option value="3">03</option> -->
-<!-- 	                                        <option value="4">04</option> -->
-<!-- 	                                    </select>	 -->
-<!-- 	                                </div> -->
-<%-- 	                                <input type="hidden" name="type_no"  value="${roomTypeVO.type_no}"> --%>
-<!-- 	                                <input type="hidden" name="action" value="notRsv"> -->
-<!-- 	                                <button type="submit" class="btn btn-primary">查詢可訂日期</button> -->
-<!-- 								</div> -->
-<!-- 								</form> -->
 								<div class="col-lg-12">
-	                                <h5><i class='bx bx-edit'></i> 更改日期</h5>
 	                                <div class="form-group">
-	                                    <label><i class='bx bx-calendar'></i> 入住日期    -  退房日期</label>
+	                                    <label><i class='bx bx-calendar'></i> 入住期間</label>
 	                                    <div class="input-group">
-	                                    	<input type="text" id="rangeDate" placeholder="請選擇入住期間" class="form-control" data-input>
-	                                        <span class="input-group-addon"></span>
+	                                    	<input type="text" id="rangeDate" name="rangedate" placeholder="請選擇入住期間" class="form-control" data-input>
+                                        	<span class="input-group-addon"></span>
 	                                    </div>
 	                                    <i class='bx bxs-chevron-down'></i>	
 	                                </div>
 								</div>
-
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Numbers of Rooms</label> <select class="form-control">
-											<option>01</option>
-											<option>02</option>
-											<option>03</option>
-											<option>04</option>
-											<option>05</option>
-										</select>
-									</div>
-								</div>
-
 								<div class="col-lg-12 col-md-12">
-									<button type="submit" class="btn btn-primary line-btn"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
+									<input type="hidden" name="type_no" value="${roomTypeVO.type_no}">
+									<input type="hidden" name="qty" value="${qty}">
+									<input type="hidden" name="action" value="payment">
+									<button type="button" class="btn btn-primary line-btn" onclick="check();"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
 								</div>
 							</div>
-<!-- 						</form> -->
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
 		<%@ include file="/front_end/message.file" %> <!-- Message --> 
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
         <script>
+        	// header房型介紹加border-bottom
 	        $(`.nav-item:nth-child(1)>a`).attr('class', 'active');
+	        // 大圖跟小圖的carousel
 	        $('#services-slider').owlCarousel({
                 items: 5,
                 loop: false,
@@ -425,13 +420,65 @@
             $('.owl-carousel').owlCarousel({
                 URLhashListener:true,
             });
+	        // 房型設施 電視icon
 	        $(".room-facility-content li:nth-child(8)>i").removeClass().addClass("bx bx-tv");
+	        // calendar
 	        $("#rangeDate").flatpickr({
 	            mode: 'range',
 	            dateFormat: "Y-m-d",
+	            defaultDate: ["${start_date}", "${end_date}"],
 	            minDate: "today",
-	            disable: [],
+	            maxDate: new Date().fp_incr(90),
+	            disable: [${result}],
 	        });
+	        
+	      	// 預訂時有無登入會員，有登入就驗證(qty是null就是session消失了，住宿期間錯誤可能是 重選選錯||session消失)
+	    	function check(){
+	    		let duringStay = document.getElementById('rangeDate');
+	      		
+	    		if('${mem_mail}' === ''){
+	    			notLogin();
+	    			return false;
+	    		} else if ("${qty}" === ''){
+	    			qtyIsNull();
+	    			return false;
+	    		} else if (duringStay.value.length != 24){
+	    			duringStay.focus();
+	    			rangeDateIsNull();
+	    			return false;
+	    		} else {
+	    			document.getElementById('immediateCheckoutForm').submit();
+	    		}
+	    	}
+	      	// alert樣式
+	        function notLogin() {
+	    		swal.fire({
+	    			icon : 'error',
+	    			title : '請先登入',
+	    			showConfirmButton : false,
+	    			timer : 1000
+	    		}).then(function () {
+	     	        window.location.href = "<%=request.getContextPath()%>/front_end/signin/signin.jsp";
+	     	    })
+	    	}
+	        function qtyIsNull() {
+	    		swal.fire({
+	    			icon : 'error',
+	    			title : '請選擇房間數量',
+	    			showConfirmButton : false,
+	    			timer : 1000
+	    		}).then(function () {
+	     	        window.location.href = "<%=request.getContextPath()%>/front_end/index/index.jsp";
+	     	    })		
+	    	}
+	        function rangeDateIsNull() {
+	    		swal.fire({
+	    			icon : 'error',
+	    			title : '請選擇 入住日 和 退房日',
+	    			showConfirmButton : false,
+	    			timer : 1000
+	    		})		
+	    	}
         </script>
 	</body>
 </html> 

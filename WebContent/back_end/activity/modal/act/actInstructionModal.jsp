@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<% request.setCharacterEncoding("UTF-8"); %>
+
 <div class="modal fade mar" id="staticBackdropActInstruction${param.actNo}"
 	data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="staticBackdropLabel" aria-hidden="true">

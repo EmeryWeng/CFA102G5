@@ -6,27 +6,24 @@
 %>
 
 <html>
+
 <head>
 <%@ include file="/back_end/commonCSS.file"%>
-
-<style></style>
-
 </head>
+
 <body>
-	<%@ include file="/back_end/header.file"%>
-	<!-- Header -->
-	<%@ include file="/back_end/sidebar.file"%>
-	<!-- sidebar -->
+	<%@ include file="/back_end/header.file"%><!-- Header -->	
+	<%@ include file="/back_end/sidebar.file"%><!-- sidebar -->		
+	
 	<div class="main-content card card-body table-responsive">
-<table id="table-1">
-	<tr><td>
-		 <h3><a href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">上一頁-案件列表</a></h3>
-	</td></tr>
-</table>
-
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do" name="form1">
-
-<table>
+	
+	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do" name="form1">
+	<table id="example4" class="display" style="min-width: 845px">
+	<tr>
+		<td>
+		 	<h3><a class="btn btn-secondary light" href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">上一頁-案件列表</a></h3>
+		</td>
+	</tr>
 	
 	<tr>
 		<td>案件編號:<font color=red><b>*</b></font></td>
@@ -46,7 +43,8 @@
 	</tr>
 	<tr>
 		<td>案件回覆:</td>
-		<td><input type="TEXT" name="case_reply" size="45"	value="" /></td>
+		<td><textarea name="case_reply" rows="7" cols="48" maxlength="200"></textarea>
+		</td>
 	
 	</tr>
 	<tr>
@@ -57,33 +55,40 @@
   		<option value=2>處理完畢</option>
 		</select></td>
 	</tr>
-<tr>
-<td>
-						<%-- 錯誤表列 --%> <c:if test="${not empty errorMsgs}">
-							<font style="color: red"></font>
-							<ul>
-								<c:forEach var="message" items="${errorMsgs}">
-									<li style="color: red">${message}</li>
-								</c:forEach>
-							</ul>
-						</c:if>
-					</td>
-</tr>
+	<tr>
+	
+	
+	    <td>
+	<input type="submit" class="btn btn-primary" value="送出修改">
+	   </td>
+		<td>
+		<%-- 錯誤表列 --%> 
+		<c:if test="${not empty errorMsgs}">						
+			<font style="color: red"></font>
+				<ul>
+					<c:forEach var="message" items="${errorMsgs}">
+						<li style="color: red">${message}</li>
+					</c:forEach>
+				</ul>
+			</c:if>		
+		 </td>		
+	</tr>
 </table>
+
+<!-- 隱藏的東西 -->
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="case_no" value="<%=serviceCasesVO.getCase_no()%>">
 <input type="hidden" name="mem_no" value="<%=serviceCasesVO.getMem_no()%>">
 <input type="hidden" name="case_title" value="<%=serviceCasesVO.getCase_title()%>">
 <input type="hidden" name="case_des" value="<%=serviceCasesVO.getCase_des()%>">
-<br><br>
-<input type="submit" class="btn btn-primary" value="送出修改">
-
-</FORM>
-</div>
 
 
+		</FORM>
+	</div>
 </body>
+
 <%@ include file="/back_end/commonJS.file"%>
+
 <script>
 	// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
 	$("#pagename").text("回覆案件");

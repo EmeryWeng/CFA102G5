@@ -11,7 +11,7 @@
 	<jsp:useBean id="depSvc1" scope="page" class="com.department.model.DepService" />
 	<!-- LOGO -->
 	<div class="nav-header">
-		<a href="<%=request.getContextPath()%>/back_end/index/index.jsp" class="brand-logo">
+		<a href="" class="brand-logo">
 			<img src="<%=request.getContextPath()%>/back_end/assets/img/logo.png" alt="Logo">
 		</a>
 	</div>

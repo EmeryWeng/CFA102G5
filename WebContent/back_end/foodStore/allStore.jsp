@@ -76,7 +76,7 @@
 			     <input type="hidden" name="action"	value="getOneFoodStoreImg"></FORM>
 			</td>
 			<td>
-		<a href="<%=request.getContextPath()%>/back_end/foodimg/addImg.jsp?fd_no=${FoodStoreVO.fd_no}" class="btn btn-primary btn-sm">新增照片</a>
+		<a href="<%=request.getContextPath()%>/back_end/foodImg/addImg.jsp?fd_no=${FoodStoreVO.fd_no}" class="btn btn-primary btn-sm">新增照片</a>
 			</td>
 		</tr>
 	</c:forEach>

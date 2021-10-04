@@ -38,7 +38,7 @@
 %>
 
 <%if (pageNumber>0){%>
-  <b><font style="font-size:2.2rem;color:red;">第<%=whichPage%>/<%=pageNumber%>頁</font></b>
+  <b><font style="font-size:22px;color:red;">第<%=whichPage%>/<%=pageNumber%>頁</font></b>
 <%}%>
 
-<b style="font-size:2.2rem">共<font style="font-size:2.2rem;color:red;"><%=rowNumber%></font>筆</b>
+<b style="font-size:22px">共<font style="font-size:22px;color:red;"><%=rowNumber%></font>筆</b>

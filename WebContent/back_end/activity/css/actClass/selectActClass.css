@@ -1,20 +1,16 @@
 @charset "UTF-8";
 
-/* 	10px 比較好計算 */
-	html{
-		font-size:62.5%;
-	}
 	label {
-		font-size:2rem;
+		font-size:20px;
 		color:deeppink;
 	}
 	table.dataTable tbody td{
 		color:#00AEAE;
-		font-size:3rem;
+		font-size:30px;
 	}
 	table.dataTable thead th{
 		color:#FF0080;
-		font-size:3rem;
+		font-size:30px;
 	}
 	table.dataTable tbody td.upstate{
 		color:#28FF28;
@@ -23,22 +19,22 @@
 		color:#FF2D2D;
 	}
 	input#actClassName{
-		border-radius:2rem;
-		height:2rem;
-		font-size:2rem;
+		border-radius:20px;
+		height:20px;
+		font-size:20px;
 	}	
 	input#updateActClassName,#updateActClassNo{
-		border-radius:2rem;
-		height:2rem;
-		font-size:2rem;
+		border-radius:20px;
+		height:20px;
+		font-size:20px;
 	}
-	@media only screen and (max-width: 87.5rem)
+	@media only screen and (max-width: 875px)
 			table.dataTable tbody td {
-    	font-size: 2rem;
-    	padding: 0.5rem 0.9375rem;
+    	font-size: 20px;
+    	padding: 5px 9.375px;
 	}
-	@media only screen and (max-width: 87.5rem)
+	@media only screen and (max-width: 875px)
 			table.dataTable thead th {
-    	font-size: 2rem;
+    	font-size: 2px;
 	}
 	

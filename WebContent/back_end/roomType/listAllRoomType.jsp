@@ -11,8 +11,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"/>
+    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css"/>
 		<%@ include file="/back_end/commonCSS.file" %> <!-- 基本CSS檔案 -->
 		<style>
+		table.dataTable {
+			max-width: 99.9%;
+		}
 		table.dataTable thead th, td {
 			color: #30504F;
 		}
@@ -31,7 +36,34 @@
 		#roomTypeTable_filter input {
 			border: .5px solid #8FC2C2;
 		}
-		
+		table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+		    top: 42%;
+		    height: 20px;
+		    width: 20px;
+		    border-radius: 16px;
+		    line-height: 20px;
+		    box-shadow: 0 0 3px #444;
+		    background-color: #996A4D;
+		}
+		table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child {
+		    position: relative;
+		    padding-left: 50px;
+		    cursor: pointer;
+		}
+		table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
+			background-color: #30504F;
+		}
+		table.dataTable>tbody>tr.child span.dtr-title {
+		    display: inline-block;
+		    min-width: 100px;
+		    font-weight: bold;
+		}
+		table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child {
+		    border-bottom: 1px solid #d5dcdb;
+		}
+		td.sorting_1 {
+		border-bottom: #F2F2F2 !important;
+		}
 		.btn-icon-start {
 			background-color: transparent;
 			margin-right: 0;
@@ -145,7 +177,7 @@
 			</div>	
 			
 			<div class="table-responsive">
-				<table id="roomTypeTable" class="display default-table" style="min-width: 845px;">
+				<table id="roomTypeTable" class="display default-table" style="min-width: 800px;">
 					<thead>
 						<tr>
 							<th>房型編號</th>
@@ -154,10 +186,11 @@
 							<th>容納人數</th>
 							<th>金額</th>
 							<th>房型大小</th>
-							<th>床型</th>
 							<th>上下架</th>
 							<th>圖片</th>
 							<th>修改</th>
+							<th class="none">床型</th>
+							<th class="none">房型資訊</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -180,7 +213,6 @@
 							<td>${roomTypeVO.type_qty}人</td>
 							<td><fmt:formatNumber value="${roomTypeVO.type_price}"    pattern="$###,###"/></td>
 							<td>${roomTypeVO.type_size} m<sup>2</sup></td>
-							<td>${roomTypeVO.bed_size}</td>
 							<td class="state">
 			                    <input type="checkbox" ${roomTypeVO.type_state == true ? 'checked' : '' }>
 			                    <label class="switches" data-no="${roomTypeVO.type_no}" data-state="${roomTypeVO.type_state}"></label>
@@ -189,9 +221,9 @@
 <%-- 								<form method="post" action="<%=request.getContextPath()%>/room/RoomImg"> --%>
 <%-- 									<input type="hidden" name="type_no"  value="${roomTypeVO.type_no}"> --%>
 <!-- 			     					<input type="hidden" name="action"	value="getOneForShowImages"> -->
-<!-- 									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-image'></i>查看</button> -->
+<!-- 									<button type="submit" class="btn btn-secondary btn-sm"><i class='bx bxs-image'></i>查看/新增圖片</button> -->
 <!-- 			     				</form> -->
-			     				<a class="btn btn-secondary btn-sm" href="<%=request.getContextPath()%>/room/RoomImg?type_no=${roomTypeVO.type_no}&action=getOneForShowImages"><i class='bx bxs-image'></i>查看</a>
+			     				<a class="btn btn-secondary btn-sm" href="<%=request.getContextPath()%>/room/RoomImg?type_no=${roomTypeVO.type_no}&action=getOneForShowImages"><i class='bx bxs-image'></i>查看/新增圖片</a>
 							</td>
 							</td>
 							<td>
@@ -202,6 +234,8 @@
 <!-- 			     				</form> -->
 								<a class="btn btn-secondary btn-sm" href="<%=request.getContextPath()%>/room/RoomType?type_no=${roomTypeVO.type_no}&action=getOneForUpdate"><i class='bx bxs-pencil'></i>修改</a>
 							</td>
+							<td>${roomTypeVO.bed_size}</td>
+							<td>${roomTypeVO.type_info}</td>
 						</tr>
 					</c:forEach>
 					</tbody>
@@ -210,12 +244,16 @@
 		</div>
 
 
-		<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->
+		<%@ include file="/back_end/commonJS.file" %> <!-- 基本JS檔案 -->		]
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+		
 		<script>
 			$(document).ready(function() {
 				$("#pagename").text("房型列表");
 			    $("#roomTypeTable").DataTable( {
-			    	"lengthMenu": [10, 5, 3],
+			    	"responsive": true,
+			    	"lengthMenu": [3, 5, 10],
 			        "language": {
 			        	"processing": "處理中...",
 			            "loadingRecords": "載入中...",

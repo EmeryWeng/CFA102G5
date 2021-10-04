@@ -27,20 +27,20 @@ public class RoomServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 
-//		if ("getAll".equals(action)) { // ***切換房間狀態list
-//
-//			/*************************** 開始查詢資料 ****************************************/
-//			RoomService roomSvc = new RoomService();
-//			List<RoomVO> list = roomSvc.getAllRoom();
-//
-//			/*************************** 查詢完成,準備轉交(Send the Success view) ************/
-//			req.setAttribute("list", list); // 資料庫取出的VO物件,存入req
-//			String url = "/back_end/room/listAllRoom.jsp";
-//			RequestDispatcher successView = req.getRequestDispatcher(url);
-//			successView.forward(req, res);
-//		}
-//
-		if ("getAllByRmState".equals(action)) { // ***切換房間狀態list
+		if ("getAll".equals(action)) { // 切換房間狀態list
+
+			/*************************** 開始查詢資料 ****************************************/
+			RoomService roomSvc = new RoomService();
+			List<RoomVO> list = roomSvc.getAllRoom();
+
+			/*************************** 查詢完成,準備轉交(Send the Success view) ************/
+			req.setAttribute("list", list); // 資料庫取出的VO物件,存入req
+			String url = "/back_end/room/listAllRoom.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		}
+
+		if ("getAllByRmState".equals(action)) { // 切換房間狀態list
 
 			/*************************** 1.接收請求參數 ****************************************/
 			Integer rm_state = new Integer(req.getParameter("rm_state"));
@@ -50,6 +50,7 @@ public class RoomServlet extends HttpServlet {
 			List<RoomVO> list = roomSvc.getAllByRmState(rm_state);
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+			req.setAttribute("rm_state", rm_state);
 			req.setAttribute("list", list); // 資料庫取出的VO物件,存入req
 			String url = "/back_end/room/listAllRoom.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);

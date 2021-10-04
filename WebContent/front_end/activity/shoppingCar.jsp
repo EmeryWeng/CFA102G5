@@ -1,5 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
+
+<% 
+
+	int finalTotal = 0;
+	List<Map<String,String>> shoppingList = (List<Map<String,String>>)session.getAttribute("shoppingCar");
+	if(shoppingList != null){
+		for(Map<String,String> map : shoppingList){
+			finalTotal += Integer.parseInt(map.get("act_price")) * 
+					Integer.parseInt(map.get("act_people_number"));		
+		}
+		pageContext.setAttribute("finalTotal", finalTotal);
+	}
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +26,7 @@
 
 <style>
 	.delete{
-		font-size:2rem;
+		font-size:20px;
 	}
 	.delete:hover{
 		cursor: pointer;
@@ -28,7 +45,7 @@
 					<div class="col-lg-8 col-md-12">
 						<form>
 							<div class="cart-table table-responsive">
-<a href="<%=request.getContextPath()%>/front_end/activity/actList.jsp" style="color:#2894FF"><b style="font-size:2rem;">回商品列表</b></a>
+<a href="<%=request.getContextPath()%>/front_end/activity/actList.jsp" style="color:#2894FF"><b style="font-size:20px;">回商品列表</b></a>
 								<table class="table table-bordered">
 									<thead>
 										<tr>
@@ -72,7 +89,7 @@
 									</div>
 
 									<div class="col-lg-5 col-sm-5 col-md-5 text-right">
-										<button type="button" id="deleteAll" class="default-btn" ${empty shoppingCar ? 'disabled':''}> 清除所有項目 <span></span>
+										<button type="button" id="deleteAll" class="btn btn-secondary" ${empty shoppingCar ? 'disabled':''}> 清除所有項目 <span></span>
 										</button>
 									</div>
 								</div>
@@ -85,10 +102,12 @@
 							<h3>Cart Totals</h3>
 
 							<ul>
-								<li>總金額<span id="totalPrice">$599.00</span></li>
+								<li>總金額<span id="totalPrice">${finalTotal}</span></li>
 							</ul>
-
-							<a href="#" class="default-btn">結帳(SessionList)</a>
+						<form action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post" id="checkoutForm">
+							<input type="hidden" name="action" value="carCheckout">
+							<button type="button" class="btn btn-primary" onclick="checkCar();">結帳</button>
+						</form>
 						</div>
 					</div>
 				</div>
@@ -103,16 +122,21 @@
 	<!-- Footer -->
 	<%@ include file="/front_end/commonJS.file"%>
 	<!-- 基本JS檔案 -->
-	
+
 <script>
-	window.addEventListener('load',function(){
-		let array = document.getElementsByClassName('actPrice');
-		let total = 0;
-		for(let i=0;i<array.length;i++){
-			total += parseInt(array[i].innerText);
+
+	function checkCar(){
+		if(parseInt('${shoppingCar.size()}') === 0){
+			autoClose();
+			return false;
 		}
-		document.getElementById("totalPrice").textContent = total;
-	});
+		if('${mem_mail}' === ''){
+			notLogin();
+			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
+			return false;
+		}
+		document.getElementById('checkoutForm').submit();
+	}
 	
 	let deleteRequest = null;
 	$(".delete").click(function(){
@@ -131,34 +155,51 @@
 		});
 	});
 	
-	
 	let deleteAllRequest = null;
 	$("#deleteAll").click(function(){
 		Swal.fire({
-			  title: '確定清除購物車?',
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  confirmButtonText: 'OK'
-			}).then((result) => {
-			  if (result.isConfirmed) {
-				  deleteAllRequest = $.ajax({
-						url:"<%=request.getContextPath()%>/activity/ActivityOrder",
-						type:"post",
-						data:{
-							action:"actShoppingCart",
-							carAction:"deleteAll"
-						},
-						success:function(){
-							location.reload();
-							deleteAllRequest.abort();
-						}
-					})
-			    
-			  }
-			})
+		  title: '確定清除購物車?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'OK'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  deleteAllRequest = $.ajax({
+					url:"<%=request.getContextPath()%>/activity/ActivityOrder",
+					type:"post",
+					data:{
+						action:"actShoppingCart",
+						carAction:"deleteAll"
+					},
+					success:function(){
+						location.reload();
+						deleteAllRequest.abort();
+					}
+				})
+		  	 }
+		})
 	});
+	
+	function autoClose() {
+		swal.fire({
+			icon : 'error', //常用的還有'error'
+			title : '購物車空的',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
+	}
+	function notLogin() {
+		swal.fire({
+			icon : 'error', //常用的還有'error'
+			title : '請先登入',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
+	}
 </script>
 </body>
 </html>

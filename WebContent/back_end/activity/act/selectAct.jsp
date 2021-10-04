@@ -5,6 +5,7 @@
 <%@ page import ="java.util.List" %>
 
 <%
+ 	request.setCharacterEncoding("UTF-8"); 
 	ActivityService actSvc = new ActivityService();
 	List<ActivityVO> list = actSvc.getAll();
 	pageContext.setAttribute("list",list);
@@ -39,21 +40,28 @@
 						
 			<button type="button" class="btn btn-info btn-xs switchBtn" data-bs-toggle="modal" data-bs-target="#staticBackdropSwitchActState">切換上下架</button>
 				<!-- 切換上下架的modal -->
-			<jsp:include page="/back_end/activity/modal/act/switchActStateModal.jsp"/>
-				
+			<jsp:include page="/back_end/activity/modal/act/switchActStateModal.jsp"/>			
 		</div>
+		
+		<div class="importExcel">
+			<form id="importExcelForm" method="post" enctype="multipart/form-data" action="<%=request.getContextPath()%>/activity/UploadExcel">
+			  <div class="form-group">
+			    <label for="importExcelFile" style="color:#2828FF;font-size:18px;">匯入Excel：</label>
+			    <input type="file" class="form-control-file" name="importExcelFile" id="importExcelFile" style="color:#F75000;">
+			    <input type="hidden" name="action" value="importExcel">
+			    <button type="button" class="btn btn-primary btn-xs" onclick="importExcel();">送出</button>
+			  </div>
+			</form>
+		</div>
+		
 		<div class="query">
 			 <form method="post" action="<%=request.getContextPath()%>/activity/Activity">
 				<select name="queryActClass" class="querySelect">
-					<c:forEach var="actClassNo" items="${actService.getAll().stream().map(act -> act.getAct_class_no()).distinct().toList()}">
-						<c:forEach var="actClassVO" items="${actClassService.all}">
-							<c:if test="${actClassNo == actClassVO.act_class_no }">
-								<option value="${actClassNo}">${actClassVO.act_class_name}</option>
-							</c:if>
-						</c:forEach>
-					</c:forEach>
+					<c:forEach var="actClassVO" items="${actClassService.all}">
+						<option value="${actClassVO.act_class_no}">${actClassVO.act_class_name}</option>
+					</c:forEach>			
 				</select>
-					<input type="hidden" name="action" value="queryByActClass">
+					<input type="hidden" name="action" value="queryByActClassBackEnd">
 					<button class="btn light btn-secondary btn-xs">查詢</button>
 			 </form>
 		</div>
@@ -122,6 +130,23 @@
 			});
 		});
 		
+		function importExcel(){
+			let file = document.getElementById('importExcelFile').value;
+			let type = file.substring(file.lastIndexOf('.')).toLowerCase();
+			let myForm = document.getElementById('importExcelForm');
+
+			if(file ===''){
+				alert("請選擇檔案");
+				return false;
+			}		
+			if(type === '.xlsx'){
+				myForm.submit();
+			}else{
+				alert("只接受.xlsx檔案");
+				return false;
+			}
+		}
+			
 		function createWhichPage(){
 			let select = document.getElementById('switchActStateSelect');
 			let value = select.options[select.selectedIndex].value; //option value
@@ -136,7 +161,7 @@
 			input.setAttribute("type","hidden");
 			input.setAttribute("name","whichPage");
 			input.setAttribute("value",parseInt(goBackPage));
-			myForm.appendChild(input)
+			myForm.appendChild(input);
 			
 			myForm.submit();
 		}

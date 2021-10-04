@@ -16,13 +16,6 @@
 <title>Feliz-後台</title>
 <%@ include file="/back_end/commonCSS.file"%><!-- 基本CSS檔案 -->
 <link href="<%=request.getContextPath()%>/back_end/activity/css/actImg/selectActImg.css" rel="stylesheet">
-<style>
-	div.queryByPage{
-		position: absolute;
-   		top: 0rem;
-    	right: 5rem;
-    }
-</style>
 </head>
 <body>
 	<%-- 	<%@ include file="/back_end/loading.file"%> --%>
@@ -37,11 +30,11 @@
 	
 <div class="main-content">
 	<div class="table-responsive">
-		<div class="updateAndSwitch" style="top:-5rem;">
+		<div class="updateAndSwitch">
 			<!-- 新增圖片 -->
 			<form method="post" action="<%=request.getContextPath()%>/back_end/activity/actImg/addActImg.jsp">
 				<input type="hidden" name="action" value="addActImg">
-				<button type="submit" class="btn btn-primary" style="top:0.6rem;">新增圖片</button>	
+				<button type="submit" class="btn btn-primary">新增圖片</button>	
 			</form>
 		</div>
 			<table class="table">

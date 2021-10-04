@@ -12,8 +12,6 @@
 <jsp:useBean id="deptSvc" scope="page" class="com.department.model.DepService" />
 <html>
 <head>
-<style>
-</style>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 </head>
 <body bgcolor='white'>

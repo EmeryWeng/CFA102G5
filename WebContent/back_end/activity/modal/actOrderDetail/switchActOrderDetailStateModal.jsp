@@ -14,14 +14,14 @@
 					aria-label="Close"></button>
 			</div>
 		<form id="switchActOrderDetailStateForm" method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
-			<div class="modal-body" style="width:80rem;">
-				<select name="updateActOrderDetailNo" id="switchActStateSelect" style="margin-left:12rem;font-size:2rem;" autofocus>
+			<div class="modal-body" style="width:800px;">
+				<select name="updateActOrderDetailNo" id="switchActStateSelect" style="margin-left:120px;font-size:20px;" autofocus>
 					<c:forEach var="actOrderDetailVO" items="${actOrderDetailSvcForSwitch.all}">
 						<option value="${actOrderDetailVO.act_order_detail_no}">明細:${actOrderDetailVO.act_order_detail_no} - 訂單:${actOrderDetailVO.act_order_no} - 場次: ${actOrderDetailVO.act_session_no}</option>						
 					</c:forEach>
 				</select>
 				
-				<select id="switchActOrderDetailStateSelect" name="switchActOrderDetailStateSelect" style="margin-left:12rem;font-size:2rem;" autofocus>
+				<select id="switchActOrderDetailStateSelect" name="switchActOrderDetailStateSelect" style="margin-left:120px;font-size:20px;" autofocus>
 					<c:forEach begin="${actOrderDetailStateNumber.count}" end="3" varStatus="actOrderDetailStateNumber">
 						<c:if test="${actOrderDetailStateNumber.count == 1 }">
 							<option value="${actOrderDetailStateNumber.count}">已付款</option>

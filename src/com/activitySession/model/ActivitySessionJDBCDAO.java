@@ -276,4 +276,10 @@ public class ActivitySessionJDBCDAO implements I_ActivitySessionDAO{
 		for(ActivitySessionVO vo : list)
 		System.out.println(vo);
 	}
+
+	@Override
+	public void updateActSessionRealNumber(Integer act_session_no, Integer act_session_real_number) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,7 +1,8 @@
 package com.roomOrder.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +13,8 @@ public class RoomOrderVO implements Serializable {
 	private Integer ord_no;
 	private Integer mem_no;
 	private Integer type_no;
-	private LocalDate start_date;
-	private LocalDate end_date;
+	private Date start_date;
+	private Date end_date;
 	private Integer rm_num;
 	private Integer price;
 	private Integer total_price;
@@ -23,6 +24,6 @@ public class RoomOrderVO implements Serializable {
 	private String phone;
 	private String email;
 	private String payment;
-	private LocalDate ord_date;	
+	private Date ord_date;
 	private Integer ord_state;
 }

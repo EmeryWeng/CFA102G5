@@ -1,8 +1,5 @@
 @charset "UTF-8";
-
-	html { 
-		font-size:62.5%;
-	}	
+		
 	div.twoBtn{
 		margin-top:5%;
 		width:40%;
@@ -21,14 +18,14 @@
 	.col-form-label{
 		vertical-align:middle;
 		line-height:70px;
-		font-size:2.2rem;
+		font-size:22px;
 		color:#00A600;
 	}
-	.form-control{
-		border-radius:2rem;
+	div .form-control{
+		border-radius:20px;
 		border:1px solid #4F4F4F;
-		margin-top:1rem;
-		font-size:2.2rem;
+		margin-top:10px;
+		font-size:22px;
 	}
 	
 	.actInstructionLabel{
@@ -42,25 +39,30 @@
 		width:35%;
 		height:10%;
 		color:#D94600;
-		font-size:3rem;
+		font-size:30px;
 		background-color:#F0FFF0;
 	}	
 	option{
 		width:30%;
-		font-size:2.2rem;
+		font-size:22px;
 		text-align-last: center;
 	}
 /* 	textarea */
 	#actInstruction{
 		resize: none;
-    	overflow: hidden;
     	min-height: 50px;
-    	max-height: 100px;
+    	max-height: 150px;
+    	height:150px;
     	width:300px;
     	margin-left:5px;
+    	overflow-x:hidden;
 	}
 	.form-control:focus{
 		color:#A23400;
 		vertical-align:left;
+	}
+	.col-lg-6{
+		position:relative !important;
+		top:10px !important;
 	}
 	

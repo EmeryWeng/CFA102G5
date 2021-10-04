@@ -37,7 +37,7 @@
 					<span class="sp-color">Sign Up</span>
 					<h2>註冊</h2>
 				</div>
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do" name="form1" enctype="multipart/form-data">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do" name="form1" enctype="multipart/form-data" id="signupForm">
 <div>
 	<div class="col-lg-12">
 		<div class="form-group">
@@ -91,8 +91,9 @@
 	</div>
 </div>
  <input type="hidden" class="form-control" name="mem_img"value="" >			
+ <input type="hidden" class="form-control" name="action"value="addMember" >			
 <div class="col-lg-12 col-md-12 text-center"><br>
-	<button type="submit" class="default-btn btn-bg-one" onclick="checkpas2()" name="action" value="addMember">註冊</button>
+	<button type="button" class="default-btn btn-bg-one" onclick="checkpas2()">註冊</button>
 		</div>
 			</form>
 				<div class="col-12">
@@ -109,7 +110,6 @@
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
     <script>
-
     $(".tip").hide();
     function checkpas1(){
     var pas1=document.getElementById("password").value;
@@ -135,6 +135,8 @@
 	    alert("兩次輸入的密碼不一致！");
 	    return false;
 	    	}
+    let myForm = document.getElementById('signupForm');
+    myForm.submit();
     }
     </script>
         

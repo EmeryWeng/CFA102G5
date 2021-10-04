@@ -7,52 +7,42 @@
 %>
 
 <html>
+
 <head>
 <%@ include file="/back_end/commonCSS.file"%>
-
-
-<style></style>
-
-
 </head>
+
 <body>
-	<h3>案件新增:</h3>
-	<%@ include file="/back_end/header.file"%>
-	<!-- Header -->
-	<%@ include file="/back_end/sidebar.file"%>
-	<!-- sidebar -->
+	<%@ include file="/back_end/header.file"%><!-- Header -->	
+	<%@ include file="/back_end/sidebar.file"%><!-- sidebar -->
+	
 	<div class="main-content card card-body table-responsive">
 		<jsp:useBean id="scSvc"	class="com.serviceCases.model.ServiceCasesService" />
 		<jsp:useBean id="memSvc" class="com.member.model.MemberService" />
-		<FORM METHOD="post"
-			ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do"
-			name="form1">
+		<FORM METHOD="post"	ACTION="<%=request.getContextPath()%>/serviceCases/ServiceCases.do"	name="form1">
 			<table id="example4" class="display" style="min-width: 845px">
 				<tr>
 					<td>
 						<h3>
-							<a
-								href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">上一頁-案件列表</a>
+							<a class="btn btn-secondary light" href="<%=request.getContextPath()%>/back_end/serviceCases/listAllCase.jsp">上一頁-案件列表</a>
 						</h3>
 					</td>
 				</tr>
-				<!-- 	暫時只有兩個會員1, 2 -->
+				<!-- 	抓取mem_no fk -->
 				<tr>
 					<td>會員編號:</td>
 					<td><select name="mem_no" size="1">
 							<c:forEach var="memVO" items="${memSvc.all}">
-								<option value="${memVO.mem_no}">${memVO.mem_no}
+								<option value="${memVO.mem_no}">${memVO.mem_no}-${memVO.mem_name}
 							</c:forEach>
-
-							<!-- 							<option value=1>1</option> -->
-							<!-- 							<option value=2>2</option> -->
-					</select></td>
+					</select>
+					</td>
 
 				</tr>
 
 				<tr>
 					<td>案件標題:</td>
-					<td><input type="TEXT" name="case_title" size="45"
+					<td><input type="TEXT" name="case_title" maxlength="20" size="45"
 						value="<%=(serviceCasesVO == null) ? "" : serviceCasesVO.getCase_title()%>" />
 
 					</td>
@@ -60,8 +50,9 @@
 
 				<tr>
 					<td>案件描述:</td>
-					<td><input type="TEXT" name="case_des" size="45"
-						value="<%=(serviceCasesVO == null) ? "" : serviceCasesVO.getCase_des()%>" /></td>
+					<td>
+						<textarea name="case_des" rows="7" cols="48" maxlength="200"><%=(serviceCasesVO == null) ? "" : serviceCasesVO.getCase_des()%></textarea>
+					</td>
 				</tr>
 
 				<tr>
@@ -85,11 +76,11 @@
 			</table>
 		</FORM>
 	</div>
-
 </body>
 
 
 <%@ include file="/back_end/commonJS.file"%>
+
 <script>
 	// 			● 可在這更改這一頁header的標題，不寫也可以，但請變成空字串 
 	$("#pagename").text("新增案件");

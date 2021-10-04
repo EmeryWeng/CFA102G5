@@ -49,15 +49,15 @@ public class LoginHandler extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/signin/signin.jsp");
 				failureView.forward(req, res);
 			   }
-			}else{
-					Cookie cookie = new Cookie("isuser",memVO.getMem_mail());//設定cookie
-					cookie.setMaxAge(24*60*60);
-					res.addCookie(cookie);
+		}else{
+
 					session.setAttribute("mem_mail", mem_mail);//登入標記
 					try {
+						
 						String location = (String)session.getAttribute("location");//回來源網頁
+						System.out.println(location);
 						if(location != null) {
-							session.removeAttribute("location");
+							//session.removeAttribute("location");
 							res.sendRedirect(location);
 							return;//重導
 						}

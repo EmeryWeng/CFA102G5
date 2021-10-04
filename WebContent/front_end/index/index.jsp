@@ -10,6 +10,27 @@
 <jsp:useBean id="roomImgSvc" scope="page" class="com.roomImg.model.RoomImgService" />
 <jsp:useBean id="actSvc" scope="page" class="com.activity.model.ActivityService" />
 
+<% 
+	// 如果session中沒有間數跟人數
+	if (session.getAttribute("qty") == null) {
+		pageContext.setAttribute("qty", 1);
+	}
+	if (session.getAttribute("guest") == null) {
+		pageContext.setAttribute("guest", 2);
+	}
+
+	// 日曆的日期，字串分割成start_date、end_date
+	if (session.getAttribute("rangedate") != null) {
+		String rangedate = (String) session.getAttribute("rangedate");
+		List<String> dateList = new LinkedList<String>();
+		dateList = Arrays.asList(rangedate.split(" to "));
+		String start_date = dateList.get(0);
+		String end_date = dateList.get(1);
+		pageContext.setAttribute("start_date", start_date);
+		pageContext.setAttribute("end_date", end_date);
+	}
+%>
+
 <!doctype html>
 <html>
     <head>
@@ -35,6 +56,18 @@
 		    top: 0;
     		left: 0;
 		}
+		.banner-form .btn-primary {
+			padding: 12px;
+		}
+		.main-nav {
+    		background-color: rgba(255,255,255,0.8);
+    	}
+    	.no-js .owl-carousel, .owl-carousel.owl-loaded {
+    		z-index: 0;
+    	}
+    	.banner-form .form-group .form-control:focus {
+    		z-index: 2;
+    	}
         </style>
     </head>
     <body>
@@ -56,13 +89,13 @@
         <div class="banner-form-area">
             <div class="container">
                 <div class="banner-form">
-                    <form>
+                    <form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" id="getEnoughType">
                         <div class="row align-items-center d-flex justify-content-between">
                             <div class="col-lg-4 col-md-4">
                                 <div class="form-group">
-                                    <label><i class='bx bx-calendar'></i> 入住日期    -  退房日期</label>
+                                    <label><i class='bx bx-calendar'></i> 入住期間</label>
                                     <div class="input-group">
-                                    	<input type="text" id="rangeDate" placeholder="請選擇入住期間" class="form-control" data-input>
+                                    	<input type="text" id="rangeDate" name="rangedate" placeholder="請選擇入住期間" class="form-control" data-input>
                                         <span class="input-group-addon"></span>
                                     </div>
                                     <i class='bx bxs-chevron-down'></i>	
@@ -72,15 +105,15 @@
                             <div class="col-lg-2 col-md-2">
                                 <div class="form-group">
                                     <label><i class='bx bx-home-alt' ></i> 間數</label>
-                                    <select class="form-control">
-                                        <option>01</option>
-                                        <option>02</option>
-                                        <option>03</option>
-                                        <option>04</option>
-                                        <option>05</option>
-                                        <option>06</option>
-                                        <option>07</option>
-                                        <option>08</option>
+                                    <select id="qty" name="qty" class="form-control" required>
+                                        <option value="1" ${qty == 1 ? 'selected' : '' }>01</option>
+                                        <option value="2" ${qty == 2 ? 'selected' : '' }>02</option>
+                                        <option value="3" ${qty == 3 ? 'selected' : '' }>03</option>
+                                        <option value="4" ${qty == 4 ? 'selected' : '' }>04</option>
+                                        <option value="5" ${qty == 5 ? 'selected' : '' }>05</option>
+                                        <option value="6" ${qty == 6 ? 'selected' : '' }>06</option>
+                                        <option value="7" ${qty == 7 ? 'selected' : '' }>07</option>
+                                        <option value="8" ${qty == 8 ? 'selected' : '' }>08</option>
                                     </select>	
                                 </div>
                             </div>
@@ -88,18 +121,18 @@
                             <div class="col-lg-2 col-md-2">
                                 <div class="form-group">
                                     <label><i class='bx bx-user' ></i> 人數</label>
-                                    <select class="form-control">
-                                        <option>01</option>
-                                        <option>02</option>
-                                        <option>03</option>
-                                        <option>04</option>
+                                    <select id="guest" name="guest" class="form-control" required>
+                                        <option value="1" ${guest == 1 ? 'selected' : '' }>01</option>
+                                        <option value="2" ${guest == 2 ? 'selected' : '' }>02</option>
+                                        <option value="3" ${guest == 3 ? 'selected' : '' }>03</option>
+                                        <option value="4" ${guest == 4 ? 'selected' : '' }>04</option>
                                     </select>	
                                 </div>
                             </div>
 
                             <div class="col-lg-3 col-md-3 d-flex justify-content-end pt-70">
-                                <input type="hidden" name="action" value="">
-                                <input class="btn btn-primary col-lg-8" type="submit" value="查看空房">
+                                <input type="hidden" name="action" value="getEnoughType">
+                            	<button type="button" class="btn btn-primary col-lg-8" onclick="check();">查看可訂房型</button>
                             </div>
                         </div>
                     </form>
@@ -117,7 +150,7 @@
                     <h3 class="area-subtitle">恬靜舒適的居住空間房與細緻用心的服務，提供您卓越的住宿體驗。</h3>
                 </div>
                 <div class="testimonials-slider-two owl-carousel owl-theme pt-45">
-                	<c:forEach var="roomTypeVO" items="${roomTypeSvc.getAllRoomType()}">
+                	<c:forEach var="roomTypeVO" items="${roomTypeSvc.getAllRoomFront()}">
                     <div class="testimonials-style">
                         <div class="row align-items-center">
                             <div class="col-lg-7">
@@ -194,7 +227,7 @@
                                 <hr>
                                 <h3 class="area-subtitle text-left">飯店周邊的美食店家，在地人推薦的特色花蓮美食！<br>好山好水又靠海的花蓮，除了豐富的名勝跟景點讓人玩不膩，花蓮美食更是多到數不清。</h3>
                             </div>
-                            <a href="food.html" class="default-btn btn-bg-one">更多周邊美食</a>
+                            <a href="<%=request.getContextPath()%>/front_end/storeMap/storeMap.jsp" class="default-btn btn-bg-one">更多周邊美食</a>
                         </div>
                     </div>
                     
@@ -215,9 +248,30 @@
         $("#rangeDate").flatpickr({
             mode: 'range',
             dateFormat: "Y-m-d",
+            defaultDate: ["${start_date}", "${end_date}"],
             minDate: "today",
-            disable: ["2021-09-22", "2021-09-30", "2021-10-02"],
+            maxDate: new Date().fp_incr(90),
+            disable: [],
         });
+        function check(){
+    		let duringStay = document.getElementById('rangeDate');
+      		
+			if (duringStay.value.length != 24){
+				duringStay.focus();
+    			rangeDateIsNull();
+    			return false;
+    		} else {
+    			document.getElementById('getEnoughType').submit();
+    		}
+    	}
+        function rangeDateIsNull() {
+    		swal.fire({
+    			icon : 'error',
+    			title : '請選擇 入住日 和 退房日',
+    			showConfirmButton : false,
+    			timer : 1000
+    		})		
+    	}
         </script>
     </body>
 </html>

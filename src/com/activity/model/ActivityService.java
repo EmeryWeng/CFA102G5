@@ -87,6 +87,9 @@ public class ActivityService {
 	public List<ActivityVO> getAll(){
 		return dao.getAll();
 	}
+	public void updateActSellNumber(Integer act_no, Integer act_sell_number) {
+		dao.updateActSellNumber(act_no, act_sell_number);
+	}
 	
 	public void switchActState(Integer act_no,Boolean act_state) {
 		dao.switchActState(act_no, act_state);

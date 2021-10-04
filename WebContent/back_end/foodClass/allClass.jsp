@@ -11,8 +11,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-</style>
 	<%@ include file="../commonCSS.file" %> <!-- 基本CSS檔案 -->
 <meta charset="BIG5">
 </head>

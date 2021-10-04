@@ -14,18 +14,21 @@
 <link href="<%=request.getContextPath()%>/back_end/activity/css/act/addAct.css" rel="stylesheet">
 
 <style>
-	html{
-		font-size:62.5%;
-	}
 	.select{
 		width:100%;
 		position: relative;
-    	top: 1.5rem;
+    	top: 15px;
 	}
 	.form-control{
 		position: relative;
-    	top: 1rem;
+    	top: 10px;
     	width: 60%;
+	}
+	div.twoBtn div.col-lg-2 .updateSureBtn{
+		margin-left:-500px;
+		width:100px;
+		height:50px;
+		font-size:20px;
 	}
 </style>
 </head>
@@ -44,10 +47,10 @@
 	<div class="main-content">
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
-			<font style="color:red;font-size:2.5rem;">請修正以下錯誤:</font>
+			<font style="color:red;font-size:25px;">請修正以下錯誤:</font>
 			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red;font-size:1.5rem;">${message}</li>
+					<li style="color: red;font-size:18px;">${message}</li>
 				</c:forEach>
 			</ul>
 		</c:if>
@@ -55,7 +58,7 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h1 class="card-title" style="font-size:2rem;color:green;">修改活動訂單明細-表單</h1>
+						<h1 class="card-title" style="font-size:28px;color:green;">修改活動訂單明細-表單</h1>
 					</div>
 					<div class="card-body">
 						<div class="form-validation">
@@ -106,16 +109,7 @@
 													id="act_price_total" readonly value="${actOrderDetailVO.act_price_total}">
 											</div>
 										</div>									
-										<div class="mb-3 row">
-											<label class="col-lg-4 col-form-label" for="act_session_start_date">要改場次的人數
-												<span class="text-danger">*</span>
-											</label>
-											<select name="changeActPeopleSelect" id="changeActPeopleSelect" class="select" style="width:30%;">
-												<c:forEach  begin="${peopleNumber.count}" end="${actOrderDetailVO.act_real_join_number-1}" varStatus="peopleNumber"> 
-													<option value="${peopleNumber.count}">${peopleNumber.count}</option>
-												</c:forEach>
-											</select>
-										</div>									
+																			
 										<div class="mb-3 row">
 											<label class="col-lg-4 col-form-label" for="act_session_start_date">活動場次開始日期
 												<span class="text-danger">*</span>
@@ -152,10 +146,10 @@
 										<input type="hidden" name="updateActOrderDetailNo" value="${actOrderDetailVO.act_order_detail_no}">
 										<input type="hidden" name="updateActSessionNo" value="${actOrderDetailVO.act_session_no}">										
 										<input type="hidden" name="updateOrderNo" value="${actOrderDetailVO.act_order_no}">
-										<button type="submit" class="btn btn-primary" style="margin-left:-50rem;width:10rem;height:5rem;font-size:2rem">確定</button>
+										<button type="submit" id="sureBtn" class="btn btn-primary updateSureBtn">確定</button>
 									</div>
 									<div class="col-lg-2">
-										<button type="reset" class="btn btn-secondary" style="margin-left:-45rem;">重填</button>
+										<button type="reset" class="btn btn-secondary" style="margin-left:-450px;">重填</button>
 									</div>
 								</div>
 							</form>
@@ -178,14 +172,15 @@
 					oldSessionNo:'${actSessionVO.act_session_no}',
 					changeSessionNo:$('#actSessionTimeSelect').val(),
 					orderNo:'${actOrderDetailVO.act_order_no}',
-					changeActPeopleSelect:$('#changeActPeopleSelect').val()
+					changeActPeopleSelect:$('#act_real_join_number').val()
 				},
 				success:function(response){
+			console.log(response);
 					if(response === "true"){
-						currentRequest.abort();
+ 						currentRequest.abort();
 					}else{
 						alert("場次人數已達上限，無法更換場次");
-						$('#actSessionTimeSelect').val("${actSessionVO.act_session_no}").change();
+ 						$('#actSessionTimeSelect').val("${actSessionVO.act_session_no}");
 						currentRequest.abort();
 					}
 				}

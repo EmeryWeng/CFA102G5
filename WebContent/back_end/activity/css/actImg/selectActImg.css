@@ -1,43 +1,44 @@
 @charset "UTF-8";
-
-	html{
-		font-size:62.5%;
+	.table-responsive{
+		overflow:hidden;
+		position: relative;
+    	top: 10px;
 	}
 	table tr td img{
 		max-width:100%;
 		box-sizing:border-box;
 		display:block;
 		margin:auto;
-		width:30rem;
-		height:25rem;
+		width:300px;
+		height:250px;
 	}
 	table.table{
 		width:98%;
-		height:50rem;
+		height:500px;
 	}
 	table th{
-		font-size:2rem;
+		font-size:20px;
 		text-align:center;
 		color:red;
 		vertical-align:middle;
 	}	
 	table td{
-		font-size:2rem;
+		font-size:20px;
 		text-align:center;
 	}	
 	textarea.actInstruction{
-		font-size:1.8rem;
-		height:10rem;
+		font-size:18px;
+		height:100px;
 	}	
 	div.query{
-		width:30rem;
+		width:300px;
 		position:absolute;
-		left:165rem;
+		left:1650px;
 		z-index:999;
-		top:-1rem;
+		top:-10px;
 	}	
 	select.querySelect{
-		font-size:1.5rem;
+		font-size:15px;
 	}
 	table tr td.upstate{
 		color:#28FF28;
@@ -46,6 +47,10 @@
 		color:#FF2D2D;
 	}
 	div.updateAndSwitch{
-		position:absolute;
-		top:-3.2rem;
+		position:relative;	
 	}
+	div.queryByPage{
+		position: relative;
+    	left: 1380px;
+    	bottom: 1050px;
+    }

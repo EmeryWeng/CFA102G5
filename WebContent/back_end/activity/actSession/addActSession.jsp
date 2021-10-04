@@ -59,8 +59,8 @@
 												<span class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control"
-													name="actStartDate" id="act_start_date">
+												<input type="text" class="form-control" name="actStartDate" id="act_start_date">
+												<span style="color:red;font-size:20px;">${errorMap["error_act_start_date"]}</span>	
 											</div>
 										</div>
 										<div class="mb-3 row">
@@ -68,8 +68,8 @@
 												<span class="text-danger">*</span>
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" name="actEndDate"
-													id="act_end_date">
+												<input type="text" class="form-control" name="actEndDate" id="act_end_date">
+												<span style="color:red;font-size:20px;">${errorMap["error_act_end_date"]}</span>	
 											</div>
 										</div>
 									</div>
@@ -78,8 +78,8 @@
 										活動場次開始日期 <span class="text-danger">*</span>
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" name="actSessionStartDate"
-												id="act_session_start_date">
+											<input type="text" class="form-control" name="actSessionStartDate" id="act_session_start_date">
+											<span style="color:red;font-size:20px;">${errorMap["error_act_session_start_date"]}</span>	
 										</div>
 									</div>
 								</div>
@@ -89,8 +89,8 @@
 											<span class="text-danger">*</span>
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												name="actSessionStartTime" id="act_session_start_time">
+											<input type="text" class="form-control" name="actSessionStartTime" id="act_session_start_time">
+											<span style="color:red;font-size:20px;">${errorMap["error_act_session_start_time"]}</span>
 										</div>
 									</div>
 									<div class="mb-3 row twoBtn">

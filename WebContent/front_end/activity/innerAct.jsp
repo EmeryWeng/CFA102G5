@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page import="java.util.Comparator" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,8 +10,8 @@
 <%@ include file="/front_end/commonCSS.file"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/style2.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/fotorama.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/activity/datetimepicker/jquery.datetimepicker.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/innerAct.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/datetimepicker/jquery.datetimepicker.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/front_end/activity/css/act/innerAct.css" />
 
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyAJNpDkwnyNLU6eh829XsUUYdFdTx2YjJ"></script>
 
@@ -25,7 +25,7 @@
 		class="com.activityImage.model.ActivityImageService" />
 
 
-	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 2rem; padding-bottom: 15rem;">
+	<div class="mt-5 mb-5 ptb-70 container" style="padding-top:20px; padding-bottom: 150px;">
 		<div id="wrapper">
 			<div class="tour-details-main">
 				<div class="container">
@@ -43,15 +43,15 @@
 							<!-- Tour Slider End -->
 
 							<!--輪播下的內容 -->
-							<div class="read-more collapsed" style="margin-top: -3rem;" id="actSessionDiv">
+							<div class="read-more collapsed" id="actSessionDiv">
 								<h1 class="read-more-title">
 									臺灣花蓮 | <span style="color: blue;" id="actName">${actVO.act_name}</span>
 								</h1>
 								<div>
-									<i class='bx bx-map' style="color: #F00078; font-size: 1.8rem;">${actVO.act_location}</i>
+									<i class='bx bx-map' style="color: #F00078; font-size: 18px;">${actVO.act_location}</i>
 								</div>
 
-								<div style="margin: 2rem 0;">
+								<div style="margin: 20px 0;">
 									<i class='bx bx-globe'>中文 導覽</i><i class='bx bx-bell'>2天前可免費取消</i>
 								</div>
 
@@ -80,36 +80,41 @@
 							<!--右側結束 -->
 							<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
 								<div class="actSession">
-									<form id="shoppingCartForm" action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post">
+									<form id="immediateCheckoutForm" action="<%=request.getContextPath()%>/activity/ActivityOrder" method="post">
 										<div>
 											<label id="actSessionLabel"><h3>選擇日期</h3></label>
 											<p>
-												<b style="margin-left: 0.5rem;">請選擇出發日期</b>
+												<b style="margin-left: 5px;">請選擇出發日期</b>
 											</p>
-											<input type="text"  id="act_date">
+											<input type="text" name="act_date" id="act_date">
 										</div>
 
 										<div class="actSessionStartTime">
-											<b style="position: relative; left: -17rem; top: -0.5rem;">場次時間:</b>
+											<b style="position: relative; left: -170px; top: -5px;">場次時間:</b>
 											<select name="actSessionStartTimeSelect" id="actSessionStartTimeSelect">
-												<c:forEach var="actSessionVO" items="${actSessionByActNo}">
+												<c:forEach var="actSessionVO" items="${actSessionByActNoList}">
 													<option value="${actSessionVO.act_session_no}">${actSessionVO.act_session_start_time}</option>
 												</c:forEach>
 											</select> 
 											<label for="actPeopleNumber" class="actPeopleNumberLabel"><b>人數:</b></label>
-											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" class="actPeopleNumberInput" value="1"> 
+											<input type="text" readonly id="actPeopleNumber" name="actPeopleNumber" value="1"> 
 											<input type="hidden" id="totalPeople" value="${actPeopleNumber}"> 
 												<i class='bx bx-plus-circle plusIcon' id="actPricePlusBtn" onclick="plus();"></i> 
 												<i class='bx bx-minus-circle minusIcon' id="actPriceMinusBtn" onclick="minus();"></i>
 										</div>
 										<div>
-											<b style="font-size:2rem;position:relative;bottom:4rem;left:36.5rem;">總金額</b>
-											<span style="position:relative;left:58rem;bottom:4rem;font-size:2.2rem;color:#46A3FF" id="actTotalPrice">${actVO.act_price}</span>
+											<b style="font-size:20px;position:relative;bottom:40px;left:365px;">總金額</b>
+											<span style="position:relative;left:580px;bottom:40px;font-size:22px;color:#46A3FF" id="actTotalPrice">${actVO.act_price}</span>
 										</div>
 										<div>
-											
-											<button type="button" id="addActToCarBtn" class="btn btn-rounded btn-primary" style="background-color:#30504F;left: 45rem;bottom: 0.5rem">
-												<span class="btn-icon-start text-primary"><i class='bx bxs-cart'></i></span>加入購物車
+											<input type="hidden" name="action" value="immediateCheckout">
+											<input type="hidden" name="act_name" value="${actVO.act_name}">
+											<input type="hidden" name="act_price" value="${actVO.act_price}">
+											<button type="button" id="addActToCarBtn" class="btn btn-success" style="left:300px;bottom:5px">
+												<span class="btn-icon-start addCar"><i class='bx bxs-cart'></i>加入購物車</span>
+											</button>
+											<button type="button" id="immediateCheckout" onclick="check();" class="btn btn-info" style="left:320px;bottom: 5px">
+												<span class="btn-icon-start"><i class='bx bxs-cart'></i>立即結帳</span>
 											</button>
 										</div>
 									</form>
@@ -140,11 +145,21 @@
 		timepicker : false,
 		step : 1,
 		format : 'Y-m-d',
-		value : '${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
-		minDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
-		maxDate:'${actSessionByActNo.stream().findFirst().get().getAct_session_start_date()}',
+		value : '${actSessionByActNoList.stream().findFirst().get().getAct_session_start_date()}',
+		minDate:'${actSessionByActNoList.stream().findFirst().get().getAct_session_start_date()}',
+		maxDate:'${actSessionByActNoList.stream().findFirst().get().getAct_session_start_date()}',
 	});
-	
+//檢查立即結帳時有無登入
+	function check(){
+		if('${mem_mail}' === ''){
+			notLogin();
+			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
+			return false;
+		}
+		document.getElementById('immediateCheckoutForm').submit();
+	}
+
+//場次時間	
 	let currentRequest = null;
 	$('#actSessionStartTimeSelect').on('change',function(){
 		currentRequest = $.ajax({
@@ -155,13 +170,32 @@
 				sessionNo:$("#actSessionStartTimeSelect option:selected").val(),			
 			},
 			success:function(response){
-				$("#totalPeople").val(response);
+				$("#totalPeople").val(response);//帶回來該場次目前有多少人
+				$("#actPeopleNumber").val(1);//當change事情發生 要把該人數設回1
+				$("#actTotalPrice").text($("#actPeopleNumber").val() * ${actVO.act_price});//總價
+// 				一定要先設定值
+				
+				let myInput = document.getElementById('actPeopleNumber');
+				let plusBtn = document.getElementById('actPricePlusBtn');
+				let minus	= document.getElementById('actPriceMinusBtn');
+				
+				if(parseInt(response) >= 10){
+					alert("不好意思，該場次人數已達上限!");
+					plusBtn.disabled = true;
+					plusBtn.setAttribute("style","color:gray;");
+				}
+				if(parseInt(myInput.value) + parseInt(response) < 10){
+										
+					plusBtn.disabled = false;
+					plusBtn.removeAttribute("style","color:gray;");
+				}
+				minus.setAttribute("style","color:gray;");
+				minus.disabled = true;
+				
 				currentRequest.abort();
 			}
 		});
-		$("#actPeopleNumber").val(1);
 	});
-	
 	
 // 	購物車
 	let shoppingCarRequest = null;
@@ -178,10 +212,10 @@
 				actTime:$("#actSessionStartTimeSelect option:selected").text(),
 				actPeopleNumber:$("#actPeopleNumber").val(),
 			},
-			success:function(response){
-				if(response.includes("update")){
+			success:function(response){				
+				if(response.includes("update")){					
 					autoCloseUpdate();
-					$("#carCount").text(response.charAt(8));
+					$("#carCount").text(response.charAt(response.length-1));
 					shoppingCarRequest.abort();
 				}else{
 					autoCloseForShoppingCar();
@@ -191,8 +225,6 @@
 			}
 		});
 	});
-	
-	
 	
 	
 	document.getElementById('actPriceMinusBtn').disabled = true;
@@ -325,6 +357,15 @@
 		swal.fire({
 			icon : 'success', //常用的還有'error'
 			title : '購物車項目已更新',
+			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
+			timer : 1000
+		// 單位毫秒，1秒後自動關閉跳窗
+		})		
+	}
+	function notLogin() {
+		swal.fire({
+			icon : 'error', //常用的還有'error'
+			title : '請先登入',
 			showConfirmButton : false, //因為會自動關閉，所以就不顯示ok按鈕
 			timer : 1000
 		// 單位毫秒，1秒後自動關閉跳窗
