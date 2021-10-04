@@ -2,8 +2,11 @@
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.foodStore.model.*"%>
-
-    
+<%
+    FoodStoreService classSvc = new FoodStoreService();
+    List<FoodStoreVO> storeAll = classSvc.getAllFoodStore();
+    pageContext.setAttribute("storeAll",storeAll);
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -79,8 +82,8 @@ padding: 20px;
     		<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FoodStoreServlet.do" >
      			  <b>您要搜尋哪個類別 </b>
       			 <select size="1" name="fd_class_no" class="select">
-       			  <c:forEach var="stroeVO" items="${storeSvc.all}" > 
-       			   <option value="${stroeVO.fd_class_no}">${stroeVO.fd_class_name}
+       			  <c:forEach var="stroeVO1" items="${storeSvc.all}" > 
+       			   <option value="${stroeVO1.fd_class_no}">${stroeVO1.fd_class_name}
       			   </c:forEach>   
      			  </select>
      			  <input type="hidden" name="action" value="getStoreFK">
@@ -96,7 +99,7 @@ padding: 20px;
 				</ul>
 			</c:if>
 
-			<c:forEach var="storeVO" items="${storeVO}">
+			<c:forEach var="storeVO" items="${(storeVO != null)? storeVO : storeAll}">
 
 				<div id="div1">
 					<div><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:150px;height:150px;float:left;margin-right:15px;"></div>
