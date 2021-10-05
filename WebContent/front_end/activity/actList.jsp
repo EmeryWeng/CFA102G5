@@ -59,7 +59,8 @@ button.queryBtn{
 	<%-- <%@ include file="/front_end/loading.file" %> <!-- loading --> --%>
 	<%@ include file="/front_end/header.file"%>
 	<!-- Header -->
-
+	
+	<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 	<jsp:useBean id="actClassService" class="com.activityClass.model.ActivityClassService" />
 	
 	<div class="mt-5 mb-5 ptb-70 container" style="padding-top: 20px; padding-bottom: 150px;">

@@ -7,7 +7,7 @@
 
 <jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
 <jsp:useBean id="roomImgSvc" scope="page" class="com.roomImg.model.RoomImgService" />
-
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 <%
 	// 沒有搜尋過進來就顯示全部allList，有沒有搜尋過用rangedate判斷
 	if (session.getAttribute("rangedate") == null) {

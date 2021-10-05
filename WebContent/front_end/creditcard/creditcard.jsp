@@ -44,7 +44,7 @@ List<CreditcardClassVO> list = (List<CreditcardClassVO>)session.getAttribute("li
 	</div>
 	<!-- Inner Banner End -->
 		<!-- 最外層div -->
-		<div class="mt-5 mb-5 ptb-70 container">
+		<div class="mt-3 mb-3 ptb-40 container">
 		<!-- Modal的按鈕 -->
 		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creditcardModal">
 			<i class='bx bx-plus' ></i>新增信用卡
@@ -173,18 +173,25 @@ List<CreditcardClassVO> list = (List<CreditcardClassVO>)session.getAttribute("li
 							</div>
 							<div class="field-container">
 
-								<label for="securitycode">Security Code</label> <input id="securitycode" type="text" maxlength="3" pattern="[0-9]*" inputmode="numeric">
+								<label for="securitycode">Security Code</label> <input id="securitycode"name="crd_security_code" type="text" maxlength="3" pattern="[0-9]*" inputmode="numeric">
+
+							</div>
+							<div class="field-container">
+
+								<label for="securitycode">手機條碼</label> <input id=""name="crd_barcode" type="text" maxlength="10">
 
 							</div>
 						</div>
 					</div>
- 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+					<div class="d-grid gap-2 btn-xs d-flex justify-content-center">
+ 					 <input type="button" class="btn btn-secondary" data-bs-dismiss="modal" value="取消">
 			        	<%String req = request.getParameter("mem_no");%>
 						<input type="hidden" name="action" value="addCard">
 						<input type="hidden" name="mem_no" value="<%=req%>">
-						<input type="submit" class="btn btn-primary" value="送出新增">
-<!-- 			       			<button type="button" class="btn btn-primary">新增</button> -->
-			       			</FORM>
+						<input type="submit" class="btn btn-primary"  value="新增">
+					</div>
+<!-- 			       	<button type="button" class="btn btn-primary">新增</button> -->
+			       	</FORM>
 				<!-- ★★ 信用卡   結束 -->
 			      </div>
 			      <div class="modal-footer">
@@ -223,13 +230,14 @@ List<CreditcardClassVO> list = (List<CreditcardClassVO>)session.getAttribute("li
 </c:forEach>
 </table>
 		</div>
+		<footer class="footer2">
 		<%@ include file="/front_end/message.file" %> <!-- Message --> 
         <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->    
 		<!-- creditcard JS 2支-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js"></script>
 		<script src="<%=request.getContextPath()%>/front_end/assets/js/creditcard.js"></script>
-		
+		</footer>
 
     </body>
 </html>

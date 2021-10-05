@@ -77,7 +77,7 @@ public class EmployeeServlet extends HttpServlet {
 			           res.sendRedirect(location);            
 			           return;}
 			    }catch (Exception ignored) { }
-			      res.sendRedirect(req.getContextPath()+"//back_end/test/table.jsp");
+			      res.sendRedirect(req.getContextPath()+"/back_end/roomWork/todayWorkList.jsp");
 			}
 	}
 		

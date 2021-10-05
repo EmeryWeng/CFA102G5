@@ -2,6 +2,11 @@
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.foodStore.model.*"%>
+<%
+    FoodStoreService classSvc = new FoodStoreService();
+    List<FoodStoreVO> storeAll = classSvc.getAllFoodStore();
+    pageContext.setAttribute("storeAll",storeAll);
+%>
 
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -96,7 +101,8 @@ padding: 20px;
 				</ul>
 			</c:if>
 
-			<c:forEach var="storeVO" items="${storeVO}">
+			<c:forEach var="storeVO" items="${(storeVO != null)? storeVO : storeAll}">
+
 
 				<div id="div1">
 					<div><img src="${pageContext.request.contextPath}/FoodImg.do?fd_no=${storeVO.fd_no}" style="width:150px;height:150px;float:left;margin-right:15px;"></div>
@@ -126,7 +132,8 @@ padding: 20px;
          <%@ include file="/front_end/footer.file" %> <!-- Footer -->      
        	 <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
  </div>
-<script src="http://maps.google.com/maps/api/js?key=">
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyArfUAIQgXQuAQZ8vViswotNOMyWb35r9k
+">
 </script>
 <script>
 var map;
