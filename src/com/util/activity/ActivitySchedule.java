@@ -49,6 +49,8 @@ public class ActivitySchedule extends TimerTask{
 			if(period.getMonths() < 1  && period.getDays() > 0 && period.getDays() <= 2) {	
 				if(vo.getAct_session_real_number() >= 3 && vo.getAct_session_real_number() <= 10) {					
 					sessionService.switchActSessionState(vo.getAct_session_no(),true);
+				}else {
+					sessionService.switchActSessionState(vo.getAct_session_no(),false);
 				}
 				//判斷 已改期 需要>0
 				if(period.getDays() == 1 && vo.getAct_session_real_number() > 0 && vo.getAct_session_real_number() < 3){
