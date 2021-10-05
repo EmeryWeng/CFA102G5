@@ -166,7 +166,7 @@ System.out.println("Action:"+action);
 			
 			LocalDate change_session_date = actSessionService.getActSessionByPk(change_act_session_no).getAct_session_start_date();
 			
-			//已改期的判斷 舊場次人數全部更換
+			//已改期的判斷
 			if(old_act_session_no != change_act_session_no && (!old_session_date.equals(change_session_date))) {
 				actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
 			}
