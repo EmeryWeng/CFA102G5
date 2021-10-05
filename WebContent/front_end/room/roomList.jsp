@@ -460,12 +460,12 @@ body {
 							<div>
 								<span class="price"><fmt:formatNumber value="${roomTypeVO.type_price}" pattern="NT$ ###,###" /></span><span>/ 一晚</span>
 							</div>
-							<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" id="toPayment">
+							<form method="post" action="<%=request.getContextPath()%>/room/RoomRsv" class="toPayment">
 								<input type="hidden" name="rangedate" value="${rangedate}">
 								<input type="hidden" name="type_no" value="${roomTypeVO.type_no}">
 								<input type="hidden" name="qty" value="${qty}">
 								<input type="hidden" name="action" value="payment">
-								<button type="button" class="btn btn-primary line-btn" onclick="checkout();"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂${roomTypeVO.type_no}</button>
+								<button type="button" class="btn btn-primary line-btn" onclick="checkout();"><div class="line"></div><i class='bx bx-chevron-right'></i>預訂</button>
 							</form>
 						</div>
 					</div>
@@ -547,10 +547,24 @@ body {
 	    			window.setTimeout(() => location.href="<%=request.getContextPath()%>/front_end/signin/signin.jsp",800);
 	    			return false;
 	    		} else {
-	    			document.getElementById('toPayment').submit();
+	    			// event: click event, event.target: click point; closet: 向上找元素
+	    			let form = event.target.closest('.toPayment');
+	    			form.submit();
+// 	    			document.getElementById('toPayment').submit();
 	    		}
 	    	}
+// 	        if(${notEnough} != null){
+// 	        	notEnough();
+//     		} 
 	      	// alert樣式
+// 	        function notEnough() {
+// 	    		swal.fire({
+// 	    			icon : 'error',
+// 	    			title : '您訂的太慢了，房間被別人搶走了',
+// 	    			showConfirmButton : false,
+// 	    			timer : 1500
+// 	    		})		
+// 	    	}
 	        function notLogin() {
 	    		swal.fire({
 	    			icon : 'error',

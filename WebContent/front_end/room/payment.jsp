@@ -350,7 +350,7 @@
 						<div class="creditcard-info">
                             <div class="col-12">
                             	<c:forEach var="crdVO" items="${crdSvc.getallByMem_no(memberSvc.getOneBymail(mem_mail).mem_no)}">
-                                    <div class="form-group">
+                                    <div class="form-group card-data">
                                         <input type="radio" name="creditcard" id="${crdVO.crd_no}"
                                             value="${crdVO.crd_num}">
                                         <label for="${crdVO.crd_no}">
@@ -410,7 +410,6 @@
 							<hr>
 						
                             <div class="roomtype_information">
-                            <p>XXX${type_no}XXX</p>
                                 <div><i class='bx bx-purchase-tag-alt' ></i> ${roomTypeSvc.getOneRoomType(type_no).type_name}</div>
                             	<div class="room-card-img">
                             	<c:choose>
@@ -446,7 +445,7 @@
         <script>
 		// header顯示在哪個區塊
         $(`.nav-item:nth-child(1)>a`).attr('class', 'active');
-     	
+		
      	// 使用別張信用卡區塊顯示
         $('input[type=radio][name="creditcard"]').on('change', function() {
 			if($(this).val() == "addCard") {
