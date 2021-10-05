@@ -231,7 +231,7 @@ System.out.println("Action:"+action);
 			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(2);
 			
 			request.setAttribute("selectByState",selectByState);
-			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByCancel.jsp")
 			.forward(request, response);
 			return;
 		}
@@ -240,7 +240,7 @@ System.out.println("Action:"+action);
 			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(3);
 			
 			request.setAttribute("selectByState",selectByState);
-			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByChangeDate.jsp")
 			.forward(request, response);
 			return;
 		}

@@ -133,7 +133,6 @@
 					<th>活動場次金額</th>				
 					<th>活動訂單狀態</th>				
 					<th>修改明細</th>
-					<th>申請取消</th>
 				</tr>
 				
 			<c:forEach var="actOrderDetailVO" items="${selectByState}">
@@ -158,18 +157,7 @@
 					<td>${actOrderDetailVO.act_order_price}</td>
 					<td>${actOrderDetailVO.act_coupon_price}</td>
 					<td>${actOrderDetailVO.act_price_total}</td>
-					<td>
-						<c:if test="${actOrderDetailVO.act_order_detail_state == 1}">
-							<span class="paid">已付款</span>
-						</c:if>
-						<c:if test="${actOrderDetailVO.act_order_detail_state == 2}">
-							<span class="cancel">已取消</span>
-						</c:if>
-						<c:if test="${actOrderDetailVO.act_order_detail_state == 3}">
-							<span class="change">已改期</span>
-						</c:if>
-					</td>
-					
+					<td><span class="cancel">已取消</span></td>
 					<td>
 						<form method="post" action="<%=request.getContextPath()%>/activity/ActivityOrderDetail">
 							<input type="hidden" name="action" value="updateActOrderDetail">
@@ -177,9 +165,6 @@
 							<input type="hidden" name="actSessionNo" value="${actOrderDetailVO.act_session_no}">
 							<button type="submit" class="btn btn-primary">修改</button>
 						</form>
-					</td>
-					<td>
-						<button type="button" class="btn btn-danger" onclick="cancel(${actOrderDetailVO.act_order_detail_no},${actOrderDetailVO.act_session_no});">取消</button>					
 					</td>	
 				</tr>
 				</c:forEach>
