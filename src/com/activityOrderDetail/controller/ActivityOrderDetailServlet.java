@@ -1,7 +1,6 @@
 package com.activityOrderDetail.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -25,8 +24,7 @@ import com.google.gson.Gson;
 
 public class ActivityOrderDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private final Logger logger = Logger.getLogger(ActivityOrderDetailServlet.class);
-
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request,response);
 	}
@@ -222,7 +220,7 @@ System.out.println("Action:"+action);
 			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(1);
 			
 			request.setAttribute("selectByState",selectByState);
-			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetail.jsp")
 			.forward(request, response);
 			return;
 		}
@@ -258,7 +256,7 @@ System.out.println("Action:"+action);
 			
 			Period period = Period.between(now, start_date);
 
-			if(period.getMonths() <1 && period.getDays() >= 2) {
+			if(period.getMonths() < 1 && period.getDays() >= 2) {
 				actOrderDetailService.switchOrderDetailState(act_order_detail_no, 2);
 				response.getWriter().write(gson.toJson(true));				
 			}else {	
