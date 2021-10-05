@@ -259,7 +259,6 @@ System.out.println("Action:"+action);
 			Period period = Period.between(now, start_date);
 
 			if(period.getMonths() <1 && period.getDays() >= 2) {
-				System.out.println("更改成功");
 				actOrderDetailService.switchOrderDetailState(act_order_detail_no, 2);
 				response.getWriter().write(gson.toJson(true));				
 			}else {	

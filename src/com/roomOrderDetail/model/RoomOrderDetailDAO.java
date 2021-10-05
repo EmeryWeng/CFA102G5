@@ -84,13 +84,14 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 			}
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+//			注意！不要關，關了之後幾筆增不了
+//			if (con != null) {
+//				try {
+//					con.close();
+//				} catch (Exception e) {
+//					e.printStackTrace(System.err);
+//				}
+//			}
 		}
 	}
 
@@ -162,8 +163,8 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date").toLocalDate());
-				detailVO.setCheckout_date(rs.getDate("checkout_date").toLocalDate());
+				detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				detailVO.setCheckout_date(rs.getDate("checkout_date"));
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 			}
@@ -199,8 +200,8 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date").toLocalDate());
-				detailVO.setCheckout_date(rs.getDate("checkout_date").toLocalDate());
+				detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				detailVO.setCheckout_date(rs.getDate("checkout_date"));
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 				list.add(detailVO);
@@ -237,8 +238,8 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date").toLocalDate());
-				detailVO.setCheckout_date(rs.getDate("checkout_date").toLocalDate());
+				detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				detailVO.setCheckout_date(rs.getDate("checkout_date"));
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 				list.add(detailVO);
@@ -275,8 +276,8 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date").toLocalDate());
-				detailVO.setCheckout_date(rs.getDate("checkout_date").toLocalDate());
+				detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				detailVO.setCheckout_date(rs.getDate("checkout_date"));
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 				list.add(detailVO);
@@ -314,8 +315,12 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date").toLocalDate());
-				detailVO.setCheckout_date(rs.getDate("checkout_date").toLocalDate());
+				if (rs.getDate("checkin_date") != null) {
+					detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				}
+				if (rs.getDate("checkout_date") != null) {
+					detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				}
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 				list.add(detailVO);

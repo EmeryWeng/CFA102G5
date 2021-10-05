@@ -59,8 +59,8 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 	}
 
 	@Override
-	public void insertAuto(RoomOrderVO roomOrderVO, List<RoomOrderDetailVO> list) {
-
+	public Integer insertAuto(RoomOrderVO roomOrderVO, List<RoomOrderDetailVO> list) {
+		Integer next_ord_no = null;
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
 
@@ -83,6 +83,7 @@ public class RoomOrderJDBCDAO implements I_RoomOrderDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
+		return next_ord_no;
 	}
 
 	@Override

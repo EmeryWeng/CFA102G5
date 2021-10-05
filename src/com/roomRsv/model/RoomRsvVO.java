@@ -1,7 +1,8 @@
 package com.roomRsv.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class RoomRsvVO implements Serializable {
-	private LocalDate rsv_date;
+	private Date rsv_date;
 	private Integer type_no;
 	private Integer rm_total;
 	private Integer rsv_total;

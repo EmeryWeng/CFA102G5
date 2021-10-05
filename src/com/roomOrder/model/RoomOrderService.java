@@ -35,7 +35,7 @@ public class RoomOrderService {
 		return dao.insert(roomOrderVO);
 	}
 
-	public void insertAuto(Integer mem_no, Integer type_no, Date start_date, Date end_date, Integer rm_num,
+	public Integer insertAuto(Integer mem_no, Integer type_no, Date start_date, Date end_date, Integer rm_num,
 			Integer price, Integer total_price, String note, String title, String name, String phone, String email,
 			String payment, List<RoomOrderDetailVO> list) {
 
@@ -54,7 +54,7 @@ public class RoomOrderService {
 		roomOrderVO.setEmail(email);
 		roomOrderVO.setPayment(payment);
 
-		dao.insertAuto(roomOrderVO, list);
+		return dao.insertAuto(roomOrderVO, list);
 	}
 
 	public void updateRoomOrder() {

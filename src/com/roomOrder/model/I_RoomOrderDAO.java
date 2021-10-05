@@ -5,7 +5,7 @@ import java.util.List;
 import com.roomOrderDetail.model.RoomOrderDetailVO;
 
 public interface I_RoomOrderDAO {
-	public void insertAuto(RoomOrderVO roomOrderVO, List<RoomOrderDetailVO> list); // 新增訂單 自增主鍵
+	public Integer insertAuto(RoomOrderVO roomOrderVO, List<RoomOrderDetailVO> list); // 新增訂單 自增主鍵
 
 	public RoomOrderVO insert(RoomOrderVO roomOrderVO); // 新增訂單
 
