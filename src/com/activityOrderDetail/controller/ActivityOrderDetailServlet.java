@@ -1,7 +1,6 @@
 package com.activityOrderDetail.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -25,8 +24,7 @@ import com.google.gson.Gson;
 
 public class ActivityOrderDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private final Logger logger = Logger.getLogger(ActivityOrderDetailServlet.class);
-
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request,response);
 	}
@@ -166,7 +164,7 @@ System.out.println("Action:"+action);
 			
 			LocalDate change_session_date = actSessionService.getActSessionByPk(change_act_session_no).getAct_session_start_date();
 			
-			//已改期的判斷 舊場次人數全部更換
+			//已改期的判斷
 			if(old_act_session_no != change_act_session_no && (!old_session_date.equals(change_session_date))) {
 				actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
 			}
@@ -222,7 +220,7 @@ System.out.println("Action:"+action);
 			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(1);
 			
 			request.setAttribute("selectByState",selectByState);
-			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetail.jsp")
 			.forward(request, response);
 			return;
 		}
@@ -231,7 +229,7 @@ System.out.println("Action:"+action);
 			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(2);
 			
 			request.setAttribute("selectByState",selectByState);
-			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByCancel.jsp")
 			.forward(request, response);
 			return;
 		}
@@ -240,7 +238,7 @@ System.out.println("Action:"+action);
 			List<ActivityOrderDetailVO> selectByState = actOrderDetailService.getActOrderDetailByState(3);
 			
 			request.setAttribute("selectByState",selectByState);
-			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByState.jsp")
+			request.getRequestDispatcher("/back_end/activity/actOrderDetail/selectActOrderDetailByChangeDate.jsp")
 			.forward(request, response);
 			return;
 		}
@@ -258,8 +256,7 @@ System.out.println("Action:"+action);
 			
 			Period period = Period.between(now, start_date);
 
-			if(period.getMonths() <1 && period.getDays() >= 2) {
-				System.out.println("更改成功");
+			if(period.getMonths() < 1 && period.getDays() >= 2) {
 				actOrderDetailService.switchOrderDetailState(act_order_detail_no, 2);
 				response.getWriter().write(gson.toJson(true));				
 			}else {	

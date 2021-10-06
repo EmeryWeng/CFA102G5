@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,9 @@ public class EmployeeDAO implements I_EmployeeDAO{
 				employeeVO.setEmp_no(rs.getInt(1));
 			}
 			
+		}catch (SQLIntegrityConstraintViolationException e){
+			e.printStackTrace();
+			throw new RuntimeException("電子郵件重複，請重新輸入。");
 		}catch (SQLException se){
 			se.printStackTrace();
 			throw new RuntimeException("A database error occured."+se.getMessage());
@@ -100,6 +104,9 @@ public class EmployeeDAO implements I_EmployeeDAO{
 			
 			pstmt.executeUpdate();
 			
+		}catch (SQLIntegrityConstraintViolationException e){
+			e.printStackTrace();
+			throw new RuntimeException("電子郵件重複，請重新輸入。");
 		}catch (SQLException se){
 			throw new RuntimeException("A database error occured."+se.getMessage());
 		}finally {

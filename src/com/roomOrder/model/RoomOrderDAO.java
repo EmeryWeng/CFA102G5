@@ -22,9 +22,9 @@ public class RoomOrderDAO implements I_RoomOrderDAO {
 	private static final String CANCEL = "UPDATE room_order SET total_price = 0, ord_state = 3 WHERE ord_no = ?";
 	private static final String CHANGE = "UPDATE room_order SET start_date = ?, end_date = ?,ord_state = 2 WHERE ord_no = ?";
 	private static final String GET_ONE = "SELECT * FROM room_order WHERE ord_no = ?";
-	private static final String GET_ALL = "SELECT * FROM room_order";
-	private static final String GET_ALL_BY_ORDSTATE = "SELECT * FROM room_order WHERE ord_state = ?";
-	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_order WHERE type_no = ?";
+	private static final String GET_ALL = "SELECT * FROM room_order ORDER BY ord_no DESC";
+	private static final String GET_ALL_BY_ORDSTATE = "SELECT * FROM room_order WHERE ord_state = ? ORDER BY ord_no DESC";
+	private static final String GET_ALL_BY_TYPE = "SELECT * FROM room_order WHERE type_no = ? ORDER BY ord_no DESC";
 	private static final String GET_ALL_BY_MEM = "SELECT * FROM room_order WHERE mem_no = ?";
 
 	private static DataSource ds = null;
@@ -77,9 +77,10 @@ public class RoomOrderDAO implements I_RoomOrderDAO {
 	}
 
 	@Override
-	public void insertAuto(RoomOrderVO roomOrderVO, List<RoomOrderDetailVO> list) {
+	public Integer insertAuto(RoomOrderVO roomOrderVO, List<RoomOrderDetailVO> list) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		Integer next_ord_no = null;
 
 		try {
 			con = ds.getConnection();
@@ -108,7 +109,6 @@ public class RoomOrderDAO implements I_RoomOrderDAO {
 			pstmt.executeUpdate();
 
 			// 掘取對應的自增主鍵值
-			Integer next_ord_no = null;
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				next_ord_no = rs.getInt(1);
@@ -133,6 +133,7 @@ public class RoomOrderDAO implements I_RoomOrderDAO {
 			System.out.println("新增訂單編號" + next_ord_no + "時,共有明細" + list.size() + "筆同時被新增");
 
 		} catch (SQLException se) {
+			next_ord_no = null;
 			if (con != null) {
 				try {
 					// 設定於當有exception發生時之catch區塊內
@@ -153,6 +154,7 @@ public class RoomOrderDAO implements I_RoomOrderDAO {
 				}
 			}
 		}
+		return next_ord_no;
 	}
 
 	@Override

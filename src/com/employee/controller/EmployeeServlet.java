@@ -77,7 +77,7 @@ public class EmployeeServlet extends HttpServlet {
 			           res.sendRedirect(location);            
 			           return;}
 			    }catch (Exception ignored) { }
-			      res.sendRedirect(req.getContextPath()+"//back_end/test/table.jsp");
+			      res.sendRedirect(req.getContextPath()+"/back_end/roomWork/todayWorkList.jsp");
 			}
 	}
 		
@@ -138,7 +138,7 @@ public class EmployeeServlet extends HttpServlet {
 		} catch (Exception e) {
 			errorMsgs.add("修改資料失敗:"+e.getMessage());
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("/emp/listAllEmp.jsp");
+					.getRequestDispatcher("/back_end/emp/listAllEmp.jsp");
 			failureView.forward(req, res);
 		}
 		}
@@ -177,7 +177,6 @@ public class EmployeeServlet extends HttpServlet {
 				/***************************2.開始查詢資料*****************************************/
 				EmpService ser = new EmpService();
 				EmployeeVO empVO = ser.addEmp(emp_password, emp_name, emp_mail, emp_state, dep_no);
-				
 				req.setAttribute("empVO", empVO); // 資料庫update成功後,正確的的empVO物件,存入req
 				String url = "/back_end/emp/listAllEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp

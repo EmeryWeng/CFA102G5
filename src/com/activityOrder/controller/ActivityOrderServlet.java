@@ -168,13 +168,14 @@ logger.info("結帳動作:"+checkoutAction);
 				Integer act_order_price = new Integer(request.getParameter("actOrderPrice"));
 				
 				
-				
+				//act_order_price 是立即結帳該筆訂單的總價
+				Integer act_session_price = act_order_price / act_real_join_number;
 				
 				vo.setAct_session_no(act_session_no);
 				vo.setAct_real_join_number(act_real_join_number);
-				vo.setAct_order_price(act_order_price);
+				vo.setAct_order_price(act_session_price);
 				vo.setAct_coupon_price(0);
-				vo.setAct_price_total(act_real_join_number * act_order_price );
+				vo.setAct_price_total(act_real_join_number * act_session_price);
 				vo.setAct_order_detail_state(1);
 				
 				detailList.add(vo);

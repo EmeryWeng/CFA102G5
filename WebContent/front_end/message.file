@@ -6,7 +6,7 @@
 <%
 	ServiceCasesVO serviceCasesVO = (ServiceCasesVO) request.getAttribute("serviceCasesVO");
 %>
-
+<jsp:useBean id="chatSvc" scope="page" class="com.member.model.MemberService" />
 <style type="text/css">
 	/* 視窗打叉樣式位置 */
 	div.message-box i.bx-x-circle {

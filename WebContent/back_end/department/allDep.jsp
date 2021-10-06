@@ -17,9 +17,6 @@
 		<%@ include file="/back_end/header.file" %> <!-- Header -->
 		<%@ include file="/back_end/sidebar.file" %> <!-- sidebar -->
 
-
-
-<div class="main-content card card-body table-responsive">
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -29,6 +26,8 @@
 		</c:forEach>
 	</ul>
 </c:if>
+
+<div class="main-content card card-body table-responsive">
 <table id="example4" class="display" style="min-width: 845px">
 <thead>
 	<tr>

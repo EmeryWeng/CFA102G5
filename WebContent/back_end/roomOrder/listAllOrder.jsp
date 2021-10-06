@@ -13,9 +13,8 @@
 
 <%	
 	//用來計算各個狀態的有幾筆資料
-	pageContext.setAttribute("orderSvc", orderSvc);
-
-	pageContext.setAttribute("detailSvc", detailSvc);
+// 	pageContext.setAttribute("orderSvc", orderSvc);
+// 	pageContext.setAttribute("detailSvc", detailSvc);
 	
 	// 第一次進來執行if裡面，list是getAll
 	// 不是第一次進來(點擊狀態分類從controller過來的)，table中就用forward過來的list

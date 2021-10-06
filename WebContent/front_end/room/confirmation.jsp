@@ -6,8 +6,14 @@
 
 <jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
 <jsp:useBean id="roomImgSvc" scope="page" class="com.roomImg.model.RoomImgService" />
+<jsp:useBean id="orderSvc" scope="page" class="com.roomOrder.model.RoomOrderService" />
 <jsp:useBean id="memberSvc" class="com.member.model.MemberService" />
 
+<%
+
+Integer ord_no = (Integer) request.getAttribute("ord_no");
+
+%>
 <!doctype html>
 <html>
     <head>
@@ -96,116 +102,7 @@
  	.middle-line {
  		border: 1px solid #ededed;
  	}
-/*  	.guest-details {  */
-/*  		background: #fcfbf9;  */
-/*  		padding: 20px 25px;  */
-/*  	}  */
-	
-	
-/* 	p { */
-/* 		display: inline; */
-/* 	} */
-/* 	.room-area { */
-/* 		padding-top: 1%; */
-/* 	} */
-/* 	.your-order-area { */
-/* 		background-image: linear-gradient(to left, transparent, #ededed 90% ,#ededed 100%); */
-/* 		position: sticky; */
-/* 		top: 70PX; */
-/* 		padding: 15px; */
-/* 		font-size: 20px; */
-/* 		letter-spacing: 1px; */
-/* 	} */
-/* 	.nice-select { */
-/* 		font-size: 20px; */
-/* 	} */
-/* 	.nice-select.open, .nice-select:active, .nice-select:focus, .form-control:focus { */
-/* 	    border: 1px solid #cda274; */
-/* 	} */
-/* 	input[type=text], input[type=search], input[type=password], input[type=number], input[type=email], textarea { */
-/* 	    font-size: 20px; */
-/* 	} */
-/* 	label { */
-/*     	margin-bottom: 0; */
-/* 	} */
-/* 	.form-group { */
-/* 		margin: 4% 0; */
-/* 	} */
-/* 	.creditcard-info .form-group { */
-/* 		margin: 4%; */
-/* 	} */
-/* 	.form-group>label { */
-/*     	color: #30503f; */
-/*     	font-weight: 600; */
-/*     	letter-spacing: 0.5px; */
-/* 	} */
-/* 	.basic-info>p { */
-/* 		margin: 2% 0; */
-/* 		display: block; */
-/* 		font-size: 20px; */
-/* 		color: #d0af6d; */
-/* 	} */
-/* 	.basic-info>p>i { */
-/* 		padding: 10px; */
-/* 	} */
-/* 	.basic-info, .creditcard-info { */
-/* 		margin: 2% 0 5% 0; */
-/* 		box-shadow: 5px 5px #f0e9df; */
-/* 		border: 1px solid #f0e8df; */
-/* 		background: #fcfbf9; */
-/* 	} */
-/* 	.checkout-form-list { */
-/* 		margin-right: 40px; */
-/* 	} */
-/* 	.remind-info { */
-/* 		margin: 2% 0 5% 0; */
-/* 	} */
-/* 	.remind-info>p { */
-/* 		color: #a3785e; */
-/* 		font-size: 18px; */
-/* 		font-weight: 600; */
-/* 	} */
-/* 	@media screen and (max-width: 500px) { */
-/* 		.form-group input[type=text], .nice-select, textarea { */
-/* 			margin: 0 20px; */
-/* 		} */
-/* 	} */
-/*  	#addCard-area { */
-/*  		display: none; */
-/*  		padding: 0 6%; */
-/*  	} */
-/*  	#addCard-area>input { */
-/*  		width: 70px; */
-/*  		height: 40px; */
-/*  		padding: 5px 10px; */
-/*  	} */
-/* 	.room-card-img { */
-/* 		margin: 4% 0; */
-/* 	} */
-/* 	hr { */
-/* 		border: 1px solid #aaa; */
-/* 		margin: 2% 0; */
-/* 	} */
-/* 	.booking_information>div { */
-/* 		font-weight: 600; */
-/* 		color: #30503f; */
-/* 	} */
-/* 	.booking_information_people span:first-child { */
-/* 		border-right: 1px solid #30503F; */
-/* 		padding-right: 10px; */
-/* 	} */
-/* 	.booking_information_people span:last-child { */
-/* 		padding-left: 10px; */
-/* 	} */
-/* 	.roomtype_information>div:first-child { */
-/* 		font-weight: 600; */
-/* 		color: #a3785e; */
-/* 	} */
-/* 	.roomtype_information>div:last-child { */
-/* 		font-weight: 600; */
-/* 		color: #a3785e; */
-/* 	} */
-	.top-area
+
 	</style>
     </head>
     <body>
@@ -218,10 +115,10 @@
 				<h1 class="confirmation-head-title"><i class='bx bx-check-circle' ></i>您的預訂已確認</h1>
                 <p class="row">預訂確認已發送至您提供的電郵地址。</p>
                 <p class="row">入住日期/退房日期：
-					<span id="guest_checkinDate" class="mr-10">${start_date}<i class='bx bx-right-arrow-alt'></i>${end_date}</span>
+					<span id="guest_checkinDate" class="mr-10">${orderSvc.getOneRoomOrder(ord_no).start_date}<i class='bx bx-right-arrow-alt'></i>${orderSvc.getOneRoomOrder(ord_no).end_date}</span>
             	</p>
             	<p class="row">預訂確認編號：
-            		<span>12345</span>
+            		<span>${ord_no}</span>
             	</p>      
 			</div>
              
@@ -231,24 +128,24 @@
 					<div class="col-lg-7 col-xs-5 px-0">
 						<div class="row col-12d-flex">
 							<div class="ord-img col-5">
-<%-- 									<c:choose> --%>
-<%-- 										<c:when test="${roomImgSvc.getAllByType(roomTypeVO.type_no).size() > 0}"> --%>
-											<img src="<%=request.getContextPath()%>/room/RoomImg?type_no=5&action=showFirstImages">
-<%-- 										</c:when> --%>
-<%-- 										<c:otherwise> --%>
-<%-- 											<img src="<%=request.getContextPath()%>/front_end/assets/img/no-img.jpg" class="no-img"> --%>
-<%-- 										</c:otherwise> --%>
-<%-- 									</c:choose> --%>
+									<c:choose>
+										<c:when test="${roomImgSvc.getAllByType(orderSvc.getOneRoomOrder(ord_no).type_no).size() > 0}">
+											<img src="<%=request.getContextPath()%>/room/RoomImg?type_no=${orderSvc.getOneRoomOrder(ord_no).type_no}&action=showFirstImages">
+										</c:when>
+										<c:otherwise>
+											<img src="<%=request.getContextPath()%>/front_end/assets/img/no-img.jpg" class="no-img">
+										</c:otherwise>
+									</c:choose>
 							</div>
 							<div class="ord-info col-5">
 								<p class="row">房型：
-									<span>豪華客房</span>
+									<span>${roomTypeSvc.getOneRoomType(orderSvc.getOneRoomOrder(ord_no).type_no).type_name}</span>
 				            	</p>
 				            	<p class="row">天數：
-									<span>3晚</span>
+									<span>${days} 晚</span>
 				            	</p>
 								<p class="row">間數：
-									<span>3間</span>
+									<span>${orderSvc.getOneRoomOrder(ord_no).rm_num} 間</span>
 				            	</p>
 							</div>
 						</div>
@@ -257,25 +154,28 @@
 						
 						<div class="col-12 price-area">
 							<div class="row col-12 d-flex justify-content-between">
-								<div>每晚單價</div>
-								<div>NT$ 3,200</div>
+								<div>每晚每間單價</div>
+								<div><fmt:formatNumber value="${orderSvc.getOneRoomOrder(ord_no).price}" pattern="NT$ ###,###" /></div>
 							</div>
 							<hr>
 							<div class="row col-12 d-flex justify-content-between">
 								<div>總價</div>
-								<div>NT$ 123,200</div>	
+								<div><fmt:formatNumber value="${orderSvc.getOneRoomOrder(ord_no).total_price}" pattern="NT$ ###,###,###" /></div>	
 							</div>
 						</div>
 					</div>
 					
 					<div class="col-lg-5 col-xs-7 guest-details">
 						<span>住客資料</span>
-						<div>姓名: 陳意廷 小姐</div>
-						<div>電話: 0930880359</div>
-						<div>email: manana034@hotmail.com</div>
+						<div>姓名: ${orderSvc.getOneRoomOrder(ord_no).name} ${orderSvc.getOneRoomOrder(ord_no).title}</div>
+						<div>電話: ${orderSvc.getOneRoomOrder(ord_no).phone}</div>
+						<div>email: ${orderSvc.getOneRoomOrder(ord_no).email}</div>
 						
 						<span>偏好</span>
-						<div>XXXXXXXXXXXXXXXXXXX0930880359</div>
+						<div>${orderSvc.getOneRoomOrder(ord_no).note}</div>
+						<c:if test="${orderSvc.getOneRoomOrder(ord_no).note.equals('')}">
+							<div>您沒有填寫備註，若有任何需求可用客服即時通與我們聯繫。</div>
+						</c:if>
 						<p>房間偏好需視實際住房情況而定。我們將會竭盡所能滿足您的要求。</p>
 					</div>
 				</div>
