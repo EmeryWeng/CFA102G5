@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.room.model.RoomService;
 import com.roomOrder.model.RoomOrderService;
 import com.roomOrderDetail.model.RoomOrderDetailService;
 import com.roomOrderDetail.model.RoomOrderDetailVO;
@@ -30,6 +31,8 @@ public class RoomRsvServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+		req.setCharacterEncoding("UTF-8");
+		String action = req.getParameter("action");
 	}
 
 	@Override
@@ -37,7 +40,7 @@ public class RoomRsvServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-
+		System.out.println("Action" + action);
 		// 從首頁搜尋，房型列表顯示符合的結果
 		if ("getEnoughType".equals(action)) {
 			/*************************** 1.接收請求參數 ****************************************/
@@ -140,6 +143,7 @@ public class RoomRsvServlet extends HttpServlet {
 				Integer days = new Integer(req.getParameter("days"));
 				Integer qty = new Integer(req.getParameter("qty"));
 
+				System.out.print(type_no);
 				String title = req.getParameter("title");
 
 				String name = req.getParameter("name");
@@ -153,12 +157,7 @@ public class RoomRsvServlet extends HttpServlet {
 				}
 
 				String email = req.getParameter("email");
-				String mailformat = "/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/";
-				if (email == null || email.trim().length() != 10) {
-					errorMsgs.add("email欄位錯誤，請重新檢查");
-				} else if (!email.trim().matches(mailformat)) {
-					errorMsgs.add("email請符合格式");
-				}
+				
 				// 備註欄串接
 				String note1 = req.getParameter("note1");
 				if (note1 != null) {
@@ -179,77 +178,164 @@ public class RoomRsvServlet extends HttpServlet {
 				String card_no2 = req.getParameter("card_no2");
 				String card_no3 = req.getParameter("card_no3");
 				String card_no4 = req.getParameter("card_no4");
-				if (creditcard.equals("addCard")) {
-					creditcard = card_no1 + card_no2 + card_no3 + card_no4;
-				} else if (!creditcard.matches("[0-9]{16}")) {
-					errorMsgs.add("信用卡格式錯誤，請重新檢查");
-				}
+				creditcard = card_no1 + card_no2 + card_no3 + card_no4;
 
 				// 找房價，總金額
 				RoomTypeService roomTypeSvc = new RoomTypeService();
 				Integer price = roomTypeSvc.getOneRoomType(type_no).getType_price();
 				Integer total_price = price * qty * days;
 
-				// 欄位驗證有誤要回到前台，需帶回使用者剛剛輸入的值
-//				if (!errorMsgs.isEmpty()) {
-//					req.getRequestDispatcher("/front_end/room/payment.jsp").forward(req, res);
-//					return;
-//				}
-
 				// 確認預約表的空房是否足夠，不夠(沒有查到符合的資料)就回到房型列表
-//				if (roomTypeSvc
-//						.paymentCheck(java.sql.Date.valueOf(start_date), java.sql.Date.valueOf(end_date), qty, type_no)
-//						.size() == 0) {
-//					req.setAttribute("notEnough", 1);
-//					req.getRequestDispatcher("/front_end/room/roomList.jsp").forward(req, res);
-//					return;
-//				}
+				if (roomTypeSvc
+						.paymentCheck(java.sql.Date.valueOf(start_date), java.sql.Date.valueOf(end_date), qty, type_no)
+						.size() == 0) {
+					req.setAttribute("notEnough", 1);
+					req.getRequestDispatcher("/front_end/index/index.jsp").forward(req, res);
+					return;
+				} else {
 
-				/*** 2.開始新增訂單 ***/
-				// 訂單明細VO
-				List<RoomOrderDetailVO> list = new ArrayList<RoomOrderDetailVO>();
-				RoomOrderDetailService detailSvc = new RoomOrderDetailService();
-				RoomOrderDetailVO detailVO = new RoomOrderDetailVO();
-				for (int i = 0; i < qty; i++) {
-					list.add(detailVO);
+					/*** 2.開始新增訂單 ***/
+					// 訂單明細VO
+					List<RoomOrderDetailVO> list = new ArrayList<RoomOrderDetailVO>();
+					RoomOrderDetailService detailSvc = new RoomOrderDetailService();
+					RoomOrderDetailVO detailVO = new RoomOrderDetailVO();
+					for (int i = 0; i < qty; i++) {
+						list.add(detailVO);
+					}
+					// 新增訂單明細，回傳ord_no
+					RoomOrderService roomorderSvc = new RoomOrderService();
+					Integer ord_no = roomorderSvc.insertAuto(mem_no, type_no, java.sql.Date.valueOf(start_date),
+							java.sql.Date.valueOf(end_date), qty, price, total_price, note, title, name, phone, email,
+							creditcard, list);
+
+					// 預約表上的預約間數增加
+					RoomRsvService roomrsvSvc = new RoomRsvService();
+					roomrsvSvc.reserveRoomRsv(qty, type_no, java.sql.Date.valueOf(start_date),
+							java.sql.Date.valueOf(end_date));
+
+					// 寄送mail
+					SendMail mail = new SendMail();
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:m:s");
+					String messageText = name + " " + title + "，您好：\n以下是您的訂單資料\n\n" + "📑 訂單編號：  " + ord_no
+							+ "\n\n📆 入住期間：  " + start_date + " ➜ " + end_date
+							+ "\n\n此郵件為自動生成，請勿回覆此郵件。如有任何疑問，可使用客服即時通與我們聯繫。";
+					mail.sendMail(email, "🌴 Feliz Hotel  您的住宿預訂已確認💳", messageText);
+
+					// 新增完訂單後記得把session的值清空
+					HttpSession session = req.getSession();
+					session.removeAttribute("rangedate");
+					session.removeAttribute("start_date");
+					session.removeAttribute("end_date");
+					session.removeAttribute("qty");
+					session.removeAttribute("guest");
+					session.removeAttribute("ableList");
+					session.removeAttribute("notList");
+
+					/*** 3.查詢完成,準備轉交 ***/
+					req.setAttribute("days", days);
+					req.setAttribute("ord_no", ord_no);
+					String url = "/front_end/room/confirmation.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的結帳完成頁
+					successView.forward(req, res);
 				}
-				// 新增訂單明細，回傳ord_no
-				RoomOrderService roomorderSvc = new RoomOrderService();
-				Integer ord_no = roomorderSvc.insertAuto(mem_no, type_no, java.sql.Date.valueOf(start_date),
-						java.sql.Date.valueOf(end_date), qty, price, total_price, note, title, name, phone, email,
-						creditcard, list);
-
-				// 預約表上的預約間數增加
-				RoomRsvService roomrsvSvc = new RoomRsvService();
-				roomrsvSvc.reserveRoomRsv(qty, type_no, java.sql.Date.valueOf(start_date),
-						java.sql.Date.valueOf(end_date));
-
-				// 寄送mail
-				SendMail mail = new SendMail();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:m:s");
-				String messageText = name + " " + title + "，您好：\n以下是您的訂單資料\n\n" + "📑 訂單編號：  " + ord_no
-						+ "\n\n📆 入住期間：  " + start_date + " ➜ " + end_date
-						+ "\n\n此郵件為自動生成，請勿回覆此郵件。如有任何疑問，可使用客服即時通與我們聯繫。";
-				mail.sendMail(email, "🌴 Feliz Hotel  您的住宿預訂已確認💳", messageText);
-
-				// 新增完訂單後記得把session的值清空
-				HttpSession session = req.getSession();
-				session.removeAttribute("rangedate");
-				session.removeAttribute("start_date");
-				session.removeAttribute("end_date");
-				session.removeAttribute("qty");
-				session.removeAttribute("guest");
-				session.removeAttribute("ableList");
-				session.removeAttribute("notList");
-
-				/*** 3.查詢完成,準備轉交 ***/
-				req.setAttribute("days", days);
-				req.setAttribute("ord_no", ord_no);
-				String url = "/front_end/room/confirmation.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交前台的結帳完成頁
-				successView.forward(req, res);
 			} catch (Exception e) {
-				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/index/index.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/room/roomList.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
+		if ("checkOut".equals(action)) {
+			try {
+				Integer detail_no = new Integer(req.getParameter("detail_no"));
+				String rm_no = req.getParameter("rm_no");
+
+				RoomOrderDetailService detailSvc = new RoomOrderDetailService();
+				detailSvc.checkoutDetail(detail_no);
+
+				RoomService roomSvc = new RoomService();
+				roomSvc.checkoutRoom(rm_no);
+
+				String url = "/back_end/roomWork/todayWorkList.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+			} catch (Exception e) {
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/roomOrder/listAllOrder.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
+		if ("checkOutEarly".equals(action)) {
+			try {
+				Integer detail_no = new Integer(req.getParameter("detail_no"));
+				String rm_no = req.getParameter("rm_no");
+				Integer type_no = new Integer(req.getParameter("type_no"));
+				String end_date = req.getParameter("end_date");
+
+				RoomOrderDetailService detailSvc = new RoomOrderDetailService();
+				detailSvc.checkoutDetail(detail_no);
+
+				RoomService roomSvc = new RoomService();
+				roomSvc.checkoutRoom(rm_no);
+
+				RoomRsvService roomRsvSvc = new RoomRsvService();
+				roomRsvSvc.checkOutEarly(type_no, java.sql.Date.valueOf(end_date));
+
+				String url = "/back_end/roomWork/todayWorkList.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+			} catch (Exception e) {
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/roomOrder/listAllOrder.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
+		if ("checkIn".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*** 1.接收請求參數 - 輸入格式的錯誤處理 ***/
+				Integer ord_no = new Integer(req.getParameter("ord_no"));
+				String names[] = req.getParameterValues("names[]");
+				String rooms[] = req.getParameterValues("rooms[]");
+
+				for (int i = 0; i < names.length; i++) {
+					System.out.println("name== " + names[i] + ",");
+				}
+				for (int i = 0; i < rooms.length; i++) {
+					System.out.println("room== " + rooms[i] + ",");
+				}
+
+				/*** 2.訂單改已完成、訂單明細填上房號、房間填上入住人姓名 ***/
+				// 訂單
+				RoomOrderService orderSvc = new RoomOrderService();
+				orderSvc.updateRoomOrder(ord_no);
+
+				// 訂單明細
+				RoomOrderDetailService detailSvc = new RoomOrderDetailService();
+				List<RoomOrderDetailVO> list = detailSvc.getAllByOrdno(ord_no);
+
+				for (int i = 0; i < list.size(); i++) {
+					detailSvc.checkinDetail(list.get(i).getDetail_no(), rooms[i]);
+				}
+
+				// 房間
+				RoomService roomSvc = new RoomService();
+
+				for (int i = 0; i < rooms.length; i++) {
+					roomSvc.checkinRoom(rooms[i], names[i]);
+				}
+
+				/*** 3.查詢更新準備轉交 ***/
+				String url = "/back_end/roomWork/todayWorkList.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+			} catch (Exception e) {
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/roomOrder/listAllOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}

@@ -32,7 +32,7 @@ public class EmpLoginFilter implements Filter {
 		
 		Object empVO1 = session.getAttribute("empVO1");
 		if (empVO1 == null) {
-			session.setAttribute("location", req.getRequestURI());
+			session.setAttribute("location2", req.getRequestURI());
 			res.sendRedirect(req.getContextPath()+"/back_end/login/login.jsp");
 			return;}
 		else {

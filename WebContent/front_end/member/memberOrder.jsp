@@ -9,6 +9,7 @@
 
 
 <jsp:useBean id="roomTypeSvc" class="com.roomType.model.RoomTypeService" />
+<jsp:useBean id="roomOrderDetailSvc" class="com.roomOrderDetail.model.RoomOrderDetailService" />
 <%
 	LocalDate today = LocalDate.now();
 
@@ -19,9 +20,9 @@
 	
 	
 	
-	RoomOrderDetailService detailSvc = new RoomOrderDetailService();
-	List<RoomOrderDetailVO> detailList = detailSvc.getAll();
-	pageContext.setAttribute("detailList", detailList);
+// 	RoomOrderDetailService detailSvc = new RoomOrderDetailService();
+// 	List<RoomOrderDetailVO> detailList = detailSvc.getAll();
+// 	pageContext.setAttribute("detailList", detailList);
 %>
 
 
@@ -216,7 +217,7 @@ div.parent_container div.sub_aside{
 					<th>預計入住日期</th>
 					<th>預計退房日期</th>
 					<th>訂單狀態</th>
-					<th>取消</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -237,10 +238,6 @@ div.parent_container div.sub_aside{
 						</c:choose>
 					</td>
 					<td>
-<!-- 						今天小於等於開始日 今天會出現 且 狀態是1-->	
-						<c:if test="${LocalDate.now()<=orderVO.start_date && orderVO.ord_state == 1 || orderVO.ord_state == 2}">				
-							<button type="submit" class="btn btn-secondary btn-sm">取消</button>
-						</c:if>
 					</td>
 				</tr> 
 				<tr class="fold">
@@ -257,6 +254,19 @@ div.parent_container div.sub_aside{
 								<div>訂單成立日期： ${orderVO.ord_date}</div>
 								<div>信用卡號碼： ${orderVO.payment}</div>
 								<div>備註： ${orderVO.note}</div>
+<!-- 						今天小於等於開始日 今天會出現 且 狀態是1-->	
+						<c:if test="${!LocalDate.now().isAfter(orderVO.start_date.toLocalDate()) && orderVO.ord_state == 1 || orderVO.ord_state == 2}">				
+							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
+							<input type="submit" class="btn btn-secondary btn-sm" value="取消訂單">
+							<input type="hidden" name="action" value="cancelroom">
+							<input type="hidden" name=ord_no value="${orderVO.ord_no}">
+							<input type="hidden" name=qty value="${orderVO.rm_num}">
+							<input type="hidden" name=type_no value="${orderVO.type_no}">
+							<input type="hidden" name=start_date value="${orderVO.start_date}">
+							<input type="hidden" name=end_date value="${orderVO.end_date}">
+							<input type="hidden" name=mem_no value="${memberSvc.getOneBymail(mem_mail).mem_no}">
+							</FORM>
+						</c:if>
 							</div>
 						</div>
 							<table class="table table-striped">
@@ -271,8 +281,7 @@ div.parent_container div.sub_aside{
 								</thead>
 								<tbody>
 <%-- 									<c:forEach var="detailVO" items="${detailList}"> --%>
-									<c:forEach var="detailVO" items="${detailSvc.getAllByOrdno(ord_no)}">
-									<c:if test="${detailVO.ord_no}==1">
+									<c:forEach var="detailVO" items="${roomOrderDetailSvc.getAllByOrdno(orderVO.ord_no)}">
 									<tr>
 										<td>${detailVO.ord_no}</td>
 										<td>${detailVO.detail_no}</td>
@@ -286,7 +295,6 @@ div.parent_container div.sub_aside{
 										</c:choose>
 										</td>
 									</tr>
-									</c:if>
 									</c:forEach>
 								</tbody>
 								<tfoot>

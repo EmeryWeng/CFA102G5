@@ -11,15 +11,8 @@ public class RoomRsvService {
 		dao = new RoomRsvDAO();
 	}
 
-	public void addRoomRsv(Date rsv_date, Integer type_no, Integer rm_total, Integer rsv_total) {
-
-		RoomRsvVO roomRsvVO = new RoomRsvVO();
-		roomRsvVO.setRsv_date(rsv_date);
-		roomRsvVO.setType_no(type_no);
-		roomRsvVO.setRm_total(rm_total);
-		roomRsvVO.setRsv_total(rsv_total);
-
-		dao.insert(roomRsvVO);
+	public void addRoomRsv() {
+		dao.insert();
 	}
 
 	public void reserveRoomRsv(Integer qty, Integer type_no, Date start_date, Date end_date) {
@@ -28,6 +21,14 @@ public class RoomRsvService {
 
 	public void canceleRoomRsv(Integer qty, Integer type_no, Date start_date, Date end_date) {
 		dao.cancel(qty, type_no, start_date, end_date);
+	}
+
+	public void checkOutEarly(Integer type_no, Date end_date) {
+		dao.checkOutEarly(type_no, end_date);
+	}
+
+	public void delete() {
+		dao.delete();
 	}
 
 	public void getOneDayRoomRsv(Date rsv_date) {

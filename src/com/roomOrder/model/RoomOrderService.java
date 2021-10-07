@@ -57,10 +57,8 @@ public class RoomOrderService {
 		return dao.insertAuto(roomOrderVO, list);
 	}
 
-	public void updateRoomOrder() {
-
-		RoomOrderVO roomOrderVO = new RoomOrderVO();
-		dao.update(roomOrderVO);
+	public void updateRoomOrder(Integer ord_no) {
+		dao.update(ord_no);
 	}
 
 	public void cancel(Integer ord_no) {
@@ -81,6 +79,10 @@ public class RoomOrderService {
 		dao.change(roomOrderVO);
 	}
 
+	public void overdue() {
+		dao.overdue();
+	}
+
 	public RoomOrderVO getOneRoomOrder(Integer ord_no) {
 		return dao.getOne(ord_no);
 	}
@@ -99,5 +101,13 @@ public class RoomOrderService {
 
 	public List<RoomOrderVO> getAllByMemRoomOrder(Integer mem_no) {
 		return dao.getAllByMem(mem_no);
+	}
+
+	public List<RoomOrderVO> checkInList() {
+		return dao.checkInList();
+	}
+
+	public Integer getRoomStayRate() {
+		return dao.getRoomStayRate();
 	}
 }

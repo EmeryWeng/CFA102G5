@@ -71,9 +71,9 @@ public class EmployeeServlet extends HttpServlet {
 				HttpSession session = req.getSession();
 			    session.setAttribute("empVO1", empVO1);
 			    try {
-			    	 String location = (String) session.getAttribute("location");
+			    	 String location = (String) session.getAttribute("location2");
 			         if (location != null) {
-			           session.removeAttribute("location");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+			           session.removeAttribute("location2");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
 			           res.sendRedirect(location);            
 			           return;}
 			    }catch (Exception ignored) { }

@@ -357,7 +357,7 @@ public class RoomTypeDAO implements I_RoomTypeDAO {
 			pstmt.setDate(2, end_date);
 			pstmt.setInt(3, qty);
 			pstmt.setInt(4, type_no);
-			pstmt.executeUpdate();
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				roomTypeVO = new RoomTypeVO();

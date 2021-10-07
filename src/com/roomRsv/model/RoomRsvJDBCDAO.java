@@ -15,6 +15,8 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 	private static final String INSERT = "INSERT INTO room_rsv (rsv_date, type_no, rm_total ,rsv_total) VALUES (?, ?, ?, ?)";
 	private static final String RESERVE = "UPDATE room_rsv SET rsv_total = rsv_total+? WHERE type_no = ? AND (rsv_date BETWEEN ? AND SUBDATE( ?, INTERVAL 1 DAY))";
 	private static final String CANCEL = "UPDATE room_rsv SET rsv_total = rsv_total-? WHERE type_no = ? AND (rsv_date BETWEEN ? AND SUBDATE( ?, INTERVAL 1 DAY))";
+	private static final String CHECK_OUT_EARLY = "UPDATE room_rsv SET rsv_total = rsv_total-1 WHERE type_no = ? AND (rsv_date BETWEEN CURDATE() AND SUBDATE(?, INTERVAL 1 DAY))";
+	private static final String DELETE = "DELETE FROM room_rsv WHERE rsv_date < CURDATE()";
 	private static final String GET_ONE_BY_DATE_TYPE = "SELECT * FROM room_rsv WHERE rsv_date = ? AND rm_type = ?";
 	private static final String GET_ONEDAY_BY_DATE = "SELECT * FROM room_rsv WHERE rsv_date = ?";
 	private static final String GET_NOT_RSV = "SELECT * FROM room_rsv WHERE (rm_total-rsv_total) < ? AND type_no = ?";
@@ -30,16 +32,10 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 	}
 
 	@Override
-	public void insert(RoomRsvVO roomRsvVO) {
+	public void insert() {
 
 		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
 			PreparedStatement pstmt = con.prepareStatement(INSERT);
-
-			pstmt.setObject(1, roomRsvVO.getRsv_date());
-			pstmt.setInt(2, roomRsvVO.getType_no());
-			pstmt.setInt(3, roomRsvVO.getRm_total());
-			pstmt.setInt(4, roomRsvVO.getRsv_total());
-
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -80,6 +76,35 @@ public class RoomRsvJDBCDAO implements I_RoomRsvDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
+	}
+
+	@Override
+	public void checkOutEarly(Integer type_no, Date end_date) {
+
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(CHECK_OUT_EARLY);
+
+			pstmt.setInt(1, type_no);
+			pstmt.setDate(2, end_date);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delete() {
+
+		try (Connection con = DriverManager.getConnection(JDBCUtil.URL, JDBCUtil.USERNAME, JDBCUtil.PASSWORD)) {
+			PreparedStatement pstmt = con.prepareStatement(DELETE);
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+
 	}
 
 	@Override

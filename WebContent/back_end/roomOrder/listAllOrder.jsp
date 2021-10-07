@@ -212,7 +212,7 @@
 								<c:when test="${orderVO.ord_state==3}">
 									<i class='bx bxs-circle' style='color: red'></i>已取消</c:when>
 								<c:when test="${orderVO.ord_state==4}">
-									<i class='bx bxs-circle' style='color: gray'></i>已完成</c:when>
+									<i class='bx bxs-circle' style='color: #aaa'></i>已完成</c:when>
 							</c:choose></td>
 					</tr>
 					<tr class="fold">
