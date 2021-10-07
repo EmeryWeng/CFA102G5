@@ -9,6 +9,7 @@
 <jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService"/>
 <jsp:useBean id="roomImgSvc" scope="page" class="com.roomImg.model.RoomImgService" />
 <jsp:useBean id="actSvc" scope="page" class="com.activity.model.ActivityService" />
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 
 <% 
 	// 如果session中沒有間數跟人數

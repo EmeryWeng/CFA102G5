@@ -27,9 +27,9 @@ public class RoomOrderTest {
 //		dao.update(roomOrderVO);
 
 		// 已取消
-		RoomOrderVO roomOrderVO = new RoomOrderVO();
-		roomOrderVO.setOrd_no(1);
-		dao.cancel(roomOrderVO);
+//		RoomOrderVO roomOrderVO = new RoomOrderVO();
+//		roomOrderVO.setOrd_no(1);
+//		dao.cancel(roomOrderVO);
 
 		// 已改期
 //		RoomOrderVO roomOrderVO = new RoomOrderVO();

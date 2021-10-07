@@ -4,7 +4,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +24,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.activityOrderDetail.model.ActivityOrderDetailService;
+import com.activitySession.model.ActivitySessionService;
+import com.google.gson.Gson;
 import com.member.model.*;
+import com.roomOrder.model.RoomOrderService;
+import com.roomOrder.model.RoomOrderVO;
+import com.roomRsv.model.RoomRsvService;
+import com.roomRsv.model.RoomRsvVO;
 
 import mail.MailService;
 
@@ -362,6 +375,63 @@ public class MemberServlet extends HttpServlet {
         	successView.forward(req, res);
         }
         
+
+		//取消活動
+        
+		ActivityOrderDetailService actOrderDetailService = new ActivityOrderDetailService();
+		ActivitySessionService actSessionService = new ActivitySessionService();
+        
+		if("cancelState".equals(action)) {
+			Integer act_order_detail_no = new Integer(req.getParameter("cancelStateNo"));
+			Integer act_session_no = new Integer(req.getParameter("actSessionNo"));
+			
+			LocalDate now = LocalDate.now();
+			LocalDate start_date = actSessionService.getActSessionByPk(act_session_no)
+											  		.getAct_session_start_date();
+		
+			Gson gson = new Gson();
+			
+			Period period = Period.between(now, start_date);
+
+			if(period.getMonths() <1 && period.getDays() >= 2) {
+				System.out.println("更改成功");
+				actOrderDetailService.switchOrderDetailState(act_order_detail_no, 2);
+				res.getWriter().write(gson.toJson(true));				
+			}else {	
+				res.getWriter().write(gson.toJson(false));
+			}
+
+		}
+		
+		
+		//取消訂房
+		
+		RoomRsvService RoomRsvService = new RoomRsvService();
+		RoomOrderService RoomOrderService = new RoomOrderService();
+		
+		if("cancelroom".equals(action)) {
+			try {
+			Integer mem_no = new Integer(req.getParameter("mem_no"));
+			Integer orderNO = new Integer(req.getParameter("ord_no"));
+			RoomOrderService.cancel(orderNO);
+			
+			Integer qty = new Integer(req.getParameter("qty"));
+			Integer type_no = new Integer(req.getParameter("type_no"));
+			String start_date = req.getParameter("start_date");
+			String end_date = req.getParameter("end_date");
+			
+			
+			RoomRsvService.canceleRoomRsv(qty, type_no, java.sql.Date.valueOf(start_date), Date.valueOf(end_date));
+			
+	       	String url = "/front_end/member/memberOrder.jsp";
+        	RequestDispatcher successView = req.getRequestDispatcher(url);
+        	successView.forward(req, res);
+			
+        	return;
+        	}catch(Exception e) {
+        		e.printStackTrace();
+        	}
+		}
  
 	}
 	public static InputStream getPictureStream(String path) throws IOException {

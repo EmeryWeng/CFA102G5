@@ -247,7 +247,7 @@
 			<div class="inner-title">
 				<div>
 					<ul class="check">
-						<li><i class='bx bx-check-circle'></i>入住前免費取消</li>
+						<li><i class='bx bx-check-circle'></i>入住當天前免費取消</li>
 						<li><i class='bx bx-check-circle'></i>訂房皆含早餐</li>
 						<li><i class='bx bx-check-circle'></i>細緻用心的服務</li>
 					</ul>

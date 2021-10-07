@@ -163,8 +163,12 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date"));
-				detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				if (rs.getDate("checkin_date") != null) {
+					detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				}
+				if (rs.getDate("checkout_date") != null) {
+					detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				}
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 			}
@@ -200,8 +204,12 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date"));
-				detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				if (rs.getDate("checkin_date") != null) {
+					detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				}
+				if (rs.getDate("checkout_date") != null) {
+					detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				}
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 				list.add(detailVO);
@@ -238,8 +246,12 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date"));
-				detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				if (rs.getDate("checkin_date") != null) {
+					detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				}
+				if (rs.getDate("checkout_date") != null) {
+					detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				}
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 				list.add(detailVO);
@@ -276,8 +288,12 @@ public class RoomOrderDetailDAO implements I_RoomOrderDetailDAO {
 				detailVO = new RoomOrderDetailVO();
 				detailVO.setDetail_no(rs.getInt("detail_no"));
 				detailVO.setOrd_no(rs.getInt("ord_no"));
-				detailVO.setCheckin_date(rs.getDate("checkin_date"));
-				detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				if (rs.getDate("checkin_date") != null) {
+					detailVO.setCheckin_date(rs.getDate("checkin_date"));
+				}
+				if (rs.getDate("checkout_date") != null) {
+					detailVO.setCheckout_date(rs.getDate("checkout_date"));
+				}
 				detailVO.setRm_no(rs.getString("rm_no"));
 				detailVO.setDetail_state(rs.getInt("detail_state"));
 				list.add(detailVO);

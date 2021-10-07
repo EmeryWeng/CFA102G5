@@ -189,6 +189,10 @@ div.parent_container div.sub_aside{
 										<span class="change">已改期</span>
 									</c:if>
 								</td>
+								<td><c:if test="${detail.act_order_detail_state == 1}">
+									<button type="button" class="btn btn-danger" onclick="cancel(${detail.act_order_detail_no},${detail.act_session_no});">取消</button>
+									</c:if>
+								</td>
 							</tr>
 							</c:forEach>
 						</table>
@@ -220,7 +224,34 @@ div.parent_container div.sub_aside{
         <%@ include file="/front_end/commonJS.file" %> <!-- 基本JS檔案 -->
  
  </footer>
+	<script>
+	let currentRequest = null;
+	function cancel(cancelStateNo,actSessionNo){
+		
+		currentRequest = $.ajax({
+			url:"<%=request.getContextPath()%>/member/member.do",
+			type:"POST",
+			data:{
+				action:'cancelState',
+				cancelStateNo:cancelStateNo,
+				actSessionNo:actSessionNo
+			},
+			success:function(response){
+				console.log(response);
+				if(response === "true"){
+					alert('取消成功');
+					currentRequest.abort();
+				}else{
+					alert('距離活動開始少於兩天，無法取消');
+					currentRequest.abort();
+				}
+			}
+		});
+		
+	}
+	
 
+	</script>
 	
 
 </body>

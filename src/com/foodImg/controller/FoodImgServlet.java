@@ -2,6 +2,7 @@ package com.foodImg.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -90,24 +91,24 @@ public class FoodImgServlet extends HttpServlet {
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			FoodImgService imgSvc = new FoodImgService();
 			try {
-			byte[] img = null;
 			/***************************1.接收請求參數 -**********************/
 			Integer fd_no = new Integer(req.getParameter("fd_no").trim());
 			
-			Part fd_img = req.getPart("fd_img");
-			/***************************2.圖片處理**********************/
-			InputStream in = fd_img.getInputStream();
-			img = new byte[in.available()];
-			in.read(img);
-			in.close();
-			/***************************3.開始新增資料***************************************/
-			FoodImgVO foodImgVO = new FoodImgVO();
-			foodImgVO.setFd_no(fd_no);
-			foodImgVO.setFd_img(img);
-			FoodImgService imgSvc = new FoodImgService();
-			foodImgVO = imgSvc.addImg(fd_no, img);
+			Collection<Part> parts = req.getParts();
+			for (Part part : parts) {
+				if(part.getSubmittedFileName() != null) {
+				InputStream in = part.getInputStream();
+					byte[] img = new byte[in.available()];
+					in.read(img);
+					in.close();
+					imgSvc.addImg(fd_no, img);
+				}
+			}
 			
+			/***************************3.開始新增資料***************************************/
+
 			List<FoodImgVO> imgVO = imgSvc.foodImg(fd_no);
 			/***************************4.新增完成,準備轉交(Send the Success view)***********/
 			req.setAttribute("imgVO", imgVO);

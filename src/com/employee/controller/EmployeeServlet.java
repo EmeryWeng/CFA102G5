@@ -71,9 +71,9 @@ public class EmployeeServlet extends HttpServlet {
 				HttpSession session = req.getSession();
 			    session.setAttribute("empVO1", empVO1);
 			    try {
-			    	 String location = (String) session.getAttribute("location");
+			    	 String location = (String) session.getAttribute("location2");
 			         if (location != null) {
-			           session.removeAttribute("location");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+			           session.removeAttribute("location2");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
 			           res.sendRedirect(location);            
 			           return;}
 			    }catch (Exception ignored) { }
@@ -138,7 +138,7 @@ public class EmployeeServlet extends HttpServlet {
 		} catch (Exception e) {
 			errorMsgs.add("修改資料失敗:"+e.getMessage());
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("/back_end/emp/listAllEmp.jsp");
+					.getRequestDispatcher("/emp/listAllEmp.jsp");
 			failureView.forward(req, res);
 		}
 		}
@@ -177,6 +177,7 @@ public class EmployeeServlet extends HttpServlet {
 				/***************************2.開始查詢資料*****************************************/
 				EmpService ser = new EmpService();
 				EmployeeVO empVO = ser.addEmp(emp_password, emp_name, emp_mail, emp_state, dep_no);
+				
 				req.setAttribute("empVO", empVO); // 資料庫update成功後,正確的的empVO物件,存入req
 				String url = "/back_end/emp/listAllEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp

@@ -46,9 +46,9 @@ width:300px;
         	<td><input type="hidden" name="fd_no" value="<%=fd_no%>"></td>
         </tr>
         <tr>
-        <td><input type="file" accept="image/*" multiple name="fd_img" id="upload" onchange="loadImageFile(event)" required>
+        <td><input type="file" accept="image/*" multiple="multiple" name="fd_img" id="upload" onchange="loadImageFile(event)" required>
         <img id="image" src="" >
-        </tr> 
+        </tr>
         </table>
         <input type="submit" value="送出" class="btn btn-primary"> 
         <input type="hidden" name="action" value="addImg">

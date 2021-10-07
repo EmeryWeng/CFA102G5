@@ -7,6 +7,7 @@
 
 <jsp:useBean id="roomTypeSvc" scope="page" class="com.roomType.model.RoomTypeService" />
 <jsp:useBean id="roomImgSvc" scope="page" class="com.roomImg.model.RoomImgService" />
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 
 <%
 	// 沒有搜尋過進來就顯示全部allList，有沒有搜尋過用rangedate判斷
@@ -293,7 +294,7 @@ body {
 		<div class="inner-title">
 			<div>
 				<ul class="check">
-					<li><i class='bx bx-check-circle'></i>入住前免費取消</li>
+					<li><i class='bx bx-check-circle'></i>入住當天前免費取消</li>
 					<li><i class='bx bx-check-circle'></i>訂房皆含早餐</li>
 					<li><i class='bx bx-check-circle'></i>細緻用心的服務</li>
 				</ul>
@@ -553,18 +554,18 @@ body {
 // 	    			document.getElementById('toPayment').submit();
 	    		}
 	    	}
-// 	        if(${notEnough} != null){
-// 	        	notEnough();
-//     		} 
+	       	<% if(request.getAttribute("notEnough")!=null){%>
+	        	notEnough();
+    		<%}%>
 	      	// alert樣式
-// 	        function notEnough() {
-// 	    		swal.fire({
-// 	    			icon : 'error',
-// 	    			title : '您訂的太慢了，房間被別人搶走了',
-// 	    			showConfirmButton : false,
-// 	    			timer : 1500
-// 	    		})		
-// 	    	}
+	        function notEnough() {
+	    		swal.fire({
+	    			icon : 'error',
+	    			title : '您訂的太慢了，房間被別人搶走了',
+	    			showConfirmButton : false,
+	    			timer : 2500
+	    		})		
+	    	}
 	        function notLogin() {
 	    		swal.fire({
 	    			icon : 'error',
