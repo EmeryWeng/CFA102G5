@@ -160,13 +160,15 @@ System.out.println("Action:"+action);
 			
 			actOrderDetailService.orderDetailUpdate(totalPeople, act_price_total, act_order_no, change_act_session_no);
 			
-			LocalDate old_session_date = actSessionService.getActSessionByPk(old_act_session_no).getAct_session_start_date();
-			
-			LocalDate change_session_date = actSessionService.getActSessionByPk(change_act_session_no).getAct_session_start_date();
-			
+//			LocalDate old_session_date = actSessionService.getActSessionByPk(old_act_session_no).getAct_session_start_date();
+//			
+//			LocalDate change_session_date = actSessionService.getActSessionByPk(change_act_session_no).getAct_session_start_date();
+		
 			//已改期的判斷
-			if(old_act_session_no != change_act_session_no && (!old_session_date.equals(change_session_date))) {
+			if(!old_act_session_no.equals(change_act_session_no)) {
 				actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
+			}else {
+				actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 1);
 			}
 			
 			}catch(NoSuchElementException ex) {
@@ -205,7 +207,7 @@ System.out.println("Action:"+action);
 					.sum();
 
 
-			actOrderDetailService.switchOrderDetailState(act_order_no, old_act_session_no, 3);
+			
 			actSessionService.updateActSessionRealJoinNumber(old_act_session_no, oldSessionNumberTotal);
 			actSessionService.updateActSessionRealJoinNumber(change_act_session_no, changeSessionNumberTotal);
 			
