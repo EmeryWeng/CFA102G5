@@ -171,7 +171,7 @@ td.sorting_1 {
 </style>
 </head>
 <body>
-	<%-- 		<%@ include file="/back_end/loading.file" %> <!-- loading --> --%>
+	<%@ include file="/back_end/loading.file" %> <!-- loading -->
 	<%@ include file="/back_end/header.file"%>
 	<!-- Header -->
 	<%@ include file="/back_end/sidebar.file"%>
