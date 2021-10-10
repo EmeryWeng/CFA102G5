@@ -45,7 +45,7 @@ public class SendMail {
 			   message.setText(messageText);
 
 			   Transport.send(message);
-			   System.out.println("傳送成功!");
+
 	     }catch (MessagingException e){
 		     System.out.println("傳送失敗!");
 		     e.printStackTrace();

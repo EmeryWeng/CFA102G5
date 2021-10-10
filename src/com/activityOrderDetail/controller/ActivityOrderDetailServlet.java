@@ -34,7 +34,7 @@ public class ActivityOrderDetailServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		ActivityOrderDetailService actOrderDetailService = new ActivityOrderDetailService();
 		ActivitySessionService actSessionService = new ActivitySessionService();
-System.out.println("Action:"+action);
+
 		
 //		來自前台人數檢查
 		if("checkSessionPeopleNumber".equals(action)) {
